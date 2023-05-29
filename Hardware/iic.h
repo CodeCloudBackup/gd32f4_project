@@ -1,0 +1,8 @@
+#ifndef GD32_IIC_H
+#define GD32_IIC_H
+#include "systick.h"
+#include "gd32f4xx_i2c.h"
+
+void IIC0_Init(void);
+
+#endif
