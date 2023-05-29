@@ -34,11 +34,11 @@
 ".\objects\systick.o"
 ".\objects\gd32f4xx_it.o"
 ".\objects\oled.o"
+".\objects\iic.o"
 ".\objects\led.o"
+".\objects\mpu6050.o"
 ".\objects\timer.o"
 ".\objects\usart.o"
-".\objects\iic.o"
-".\objects\mpu6050.o"
 --strict --scatter ".\Objects\template.sct"
 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

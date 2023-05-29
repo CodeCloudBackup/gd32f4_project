@@ -206,11 +206,55 @@ Section Cross References
     oled.o(i.OLED_ShowNum) refers to oled.o(i.OLED_ShowChar) for OLED_ShowChar
     oled.o(i.OLED_ShowString) refers to oled.o(i.OLED_ShowChar) for OLED_ShowChar
     oled.o(i.OLED_WR_Byte) refers to gd32f4xx_gpio.o(i.gpio_bit_write) for gpio_bit_write
+    iic.o(i.IIC0_Init) refers to gd32f4xx_rcu.o(i.rcu_periph_clock_enable) for rcu_periph_clock_enable
+    iic.o(i.IIC0_Init) refers to gd32f4xx_gpio.o(i.gpio_af_set) for gpio_af_set
+    iic.o(i.IIC0_Init) refers to gd32f4xx_gpio.o(i.gpio_mode_set) for gpio_mode_set
+    iic.o(i.IIC0_Init) refers to gd32f4xx_gpio.o(i.gpio_output_options_set) for gpio_output_options_set
+    iic.o(i.IIC0_Init) refers to gd32f4xx_i2c.o(i.i2c_clock_config) for i2c_clock_config
+    iic.o(i.IIC0_Init) refers to gd32f4xx_i2c.o(i.i2c_mode_addr_config) for i2c_mode_addr_config
+    iic.o(i.IIC0_Init) refers to gd32f4xx_i2c.o(i.i2c_enable) for i2c_enable
+    iic.o(i.IIC0_Init) refers to gd32f4xx_i2c.o(i.i2c_ack_config) for i2c_ack_config
+    iic.o(i.IIC0_Init) refers to gd32f4xx_misc.o(i.nvic_irq_enable) for nvic_irq_enable
+    iic.o(i.IIC0_Init) refers to gd32f4xx_exti.o(i.exti_init) for exti_init
+    iic.o(i.IIC0_Init) refers to gd32f4xx_exti.o(i.exti_interrupt_flag_clear) for exti_interrupt_flag_clear
+    iic.o(i.IIC0_Init) refers to systick.o(i.delay_1ms) for delay_1ms
     led.o(i.LED_Init) refers to gd32f4xx_rcu.o(i.rcu_periph_clock_enable) for rcu_periph_clock_enable
     led.o(i.LED_Init) refers to gd32f4xx_gpio.o(i.gpio_mode_set) for gpio_mode_set
     led.o(i.LED_Init) refers to gd32f4xx_gpio.o(i.gpio_output_options_set) for gpio_output_options_set
     led.o(i.LED_OFF) refers to gd32f4xx_gpio.o(i.gpio_bit_reset) for gpio_bit_reset
     led.o(i.LED_ON) refers to gd32f4xx_gpio.o(i.gpio_bit_set) for gpio_bit_set
+    mpu6050.o(i.MPU6050ReadAcc) refers to mpu6050.o(i.MPU6050_ReadData) for MPU6050_ReadData
+    mpu6050.o(i.MPU6050ReadAcc2Real) refers to mpu6050.o(i.MPU6050_ReadData) for MPU6050_ReadData
+    mpu6050.o(i.MPU6050ReadGyro) refers to mpu6050.o(i.MPU6050_ReadData) for MPU6050_ReadData
+    mpu6050.o(i.MPU6050ReadGyro2Real) refers to mpu6050.o(i.MPU6050_ReadData) for MPU6050_ReadData
+    mpu6050.o(i.MPU6050ReadID) refers to mpu6050.o(i.MPU6050_ReadData) for MPU6050_ReadData
+    mpu6050.o(i.MPU6050ReadTemp) refers to mpu6050.o(i.MPU6050_ReadData) for MPU6050_ReadData
+    mpu6050.o(i.MPU6050_Init) refers to mpu6050.o(i.MPU6050_WriteReg) for MPU6050_WriteReg
+    mpu6050.o(i.MPU6050_Init) refers to mpu6050.o(i.MPU_INT_Init) for MPU_INT_Init
+    mpu6050.o(i.MPU6050_ReadData) refers to gd32f4xx_i2c.o(i.i2c_flag_get) for i2c_flag_get
+    mpu6050.o(i.MPU6050_ReadData) refers to gd32f4xx_i2c.o(i.i2c_ackpos_config) for i2c_ackpos_config
+    mpu6050.o(i.MPU6050_ReadData) refers to gd32f4xx_i2c.o(i.i2c_start_on_bus) for i2c_start_on_bus
+    mpu6050.o(i.MPU6050_ReadData) refers to gd32f4xx_i2c.o(i.i2c_master_addressing) for i2c_master_addressing
+    mpu6050.o(i.MPU6050_ReadData) refers to gd32f4xx_i2c.o(i.i2c_flag_clear) for i2c_flag_clear
+    mpu6050.o(i.MPU6050_ReadData) refers to gd32f4xx_i2c.o(i.i2c_enable) for i2c_enable
+    mpu6050.o(i.MPU6050_ReadData) refers to gd32f4xx_i2c.o(i.i2c_data_transmit) for i2c_data_transmit
+    mpu6050.o(i.MPU6050_ReadData) refers to gd32f4xx_i2c.o(i.i2c_ack_config) for i2c_ack_config
+    mpu6050.o(i.MPU6050_ReadData) refers to gd32f4xx_i2c.o(i.i2c_stop_on_bus) for i2c_stop_on_bus
+    mpu6050.o(i.MPU6050_ReadData) refers to gd32f4xx_i2c.o(i.i2c_data_receive) for i2c_data_receive
+    mpu6050.o(i.MPU6050_ReturnTemp) refers to mpu6050.o(i.MPU6050_ReadData) for MPU6050_ReadData
+    mpu6050.o(i.MPU6050_ReturnTemp) refers to dflt_clz.o(x$fpl$dflt) for __aeabi_i2d
+    mpu6050.o(i.MPU6050_ReturnTemp) refers to ddiv.o(x$fpl$ddiv) for __aeabi_ddiv
+    mpu6050.o(i.MPU6050_ReturnTemp) refers to daddsub_clz.o(x$fpl$dsub) for __aeabi_dsub
+    mpu6050.o(i.MPU6050_ReturnTemp) refers to dfix.o(x$fpl$dfix) for __aeabi_d2iz
+    mpu6050.o(i.MPU6050_WriteReg) refers to gd32f4xx_i2c.o(i.i2c_flag_get) for i2c_flag_get
+    mpu6050.o(i.MPU6050_WriteReg) refers to gd32f4xx_i2c.o(i.i2c_start_on_bus) for i2c_start_on_bus
+    mpu6050.o(i.MPU6050_WriteReg) refers to gd32f4xx_i2c.o(i.i2c_master_addressing) for i2c_master_addressing
+    mpu6050.o(i.MPU6050_WriteReg) refers to gd32f4xx_i2c.o(i.i2c_flag_clear) for i2c_flag_clear
+    mpu6050.o(i.MPU6050_WriteReg) refers to gd32f4xx_i2c.o(i.i2c_data_transmit) for i2c_data_transmit
+    mpu6050.o(i.MPU6050_WriteReg) refers to gd32f4xx_i2c.o(i.i2c_stop_on_bus) for i2c_stop_on_bus
+    mpu6050.o(i.MPU_INT_Init) refers to mpu6050.o(i.Motion_Interrupt) for Motion_Interrupt
+    mpu6050.o(i.MPU_INT_Init) refers to mpu6050.o(i.MPU6050_WriteReg) for MPU6050_WriteReg
+    mpu6050.o(i.Motion_Interrupt) refers to mpu6050.o(i.MPU6050_WriteReg) for MPU6050_WriteReg
     timer.o(i.TIMER1_1000ms) refers to timer.o(.data) for TIMER1_flag
     timer.o(i.TIMER1_100ms) refers to timer.o(.data) for TIMER1_flag
     timer.o(i.TIMER1_10ms) refers to timer.o(.data) for TIMER1_flag
@@ -250,50 +294,6 @@ Section Cross References
     usart.o(i.fputc) refers (Special) to use_no_semi_2.o(.text) for __use_no_semihosting
     usart.o(i.fputc) refers to gd32f4xx_usart.o(i.usart_flag_get) for usart_flag_get
     usart.o(.data) refers (Special) to use_no_semi_2.o(.text) for __use_no_semihosting
-    iic.o(i.IIC0_Init) refers to gd32f4xx_rcu.o(i.rcu_periph_clock_enable) for rcu_periph_clock_enable
-    iic.o(i.IIC0_Init) refers to gd32f4xx_gpio.o(i.gpio_af_set) for gpio_af_set
-    iic.o(i.IIC0_Init) refers to gd32f4xx_gpio.o(i.gpio_mode_set) for gpio_mode_set
-    iic.o(i.IIC0_Init) refers to gd32f4xx_gpio.o(i.gpio_output_options_set) for gpio_output_options_set
-    iic.o(i.IIC0_Init) refers to gd32f4xx_i2c.o(i.i2c_clock_config) for i2c_clock_config
-    iic.o(i.IIC0_Init) refers to gd32f4xx_i2c.o(i.i2c_mode_addr_config) for i2c_mode_addr_config
-    iic.o(i.IIC0_Init) refers to gd32f4xx_i2c.o(i.i2c_enable) for i2c_enable
-    iic.o(i.IIC0_Init) refers to gd32f4xx_i2c.o(i.i2c_ack_config) for i2c_ack_config
-    iic.o(i.IIC0_Init) refers to gd32f4xx_misc.o(i.nvic_irq_enable) for nvic_irq_enable
-    iic.o(i.IIC0_Init) refers to gd32f4xx_exti.o(i.exti_init) for exti_init
-    iic.o(i.IIC0_Init) refers to gd32f4xx_exti.o(i.exti_interrupt_flag_clear) for exti_interrupt_flag_clear
-    iic.o(i.IIC0_Init) refers to systick.o(i.delay_1ms) for delay_1ms
-    mpu6050.o(i.MPU6050ReadAcc) refers to mpu6050.o(i.MPU6050_ReadData) for MPU6050_ReadData
-    mpu6050.o(i.MPU6050ReadAcc2Real) refers to mpu6050.o(i.MPU6050_ReadData) for MPU6050_ReadData
-    mpu6050.o(i.MPU6050ReadGyro) refers to mpu6050.o(i.MPU6050_ReadData) for MPU6050_ReadData
-    mpu6050.o(i.MPU6050ReadGyro2Real) refers to mpu6050.o(i.MPU6050_ReadData) for MPU6050_ReadData
-    mpu6050.o(i.MPU6050ReadID) refers to mpu6050.o(i.MPU6050_ReadData) for MPU6050_ReadData
-    mpu6050.o(i.MPU6050ReadTemp) refers to mpu6050.o(i.MPU6050_ReadData) for MPU6050_ReadData
-    mpu6050.o(i.MPU6050_Init) refers to mpu6050.o(i.MPU6050_WriteReg) for MPU6050_WriteReg
-    mpu6050.o(i.MPU6050_Init) refers to mpu6050.o(i.MPU_INT_Init) for MPU_INT_Init
-    mpu6050.o(i.MPU6050_ReadData) refers to gd32f4xx_i2c.o(i.i2c_flag_get) for i2c_flag_get
-    mpu6050.o(i.MPU6050_ReadData) refers to gd32f4xx_i2c.o(i.i2c_ackpos_config) for i2c_ackpos_config
-    mpu6050.o(i.MPU6050_ReadData) refers to gd32f4xx_i2c.o(i.i2c_start_on_bus) for i2c_start_on_bus
-    mpu6050.o(i.MPU6050_ReadData) refers to gd32f4xx_i2c.o(i.i2c_master_addressing) for i2c_master_addressing
-    mpu6050.o(i.MPU6050_ReadData) refers to gd32f4xx_i2c.o(i.i2c_flag_clear) for i2c_flag_clear
-    mpu6050.o(i.MPU6050_ReadData) refers to gd32f4xx_i2c.o(i.i2c_enable) for i2c_enable
-    mpu6050.o(i.MPU6050_ReadData) refers to gd32f4xx_i2c.o(i.i2c_data_transmit) for i2c_data_transmit
-    mpu6050.o(i.MPU6050_ReadData) refers to gd32f4xx_i2c.o(i.i2c_ack_config) for i2c_ack_config
-    mpu6050.o(i.MPU6050_ReadData) refers to gd32f4xx_i2c.o(i.i2c_stop_on_bus) for i2c_stop_on_bus
-    mpu6050.o(i.MPU6050_ReadData) refers to gd32f4xx_i2c.o(i.i2c_data_receive) for i2c_data_receive
-    mpu6050.o(i.MPU6050_ReturnTemp) refers to mpu6050.o(i.MPU6050_ReadData) for MPU6050_ReadData
-    mpu6050.o(i.MPU6050_ReturnTemp) refers to dflt_clz.o(x$fpl$dflt) for __aeabi_i2d
-    mpu6050.o(i.MPU6050_ReturnTemp) refers to ddiv.o(x$fpl$ddiv) for __aeabi_ddiv
-    mpu6050.o(i.MPU6050_ReturnTemp) refers to daddsub_clz.o(x$fpl$dsub) for __aeabi_dsub
-    mpu6050.o(i.MPU6050_ReturnTemp) refers to dfix.o(x$fpl$dfix) for __aeabi_d2iz
-    mpu6050.o(i.MPU6050_WriteReg) refers to gd32f4xx_i2c.o(i.i2c_flag_get) for i2c_flag_get
-    mpu6050.o(i.MPU6050_WriteReg) refers to gd32f4xx_i2c.o(i.i2c_start_on_bus) for i2c_start_on_bus
-    mpu6050.o(i.MPU6050_WriteReg) refers to gd32f4xx_i2c.o(i.i2c_master_addressing) for i2c_master_addressing
-    mpu6050.o(i.MPU6050_WriteReg) refers to gd32f4xx_i2c.o(i.i2c_flag_clear) for i2c_flag_clear
-    mpu6050.o(i.MPU6050_WriteReg) refers to gd32f4xx_i2c.o(i.i2c_data_transmit) for i2c_data_transmit
-    mpu6050.o(i.MPU6050_WriteReg) refers to gd32f4xx_i2c.o(i.i2c_stop_on_bus) for i2c_stop_on_bus
-    mpu6050.o(i.MPU_INT_Init) refers to mpu6050.o(i.Motion_Interrupt) for Motion_Interrupt
-    mpu6050.o(i.MPU_INT_Init) refers to mpu6050.o(i.MPU6050_WriteReg) for MPU6050_WriteReg
-    mpu6050.o(i.Motion_Interrupt) refers to mpu6050.o(i.MPU6050_WriteReg) for MPU6050_WriteReg
     use_no_semi_2.o(.text) refers (Special) to use_no_semi.o(.text) for __use_no_semihosting_swi
     __2printf.o(.text) refers to _printf_char_file.o(.text) for _printf_char_file
     __2printf.o(.text) refers to usart.o(.data) for __stdout
@@ -1341,22 +1341,22 @@ Removing Unused input sections from the image.
     Removing oled.o(i.oled_pow), (22 bytes).
     Removing oled.o(.constdata), (2072 bytes).
     Removing oled.o(.data), (640 bytes).
-    Removing led.o(.rev16_text), (4 bytes).
-    Removing led.o(.revsh_text), (4 bytes).
-    Removing timer.o(.rev16_text), (4 bytes).
-    Removing timer.o(.revsh_text), (4 bytes).
-    Removing timer.o(i.TIMER1_10ms), (36 bytes).
-    Removing timer.o(i.TIMER1_5ms), (36 bytes).
-    Removing usart.o(.rev16_text), (4 bytes).
-    Removing usart.o(.revsh_text), (4 bytes).
     Removing iic.o(.rev16_text), (4 bytes).
     Removing iic.o(.revsh_text), (4 bytes).
+    Removing led.o(.rev16_text), (4 bytes).
+    Removing led.o(.revsh_text), (4 bytes).
     Removing mpu6050.o(.rev16_text), (4 bytes).
     Removing mpu6050.o(.revsh_text), (4 bytes).
     Removing mpu6050.o(i.MPU6050ReadAcc), (64 bytes).
     Removing mpu6050.o(i.MPU6050ReadGyro), (64 bytes).
     Removing mpu6050.o(i.MPU6050ReadTemp), (32 bytes).
     Removing mpu6050.o(i.MPU6050_ReturnTemp), (112 bytes).
+    Removing timer.o(.rev16_text), (4 bytes).
+    Removing timer.o(.revsh_text), (4 bytes).
+    Removing timer.o(i.TIMER1_10ms), (36 bytes).
+    Removing timer.o(i.TIMER1_5ms), (36 bytes).
+    Removing usart.o(.rev16_text), (4 bytes).
+    Removing usart.o(.revsh_text), (4 bytes).
 
 908 unused section(s) (total 57098 bytes) removed from the image.
 
@@ -1415,26 +1415,26 @@ Image Symbol Table
     ../clib/printf.c                         0x00000000   Number         0  __printf_ss.o ABSOLUTE
     ../clib/printf.c                         0x00000000   Number         0  __printf_flags.o ABSOLUTE
     ../clib/printf.c                         0x00000000   Number         0  _printf_dec.o ABSOLUTE
-    ../clib/printf_percent.s                 0x00000000   Number         0  _printf_percent_end.o ABSOLUTE
-    ../clib/printf_percent.s                 0x00000000   Number         0  _printf_d.o ABSOLUTE
     ../clib/printf_percent.s                 0x00000000   Number         0  _printf_percent.o ABSOLUTE
-    ../clib/signal.c                         0x00000000   Number         0  defsig_pvfn_inner.o ABSOLUTE
+    ../clib/printf_percent.s                 0x00000000   Number         0  _printf_d.o ABSOLUTE
+    ../clib/printf_percent.s                 0x00000000   Number         0  _printf_percent_end.o ABSOLUTE
+    ../clib/signal.c                         0x00000000   Number         0  defsig_rtmem_inner.o ABSOLUTE
+    ../clib/signal.c                         0x00000000   Number         0  __raise.o ABSOLUTE
     ../clib/signal.c                         0x00000000   Number         0  defsig_other.o ABSOLUTE
     ../clib/signal.c                         0x00000000   Number         0  defsig_segv_inner.o ABSOLUTE
+    ../clib/signal.c                         0x00000000   Number         0  defsig_general.o ABSOLUTE
     ../clib/signal.c                         0x00000000   Number         0  defsig_cppl_inner.o ABSOLUTE
+    ../clib/signal.c                         0x00000000   Number         0  defsig_pvfn_inner.o ABSOLUTE
     ../clib/signal.c                         0x00000000   Number         0  defsig_stak_inner.o ABSOLUTE
     ../clib/signal.c                         0x00000000   Number         0  defsig_rtred_inner.o ABSOLUTE
     ../clib/signal.c                         0x00000000   Number         0  defsig_fpe_inner.o ABSOLUTE
     ../clib/signal.c                         0x00000000   Number         0  defsig_abrt_inner.o ABSOLUTE
-    ../clib/signal.c                         0x00000000   Number         0  defsig_exit.o ABSOLUTE
-    ../clib/signal.c                         0x00000000   Number         0  defsig_rtmem_inner.o ABSOLUTE
-    ../clib/signal.c                         0x00000000   Number         0  __raise.o ABSOLUTE
-    ../clib/signal.c                         0x00000000   Number         0  defsig_general.o ABSOLUTE
-    ../clib/signal.c                         0x00000000   Number         0  defsig_rtmem_outer.o ABSOLUTE
     ../clib/signal.c                         0x00000000   Number         0  defsig_rtmem_formal.o ABSOLUTE
+    ../clib/signal.c                         0x00000000   Number         0  defsig_rtmem_outer.o ABSOLUTE
+    ../clib/signal.c                         0x00000000   Number         0  defsig_exit.o ABSOLUTE
     ../clib/signal.s                         0x00000000   Number         0  defsig.o ABSOLUTE
-    ../clib/stdio.c                          0x00000000   Number         0  ferror_locked.o ABSOLUTE
     ../clib/stdio.c                          0x00000000   Number         0  ferror.o ABSOLUTE
+    ../clib/stdio.c                          0x00000000   Number         0  ferror_locked.o ABSOLUTE
     ../clib/stdlib.c                         0x00000000   Number         0  exit.o ABSOLUTE
     ../fplib/daddsub.s                       0x00000000   Number         0  daddsub_clz.o ABSOLUTE
     ../fplib/ddiv.s                          0x00000000   Number         0  ddiv.o ABSOLUTE
@@ -2061,19 +2061,19 @@ Memory Map of the image
     0x0800053e   0x00000002   PAD
     0x08000540   0x00000014   Code   RO         5733    i.EXTI5_9_IRQHandler  gd32f4xx_it.o
     0x08000554   0x00000004   Code   RO         5734    i.HardFault_Handler  gd32f4xx_it.o
-    0x08000558   0x000000c4   Code   RO         6050    i.IIC0_Init         iic.o
-    0x0800061c   0x00000028   Code   RO         5905    i.LED_Init          led.o
-    0x08000644   0x00000010   Code   RO         5906    i.LED_OFF           led.o
-    0x08000654   0x00000010   Code   RO         5907    i.LED_ON            led.o
-    0x08000664   0x00000090   Code   RO         6074    i.MPU6050ReadAcc2Real  mpu6050.o
-    0x080006f4   0x00000090   Code   RO         6076    i.MPU6050ReadGyro2Real  mpu6050.o
-    0x08000784   0x00000020   Code   RO         6077    i.MPU6050ReadID     mpu6050.o
-    0x080007a4   0x0000004c   Code   RO         6079    i.MPU6050_Init      mpu6050.o
-    0x080007f0   0x00000158   Code   RO         6080    i.MPU6050_ReadData  mpu6050.o
-    0x08000948   0x000000ac   Code   RO         6082    i.MPU6050_WriteReg  mpu6050.o
-    0x080009f4   0x00000028   Code   RO         6083    i.MPU_INT_Init      mpu6050.o
+    0x08000558   0x000000c4   Code   RO         5905    i.IIC0_Init         iic.o
+    0x0800061c   0x00000028   Code   RO         5928    i.LED_Init          led.o
+    0x08000644   0x00000010   Code   RO         5929    i.LED_OFF           led.o
+    0x08000654   0x00000010   Code   RO         5930    i.LED_ON            led.o
+    0x08000664   0x00000090   Code   RO         5961    i.MPU6050ReadAcc2Real  mpu6050.o
+    0x080006f4   0x00000090   Code   RO         5963    i.MPU6050ReadGyro2Real  mpu6050.o
+    0x08000784   0x00000020   Code   RO         5964    i.MPU6050ReadID     mpu6050.o
+    0x080007a4   0x0000004c   Code   RO         5966    i.MPU6050_Init      mpu6050.o
+    0x080007f0   0x00000158   Code   RO         5967    i.MPU6050_ReadData  mpu6050.o
+    0x08000948   0x000000ac   Code   RO         5969    i.MPU6050_WriteReg  mpu6050.o
+    0x080009f4   0x00000028   Code   RO         5970    i.MPU_INT_Init      mpu6050.o
     0x08000a1c   0x00000004   Code   RO         5735    i.MemManage_Handler  gd32f4xx_it.o
-    0x08000a20   0x00000014   Code   RO         6084    i.Motion_Interrupt  mpu6050.o
+    0x08000a20   0x00000014   Code   RO         5971    i.Motion_Interrupt  mpu6050.o
     0x08000a34   0x00000002   Code   RO         5736    i.NMI_Handler       gd32f4xx_it.o
     0x08000a36   0x00000002   PAD
     0x08000a38   0x00000028   Code   RO         5688    i.NVIC_SetPriority  systick.o
@@ -2083,21 +2083,21 @@ Memory Map of the image
     0x08000b36   0x00000002   Code   RO         5738    i.SVC_Handler       gd32f4xx_it.o
     0x08000b38   0x00000008   Code   RO         5739    i.SysTick_Handler   gd32f4xx_it.o
     0x08000b40   0x000000b8   Code   RO            4    i.SystemInit        system_gd32f4xx.o
-    0x08000bf8   0x00000024   Code   RO         5937    i.TIMER1_1000ms     timer.o
-    0x08000c1c   0x00000024   Code   RO         5938    i.TIMER1_100ms      timer.o
-    0x08000c40   0x00000024   Code   RO         5940    i.TIMER1_50ms       timer.o
-    0x08000c64   0x000000d4   Code   RO         5942    i.TIMER1_IRQHandler  timer.o
-    0x08000d38   0x00000070   Code   RO         5943    i.TIMER1_Init       timer.o
-    0x08000da8   0x00000074   Code   RO         5996    i.USART0_Config     usart.o
-    0x08000e1c   0x00000060   Code   RO         5997    i.USART5_Config     usart.o
-    0x08000e7c   0x00000060   Code   RO         5998    i.USART_Init        usart.o
+    0x08000bf8   0x00000024   Code   RO         6046    i.TIMER1_1000ms     timer.o
+    0x08000c1c   0x00000024   Code   RO         6047    i.TIMER1_100ms      timer.o
+    0x08000c40   0x00000024   Code   RO         6049    i.TIMER1_50ms       timer.o
+    0x08000c64   0x000000d4   Code   RO         6051    i.TIMER1_IRQHandler  timer.o
+    0x08000d38   0x00000070   Code   RO         6052    i.TIMER1_Init       timer.o
+    0x08000da8   0x00000074   Code   RO         6105    i.USART0_Config     usart.o
+    0x08000e1c   0x00000060   Code   RO         6106    i.USART5_Config     usart.o
+    0x08000e7c   0x00000060   Code   RO         6107    i.USART_Init        usart.o
     0x08000edc   0x00000004   Code   RO         5740    i.UsageFault_Handler  gd32f4xx_it.o
-    0x08000ee0   0x00000004   Code   RO         5999    i._sys_exit         usart.o
+    0x08000ee0   0x00000004   Code   RO         6108    i._sys_exit         usart.o
     0x08000ee4   0x00000014   Code   RO         5689    i.delay_1ms         systick.o
     0x08000ef8   0x00000018   Code   RO         5690    i.delay_decrement   systick.o
     0x08000f10   0x000000bc   Code   RO         2269    i.exti_init         gd32f4xx_exti.o
     0x08000fcc   0x0000000c   Code   RO         2272    i.exti_interrupt_flag_clear  gd32f4xx_exti.o
-    0x08000fd8   0x00000024   Code   RO         6000    i.fputc             usart.o
+    0x08000fd8   0x00000024   Code   RO         6109    i.fputc             usart.o
     0x08000ffc   0x0000005e   Code   RO         2624    i.gpio_af_set       gd32f4xx_gpio.o
     0x0800105a   0x00000004   Code   RO         2625    i.gpio_bit_reset    gd32f4xx_gpio.o
     0x0800105e   0x00000004   Code   RO         2626    i.gpio_bit_set      gd32f4xx_gpio.o
@@ -2152,8 +2152,8 @@ Memory Map of the image
     0x20000004   0x00000005   Data   RW         5641    .data               main.o
     0x20000009   0x00000003   PAD
     0x2000000c   0x00000004   Data   RW         5692    .data               systick.o
-    0x20000010   0x00000008   Data   RW         5944    .data               timer.o
-    0x20000018   0x00000004   Data   RW         6001    .data               usart.o
+    0x20000010   0x00000008   Data   RW         6053    .data               timer.o
+    0x20000018   0x00000004   Data   RW         6110    .data               usart.o
     0x2000001c   0x00000018   Zero   RW         5640    .bss                main.o
     0x20000034   0x00000060   Zero   RW         6262    .bss                c_w.l(libspace.o)
     0x20000094   0x00000004   PAD
@@ -2168,27 +2168,27 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-       200         10          0          0          0       1192   gd32f4xx_exti.o
-       256          0          0          0          0       3933   gd32f4xx_gpio.o
-       424         12          0          0          0       7204   gd32f4xx_i2c.o
-        52          4          0          0          0       4467   gd32f4xx_it.o
-       216         20          0          0          0       1356   gd32f4xx_misc.o
-       436         44          0          0          0       3759   gd32f4xx_rcu.o
-       598         44          0          0          0       4476   gd32f4xx_timer.o
-        56          0          0          0          0       1222   gd32f4xx_usart.o
-       196         16          0          0          0        845   iic.o
-        72         12          0          0          0       1330   led.o
-       160         40          0          5         24       2241   main.o
-       972          8          0          0          0       4936   mpu6050.o
-       212         14          0          0          0       1152   oled.o
-        64         26        392          0       2048        864   startup_gd32f407.o
-       444         28          0          4          0      78271   system_gd32f4xx.o
-       164         24          0          4          0      28746   systick.o
-       432         26          0          8          0       2793   timer.o
-       348         24          0          4          0       4331   usart.o
+       200         10          0          0          0       1204   gd32f4xx_exti.o
+       256          0          0          0          0       3961   gd32f4xx_gpio.o
+       424         12          0          0          0       7264   gd32f4xx_i2c.o
+        52          4          0          0          0       4519   gd32f4xx_it.o
+       216         20          0          0          0       1364   gd32f4xx_misc.o
+       436         44          0          0          0       3795   gd32f4xx_rcu.o
+       598         44          0          0          0       4528   gd32f4xx_timer.o
+        56          0          0          0          0       1230   gd32f4xx_usart.o
+       196         16          0          0          0        857   iic.o
+        72         12          0          0          0       1346   led.o
+       160         40          0          5         24       2269   main.o
+       972          8          0          0          0       4972   mpu6050.o
+       212         14          0          0          0       1164   oled.o
+        64         26        392          0       2048        868   startup_gd32f407.o
+       444         28          0          4          0      78327   system_gd32f4xx.o
+       164         24          0          4          0      28774   systick.o
+       432         26          0          8          0       2821   timer.o
+       348         24          0          4          0       4363   usart.o
 
     ----------------------------------------------------------------------
-      5312        352        424         28       2072     153118   Object Totals
+      5312        352        424         28       2072     153626   Object Totals
          0          0         32          0          0          0   (incl. Generated)
         10          0          0          3          0          0   (incl. Padding)
 
@@ -2248,8 +2248,8 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-      6204        394        424         28       2172     146690   Grand Totals
-      6204        394        424         28       2172     146690   ELF Image Totals
+      6204        394        424         28       2172     147198   Grand Totals
+      6204        394        424         28       2172     147198   ELF Image Totals
       6204        394        424         28          0          0   ROM Totals
 
 ==============================================================================

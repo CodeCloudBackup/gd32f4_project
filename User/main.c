@@ -29,6 +29,7 @@ int main(void)
 		LED_Init();
 		IIC0_Init();
 		USART_Init(USART0,115200);
+		USART_Init(USART5,115200);
 		MPU6050_Init();//MPU6050初始化配置，中断使能配置
 		if(MPU6050ReadID() == 0)//读取MPU6050 ID
 		{	
