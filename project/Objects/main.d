@@ -42,5 +42,10 @@
 .\objects\main.o: ..\Hardware\timer.h
 .\objects\main.o: ..\Hardware\usart.h
 .\objects\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\objects\main.o: ..\Hardware\iic.h
 .\objects\main.o: ..\Hardware\mpu6050.h
+.\objects\main.o: ..\Hardware\esp8266.h
+.\objects\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+.\objects\main.o: ..\Hardware\tcp.h

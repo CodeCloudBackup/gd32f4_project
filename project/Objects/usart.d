@@ -1,6 +1,8 @@
 .\objects\usart.o: ..\Hardware\usart.c
 .\objects\usart.o: ..\Hardware\usart.h
 .\objects\usart.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\usart.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\usart.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\objects\usart.o: ..\Library\Include\gd32f4xx_usart.h
 .\objects\usart.o: ..\CMSIS\gd32f4xx.h
 .\objects\usart.o: ..\CMSIS\core_cm4.h

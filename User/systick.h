@@ -39,6 +39,20 @@ OF SUCH DAMAGE.
 
 #include <stdint.h>
 
+typedef union {
+		volatile uint8_t Byte;
+		struct {
+			volatile uint8_t B0:1;
+			volatile uint8_t B1:1;
+			volatile uint8_t B2:1;
+			volatile uint8_t B3:1;
+			volatile uint8_t B4:1;
+			volatile uint8_t B5:1;
+			volatile uint8_t B6:1;
+			volatile uint8_t B7:1;
+		}Bits;
+}Byte8;
+
 /* configure systick */
 void systick_config(void);
 /* delay a time in milliseconds */

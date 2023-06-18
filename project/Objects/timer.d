@@ -38,3 +38,5 @@
 .\objects\timer.o: ..\Library\Include\gd32f4xx_enet.h
 .\objects\timer.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\timer.o: ..\Library\Include\gd32f4xx_exmc.h
+.\objects\timer.o: ..\Hardware\tcp.h
+.\objects\timer.o: ..\User\systick.h

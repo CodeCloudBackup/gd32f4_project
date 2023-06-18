@@ -4,6 +4,8 @@
 #include "gd32f4xx_timer.h"
 
 void TIMER1_Init(void);
+void TIMER2_Init(void);
+
 BOOL TIMER1_5ms(void);
 BOOL TIMER1_10ms(void);
 BOOL TIMER1_50ms(void);

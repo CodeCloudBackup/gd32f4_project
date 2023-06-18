@@ -37,7 +37,6 @@ OF SUCH DAMAGE.
 #include "gd32f4xx_it.h"
 #include "main.h"
 #include "systick.h"
-
 /*!
     \brief    this function handles NMI exception
     \param[in]  none
@@ -136,6 +135,7 @@ void PendSV_Handler(void)
     \param[out] none
     \retval     none
 */
+
 void SysTick_Handler(void)
 {
 	delay_decrement();
@@ -146,6 +146,4 @@ void EXTI5_9_IRQHandler(void)
 {
 	  exti_interrupt_flag_clear(EXTI_5);
 		IntFlag=1;
-	
-
 }
