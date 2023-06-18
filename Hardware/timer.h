@@ -10,6 +10,7 @@ BOOL TIMER1_5ms(void);
 BOOL TIMER1_10ms(void);
 BOOL TIMER1_50ms(void);
 BOOL TIMER1_100ms(void);
+BOOL TIMER1_200ms(void);
 BOOL TIMER1_1000ms(void);
 #endif
 

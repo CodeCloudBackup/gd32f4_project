@@ -41,6 +41,8 @@
 ".\objects\tcp.o"
 ".\objects\timer.o"
 ".\objects\usart.o"
+".\objects\nand_flash.o"
+".\objects\spi.o"
 --strict --scatter ".\Objects\template.sct"
 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

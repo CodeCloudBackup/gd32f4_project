@@ -49,3 +49,5 @@
 .\objects\main.o: ..\Hardware\esp8266.h
 .\objects\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\objects\main.o: ..\Hardware\tcp.h
+.\objects\main.o: ..\Hardware\nand_flash.h
+.\objects\main.o: ..\Hardware\spi.h

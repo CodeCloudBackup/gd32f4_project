@@ -30,8 +30,11 @@ void TIMER1_IRQHandler(void)
 			if(time_count%100 == 0){
 				TIMER1_flag |= 0x10;
 			}
-			if(time_count%1000 == 0){
+			if(time_count%200 == 0){
 				TIMER1_flag |= 0x20;
+			}
+			if(time_count%1000 == 0){
+				TIMER1_flag |= 0x40;
 				time_count = 0;
 			}
 		}
@@ -75,11 +78,20 @@ BOOL TIMER1_100ms(void)
 		 return FALSE;
 }
 
+BOOL TIMER1_200ms(void)
+{
+	if(TIMER1_flag&0x20){
+		 TIMER1_flag &= (uint8_t)(~0x20);
+		 return TRUE;
+	}else
+		 return FALSE;
+}
+
 BOOL TIMER1_1000ms(void)
 {
 	
-	if(TIMER1_flag&0x20){
-		 TIMER1_flag &= (uint8_t)(~0x20);
+	if(TIMER1_flag&0x40){
+		 TIMER1_flag &= (uint8_t)(~0x40);
 		 return TRUE;
 	}else
 		 return FALSE;
