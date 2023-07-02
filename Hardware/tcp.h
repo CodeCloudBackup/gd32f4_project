@@ -21,11 +21,11 @@ extern Byte8 _esp8266_flag;
 void TCP_Program(void);
 void TCP_Restart(void);
 void TCP_TIM_1ms(void);
-uint8_t TCP_InAT(void);
-uint8_t TCP_gprs(void);
-uint8_t TCP_config(void);
-uint8_t TCP_Connect(void);// 建立TCP连接
-uint8_t TCP_Restart_Program(void);
+u8 TCP_InAT(void);
+u8 TCP_gprs(void);
+u8 TCP_config(void);
+u8 TCP_Connect(void);// 建立TCP连接
+u8 TCP_Restart_Program(void);
 void TCP_Send_Data(char *data,  uint16_t len);
 #endif
 

@@ -4,10 +4,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
+#include "gd32f4xx.h"
 #include "gd32f4xx_usart.h"
 #include "gd32f4xx_exti.h"
 
-#define USART0_REC_LEN  			200  	//¶¨Òå×î´ó½ÓÊÕ×Ö½ÚÊý 200
+#define USART0_REC_LEN  			16*4096   	//¶¨Òå×î´ó½ÓÊÕ×Ö½ÚÊý 200
 #define EN_USART0_RX 			1		//Ê¹ÄÜ£¨1£©/½ûÖ¹£¨0£©´®¿Ú1½ÓÊÕ
 
 #define USART5_MAX_RECV_LEN		800					//×î´ó½ÓÊÕ»º´æ×Ö½ÚÊý
@@ -15,14 +16,21 @@
 #define USART5_RX_EN 			1					//0,²»½ÓÊÕ;1,½ÓÊÕ.
 
 
-extern __IO uint8_t  USART5_RX_BUF[USART5_MAX_RECV_LEN]; 		//½ÓÊÕ»º³å,×î´óUSART3_MAX_RECV_LEN×Ö½Ú
-extern uint8_t  USART5_TX_BUF[USART5_MAX_SEND_LEN]; 		//·¢ËÍ»º³å,×î´óUSART3_MAX_SEND_LEN×Ö½Ú
-extern __IO uint16_t USART5_RX_STA;   						//½ÓÊÕÊý¾Ý×´Ì¬
+extern u8  USART0_RX_BUF[USART0_REC_LEN]; //½ÓÊÕ»º³å,×î´óUSART_REC_LEN¸ö×Ö½Ú.Ä©×Ö½ÚÎª»»ÐÐ·û 
+extern u16 USART0_RX_STA;         		//½ÓÊÕ×´Ì¬±ê¼Ç	
+extern u32 USART0_RX_CNT;				//½ÓÊÕµÄ×Ö½ÚÊ
+
+extern u16  USART0_TIM_50ms(void);
+
+extern vu8  USART5_RX_BUF[USART5_MAX_RECV_LEN]; 		//½ÓÊÕ»º³å,×î´óUSART3_MAX_RECV_LEN×Ö½Ú
+extern u8  USART5_TX_BUF[USART5_MAX_SEND_LEN]; 		//·¢ËÍ»º³å,×î´óUSART3_MAX_SEND_LEN×Ö½Ú
+extern __IO u16 USART5_RX_STA;   						//½ÓÊÕÊý¾Ý×´Ì¬
+  
  
-void USART_Init(uint32_t usart_periph, uint32_t baud);
+void USART_Init(u32 usart_periph, u32 baud);
 void u5_printf(char* fmt,...);
-void USART5_Send(const char* data, uint16_t len);
+void USART5_Send(const char* data, u16 len);
 void USART5_Clear(void);
-uint16_t USART5_Revice(char *data);
+u16 USART5_Revice(char *data);
 extern void  USART5_TIM_1ms(void);
 #endif

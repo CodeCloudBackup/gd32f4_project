@@ -1,8 +1,8 @@
 #include "timer.h"
 #include "tcp.h"
-uint8_t TIMER1_flag = 0; 
+u8 TIMER1_flag = 0; 
 
-static uint32_t time_count = 0;
+static u32 time_count = 0;
 
 extern void USART5_TIM_1ms(void);
 void TIMER1_IRQHandler(void)
@@ -44,7 +44,7 @@ void TIMER1_IRQHandler(void)
 BOOL TIMER1_5ms(void)
 {
 	if(TIMER1_flag&0x02){
-		 TIMER1_flag &= (uint8_t)(~0x02);
+		 TIMER1_flag &= (u8)(~0x02);
 		 return TRUE;
 	}else
 		 return FALSE;
@@ -54,7 +54,7 @@ BOOL TIMER1_5ms(void)
 BOOL TIMER1_10ms(void)
 {
 	if(TIMER1_flag&0x04){
-		 TIMER1_flag &= (uint8_t)(~0x04);
+		 TIMER1_flag &= (u8)(~0x04);
 		 return TRUE;
 	}else
 		 return FALSE;
@@ -63,7 +63,7 @@ BOOL TIMER1_10ms(void)
 BOOL TIMER1_50ms(void)
 {
 	if(TIMER1_flag&0x08){
-		 TIMER1_flag &= (uint8_t)(~0x08);
+		 TIMER1_flag &= (u8)(~0x08);
 		 return TRUE;
 	}else
 		 return FALSE;
@@ -72,7 +72,7 @@ BOOL TIMER1_50ms(void)
 BOOL TIMER1_100ms(void)
 {
 	if(TIMER1_flag&0x10){
-		 TIMER1_flag &= (uint8_t)(~0x10);
+		 TIMER1_flag &= (u8)(~0x10);
 		 return TRUE;
 	}else
 		 return FALSE;
@@ -81,7 +81,7 @@ BOOL TIMER1_100ms(void)
 BOOL TIMER1_200ms(void)
 {
 	if(TIMER1_flag&0x20){
-		 TIMER1_flag &= (uint8_t)(~0x20);
+		 TIMER1_flag &= (u8)(~0x20);
 		 return TRUE;
 	}else
 		 return FALSE;
@@ -91,7 +91,7 @@ BOOL TIMER1_1000ms(void)
 {
 	
 	if(TIMER1_flag&0x40){
-		 TIMER1_flag &= (uint8_t)(~0x40);
+		 TIMER1_flag &= (u8)(~0x40);
 		 return TRUE;
 	}else
 		 return FALSE;
@@ -122,7 +122,7 @@ void TIMER1_Init(void)
     timer_enable(TIMER1);
 }
 
-static uint32_t time_cnt = 1;
+static u32 time_cnt = 1;
 void TIMER2_IRQHandler(void)
 {
 		if(timer_interrupt_flag_get(TIMER2, TIMER_FLAG_UP)){		//

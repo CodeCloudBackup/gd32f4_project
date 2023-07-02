@@ -7,9 +7,6 @@
 #include <string.h>
 #include "systick.h"
 
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned long u32;
 #if defined ( __CC_ARM   )
 #pragma anon_unions
 #endif
@@ -63,11 +60,11 @@ extern struct STRUCT_USART_Fram   //数据帧结构体
     char Data_RX_BUF[RX_BUF_MAX_LEN];
     union 
     {
-        __IO u16 InfAll;
+        vu16 InfAll;
         struct 
         {
-            __IO u16 FramLength       :15;                               // 14:0 
-            __IO u16 FramFinishFlag   :1;                                // 15 
+            vu16 FramLength       :15;                               // 14:0 
+            vu16 FramFinishFlag   :1;                                // 15 
         }InfBit;
     }; 
 	
@@ -80,9 +77,9 @@ void ESP8266_Init(void);
 //str:期待的应答结果
 //返回值:0,没有得到期待的应答结果
 //    其他,期待应答结果的位置(str的位置)
-uint8_t* ESP8266_Check_Cmd(uint8_t *str);
+u8* ESP8266_Check_Cmd(u8 *str);
 // 发送AT指令
-bool ESP8266_Send_AT_Cmd(const uint8_t *cmd,uint8_t *ack,u32 time);
+bool ESP8266_Send_AT_Cmd(const u8 *cmd,u8 *ack,u32 time);
 // 取消回显
 void ESP8266_AT_ATEO(char *ret_ask);
 // 设置波特率
@@ -128,7 +125,7 @@ bool ESP8266_SendString(EventStatus enumEnUnvarnishTx,const char * pStr, u32 ulS
 bool ESP8266_UnvarnishSend ( void );
 void ESP8266_ExitUnvarnishSend ( void );
 u8 ESP8266_Get_LinkStatus ( void );
-void USART_printf( uint32_t USARTx, char * Data, ... );
+void USART_printf( u32 USARTx, char * Data, ... );
 
 //MQTT功能函数
 bool ESP8266_MQTTUSERCFG( char * pClient_Id, char * pUserName,char * PassWord);

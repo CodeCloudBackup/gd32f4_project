@@ -1,22 +1,22 @@
 #include "nand_flash.h"
 
-__align(4) uint8_t g_DataTmpBuffer[4096] = {0};
+__align(4) u8 g_DataTmpBuffer[4096] = {0};
 #define SectorBuf  g_DataTmpBuffer
 
 #define FLASH_CS_0()			{gpio_bit_write(GPIOD, GPIO_PIN_0,RESET);delay_1ms(10);}
 #define FLASH_CS_1() 			{gpio_bit_write(GPIOD, GPIO_PIN_0,SET);delay_1ms(10);}
 
-__align(4) uint16_t g_WriteReadcnt = 0;
-__align(4) uint8_t g_WriteData[0x100] = {0};
-__align(4) uint16_t g_Count = 0;
-__align(4) uint8_t g_ucPos = 0;
+__align(4) u16 g_WriteReadcnt = 0;
+__align(4) u8 g_WriteData[0x100] = {0};
+__align(4) u16 g_Count = 0;
+__align(4) u8 g_ucPos = 0;
 
 
-void Flash_RD_Test(uint8_t *ReadBuff)
+void Flash_RD_Test(u8 *ReadBuff)
 {
-	static uint8_t state = 0;
-	uint8_t WriteBuff[10]={0x55,0x55,0x55,0x55,0x55,0x55,0x55,0x55,0x55};//读写存储
-	uint32_t FlashJedecid,FlashDeviceid;//FLASH ID变量
+	static u8 state = 0;
+	u8 WriteBuff[10]={0x55,0x55,0x55,0x55,0x55,0x55,0x55,0x55,0x55};//读写存储
+	u32 FlashJedecid,FlashDeviceid;//FLASH ID变量
 	switch(state)
 	{
 		case 0:
@@ -44,9 +44,9 @@ void Flash_RD_Test(uint8_t *ReadBuff)
 
 void Flash_TestDataInit(void)
 {
-	uint8_t usMinData = 0;
-	uint8_t usMaxData = 0xFF;
-	uint16_t usCnt = 0;
+	u8 usMinData = 0;
+	u8 usMaxData = 0xFF;
+	u16 usCnt = 0;
 
     for(usCnt = 0; usCnt < 0x100 ; usCnt++)
 	{
@@ -63,9 +63,9 @@ void Flash_TestDataInit(void)
 		
 	}
 }
-uint8_t spi_master_send_recv_byte(uint8_t spi_byte)
+u8 spi_master_send_recv_byte(u8 spi_byte)
 {		
-	uint8_t ByteSend,ByteRecv;
+	u8 ByteSend,ByteRecv;
 	ByteSend=spi_byte;
 
  while(RESET == spi_i2s_flag_get(SPI2, SPI_FLAG_TBE));
@@ -76,9 +76,9 @@ uint8_t spi_master_send_recv_byte(uint8_t spi_byte)
 
 }
 
-void spi_master_recv_some_bytes( uint8_t *pbdata, uint16_t recv_length)
+void spi_master_recv_some_bytes( u8 *pbdata, u16 recv_length)
 {
-	uint8_t *temp_data = pbdata;
+	u8 *temp_data = pbdata;
 
 	while (recv_length--)
 	{
@@ -88,10 +88,10 @@ void spi_master_recv_some_bytes( uint8_t *pbdata, uint16_t recv_length)
 }
 
 
-uint32_t spi_flash_read_id(void)
+u32 spi_flash_read_id(void)
 {
-	uint32_t ulJedId = 0,i;
-	uint8_t recv_buff[5] = {0};
+	u32 ulJedId = 0;
+	u8 recv_buff[5] = {0};
 	
 	 FLASH_CS_0();
 
@@ -106,9 +106,9 @@ uint32_t spi_flash_read_id(void)
 	return ulJedId;
 }
 
-uint16_t SFLASH_ReadID(void)
+u16 SFLASH_ReadID(void)
 {
-  uint16_t ID = 0;
+  u16 ID = 0;
    FLASH_CS_0();                              //使能器件
 
 	spi_master_send_recv_byte(0x90);//发送读取ID命令	    
@@ -126,7 +126,7 @@ uint16_t SFLASH_ReadID(void)
 
 void Flash_WriteDisable(void)
 {
-	uint8_t command = FLASH_WRITE_DISABLE_CMD;
+	u8 command = FLASH_WRITE_DISABLE_CMD;
 	FLASH_CS_0();  
 	spi_master_send_recv_byte(command);
 	FLASH_CS_1(); 
@@ -135,7 +135,7 @@ void Flash_WriteDisable(void)
 
 void Flash_WriteEnable(void)
 {
-	uint8_t command = FLASH_WRITE_ENABLE_CMD;
+	u8 command = FLASH_WRITE_ENABLE_CMD;
 
 	FLASH_CS_0();	
 	spi_master_send_recv_byte(command);//开启写使能
@@ -143,10 +143,10 @@ void Flash_WriteEnable(void)
 }
 
 
-uint8_t Flash_ReadSR(void)
+u8 Flash_ReadSR(void)
 {
-	uint8_t ucTmpVal = 0;
-	uint8_t command = FLASH_READ_SR_CMD;
+	u8 ucTmpVal = 0;
+	u8 command = FLASH_READ_SR_CMD;
 
 	FLASH_CS_0();	
 	
@@ -162,9 +162,9 @@ void Flash_WaitNobusy(void)
 	
 	while(((Flash_ReadSR()) & 0x01)==0x01);	//等待BUSY位清空
 }
-void Flash_WriteSR(uint8_t _ucByte)
+void Flash_WriteSR(u8 _ucByte)
 {
-	uint8_t command = FLASH_WRITE_SR_CMD;
+	u8 command = FLASH_WRITE_SR_CMD;
 
 	Flash_WriteEnable();	
 	Flash_WaitNobusy();
@@ -175,7 +175,7 @@ void Flash_WriteSR(uint8_t _ucByte)
   FLASH_CS_1();
 }
 
-void Flash_ErasePage(uint32_t _ulPageAddr)
+void Flash_ErasePage(u32 _ulPageAddr)
 {
 	_ulPageAddr *= 256;
 	
@@ -184,42 +184,35 @@ void Flash_ErasePage(uint32_t _ulPageAddr)
 	
 	FLASH_CS_0();
 	spi_master_send_recv_byte(FLASH_ERASE_PAGE);//页擦除指令
-	spi_master_send_recv_byte((uint8_t)(_ulPageAddr>>16));	//写入24位地址
-	spi_master_send_recv_byte((uint8_t)(_ulPageAddr>>8));
-	spi_master_send_recv_byte((uint8_t)(_ulPageAddr>>0));
+	spi_master_send_recv_byte((u8)(_ulPageAddr>>16));	//写入24位地址
+	spi_master_send_recv_byte((u8)(_ulPageAddr>>8));
+	spi_master_send_recv_byte((u8)(_ulPageAddr>>0));
 	FLASH_CS_1();
 	Flash_WaitNobusy();	//等待写入结束
 }
 
 
-void Flash_EraseSector(uint32_t _ulSectorAddr)
+void Flash_EraseSector(u32 _ulSectorAddr)
 {
-	uint8_t command = FLASH_ERASE_SECTOR;
-	uint8_t temp_buff[3] = {0};
-	
-	temp_buff[0] = (uint8_t)(_ulSectorAddr >> 16);
-	temp_buff[1] = (uint8_t)(_ulSectorAddr >> 8);
-	temp_buff[2] = (uint8_t)(_ulSectorAddr >> 0);
-	
+	u8 command = FLASH_ERASE_SECTOR;
 	_ulSectorAddr *= 4096;	//1个扇区 4 KBytes
-	
 	Flash_WriteEnable();
 	Flash_WaitNobusy();
-	
 	FLASH_CS_0();
+	
 	spi_master_send_recv_byte(command);
-	spi_master_send_recv_byte(temp_buff[0]);
-	spi_master_send_recv_byte(temp_buff[1]);
-	spi_master_send_recv_byte(temp_buff[2]);
+	spi_master_send_recv_byte((u8)(_ulSectorAddr >> 16));
+	spi_master_send_recv_byte((u8)(_ulSectorAddr >> 8));
+	spi_master_send_recv_byte((u8)(_ulSectorAddr));
 	FLASH_CS_1();
 	
 	Flash_WaitNobusy();	//等待写入结束
 }
 
 
-void Flash_EraseBlock(uint32_t _ulBlockAddr)
+void Flash_EraseBlock(u32 _ulBlockAddr)
 {
-	uint8_t command = FLASH_ERASE_BLOCK;
+	u8 command = FLASH_ERASE_BLOCK;
 	_ulBlockAddr *= 65536;	//块地址,一块64K
 	
 	Flash_WriteEnable();
@@ -238,7 +231,7 @@ void Flash_EraseBlock(uint32_t _ulBlockAddr)
 
 void Flash_EraseChip(void)
 {
-	uint8_t command = FLASH_ERASE_CHIP;
+	u8 command = FLASH_ERASE_CHIP;
 
 	Flash_WriteEnable();	//flash芯片写使能
 	Flash_WaitNobusy();	//等待写操作完成
@@ -248,14 +241,14 @@ void Flash_EraseChip(void)
 	FLASH_CS_1();
 	Flash_WaitNobusy();	//等待写入结束
 }
-void Flash_ReadSomeBytes(uint8_t *ucpBuffer, uint32_t _ulReadAddr, uint16_t _usNByte)
+void Flash_ReadSomeBytes(u8 *ucpBuffer, u32 _ulReadAddr, u16 _usNByte)
 {
-	uint8_t command = FLASH_READ_DATA;
-	uint8_t temp_buff[3] = {0};
+	u8 command = FLASH_READ_DATA;
+	u8 temp_buff[3] = {0};
 
-	temp_buff[0] = (uint8_t)(_ulReadAddr >> 16);
-	temp_buff[1] = (uint8_t)(_ulReadAddr >> 8);
-	temp_buff[2] = (uint8_t)(_ulReadAddr >> 0);
+	temp_buff[0] = (u8)(_ulReadAddr >> 16);
+	temp_buff[1] = (u8)(_ulReadAddr >> 8);
+	temp_buff[2] = (u8)(_ulReadAddr >> 0);
 
 	FLASH_CS_0();
 	
@@ -268,14 +261,12 @@ void Flash_ReadSomeBytes(uint8_t *ucpBuffer, uint32_t _ulReadAddr, uint16_t _usN
 	
 		FLASH_CS_1();
 }
-void Flash_WritePage(uint8_t *ucpBuffer, uint32_t _ulWriteAddr, uint16_t _usNByte)
+void Flash_WritePage(u8 *ucpBuffer, u32 _ulWriteAddr, u16 _usNByte)
 {
 	
 
 	Flash_WriteEnable();	//写使能
 	Flash_WaitNobusy();	//等待写入结束
-	
-
 	
   FLASH_CS_0();
 	
@@ -293,9 +284,9 @@ void Flash_WritePage(uint8_t *ucpBuffer, uint32_t _ulWriteAddr, uint16_t _usNByt
 }
 
 //不带校验写入，得保证FLASH数据已经被擦除成0xFF
-void Flash_WriteNoCheck(uint8_t *ucpBuffer, uint32_t _ulWriteAddr, uint16_t _usNByte)
+void Flash_WriteNoCheck(u8 *ucpBuffer, u32 _ulWriteAddr, u16 _usNByte)
 {
-	uint16_t PageByte = 256 - _ulWriteAddr % 256;//单页剩余可写字节数
+	u16 PageByte = 256 - _ulWriteAddr % 256;//单页剩余可写字节数
 
 	if(_usNByte <= PageByte)	//不大于256字节
 	{
@@ -324,12 +315,13 @@ void Flash_WriteNoCheck(uint8_t *ucpBuffer, uint32_t _ulWriteAddr, uint16_t _usN
 	}
 }
 
-void Flash_WriteSomeBytes(uint8_t *ucpBuffer, uint32_t _ulWriteAddr, uint16_t _usNByte)
+
+void Flash_WriteSomeBytes(u8 *ucpBuffer, u32 _ulWriteAddr, u16 _usNByte)
 {
-	uint32_t ulSecPos = 0;				//得到扇区位置
-	uint16_t usSecOff = 0;				//扇区偏移
-	uint16_t usSecRemain = 0;		//剩余扇区
-	uint32_t i = 0;
+	u32 ulSecPos = 0;				//得到扇区位置
+	u16 usSecOff = 0;				//扇区偏移
+	u16 usSecRemain = 0;		//剩余扇区
+	u32 i = 0;
 
 	ulSecPos = _ulWriteAddr / 4096;//地址所在扇区(0--511)
 	usSecOff = _ulWriteAddr % 4096;//扇区内地址偏移
@@ -357,6 +349,7 @@ void Flash_WriteSomeBytes(uint8_t *ucpBuffer, uint32_t _ulWriteAddr, uint16_t _u
 				SectorBuf[usSecOff + i] = ucpBuffer[i];
 			}
 			Flash_WriteNoCheck(SectorBuf, ulSecPos*4096, 4096);	//写入整个扇区(扇区=老数据+新写入数据)
+		Flash_ReadSomeBytes(SectorBuf, 0*4096, 4096);//读出整个扇区的内容
 		}
 		else
 		{

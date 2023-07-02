@@ -2,10 +2,6 @@
 #ifndef __OLED_H
 #define __OLED_H			  	 
 #include "gd32f4xx.h"
-
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned long u32;
 #define OLED_MODE 0
 #define SIZE 16
 #define XLevelL		0x00

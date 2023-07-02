@@ -30,30 +30,30 @@
 
 //定义FLASH相关属性定义
 struct Flash_Attr  {
-	uint16_t flash_id;
-	uint16_t page_size;
-	uint16_t sector_size;
-	uint8_t block_size;
+	u16 flash_id;
+	u16 page_size;
+	u16 sector_size;
+	u8 block_size;
 };	
 
-void Flash_RD_Test(uint8_t *ReadBuff);
+void Flash_RD_Test(u8 *ReadBuff);
 
 void Flash_TestDataInit(void);
-uint8_t spi_master_send_recv_byte(uint8_t spi_byte);
-void spi_master_recv_some_bytes( uint8_t *pbdata, uint16_t recv_length);
-uint32_t spi_flash_read_id(void);
-uint16_t SFLASH_ReadID(void);
+u8 spi_master_send_recv_byte(u8 spi_byte);
+void spi_master_recv_some_bytes( u8 *pbdata, u16 recv_length);
+u32 spi_flash_read_id(void);
+u16 SFLASH_ReadID(void);
 void Flash_WriteDisable(void);
 void Flash_WriteEnable(void);
-uint8_t Flash_ReadSR(void);
+u8 Flash_ReadSR(void);
 void Flash_WaitNobusy(void);
-void Flash_WriteSR(uint8_t _ucByte);
-void Flash_ErasePage(uint32_t _ulPageAddr);
-void Flash_EraseSector(uint32_t _ulSectorAddr);
-void Flash_EraseBlock(uint32_t _ulBlockAddr);
+void Flash_WriteSR(u8 _ucByte);
+void Flash_ErasePage(u32 _ulPageAddr);
+void Flash_EraseSector(u32 _ulSectorAddr);
+void Flash_EraseBlock(u32 _ulBlockAddr);
 void Flash_EraseChip(void);
-void Flash_ReadSomeBytes(uint8_t *ucpBuffer, uint32_t _ulReadAddr, uint16_t _usNByte);
-void Flash_WritePage(uint8_t *ucpBuffer, uint32_t _ulWriteAddr, uint16_t _usNByte);
-void Flash_WriteNoCheck(uint8_t *ucpBuffer, uint32_t _ulWriteAddr, uint16_t _usNByte);
-void Flash_WriteSomeBytes(uint8_t *ucpBuffer, uint32_t _ulWriteAddr, uint16_t _usNByte);
+void Flash_ReadSomeBytes(u8 *ucpBuffer, u32 _ulReadAddr, u16 _usNByte);
+void Flash_WritePage(u8 *ucpBuffer, u32 _ulWriteAddr, u16 _usNByte);
+void Flash_WriteNoCheck(u8 *ucpBuffer, u32 _ulWriteAddr, u16 _usNByte);
+void Flash_WriteSomeBytes(u8 *ucpBuffer, u32 _ulWriteAddr, u16 _usNByte);
 #endif

@@ -10,7 +10,7 @@ void ESP8266_Init(void)
 	  ESP8266_Rst();
 }
 
-uint8_t* ESP8266_Check_Cmd(uint8_t *str)
+u8* ESP8266_Check_Cmd(u8 *str)
 {
 		char *strx=0;
 		if(USART5_RX_STA&0X8000)		//接收到一次数据了
@@ -26,7 +26,7 @@ uint8_t* ESP8266_Check_Cmd(uint8_t *str)
 // ack1,ack2;期待的响应，为NULL表不需响应，两者为或逻辑关系
 // time 等待响应时间
 //返回1发送成功， 0失败
-bool ESP8266_Send_AT_Cmd(const uint8_t *cmd, uint8_t *ack, u32 time)
+bool ESP8266_Send_AT_Cmd(const u8 *cmd, u8 *ack, u32 time)
 { 
 		bool res=true;
 		USART5_RX_STA=0;
@@ -337,7 +337,7 @@ static char *itoa( int value, char *string, int radix )
 } /* NCL_Itoa */
 
 
-void USART_printf ( uint32_t  USARTx, char * Data, ... )
+void USART_printf ( u32  USARTx, char * Data, ... )
 {
     const char *s;
     int d;   

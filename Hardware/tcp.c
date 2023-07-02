@@ -11,9 +11,9 @@ char res_at[20];
 volatile u8 TcpClosedFlag = 0;
 uint16_t g_state = 0;
 uint16_t g_send_return_tim = 0;
-uint8_t g_signal = 0;
+u8 g_signal = 0;
 uint16_t g_heartbeat = 0;
-uint32_t g_time = 0;
+u32 g_time = 0;
 Byte8 _esp8266_flag;
 
 void TCP_TIM_1ms(void)
@@ -33,7 +33,7 @@ void TCP_Restart(void)
 		esp8266_reg_flag = 0;
 }
 	
-uint8_t TCP_Restart_Program(void)
+u8 TCP_Restart_Program(void)
 {
 	static u8 signs = 0;
 	if(g_time <= 0){
@@ -65,9 +65,9 @@ uint8_t TCP_Restart_Program(void)
 	return 0;
 }
 
-uint8_t TCP_InAT(void)
+u8 TCP_InAT(void)
 {
-		static uint8_t cnt = 0, sign = 0;
+		static u8 cnt = 0, sign = 0;
 		switch(sign)
 		{
 			case 0:
@@ -130,7 +130,7 @@ uint8_t TCP_InAT(void)
 		return 0;
 }
 
-uint8_t TCP_gprs(void)//获取GPRS定位信息
+u8 TCP_gprs(void)//获取GPRS定位信息
 {
 	return 1;
 }
@@ -139,9 +139,9 @@ uint8_t TCP_gprs(void)//获取GPRS定位信息
 *关闭TCP连接
 *
 */
-uint8_t ESP8266_tcp_off(void)// 关闭TCP连接
+u8 ESP8266_tcp_off(void)// 关闭TCP连接
 {
-    static uint8_t count = 0; //重复次数,重启流程
+    static u8 count = 0; //重复次数,重启流程
 		if(g_time == 0)
     {
         if(count >= 2) //超过最大重复次数
@@ -174,9 +174,9 @@ uint8_t ESP8266_tcp_off(void)// 关闭TCP连接
 */
 
 static char res_at[20];
-uint8_t TCP_config(void)
+u8 TCP_config(void)
 {
-    static uint8_t count = 0, Signs = 0, cnt = 1; //重复次数,重启流程
+    static u8 count = 0, Signs = 0, cnt = 1; //重复次数,重启流程
     u16 len = 0;
     if(g_time == 0) //为0时发送测试数据
     {
@@ -240,9 +240,9 @@ uint8_t TCP_config(void)
     return 0;
 }
 
-uint8_t TCP_Connect(void)// 建立TCP连接
+u8 TCP_Connect(void)// 建立TCP连接
 {
-	static uint8_t count = 0, sign = 0,cnt = 1;
+	static u8 count = 0, sign = 0,cnt = 1;
 	u16 len = 0;
 	char response[100];
 	if(g_time == 0)

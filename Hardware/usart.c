@@ -21,7 +21,7 @@ void _sys_exit(int x)
 int fputc(int ch, FILE *f)
 {      
 	while(usart_flag_get(USART0,USART_FLAG_TC)==0);//循环发送,直到发送完毕 
-	USART_DATA(USART0) = ((uint16_t)USART_DATA_DATA & (uint32_t)ch);  
+	USART_DATA(USART0) = ((uint16_t)USART_DATA_DATA & (u32)ch);  
 	return ch;
 }
 #endif 
@@ -31,36 +31,44 @@ int fputc(int ch, FILE *f)
 #if EN_USART0_RX   //如果使能了接收
 //串口1中断服务程序
 //注意,读取USARTx->SR能避免莫名其妙的错误   	
-uint8_t USART0_RX_BUF[USART0_REC_LEN];     //接收缓冲,最大USART_REC_LEN个字节.
+u8 USART0_RX_BUF[USART0_REC_LEN] __attribute__ ((at(0X20001000)));     //接收缓冲,最大USART_REC_LEN个字节.
 //接收状态
 //bit15，	接收完成标志
 //bit14，	接收到0x0d
 //bit13~0，	接收到的有效字节数目
-uint16_t USART0_RX_STA=0;       //接收状态标记	
+uint16_t USART0_RX_STA=0;       	//接收状态标记	  
+u32 USART0_RX_CNT=0;			//接收的字节数	
+
 void USART0_IRQHandler(void)
 {
-	uint8_t res;
+	u8 res;
 	if(usart_flag_get(USART0, USART_FLAG_RBNE))//接收到数据
 	{	 
 		res=USART_DATA(USART0); 
-		if((USART0_RX_STA&0x8000)==0)//接收未完成
+		if(USART0_RX_CNT < USART0_REC_LEN)//接收未完成
 		{
-			if(USART0_RX_STA&0x4000)//接收到了0x0d
-			{
-				if(res!=0x0a)USART0_RX_STA=0;//接收错误,重新开始
-				else USART0_RX_STA|=0x8000;	//接收完成了 
-			}else //还没收到0X0D
-			{	
-				if(res==0x0d)USART0_RX_STA|=0x4000;
-				else
-				{
-					USART0_RX_BUF[USART0_RX_STA&0X3FFF]=res;
-					USART0_RX_STA++;
-					if(USART0_RX_STA>(USART0_REC_LEN-1))USART0_RX_STA=0;//接收数据错误,重新开始接收	  
-				}		 
-			}
+			USART0_RX_BUF[USART0_RX_CNT+8]=res;
+			USART0_RX_CNT++;
 		}  		 									     
 	} 
+}
+
+uint16_t  USART0_TIM_50ms(void)
+{
+	static uint16_t oldcount=0;	//老的串口接收数据值
+	uint16_t applenth=0;
+	if(USART0_RX_CNT)
+	{
+			if(oldcount == USART0_RX_CNT)
+			{
+				applenth=USART0_RX_CNT;
+				oldcount=0;
+				USART0_RX_CNT=0;
+				printf("用户程序接收完成!\r\n");
+				printf("代码长度:%dBytes\r\n",applenth);
+			}else oldcount=USART0_RX_CNT;
+	}
+	return applenth;
 }
 
 #endif	
@@ -82,18 +90,17 @@ void USART0_Config(void)
 }
 
 //串口发送缓存区 	
-__align(8) uint8_t USART5_TX_BUF[USART5_MAX_SEND_LEN]; 	//发送缓冲,最大USART3_MAX_SEND_LEN字节
+__align(8) u8 USART5_TX_BUF[USART5_MAX_SEND_LEN]; 	//发送缓冲,最大USART3_MAX_SEND_LEN字节
 //串口接收缓存区 	
-__IO uint8_t USART5_RX_BUF[USART5_MAX_RECV_LEN]; 				//接收缓冲,最大USART3_MAX_RECV_LEN个字节.
+__IO u8 USART5_RX_BUF[USART5_MAX_RECV_LEN]; 				//接收缓冲,最大USART3_MAX_RECV_LEN个字节.
 __IO uint16_t USART5_RX_STA = 0;
-__IO uint8_t usart5_rev_cnt = 0;
-__IO uint8_t usart5_rev_flag = 0;
-__IO uint8_t usart5_rev_finish = 0;      // 串口接收完成标志
+__IO u8 usart5_rev_cnt = 0;
+__IO u8 usart5_rev_flag = 0;
+__IO u8 usart5_rev_finish = 0;      // 串口接收完成标志
 void USART5_IRQHandler(void)
 {
-		uint8_t res;
-    if(RESET != usart_interrupt_flag_get(USART5, USART_INT_FLAG_RBNE)){
-				
+		u8 res;
+    if(RESET != usart_interrupt_flag_get(USART5, USART_INT_FLAG_RBNE)){				
 				/* receive data */ 
 			  res =  USART_DATA(USART5);
 			  if(!usart5_rev_finish)
@@ -195,10 +202,10 @@ uint16_t USART5_Revice(char *data)
 	return 0;
 }
 
-void USART_Init(uint32_t usart_periph, uint32_t baud)
+void USART_Init(u32 usart_periph, u32 baud)
 {
-		uint8_t usart_num = 0;
-		uint8_t usart_prior[2];
+		u8 usart_num = 0;
+		u8 usart_prior[2];
 		switch(usart_periph){
 			case USART0:
 					USART0_Config();

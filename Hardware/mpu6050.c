@@ -23,7 +23,7 @@
   * 返 回 值: 无
   * 说    明: 无
   */ 
-void MPU6050_WriteReg(uint8_t reg_add,uint8_t reg_dat)
+void MPU6050_WriteReg(u8 reg_add,u8 reg_dat)
 {
 	/* wait until I2C bus is idle */
     while(i2c_flag_get(I2C0, I2C_FLAG_I2CBSY));
@@ -71,7 +71,7 @@ void MPU6050_WriteReg(uint8_t reg_add,uint8_t reg_dat)
   * 返 回 值: 无
   * 说    明: 无
   */ 
-void MPU6050_ReadData(uint8_t reg_add,unsigned char*Read,uint8_t num)
+void MPU6050_ReadData(u8 reg_add,unsigned char*Read,u8 num)
 {
 	 /* wait until I2C bus is idle */
     while(i2c_flag_get(I2C0, I2C_FLAG_I2CBSY));
@@ -230,7 +230,7 @@ void MPU6050_Init(void)
   * 返 回 值: 无
   * 说    明: 无
   */ 
-uint8_t MPU6050ReadID(void)
+u8 MPU6050ReadID(void)
 {
 	unsigned char Re = 0;
     MPU6050_ReadData(MPU6050_RA_WHO_AM_I,&Re,1);    //读器件地址
@@ -255,7 +255,7 @@ uint8_t MPU6050ReadID(void)
   */ 
 void MPU6050ReadAcc(short *accData)
 {
-    uint8_t buf[6];
+    u8 buf[6];
 		MPU6050_ReadData(MPU6050_ACC_OUT, &buf[0], 6);
 
 	
@@ -266,7 +266,7 @@ void MPU6050ReadAcc(short *accData)
 
 void MPU6050ReadAcc2Real(long *accData)
 {
-    uint8_t buf[6];
+    u8 buf[6];
 		short acc[3];
 		MPU6050_ReadData(MPU6050_ACC_OUT, &buf[0], 6);
 		
@@ -294,7 +294,7 @@ void MPU6050ReadAcc2Real(long *accData)
   */ 
 void MPU6050ReadGyro(short *gyroData)
 {
-    uint8_t buf[6];
+    u8 buf[6];
     MPU6050_ReadData(MPU6050_GYRO_OUT,buf,6);
     gyroData[0] = (buf[0] << 8) | buf[1];
     gyroData[1] = (buf[2] << 8) | buf[3];
@@ -309,7 +309,7 @@ void MPU6050ReadGyro(short *gyroData)
   */ 
 void MPU6050ReadGyro2Real(long *gyroData)
 {
-    uint8_t buf[6];
+    u8 buf[6];
 		short gyro[3];
     MPU6050_ReadData(MPU6050_GYRO_OUT,buf,6);
     gyro[0] = (buf[0] << 8) | buf[1];
@@ -336,7 +336,7 @@ void MPU6050ReadGyro2Real(long *gyroData)
   */ 
 void MPU6050ReadTemp(short *tempData)
 {
-	uint8_t buf[2];
+	u8 buf[2];
 	MPU6050_ReadData(MPU6050_RA_TEMP_OUT_H,buf,2);     //读取温度值
 	*tempData = (buf[0] << 8) | buf[1];
 }
@@ -350,7 +350,7 @@ void MPU6050ReadTemp(short *tempData)
 void MPU6050_ReturnTemp(short*Temperature)
 {
 	short temp3;
-	uint8_t buf[2];
+	u8 buf[2];
 	
 	MPU6050_ReadData(MPU6050_RA_TEMP_OUT_H,buf,2);     //读取温度值
 	temp3= (buf[0] << 8) | buf[1];

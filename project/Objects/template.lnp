@@ -43,6 +43,7 @@
 ".\objects\usart.o"
 ".\objects\nand_flash.o"
 ".\objects\spi.o"
+".\objects\gdflash.o"
 --strict --scatter ".\Objects\template.sct"
 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
