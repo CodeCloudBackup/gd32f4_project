@@ -26,7 +26,7 @@ u16 GDFLASH_GetFlashSector(u32 addr)
 
 void GDFLASH_Write(u32 WriteAddr,u32 *pBuffer,u32 NumToWrite)		//´ÓÖ¸¶¨µØÖ·¿ªÊ¼Ð´ÈëÖ¸¶¨³¤¶ÈµÄÊý¾Ý
 {
-	FLASH_Status status = FLASH_COMPLETE;
+	FLASH_Status status = FMC_READY;
 	u32 addrx=0;
 	u32 endaddr=0;	
 	if(WriteAddr<GD32_FLASH_BASE||WriteAddr%4)return;
@@ -41,15 +41,15 @@ void GDFLASH_Write(u32 WriteAddr,u32 *pBuffer,u32 NumToWrite)		//´ÓÖ¸¶¨µØÖ·¿ªÊ¼Ð
 			if(GDFLASH_ReadWord(addrx)!=0XFFFFFFFF)//ÓÐ·Ç0XFFFFFFFFµÄµØ·½,Òª²Á³ýÕâ¸öÉÈÇø
 			{   
 				status=fmc_sector_erase(GDFLASH_GetFlashSector(addrx));//VCC=2.7~3.6VÖ®¼ä!!
-				if(status!=FLASH_COMPLETE)break;	//·¢Éú´íÎóÁË
+				if(status!=FMC_READY)break;	//·¢Éú´íÎóÁË
 			}else addrx+=4;
 		} 
 	}
-	if(status==FLASH_COMPLETE)
+	if(status==FMC_READY)
 	{
 		while(WriteAddr<endaddr)//Ð´Êý¾Ý
 		{
-			if(fmc_word_program(WriteAddr,*pBuffer)!=FLASH_COMPLETE)//Ð´ÈëÊý¾Ý
+			if(fmc_word_program(WriteAddr,*pBuffer)!=FMC_READY)//Ð´ÈëÊý¾Ý
 			{ 
 				break;	//Ð´ÈëÒì³£
 			}

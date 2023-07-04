@@ -64,17 +64,17 @@ int main(void)
 	Flash_ReadSomeBytes(softwareSize,4,4);//从FLASH 0地址读取8字节内容放入ReadBuff数组
 	version=U8toU32(softwareVersion);
 	size=U8toU32(softwareSize);
-	printf("%d\n%d\n",version, size);
+	printf("0x%x\n0x%x\n",version, size);
 	oldVersion = GDFLASH_ReadWord(Flash_App_Info);
-	if(version > oldVersion)
+	if(version > oldVersion|| oldVersion == 0xFFFFFFFF)
 	{
 		printf("new: %x\n old: %x\n",version, oldVersion);
-		softwartUpdateFlag = FALSE;
+		softwartUpdateFlag = TRUE;
 	}
 	while(1)
 	{
 			if(softwartUpdateFlag){
-				Flash_ReadSomeBytes(binBuff,0,size);//从FLASH 0地址读取8字节内容放入ReadBuff数组
+				Flash_ReadSomeBytes(binBuff,8,size);//从FLASH 0地址读取8字节内容放入ReadBuff数组
 				IAP_Write_Appbin(FLASH_APP1_ADDR, binBuff, size);
 				LED_ON();
 				delay_1ms(500);
@@ -87,6 +87,7 @@ int main(void)
 				LED_ON();
 				delay_1ms(500);
 				LED_OFF();
+				GDFLASH_Write(Flash_App_Info, &version, 1);
 				softwartUpdateFlag=FALSE;
 			}
 			if(((*(vu32*)(FLASH_APP1_ADDR+4))&0xFF000000)==0x08000000)//判断是否为0X08XXXXXX.

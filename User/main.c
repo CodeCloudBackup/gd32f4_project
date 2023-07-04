@@ -25,7 +25,6 @@ long GyroData[3] = {0,0,0};//单位mdps
 long AccelData[3] = {0,0,0};
 u8 IntFlag;//MPU6050中断标志
 u8 LedFlag=0;
-u32 appVersion = 0x12345678;
 #define Flash_App_Info 0x0800C000
 
 #define CLI() __set_PRIMASK(1)//关闭总中断  
@@ -46,6 +45,7 @@ int main(void)
 		u8 versionBuff[4];
 		u8 sizeBuff[4];
 		uint32_t FlashJedecid,FlashDeviceid;//FLASH ID变量
+		u32 appVersion = 0x12345678;
 		SEI();
 	  systick_config();//配置系统主频168M,外部8M晶振,配置在#define __SYSTEM_CLOCK_168M_PLL_8M_HXTAL        (uint32_t)(168000000)
 		nvic_vector_table_set(NVIC_VECTTAB_FLASH, 0x10008);//中断向量地址偏移0x4000
@@ -63,7 +63,16 @@ int main(void)
 		}
 		ESP8266_Init();
 		SPI_Init();
-		GDFLASH_Write(Flash_App_Info, &appVersion, 2);
+		appVersion=GDFLASH_ReadWord(Flash_App_Info); 
+		if(appVersion == 0xFFFFFFFF)
+		{
+			appVersion=0x10000000;	
+		}	
+		else
+		{
+			appVersion=0x12345677;
+		}
+		GDFLASH_Write(Flash_App_Info, &appVersion, 1);
 		FlashDeviceid=SFLASH_ReadID();//读取Device ID
 		Flash_WriteSR(0x42);//解除保护
 		delay_1ms(100);
@@ -71,8 +80,6 @@ int main(void)
 		{
 			
 			//TCP_Program();
-			MPU6050ReadAcc2Real(AccelData);//读取加速度数据	
-			MPU6050ReadGyro2Real(GyroData);//读取陀螺仪数据	
 			if(TIMER1_50ms())
 			{
 				applenth = USART0_TIM_50ms();
@@ -80,14 +87,13 @@ int main(void)
 			}
 			if(applenth)
 			{
-				appVersion = 0x12345679;
-				U32ToU8Array(versionBuff,appVersion);
+				u32 version = 0x1234567a;
+				U32ToU8Array(versionBuff,version);
 				U32ToU8Array(sizeBuff, applenth);
 				Flash_ReadSR();//读状态寄存器
 				memcpy(USART0_RX_BUF,versionBuff, 4);
 				memcpy(USART0_RX_BUF+4,sizeBuff, 4);
 				Flash_WriteSomeBytes(USART0_RX_BUF,0,applenth+8);//把WriteBuff数组中的内容写入FLASH 0地址
-				delay_1ms(100);
 				Flash_ReadSomeBytes(ReadBuff,0,8);//从FLASH 0地址读取8字节内容放入ReadBuff数组
 				ReadBuff[8]= '\0';
 				applenth=0;
@@ -108,7 +114,9 @@ int main(void)
 			}
 			if(TIMER1_1000ms())
 			{
-				//printf("x:%ld, y:%ld, z:%ld\n",GyroData[0],GyroData[1],GyroData[2]);
+				MPU6050ReadAcc2Real(AccelData);//读取加速度数据	
+				MPU6050ReadGyro2Real(GyroData);//读取陀螺仪数据	
+				printf("x:%ld, y:%ld, z:%ld\n",GyroData[0],GyroData[1],GyroData[2]);
 				//Flash_ReadSomeBytes(ReadBuff,0,8);//从FLASH 0地址读取8字节内容放入ReadBuff数组
 				//TCP_Send_Data(tcp_data,  strlen(tcp_data));
 				printf("curVersion:0x%x\n",appVersion);

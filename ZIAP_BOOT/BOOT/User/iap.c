@@ -19,16 +19,16 @@ void IAP_Load_App(u32 appxaddr)
 void IAP_Write_Appbin(u32 appxaddr, u8 *appbuf, u32 applen)
 {
 	u32 t;
-	u32 temp;
+	u32 temp=0;
 	u16 i=0;
 	u32 fwaddr=appxaddr;//当前写入的地址
 	u8 *dfu=appbuf;
 	for(t=0;t<applen;t+=4)
 	{
 		temp=(u32)dfu[3]<<24;
-		temp=(u32)dfu[2]<<16;
-		temp=(u32)dfu[1]<<8;
-		temp=(u32)dfu[0];
+		temp|=(u32)dfu[2]<<16;
+		temp|=(u32)dfu[1]<<8;
+		temp|=(u32)dfu[0];
 		dfu+=4;
 		iapbuf[i++]=temp;
 		if(i==512)
