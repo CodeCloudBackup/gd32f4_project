@@ -17,6 +17,7 @@
 #include "mpu6050.h"
 #include "esp8266.h"
 #include "tcp.h"
+#include "http.h"
 #include "gdflash.h"
 #include "nand_flash.h"
 #include "spi.h"
@@ -41,7 +42,12 @@ int main(void)
 		static u8 led_flag = 0;
 		char *tcp_data = "tcp test";
 		u8 ReadBuff[10];
-		uint16_t applenth=0;	//接收到的app代码长度
+		char buf[2048];
+		// http header info
+		u8 resp_code, isstrem;
+		u32 cont_len;
+		// bin file info
+		u16 applenth=0;	//接收到的app代码长度
 		u8 versionBuff[4];
 		u8 sizeBuff[4];
 		uint32_t FlashJedecid,FlashDeviceid;//FLASH ID变量
@@ -66,11 +72,11 @@ int main(void)
 		appVersion=GDFLASH_ReadWord(Flash_App_Info); 
 		if(appVersion == 0xFFFFFFFF)
 		{
-			appVersion=0x10000000;	
+			appVersion=0x1234567a;	
 		}	
 		else
 		{
-			appVersion=0x12345677;
+			appVersion=0x1234567a;
 		}
 		GDFLASH_Write(Flash_App_Info, &appVersion, 1);
 		FlashDeviceid=SFLASH_ReadID();//读取Device ID
@@ -79,26 +85,26 @@ int main(void)
 		while(1)
 		{
 			
-			//TCP_Program();
+			TCP_Program();
+			
 			if(TIMER1_50ms())
 			{
 				applenth = USART0_TIM_50ms();
-
+				if(applenth)
+				{
+					u32 version = 0x1234567a;
+					U32ToU8Array(versionBuff,version);
+					U32ToU8Array(sizeBuff, applenth);
+					Flash_ReadSR();//读状态寄存器
+					memcpy(USART0_RX_BUF,versionBuff, 4);
+					memcpy(USART0_RX_BUF+4,sizeBuff, 4);
+					Flash_WriteSomeBytes(USART0_RX_BUF,0,applenth+8);//把WriteBuff数组中的内容写入FLASH 0地址
+					Flash_ReadSomeBytes(ReadBuff,0,8);//从FLASH 0地址读取8字节内容放入ReadBuff数组
+					ReadBuff[8]= '\0';
+					applenth=0;
+				}
 			}
-			if(applenth)
-			{
-				u32 version = 0x1234567a;
-				U32ToU8Array(versionBuff,version);
-				U32ToU8Array(sizeBuff, applenth);
-				Flash_ReadSR();//读状态寄存器
-				memcpy(USART0_RX_BUF,versionBuff, 4);
-				memcpy(USART0_RX_BUF+4,sizeBuff, 4);
-				Flash_WriteSomeBytes(USART0_RX_BUF,0,applenth+8);//把WriteBuff数组中的内容写入FLASH 0地址
-				Flash_ReadSomeBytes(ReadBuff,0,8);//从FLASH 0地址读取8字节内容放入ReadBuff数组
-				ReadBuff[8]= '\0';
-				applenth=0;
-			}
-			// ESP8266_STA_TCPClient_Test();//测试TCP通讯
+			
 			if(TIMER1_100ms()) 
 			{
 				led_flag ^= 1;
@@ -121,7 +127,20 @@ int main(void)
 				//TCP_Send_Data(tcp_data,  strlen(tcp_data));
 				printf("curVersion:0x%x\n",appVersion);
 				printf("flashVersion:%s\n",ReadBuff);
-				
+				if (esp8266_conn_flag)
+				{
+					GetIAPBin();
+					if(USART5_Revice(buf)){	
+							u16 buf_size = sizeof(buf);
+							if(Handle_Http_Download_Header(buf, buf_size,&resp_code, &isstrem, &cont_len))
+							{
+								memset(buf, 0, sizeof(buf));
+								printf("resp_code:%d,cont_len:%d\n",resp_code,cont_len);
+							}
+						
+					}
+				}
+					
 			}
 				 
 		}		

@@ -75,7 +75,7 @@ int main(void)
 	{
 			if(softwartUpdateFlag){
 				Flash_ReadSomeBytes(binBuff,8,size);//从FLASH 0地址读取8字节内容放入ReadBuff数组
-				IAP_Write_Appbin(FLASH_APP1_ADDR, binBuff, size);
+				IAP_Write_Appbin(FLASH_APP2_ADDR, binBuff, size);
 				LED_ON();
 				delay_1ms(500);
 				LED_OFF();

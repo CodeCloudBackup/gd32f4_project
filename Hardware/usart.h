@@ -8,10 +8,10 @@
 #include "gd32f4xx_usart.h"
 #include "gd32f4xx_exti.h"
 
-#define USART0_REC_LEN  			16*4096   	//定义最大接收字节数 200
+#define USART0_REC_LEN  			800   	//定义最大接收字节数 200
 #define EN_USART0_RX 			1		//使能（1）/禁止（0）串口1接收
 
-#define USART5_MAX_RECV_LEN		800					//最大接收缓存字节数
+#define USART5_MAX_RECV_LEN		16*4096					//最大接收缓存字节数
 #define USART5_MAX_SEND_LEN		800					//最大发送缓存字节数
 #define USART5_RX_EN 			1					//0,不接收;1,接收.
 

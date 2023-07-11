@@ -624,6 +624,11 @@
               <FileType>1</FileType>
               <FilePath>..\Hardware\gdflash.c</FilePath>
             </File>
+            <File>
+              <FileName>http.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\http.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

@@ -31,7 +31,7 @@ int fputc(int ch, FILE *f)
 #if EN_USART0_RX   //如果使能了接收
 //串口1中断服务程序
 //注意,读取USARTx->SR能避免莫名其妙的错误   	
-u8 USART0_RX_BUF[USART0_REC_LEN] __attribute__ ((at(0X20001000)));     //接收缓冲,最大USART_REC_LEN个字节.
+u8 USART0_RX_BUF[USART0_REC_LEN];     //接收缓冲,最大USART_REC_LEN个字节.
 //接收状态
 //bit15，	接收完成标志
 //bit14，	接收到0x0d
@@ -92,7 +92,7 @@ void USART0_Config(void)
 //串口发送缓存区 	
 __align(8) u8 USART5_TX_BUF[USART5_MAX_SEND_LEN]; 	//发送缓冲,最大USART3_MAX_SEND_LEN字节
 //串口接收缓存区 	
-__IO u8 USART5_RX_BUF[USART5_MAX_RECV_LEN]; 				//接收缓冲,最大USART3_MAX_RECV_LEN个字节.
+__IO u8 USART5_RX_BUF[USART5_MAX_RECV_LEN] __attribute__((at(0X20001000))); 				//接收缓冲,最大USART3_MAX_RECV_LEN个字节.
 __IO uint16_t USART5_RX_STA = 0;
 __IO u8 usart5_rev_cnt = 0;
 __IO u8 usart5_rev_flag = 0;
@@ -171,7 +171,7 @@ void USART5_Config(void)
 	gpio_output_options_set(GPIOC, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,GPIO_PIN_6);
 	gpio_af_set(GPIOC, GPIO_AF_8, GPIO_PIN_7);//复用功能7
 	gpio_mode_set(GPIOC, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_7);//PA10配置成串口输入
-	gpio_output_options_set(GPIOA, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,GPIO_PIN_7);
+	gpio_output_options_set(GPIOC, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,GPIO_PIN_7);
 	
 	
 }

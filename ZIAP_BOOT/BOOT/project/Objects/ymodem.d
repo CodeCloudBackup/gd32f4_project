@@ -20,6 +20,7 @@
 .\objects\ymodem.o: ..\Library\Include\gd32f4xx_syscfg.h
 .\objects\ymodem.o: ..\Library\Include\gd32f4xx_iref.h
 .\objects\ymodem.o: ..\Library\Include\gd32f4xx_pmu.h
+.\objects\ymodem.o: ..\Library\Include\gd32f4xx_spi.h
 .\objects\ymodem.o: ..\Library\Include\gd32f4xx_timer.h
 .\objects\ymodem.o: ..\Library\Include\gd32f4xx_usart.h
 .\objects\ymodem.o: ..\Library\Include\gd32f4xx_misc.h

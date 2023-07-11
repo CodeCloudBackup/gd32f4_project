@@ -22,31 +22,33 @@ Dialog DLL:      TCM.DLL V1.14.14.0
  
 <h2>Project:</h2>
 E:\GD32F407\gd32f4_project\project\template.uvprojx
-Project File Date:  06/02/2023
+Project File Date:  07/09/2023
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 3 (build 300)', folder: 'D:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'Target 1'
 compiling main.c...
-..\User\main.c(42): warning:  #177-D: variable "tcp_data" was declared but never referenced
+..\User\main.c(135): warning:  #167-D: argument of type "char *" is incompatible with parameter of type "u8 *"
+  							if(Handle_Http_Download_Header(buf, buf_size,&resp_code, &isstrem, &cont_len))
+..\User\main.c(43): warning:  #177-D: variable "tcp_data" was declared but never referenced
   		char *tcp_data = "tcp test";
-..\User\main.c(47): warning:  #177-D: variable "FlashJedecid" was declared but never referenced
+..\User\main.c(53): warning:  #177-D: variable "FlashJedecid" was declared but never referenced
   		uint32_t FlashJedecid,FlashDeviceid;//FLASH ID??Á¿
-..\User\main.c(47): warning:  #550-D: variable "FlashDeviceid" was set but never used
+..\User\main.c(53): warning:  #550-D: variable "FlashDeviceid" was set but never used
   		uint32_t FlashJedecid,FlashDeviceid;//FLASH ID??Á¿
-..\User\main.c: 3 warnings, 0 errors
+..\User\main.c: 4 warnings, 0 errors
 linking...
-Program Size: Code=10300 RO-data=484 RW-data=72 ZI-data=73912  
+Program Size: Code=19406 RO-data=978 RW-data=144 ZI-data=73840  
 FromELF: creating hex file...
 After Build - User command #1: fromelf --bin --output=.\app.bin .\Objects\template.axf
-".\Objects\template.axf" - 0 Error(s), 3 Warning(s).
+".\Objects\template.axf" - 0 Error(s), 4 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   E:\GD32F407\gd32f4_project\project\RTE
   D:\Keil_v5\ARM\PACK\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:07
+Build Time Elapsed:  00:00:04
 </pre>
 </body>
 </html>
