@@ -22,15 +22,19 @@ extern u32 USART0_RX_CNT;				//½ÓÊÕµÄ×Ö½ÚÊ
 
 extern u16  USART0_TIM_50ms(void);
 
-extern vu8  USART5_RX_BUF[USART5_MAX_RECV_LEN]; 		//½ÓÊÕ»º³å,×î´óUSART3_MAX_RECV_LEN×Ö½Ú
+extern vu8  *USART5_RX_BUF; 		//½ÓÊÕ»º³å,×î´óUSART3_MAX_RECV_LEN×Ö½Ú
 extern u8  USART5_TX_BUF[USART5_MAX_SEND_LEN]; 		//·¢ËÍ»º³å,×î´óUSART3_MAX_SEND_LEN×Ö½Ú
 extern __IO u16 USART5_RX_STA;   						//½ÓÊÕÊý¾Ý×´Ì¬
   
- 
+enum DATA_TYPE
+{
+		COMMAND = 0,
+		DATA
+}DataType;	
 void USART_Init(u32 usart_periph, u32 baud);
 void u5_printf(char* fmt,...);
 void USART5_Send(const char* data, u16 len);
 void USART5_Clear(void);
-u16 USART5_Revice(char *data);
+u16 USART5_Revice(DataType type,char *data);
 extern void  USART5_TIM_1ms(void);
 #endif

@@ -1,6 +1,6 @@
 #include "http.h"
 #include <string.h>
-char g_urlStr[70] = "GET /iob/download/test.txt HTTP/1.1\r\nHost:101.37.89.157\r\n\r\n";
+char g_urlStr[70] = "GET /iob/download/app.bin HTTP/1.1\r\nHost:101.37.89.157\r\n\r\n";
 
 BOOL GetIAPBin(void)
 {

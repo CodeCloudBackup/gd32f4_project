@@ -38,12 +38,13 @@ void ADC_Init(u32 adc_periph)
 
 u16 Get_ADC(u32 adc_periph, u8 ch)
 {
-			uint16_t Vol_Value,adc_value;
+			u16 adc_value;
+			//u16 Vol_Value;
 			adc_flag_clear(ADC1,ADC_FLAG_EOC);
       while(SET != adc_flag_get(ADC1,ADC_FLAG_EOC)){//查询转换完成
       }
 		  adc_value = ADC_RDATA(ADC1);//读取ADC值
-			Vol_Value=adc_value*3300/4095;//转换成电压值
+		 //	Vol_Value=adc_value*3300/4095;//转换成电压值
 			return adc_value;
 }
 

@@ -54,3 +54,4 @@
 .\objects\program.o: ..\Hardware\gdflash.h
 .\objects\program.o: ..\Hardware\nand_flash.h
 .\objects\program.o: ..\Hardware\spi.h
+.\objects\program.o: ..\Hardware\malloc.h

@@ -1,4 +1,4 @@
---cpu=Cortex-M4.fp.sp
+--cpu Cortex-M4.fp
 ".\objects\system_gd32f4xx.o"
 ".\objects\startup_gd32f407.o"
 ".\objects\gd32f4xx_adc.o"
@@ -50,6 +50,6 @@
 ".\objects\bh170.o"
 ".\objects\dac.o"
 --strict --scatter ".\Objects\template.sct"
---summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list ".\Listings\template.map" -o .\Objects\template.axf

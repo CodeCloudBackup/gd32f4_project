@@ -294,7 +294,7 @@ u8 TCP_Connect(void)// 建立TCP连接
 		}
 		else
 		{
-				if(USART5_Revice(response))         //从串口3读取数据
+				if(USART5_Revice(COMMAND,response))         //从串口3读取数据
         {
             if(strstr((const char *)response, (const char *)res_at) != NULL) //检查是否包含关键字
             {

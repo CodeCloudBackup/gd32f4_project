@@ -78,9 +78,9 @@ float Get_LightData()
 {
 		u8 DataBuff[2];//存储数组
 		float LightData;//光照强度（含小数位，单位lx）
-		u32 LightData_Hex;//光照强度（整数，单位lx）
+		//u32 LightData_Hex;//光照强度（整数，单位lx）
 		BH170_ReadData(DataBuff);//读取数据
 		LightData=((DataBuff[0]<<8)+DataBuff[1])/1.2f;//数据转换成光强度，单位lx
-    LightData_Hex=LightData;//float转换成整数
+   // LightData_Hex=LightData;//float转换成整数
 		return LightData;
 }

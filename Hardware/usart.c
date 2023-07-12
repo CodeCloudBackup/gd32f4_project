@@ -1,4 +1,5 @@
 #include "usart.h"
+#include "malloc.h"
 //加入以下代码,支持printf函数,而不需要选择use MicroLIB	  
 #if 1
 #pragma import(__use_no_semihosting)             
@@ -92,11 +93,11 @@ void USART0_Config(void)
 //串口发送缓存区 	
 __align(8) u8 USART5_TX_BUF[USART5_MAX_SEND_LEN]; 	//发送缓冲,最大USART3_MAX_SEND_LEN字节
 //串口接收缓存区 	
-__IO u8 USART5_RX_BUF[USART5_MAX_RECV_LEN] __attribute__((at(0X20001000))); 				//接收缓冲,最大USART3_MAX_RECV_LEN个字节.
-__IO uint16_t USART5_RX_STA = 0;
-__IO u8 usart5_rev_cnt = 0;
-__IO u8 usart5_rev_flag = 0;
-__IO u8 usart5_rev_finish = 0;      // 串口接收完成标志
+vu8* USART5_RX_BUF; 			//接收缓冲,最大USART3_MAX_RECV_LEN个字节.
+vu16 USART5_RX_STA = 0;
+vu8 usart5_rev_cnt = 0;
+vu8 usart5_rev_flag = 0;
+vu8 usart5_rev_finish = 0;      // 串口接收完成标志
 void USART5_IRQHandler(void)
 {
 		u8 res;
@@ -172,8 +173,6 @@ void USART5_Config(void)
 	gpio_af_set(GPIOC, GPIO_AF_8, GPIO_PIN_7);//复用功能7
 	gpio_mode_set(GPIOC, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_7);//PA10配置成串口输入
 	gpio_output_options_set(GPIOC, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,GPIO_PIN_7);
-	
-	
 }
 void USART5_Clear(void)
 {
@@ -182,7 +181,7 @@ void USART5_Clear(void)
 		usart5_rev_finish = 0;
 }
 
-uint16_t USART5_Revice(char *data)
+u16 USART5_Revice(DataType type,char *data)
 {
 	uint16_t len = USART5_RX_STA;
 	if(usart5_rev_finish)
@@ -190,10 +189,17 @@ uint16_t USART5_Revice(char *data)
 		usart5_rev_finish = 0;
 		if(len>0)
 		{
-			USART5_RX_BUF[len]='\0';//添加结束符
-			memcpy(data, (char*)USART5_RX_BUF, len+1);
-			USART5_Clear();
-			return len;
+			if(type == COMMAND)
+			{
+				USART5_RX_BUF[len]='\0';//添加结束符
+				memcpy(data, (char*)USART5_RX_BUF, len+1);
+				USART5_Clear();
+				return len;
+			}else if(type == DATA)
+			{
+				return len;
+			}
+			
 		}else{
 			USART5_Clear();
 			return 0;

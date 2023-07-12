@@ -76,7 +76,7 @@ void ESP8266_AT_BaudRate(char *ret_ask)
 bool ESP8266_Check_AT_Response(const char *ret_ask)
 {
 	char buf[100];
-	if(USART5_Revice(buf)){			
+	if(USART5_Revice(COMMAND, buf)){			
 			if(strstr((const char*)buf, ret_ask) != NULL)
 			{
 					return true;

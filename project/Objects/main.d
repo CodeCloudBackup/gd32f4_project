@@ -1,4 +1,5 @@
 .\objects\main.o: ..\User\main.c
+.\objects\main.o: ..\User\program.h
 .\objects\main.o: ..\CMSIS\gd32f4xx.h
 .\objects\main.o: ..\CMSIS\core_cm4.h
 .\objects\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -53,4 +54,4 @@
 .\objects\main.o: ..\Hardware\gdflash.h
 .\objects\main.o: ..\Hardware\nand_flash.h
 .\objects\main.o: ..\Hardware\spi.h
-.\objects\main.o: ..\User\program.h
+.\objects\main.o: ..\Hardware\malloc.h

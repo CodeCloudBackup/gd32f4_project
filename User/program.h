@@ -16,12 +16,18 @@
 #include "gdflash.h"
 #include "nand_flash.h"
 #include "spi.h"
+#include "malloc.h"
 
 typedef struct
 {
 	u16 flash_size;
 	u32 IC_ID[3];
 }IC_INFO;
+
+typedef struct
+{
+	u32 App_Version;
+}APP_INFO;
 
 extern IC_INFO ic_info;
 

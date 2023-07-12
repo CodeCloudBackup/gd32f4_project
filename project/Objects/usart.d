@@ -40,3 +40,4 @@
 .\objects\usart.o: ..\Library\Include\gd32f4xx_enet.h
 .\objects\usart.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\usart.o: ..\Library\Include\gd32f4xx_exmc.h
+.\objects\usart.o: ..\Hardware\malloc.h

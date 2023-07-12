@@ -705,12 +705,12 @@ ARM Macro Assembler    Page 11
               00000400 
               00000400 
               00000000 
-Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp.sp --apcs=
-interwork --depend=.\objects\startup_gd32f407.d -o.\objects\startup_gd32f407.o 
--IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\
-F4XX\Include -ID:\Keil_v5\ARM\CMSIS\Include --predefine="__UVISION_VERSION SETA
- 533" --predefine="GD32F407 SETA 1" --list=.\listings\startup_gd32f407.lst ..\S
-tartup\startup_gd32f407.s
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\startup_gd32f407.d -o.\objects\startup_gd32f407.o -IE
+:\GD32F407\gd32f4_project\project\RTE -ID:\Keil_v5\ARM\PACK\GigaDevice\GD32F4xx
+_DFP\2.0.0\Device\F4XX\Include -ID:\Keil_v5\ARM\CMSIS\Include --predefine="__UV
+ISION_VERSION SETA 521" --predefine="GD32F407 SETA 1" --list=.\listings\startup
+_gd32f407.lst ..\Startup\startup_gd32f407.s
 
 
 
