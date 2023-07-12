@@ -53,3 +53,4 @@
 .\objects\main.o: ..\Hardware\gdflash.h
 .\objects\main.o: ..\Hardware\nand_flash.h
 .\objects\main.o: ..\Hardware\spi.h
+.\objects\main.o: ..\User\program.h

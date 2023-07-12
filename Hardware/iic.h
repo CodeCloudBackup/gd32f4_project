@@ -4,5 +4,5 @@
 #include "gd32f4xx_i2c.h"
 
 void IIC0_Init(void);
-
+void IIC1_Init(void);
 #endif

@@ -3,52 +3,57 @@
 <pre>
 <h1>礦ision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: μVision V5.21.1.0
-Copyright (C) 2016 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: zzz 745587814@qq.com, aaa, LIC=MPPLD-839GY-GK5BG-V9QF9-LK2D4-12BS5
+IDE-Version: μVision V5.33.0.0
+Copyright (C) 2020 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: 111 lenovo, 111, LIC=EXJT4-FK31T-8TT3P-MYDEQ-T85HI-2RF5Q
  
 Tool Versions:
-Toolchain:       MDK-ARM Plus  Version: 5.21a
+Toolchain:       MDK-ARM Plus  Version: 5.33.0.0
 Toolchain Path:  D:\Keil_v5\ARM\ARMCC\Bin
-C Compiler:      Armcc.exe V5.06 update 3 (build 300)
-Assembler:       Armasm.exe V5.06 update 3 (build 300)
-Linker/Locator:  ArmLink.exe V5.06 update 3 (build 300)
-Library Manager: ArmAr.exe V5.06 update 3 (build 300)
-Hex Converter:   FromElf.exe V5.06 update 3 (build 300)
-CPU DLL:         SARMCM3.DLL V5.21a
-Dialog DLL:      DCM.DLL V1.13.8.0
-Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V2.0.18.0
-Dialog DLL:      TCM.DLL V1.14.14.0
+C Compiler:      Armcc.exe V5.06 update 7 (build 960)
+Assembler:       Armasm.exe V5.06 update 7 (build 960)
+Linker/Locator:  ArmLink.exe V5.06 update 7 (build 960)
+Library Manager: ArmAr.exe V5.06 update 7 (build 960)
+Hex Converter:   FromElf.exe V5.06 update 7 (build 960)
+CPU DLL:         SARMCM3.DLL V5.33.0.0
+Dialog DLL:      DCM.DLL V1.17.3.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.8.0
+Dialog DLL:      TCM.DLL V1.48.0.0
  
 <h2>Project:</h2>
-E:\GD32F407\gd32f4_project\project\template.uvprojx
-Project File Date:  07/09/2023
+D:\项目资料\GD32F407\gd32f4_project\project\template.uvprojx
+Project File Date:  07/12/2023
 
 <h2>Output:</h2>
-*** Using Compiler 'V5.06 update 3 (build 300)', folder: 'D:\Keil_v5\ARM\ARMCC\Bin'
+*** Using Compiler 'V5.06 update 7 (build 960)', folder: 'D:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'Target 1'
-compiling main.c...
-..\User\main.c(135): warning:  #167-D: argument of type "char *" is incompatible with parameter of type "u8 *"
-  							if(Handle_Http_Download_Header(buf, buf_size,&resp_code, &isstrem, &cont_len))
-..\User\main.c(43): warning:  #177-D: variable "tcp_data" was declared but never referenced
-  		char *tcp_data = "tcp test";
-..\User\main.c(53): warning:  #177-D: variable "FlashJedecid" was declared but never referenced
-  		uint32_t FlashJedecid,FlashDeviceid;//FLASH ID??量
-..\User\main.c(53): warning:  #550-D: variable "FlashDeviceid" was set but never used
-  		uint32_t FlashJedecid,FlashDeviceid;//FLASH ID??量
-..\User\main.c: 4 warnings, 0 errors
+Note: source file '..\Hardware\mpu6050.c' - object file renamed from '.\Objects\mpu6050.o' to '.\Objects\mpu6050_1.o'.
+compiling BH170.c...
+..\Hardware\BH170.c(81): warning:  #550-D: variable "LightData_Hex"  was set but never used
+  		u32 LightData_Hex;//光照强度（整数，单位lx）
+..\Hardware\BH170.c: 1 warning, 0 errors
+compiling dac.c...
+..\Hardware\dac.c(25): warning:  #1-D: last line of file ends without a newline
+  }
+..\Hardware\dac.c: 1 warning, 0 errors
 linking...
-Program Size: Code=19406 RO-data=978 RW-data=144 ZI-data=73840  
+Program Size: Code=19522 RO-data=978 RW-data=144 ZI-data=1183600  
 FromELF: creating hex file...
 After Build - User command #1: fromelf --bin --output=.\app.bin .\Objects\template.axf
-".\Objects\template.axf" - 0 Error(s), 4 Warning(s).
+".\Objects\template.axf" - 0 Error(s), 2 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: GigaDevice
+                http://gd32mcu.com/data/documents/pack/GigaDevice.GD32F4xx_DFP.2.0.0.pack
+                GigaDevice.GD32F4xx_DFP.2.0.0
+                GigaDevice GD32F4xx Series Device Support and Examples
 
 <h2>Collection of Component include folders:</h2>
-  E:\GD32F407\gd32f4_project\project\RTE
-  D:\Keil_v5\ARM\PACK\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include
+  C:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:04
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>
