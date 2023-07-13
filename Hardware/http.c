@@ -64,7 +64,7 @@ BOOL Get_Http_Download_File(u8* buff, u32 size, u32* head_len)
 }
 
 static u8 g_status = 0;
-BOOL Http_Program(void)
+BOOL Http_Program(APP_INFO app_info)
 {
 	u8* http_buff = NULL;
 	u8 resp_code = 0,is_stream = 0;
@@ -86,6 +86,8 @@ BOOL Http_Program(void)
 				resp_code = Analysis_Http_Download_Header(http_buff, sizeof(http_buff), &is_stream, &cont_len);
 				if(resp_code == 200)
 				{
+					app_info.App_Version = 0x12345679;
+					app_info.App_Size = cont_len;
 					g_status++;
 				}	
 			}	

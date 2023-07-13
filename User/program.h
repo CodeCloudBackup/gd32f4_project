@@ -24,12 +24,6 @@ typedef struct
 	u32 IC_ID[3];
 }IC_INFO;
 
-typedef struct
-{
-	uint32_t App_Version;
-	uint32_t App_Size;
-}APP_INFO;
-
 typedef union 
 {
 	u8 u8_data[4];

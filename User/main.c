@@ -56,11 +56,11 @@ int main(void)
 			}
 			if(TIMER1_1000ms())
 			{
-				u32 appVersion = 0;
 				MPU6050ReadAcc2Real(AccelData);//读取加速度数据	
 				MPU6050ReadGyro2Real(GyroData);//读取陀螺仪数据	
 				printf("x:%ld, y:%ld, z:%ld\n",GyroData[0],GyroData[1],GyroData[2]);
 				printf("curVersion:0x%x\n",g_appInfo.App_Version);
+				printf("curSize:0x%x\n",g_appInfo.App_Size);
 				Flash_ReadSomeBytes(flash_version.u8_data,0,4);//从FLASH 0地址读取8字节内容放入ReadBuff数组
 				Flash_ReadSomeBytes(flash_size.u8_data,4,4);//从FLASH 0地址读取8字节内容放入ReadBuff数组
 				printf("flashAppVersion:0x%x\n",flash_version.u32_data);
@@ -68,7 +68,7 @@ int main(void)
 				
 				if (esp8266_conn_flag)
 				{
-						Http_Program();
+						Http_Program(g_appInfo);
 				}
 					
 			}
