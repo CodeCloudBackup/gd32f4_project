@@ -30,6 +30,13 @@ typedef struct
 	uint32_t App_Size;
 }APP_INFO;
 
+typedef union 
+{
+	u8 u8_data[4];
+	u32 u32_data;
+} U8_U32;
+
+
 extern IC_INFO g_icInfo;
 extern APP_INFO g_appInfo;
 void IC_Informatin(void);
