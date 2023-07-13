@@ -12,6 +12,7 @@ void IC_Informatin(void)
 #define FLASH_APP_INFO 0x0800C000
 
 APP_INFO g_appInfo;
+
 void App_Info_Init(void)
 {
 	g_appInfo.App_Version = 0x12345678;
@@ -50,6 +51,8 @@ void Program_Init(void)
 		App_Info_Init();
 		FlashDeviceid=SFLASH_ReadID();//读取Device ID
 		Flash_WriteSR(0x42);//解除保护
+		// 
+		GDFLASH_Write(FLASH_APP_INFO, (u32*)&g_appInfo, sizeof(g_appInfo)/sizeof(uint32_t));
 		delay_1ms(100);
 }
 
