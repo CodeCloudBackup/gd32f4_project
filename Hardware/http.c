@@ -95,7 +95,7 @@ BOOL Http_Program(APP_INFO app_info)
 		case 2:
 			if(Get_Http_Download_File(http_buff, cont_len, &head_len))
 			{
-				GDFLASH_Write();
+				Flash_WriteSomeBytes((u8*)&app_info,0,8);
 				Flash_WriteSomeBytes(http_buff+head_len,8,cont_len);//把WriteBuff数组中的内容写入FLASH 0地址
 				myfree(SRAMIN, http_buff);
 				g_status++;
