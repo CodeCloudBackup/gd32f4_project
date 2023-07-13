@@ -26,15 +26,16 @@ extern vu8  *USART5_RX_BUF; 		//接收缓冲,最大USART3_MAX_RECV_LEN字节
 extern u8  USART5_TX_BUF[USART5_MAX_SEND_LEN]; 		//发送缓冲,最大USART3_MAX_SEND_LEN字节
 extern __IO u16 USART5_RX_STA;   						//接收数据状态
   
-enum DATA_TYPE
+typedef enum DATA_TYPE
 {
 		COMMAND = 0,
 		DATA
 }DataType;	
+
 void USART_Init(u32 usart_periph, u32 baud);
 void u5_printf(char* fmt,...);
 void USART5_Send(const char* data, u16 len);
 void USART5_Clear(void);
-u16 USART5_Revice(DataType type,char *data);
+u16 USART5_Revice(DataType type,u8* data);
 extern void  USART5_TIM_1ms(void);
 #endif

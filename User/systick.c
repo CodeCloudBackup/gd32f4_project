@@ -39,6 +39,14 @@ OF SUCH DAMAGE.
 
 volatile static uint32_t delay;
 
+
+void U32ToU8Array(uint8_t* buf, uint32_t u32Val)
+{
+	buf[0]=((u32Val >> 24)&0xFF);
+	buf[1]=((u32Val >> 16)&0xFF);
+	buf[2]=((u32Val >> 8)&0xFF);
+	buf[3]=(u32Val&0xFF);
+}
 /*!
     \brief    configure systick
     \param[in]  none

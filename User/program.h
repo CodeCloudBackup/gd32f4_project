@@ -26,12 +26,12 @@ typedef struct
 
 typedef struct
 {
-	u32 App_Version;
+	uint32_t App_Version;
+	uint32_t App_Size;
 }APP_INFO;
 
-extern IC_INFO ic_info;
-
-void U32ToU8Array(u8* buf, u32 u32Val);
+extern IC_INFO g_icInfo;
+extern APP_INFO g_appInfo;
 void IC_Informatin(void);
 void Program_Init(void);
 

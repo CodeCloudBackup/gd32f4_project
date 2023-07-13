@@ -438,13 +438,13 @@ void TCP_Program(void)
 		}
 }
 
-void TCP_Send_Data(char *data,  uint16_t len)
+BOOL TCP_Send_Data(char *data,  uint16_t len)
 {
-		if(!esp8266_conn_flag) return;
+		if(!esp8266_conn_flag) return FALSE;
 		u5_printf("AT+CIPSEND=%d\r\n",len);
 		delay_1ms(10);
 		USART5_Send(data,len);
 		esp8266_send_return=1;
 		g_send_return_tim = 30000;
-		
+		return TRUE;
 }

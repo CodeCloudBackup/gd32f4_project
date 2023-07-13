@@ -22,7 +22,7 @@ void _sys_exit(int x)
 int fputc(int ch, FILE *f)
 {      
 	while(usart_flag_get(USART0,USART_FLAG_TC)==0);//循环发送,直到发送完毕 
-	USART_DATA(USART0) = ((uint16_t)USART_DATA_DATA & (u32)ch);  
+	USART_DATA(USART0) = ((u16)USART_DATA_DATA & (u32)ch);  
 	return ch;
 }
 #endif 
@@ -37,7 +37,7 @@ u8 USART0_RX_BUF[USART0_REC_LEN];     //接收缓冲,最大USART_REC_LEN个字节.
 //bit15，	接收完成标志
 //bit14，	接收到0x0d
 //bit13~0，	接收到的有效字节数目
-uint16_t USART0_RX_STA=0;       	//接收状态标记	  
+u16 USART0_RX_STA=0;       	//接收状态标记	  
 u32 USART0_RX_CNT=0;			//接收的字节数	
 
 void USART0_IRQHandler(void)
@@ -54,10 +54,10 @@ void USART0_IRQHandler(void)
 	} 
 }
 
-uint16_t  USART0_TIM_50ms(void)
+u16  USART0_TIM_50ms(void)
 {
-	static uint16_t oldcount=0;	//老的串口接收数据值
-	uint16_t applenth=0;
+	static u16 oldcount=0;	//老的串口接收数据值
+	u16 applenth=0;
 	if(USART0_RX_CNT)
 	{
 			if(oldcount == USART0_RX_CNT)
@@ -138,7 +138,7 @@ void  USART5_TIM_1ms(void)
 //确保一次发送数据不超过USART3_MAX_SEND_LEN字节
 void u5_printf(char* fmt,...)  
 {  
-	uint16_t i,j;
+	u16 i,j;
 	va_list ap;
 	va_start(ap,fmt);
 	vsprintf((char*)USART5_TX_BUF,fmt,ap);
@@ -151,13 +151,13 @@ void u5_printf(char* fmt,...)
 	}
 }
 
-void USART5_Send(const char* data, uint16_t len)
+void USART5_Send(const char* data, u16 len)
 {
-		while(len--)
-		{
-			while(usart_flag_get(USART5, USART_FLAG_TC) == RESET);//循环发送,直到发送完毕   
-			USART_DATA(USART5)=*data++;
-		}
+	while(len--)
+	{
+		while(usart_flag_get(USART5, USART_FLAG_TC) == RESET);//循环发送,直到发送完毕   
+		USART_DATA(USART5)=*data++;
+	}
 }
 
 void USART5_Config(void)
@@ -174,16 +174,17 @@ void USART5_Config(void)
 	gpio_mode_set(GPIOC, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_7);//PA10配置成串口输入
 	gpio_output_options_set(GPIOC, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,GPIO_PIN_7);
 }
+
 void USART5_Clear(void)
 {
-		memset((int8_t*)USART5_RX_BUF, 0, sizeof(USART5_RX_BUF));
+		memset((u8*)USART5_RX_BUF, 0, sizeof(USART5_RX_BUF));
 		USART5_RX_STA = 0;
 		usart5_rev_finish = 0;
 }
 
-u16 USART5_Revice(DataType type,char *data)
+u16 USART5_Revice(DataType type, u8* data)
 {
-	uint16_t len = USART5_RX_STA;
+	u16 len = USART5_RX_STA;
 	if(usart5_rev_finish)
 	{
 		usart5_rev_finish = 0;
@@ -192,11 +193,14 @@ u16 USART5_Revice(DataType type,char *data)
 			if(type == COMMAND)
 			{
 				USART5_RX_BUF[len]='\0';//添加结束符
-				memcpy(data, (char*)USART5_RX_BUF, len+1);
+				memcpy(data, (u8*)USART5_RX_BUF, len+1);
 				USART5_Clear();
 				return len;
 			}else if(type == DATA)
 			{
+				USART5_RX_BUF[len]='\0';//添加结束符
+				memcpy(data, (u8*)USART5_RX_BUF, len+1);
+				USART5_Clear();
 				return len;
 			}
 			

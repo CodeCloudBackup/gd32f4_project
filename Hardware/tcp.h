@@ -28,6 +28,6 @@ u8 TCP_gprs(void);
 u8 TCP_config(void);
 u8 TCP_Connect(void);// 建立TCP连接
 u8 TCP_Restart_Program(void);
-void TCP_Send_Data(char *data,  uint16_t len);
+BOOL TCP_Send_Data(char *data,  u16 len);
 #endif
 

@@ -53,6 +53,8 @@ typedef union {
 		}Bits;
 }Byte8;
 
+#define U8ToU32(u8_buf) ((*(u8_buf)<<24)|(*(u8_buf+1)<<16)|(*(u8_buf+2)<<8)|*(u8_buf+3))
+void U32ToU8Array(uint8_t* buf, uint32_t u32Val);
 /* configure systick */
 void systick_config(void);
 /* delay a time in milliseconds */
