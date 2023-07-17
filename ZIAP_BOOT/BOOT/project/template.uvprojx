@@ -325,7 +325,7 @@
             <wLevel>2</wLevel>
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
-            <uC99>0</uC99>
+            <uC99>1</uC99>
             <uGnu>0</uGnu>
             <useXO>0</useXO>
             <v6Lang>1</v6Lang>
@@ -403,16 +403,6 @@
         <Group>
           <GroupName>Library</GroupName>
           <Files>
-            <File>
-              <FileName>gd32f4xx_adc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Library\Source\gd32f4xx_adc.c</FilePath>
-            </File>
-            <File>
-              <FileName>gd32f4xx_can.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Library\Source\gd32f4xx_can.c</FilePath>
-            </File>
             <File>
               <FileName>gd32f4xx_crc.c</FileName>
               <FileType>1</FileType>
@@ -569,9 +559,29 @@
               <FilePath>..\User\gd32f4xx_it.c</FilePath>
             </File>
             <File>
-              <FileName>ymodem.c</FileName>
+              <FileName>gdflash.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\User\ymodem.c</FilePath>
+              <FilePath>..\User\gdflash.c</FilePath>
+            </File>
+            <File>
+              <FileName>iap.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\iap.c</FilePath>
+            </File>
+            <File>
+              <FileName>nand_flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\nand_flash.c</FilePath>
+            </File>
+            <File>
+              <FileName>spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\spi.c</FilePath>
+            </File>
+            <File>
+              <FileName>usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\usart.c</FilePath>
             </File>
           </Files>
         </Group>

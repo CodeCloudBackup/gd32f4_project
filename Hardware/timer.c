@@ -1,15 +1,15 @@
 #include "timer.h"
-#include "tcp.h"
 u8 TIMER1_flag = 0; 
 
 static u32 time_count = 0;
 
 extern void USART5_TIM_1ms(void);
+extern void HTTP_TIM_10ms(void);
+extern void TCP_TIM_10ms(void);
 void TIMER1_IRQHandler(void)
 {	
 		if(timer_interrupt_flag_get(TIMER1, TIMER_FLAG_UP)){		// 溢出中断
 			timer_flag_clear(TIMER1,TIMER_FLAG_UP);  //清除中断标志位  
-			TCP_TIM_1ms();
 			USART5_TIM_1ms();
 			time_count++;
 			if(time_count%2 == 0){
@@ -20,6 +20,8 @@ void TIMER1_IRQHandler(void)
 				
 			}
 			if(time_count%10 == 0){
+				TCP_TIM_10ms();
+				HTTP_TIM_10ms();
 				TIMER1_flag |= 0x04;
 			}
 			

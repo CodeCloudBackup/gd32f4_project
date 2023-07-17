@@ -1,8 +1,6 @@
---cpu Cortex-M4.fp
+--cpu=Cortex-M4.fp.sp
 ".\objects\system_gd32f4xx.o"
 ".\objects\startup_gd32f407.o"
-".\objects\gd32f4xx_adc.o"
-".\objects\gd32f4xx_can.o"
 ".\objects\gd32f4xx_crc.o"
 ".\objects\gd32f4xx_ctc.o"
 ".\objects\gd32f4xx_dac.o"
@@ -33,13 +31,12 @@
 ".\objects\main.o"
 ".\objects\systick.o"
 ".\objects\gd32f4xx_it.o"
-".\objects\ymodem.o"
+".\objects\gdflash.o"
 ".\objects\iap.o"
+".\objects\nand_flash.o"
 ".\objects\spi.o"
 ".\objects\usart.o"
-".\objects\nand_flash.o"
-".\objects\gdflash.o"
 --strict --scatter ".\Objects\template.sct"
---summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list ".\Listings\template.map" -o .\Objects\template.axf

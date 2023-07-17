@@ -61,7 +61,7 @@ void ESP8266_AT_Restore(char *ret_ask)
 //È¡Ïû»ØÏÔ
 void ESP8266_AT_ATEO(char *ret_ask)
 {
-    u5_printf("AT\r\n");
+    u5_printf("ATE0\r\n");
 		
 		strcpy(ret_ask, "OK");
 }

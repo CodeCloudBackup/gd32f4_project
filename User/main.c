@@ -48,7 +48,6 @@ int main(void)
 					LED_OFF();
 				else
 					LED_ON();
-				
 			}
 			if(TIMER1_200ms()) 
 			{
@@ -60,15 +59,15 @@ int main(void)
 				MPU6050ReadGyro2Real(GyroData);//读取陀螺仪数据	
 				printf("x:%ld, y:%ld, z:%ld\n",GyroData[0],GyroData[1],GyroData[2]);
 				printf("curVersion:0x%x\n",g_appInfo.App_Version);
-				printf("curSize:0x%x\n",g_appInfo.App_Size);
+				printf("curSize:0x%x\r\n",g_appInfo.App_Size);
 				Flash_ReadSomeBytes(flash_version.u8_data,0,4);//从FLASH 0地址读取8字节内容放入ReadBuff数组
 				Flash_ReadSomeBytes(flash_size.u8_data,4,4);//从FLASH 0地址读取8字节内容放入ReadBuff数组
-				printf("flashAppVersion:0x%x\n",flash_version.u32_data);
-				printf("flashAppSize:0x%x\n",flash_size.u32_data);
+				printf("flashAppVersion:0x%x\r\n",flash_version.u32_data);
+				printf("flashAppSize:0x%x\r\n",flash_size.u32_data);
 				
 				if (esp8266_conn_flag)
 				{
-						Http_Program(g_appInfo);
+						Http_Program();
 				}
 					
 			}

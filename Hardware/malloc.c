@@ -1,7 +1,7 @@
 #include "malloc.h"	 
 
 //内存池(32字节对齐)
-__align(32) u8 mem1base[MEM1_MAX_SIZE] __attribute__((at(0X20001000)));	
+__align(32) u8 mem1base[MEM1_MAX_SIZE]; 
 __align(32) u8 mem2base[MEM2_MAX_SIZE] __attribute__((at(0X68000000)));					//外部SRAM内存池
 __align(32) u8 mem3base[MEM3_MAX_SIZE] __attribute__((at(0X10000000)));					//内部CCM内存池
 //内存管理表
@@ -27,10 +27,12 @@ struct _m_mallco_dev mallco_dev=
 //*des:目的地址
 //*src:源地址
 //n:需要复制的内存长度(字节为单位)
-void mymemcpy(void *des,void *src,u32 n)  
+void mymemcpy(void *des,const void *src,u32 n)  
 {  
+	if(des == NULL||src == NULL)
+		return;
     u8 *xdes=des;
-	u8 *xsrc=src; 
+		const u8 *xsrc=src; 
     while(n--)*xdes++=*xsrc++;  
 }
 
@@ -40,6 +42,7 @@ void mymemcpy(void *des,void *src,u32 n)
 //count:需要设置的内存大小(字节为单位)
 void mymemset(void *s,u8 c,u32 count)  
 {  
+		if(s == NULL||count <= 0)return;
     u8 *xs = s;  
     while(count--)*xs++=c;  
 }	   

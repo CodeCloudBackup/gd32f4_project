@@ -327,18 +327,18 @@ typedef enum {ERROR = 0, SUCCESS = !ERROR} ErrStatus;
 typedef enum {FALSE = 0, TRUE = !FALSE} BOOL;
 
 /* bit operations */
-#define REG32(addr)                  (*(volatile uint32_t *)(uint32_t)(addr))
-#define REG16(addr)                  (*(volatile uint16_t *)(uint32_t)(addr))
-#define REG8(addr)                   (*(volatile uint8_t *)(uint32_t)(addr))
-#define BIT(x)                       ((uint32_t)((uint32_t)0x01U<<(x)))
-#define BITS(start, end)             ((0xFFFFFFFFUL << (start)) & (0xFFFFFFFFUL >> (31U - (uint32_t)(end)))) 
+#define REG32(addr)                  (*(vu32 *)(u32)(addr))
+#define REG16(addr)                  (*(vu16 *)(u32)(addr))
+#define REG8(addr)                   (*(vu8 *)(u32)(addr))
+#define BIT(x)                       ((u32)((u32)0x01U<<(x)))
+#define BITS(start, end)             ((0xFFFFFFFFUL << (start)) & (0xFFFFFFFFUL >> (31U - (u32)(end)))) 
 #define GET_BITS(regval, start, end) (((regval) & BITS((start),(end))) >> (start))
 
 /* main flash and SRAM memory map */
-#define FLASH_BASE            ((uint32_t)0x08000000U)        /*!< main FLASH base address          */
-#define TCMSRAM_BASE          ((uint32_t)0x10000000U)        /*!< TCMSRAM(64KB) base address       */
-#define OPTION_BASE           ((uint32_t)0x1FFEC000U)        /*!< Option bytes base address        */
-#define SRAM_BASE             ((uint32_t)0x20000000U)        /*!< SRAM0 base address               */
+#define FLASH_BASE            ((u32)0x08000000U)        /*!< main FLASH base address          */
+#define TCMSRAM_BASE          ((u32)0x10000000U)        /*!< TCMSRAM(64KB) base address       */
+#define OPTION_BASE           ((u32)0x1FFEC000U)        /*!< Option bytes base address        */
+#define SRAM_BASE             ((u32)0x20000000U)        /*!< SRAM0 base address               */
 
 /* peripheral memory map */
 #define APB1_BUS_BASE         ((uint32_t)0x40000000U)        /*!< apb1 base address                */

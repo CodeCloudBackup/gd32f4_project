@@ -22,7 +22,7 @@ extern
 
 void TCP_Program(void);
 void TCP_Restart(void);
-void TCP_TIM_1ms(void);
+void TCP_TIM_10ms(void);
 u8 TCP_InAT(void);
 u8 TCP_gprs(void);
 u8 TCP_config(void);

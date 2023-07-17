@@ -11,7 +11,7 @@
 #define USART0_REC_LEN  			800   	//定义最大接收字节数 200
 #define EN_USART0_RX 			1		//使能（1）/禁止（0）串口1接收
 
-#define USART5_MAX_RECV_LEN		16*4096					//最大接收缓存字节数
+#define USART5_MAX_RECV_LEN		8*4096					//最大接收缓存字节数
 #define USART5_MAX_SEND_LEN		800					//最大发送缓存字节数
 #define USART5_RX_EN 			1					//0,不接收;1,接收.
 
@@ -24,7 +24,7 @@ extern u16  USART0_TIM_50ms(void);
 
 extern vu8  *USART5_RX_BUF; 		//接收缓冲,最大USART3_MAX_RECV_LEN字节
 extern u8  USART5_TX_BUF[USART5_MAX_SEND_LEN]; 		//发送缓冲,最大USART3_MAX_SEND_LEN字节
-extern __IO u16 USART5_RX_STA;   						//接收数据状态
+extern vu16 USART5_RX_STA;   						//接收数据状态
   
 typedef enum DATA_TYPE
 {

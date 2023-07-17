@@ -2,6 +2,7 @@
 
 void SPI_Init(void)
 {
+		spi_parameter_struct spi_init_struct;
 		rcu_periph_clock_enable(RCU_GPIOC);//使能GPIOC时钟	
 		rcu_periph_clock_enable(RCU_GPIOD);//使能GPIOD时钟	
 		rcu_periph_clock_enable(RCU_SPI2);//使能SPI2时钟 
@@ -14,7 +15,6 @@ void SPI_Init(void)
 	  gpio_mode_set(GPIOD, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO_PIN_0); /* PD0 CS */
     gpio_output_options_set(GPIOD, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_0);
 	
-		spi_parameter_struct spi_init_struct;
     /* deinitilize SPI and the parameters */
     spi_i2s_deinit(SPI2);
     spi_struct_para_init(&spi_init_struct);
