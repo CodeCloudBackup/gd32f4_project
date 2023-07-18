@@ -9,9 +9,9 @@
 #define SCCB_ID   			0X60  			//OV2640的ID
 
 //IO操作函数	 
-#define SCCB_SCL    		PDout(6)	 	//SCL
-#define SCCB_SDA    		PDout(7) 		//SDA	 
-#define SCCB_READ_SDA    	PDin(7)  		//输入SDA  
+#define SCCB_SCL   				PDout(6)	//SCL
+#define SCCB_SDA    			PDout(7)  //SDA	 
+#define SCCB_READ_SDA    	PDin(7)  	//输入SDA  
 ///////////////////////////////////////////
 void SCCB_Init(void);
 void SCCB_Start(void);

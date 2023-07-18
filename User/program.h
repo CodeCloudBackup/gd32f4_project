@@ -17,6 +17,9 @@
 #include "nand_flash.h"
 #include "spi.h"
 #include "malloc.h"
+#include "delay.h"
+#include "sccb.h"
+#include "ov2640.h"
 
 typedef struct
 {

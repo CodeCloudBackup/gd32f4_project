@@ -1,11 +1,17 @@
 #include "sccb.h"
 #include "systick.h"
+#include "delay.h"
 //初始化SCCB接口 
 void SCCB_Init(void)
 {											      	 
-	RCC->AHB1ENR|=1<<3;    	//使能外设PORTD时钟	
-	GPIO_Set(GPIOD,PIN6|PIN7,GPIO_MODE_OUT,GPIO_OTYPE_PP,GPIO_SPEED_50M,GPIO_PUPD_PU);	//PD6,7 推挽输出
-	GPIOD->ODR|=3<<6;			//PD6/7输出1  
+	/* enable GPIO clock */
+	RCU->AHB1EN|=1<<3;//使能GPIOD时钟
+	gpio_mode_set(GPIOD, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO_PIN_6);
+	gpio_output_options_set(GPIOD, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,GPIO_PIN_6);
+	gpio_mode_set(GPIOD, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO_PIN_7);
+	gpio_output_options_set(GPIOD, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,GPIO_PIN_7);
+	SCCB_SDA=1;     //数据线高电平	   
+  SCCB_SCL=1;	    //在时钟线高的时候数据线由高至低 
 	SCCB_SDA_OUT();	   
 }		
 

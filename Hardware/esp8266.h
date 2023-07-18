@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include "systick.h"
+#include "delay.h"
 
 #if defined ( __CC_ARM   )
 #pragma anon_unions
@@ -38,7 +39,7 @@ typedef enum{
 
 #define ESP8266_RST_Pin                   GPIO_PIN_13    //复位管脚
 #define ESP8266_RST_Pin_Port              GPIOC    //复位 
-#define ESP8266_RST_Pin_Periph_Clock()   rcu_periph_clock_enable(RCU_GPIOC)       //PC时钟
+#define ESP8266_RST_Pin_Periph_Clock()    RCU->AHB1EN|=1<<2;//使能GPIOB时钟 
 
 
 

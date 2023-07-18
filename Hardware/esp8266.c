@@ -34,7 +34,7 @@ bool ESP8266_Send_AT_Cmd(const u8 *cmd, u8 *ack, u32 time)
 		if(ack&& time) {
 				while(--time)
 				{
-					delay_1ms(10);
+					delay_ms(10);
 					if(USART5_RX_STA&0x8000)
 					{
 						if(ESP8266_Check_Cmd(ack))
@@ -90,7 +90,7 @@ bool ESP8266_Check_AT_Response(const char *ret_ask)
 void ESP8266_Rst(void)
 {
     ESP8266_RST_Pin_SetL;
-    delay_1ms(500); 
+    delay_ms(500); 
     ESP8266_RST_Pin_SetH;
 }
 
@@ -121,13 +121,13 @@ bool ESP8266_AT_Quit_Trans(void)
 {
 	while(usart_flag_get(USART5, USART_FLAG_TC) == RESET);	//等待发送空
 	USART_DATA(USART5)='+';      
-	delay_1ms(15);					//大于串口组帧时间(10ms)
+	delay_ms(15);					//大于串口组帧时间(10ms)
 	while(usart_flag_get(USART5, USART_FLAG_TC) == RESET);	//等待发送空
 	USART_DATA(USART5)='+';      
-	delay_1ms(15);					//大于串口组帧时间(10ms)
+	delay_ms(15);					//大于串口组帧时间(10ms)
 	while(usart_flag_get(USART5, USART_FLAG_TC) == RESET);	//等待发送空
 	USART_DATA(USART5)='+';      
-	delay_1ms(500);					//等待500ms
+	delay_ms(500);					//等待500ms
 	return ESP8266_Send_AT_Cmd("AT","OK",20);//退出透传判断.
 }
 
@@ -145,7 +145,7 @@ u8 ESP8266_Send_Data(u8 *data,u8 *ack,u16 waittime)
 	{
 		while(--waittime)	//等待倒计时
 		{
-			delay_1ms(10);
+			delay_ms(10);
 			if(USART5_RX_STA&0X8000)//接收到期待的应答结果
 			{
 				if(ESP8266_Check_Cmd(ack))break;//得到有效数据 
@@ -258,9 +258,9 @@ bool ESP8266_SendString(EventStatus enumEnUnvarnishTx, const char * pStr, u32 ul
 //ESP8266退出透传模式
 void ESP8266_ExitUnvarnishSend ( void )
 {
-    delay_1ms(1000);
+    delay_ms(1000);
     ESP8266_USART( "+++" );
-    delay_1ms( 500 );    
+    delay_ms( 500 );    
 }
 
 
@@ -506,7 +506,7 @@ bool MQTT_SendString(char * pTopic,char *temp2)
 	
     bool bRet = false;
     ESP8266_MQTTPUB(pTopic,temp2);
-	  delay_1ms(1000);
+	  delay_ms(1000);
     bRet = true;
     return bRet;
 

@@ -78,10 +78,9 @@ u16  USART0_TIM_50ms(void)
 void USART0_Config(void)
 {
 	/* enable GPIO clock */
-	rcu_periph_clock_enable(RCU_GPIOA);//使能GPIOA时钟
-
+	RCU->AHB1EN|=1<<0;//使能GPIOA时钟
 	/* enable USART clock */
-	rcu_periph_clock_enable(RCU_USART0);//使能USART0时钟
+	RCU->APB2EN|=1<<4;//使能USART0时钟
 	gpio_af_set(GPIOA, GPIO_AF_7, GPIO_PIN_9);//复用功能7
 	gpio_mode_set(GPIOA, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO_PIN_9);//PA9配置成串口输出
 	gpio_output_options_set(GPIOA, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,GPIO_PIN_9);
@@ -98,12 +97,12 @@ vu16 USART5_RX_STA = 0;
 vu8 usart5_rev_cnt = 0;
 vu8 usart5_rev_flag = 0;
 vu8 usart5_rev_finish = 0;      // 串口接收完成标志
-void USART5_IRQHandler(void)
+void USART2_IRQHandler(void)
 {
 		u8 res;
-    if(RESET != usart_interrupt_flag_get(USART5, USART_INT_FLAG_RBNE)){				
+    if(RESET != usart_interrupt_flag_get(USART2, USART_INT_FLAG_RBNE)){				
 				/* receive data */ 
-			  res =  USART_DATA(USART5);
+			  res =  USART_DATA(USART2);
 			  if(!usart5_rev_finish)
 				{
 						//记录接收到的值
@@ -146,8 +145,8 @@ void u5_printf(char* fmt,...)
 	i=strlen((const char*)USART5_TX_BUF);//此次发送数据的长度
 	for(j=0;j<i;j++)//循环发送数据
 	{
-		while(usart_flag_get(USART5, USART_FLAG_TC) == RESET);//循环发送,直到发送完毕   
-		USART_DATA(USART5)=USART5_TX_BUF[j];  
+		while(usart_flag_get(USART2, USART_FLAG_TC) == RESET);//循环发送,直到发送完毕   
+		USART_DATA(USART2)=USART5_TX_BUF[j];  
 	}
 }
 
@@ -155,24 +154,51 @@ void USART5_Send(const char* data, u16 len)
 {
 	while(len--)
 	{
-		while(usart_flag_get(USART5, USART_FLAG_TC) == RESET);//循环发送,直到发送完毕   
-		USART_DATA(USART5)=*data++;
+		while(usart_flag_get(USART2, USART_FLAG_TC) == RESET);//循环发送,直到发送完毕   
+		USART_DATA(USART2)=*data++;
 	}
 }
 
 void USART5_Config(void)
 {
 	/* enable GPIO clock */
-	rcu_periph_clock_enable(RCU_GPIOC);//使能GPIOA时钟
-
+	RCU->AHB1EN|=1<<2;//使能GPIOC时钟
 	/* enable USART clock */
-	rcu_periph_clock_enable(RCU_USART5);//使能USART0时钟
+	RCU->APB2EN|=1<<5;//使能USART5时钟
 	gpio_af_set(GPIOC, GPIO_AF_8, GPIO_PIN_6);//复用功能7
 	gpio_mode_set(GPIOC, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_6);//PA9配置成串口输出
 	gpio_output_options_set(GPIOC, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,GPIO_PIN_6);
 	gpio_af_set(GPIOC, GPIO_AF_8, GPIO_PIN_7);//复用功能7
 	gpio_mode_set(GPIOC, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_7);//PA10配置成串口输入
 	gpio_output_options_set(GPIOC, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,GPIO_PIN_7);
+}
+
+void USART2_Config(void)
+{
+	/* enable GPIO clock */
+	RCU->AHB1EN|=1<<1;//使能GPIOB时钟
+	/* enable USART clock */
+	RCU->APB1EN|=1<<18;//使能USART2时钟
+	gpio_af_set(GPIOB, GPIO_AF_7, GPIO_PIN_10);//复用功能7
+	gpio_mode_set(GPIOB, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_10);//PA9配置成串口输出
+	gpio_output_options_set(GPIOB, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,GPIO_PIN_10);
+	gpio_af_set(GPIOB, GPIO_AF_7, GPIO_PIN_11);//复用功能7
+	gpio_mode_set(GPIOB, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_11);//PA10配置成串口输入
+	gpio_output_options_set(GPIOB, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,GPIO_PIN_11);
+}
+
+void USART1_Config(void)
+{
+	/* enable GPIO clock */
+	RCU->AHB1EN|=1<<0;//使能GPIOC时钟
+	/* enable USART clock */
+	RCU->APB1EN|=1<<17;//使能USART5时钟
+	gpio_af_set(GPIOA, GPIO_AF_7, GPIO_PIN_2);//复用功能7
+	gpio_mode_set(GPIOA, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_2);//PA9配置成串口输出
+	gpio_output_options_set(GPIOA, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,GPIO_PIN_2);
+	gpio_af_set(GPIOA, GPIO_AF_7, GPIO_PIN_3);//复用功能7
+	gpio_mode_set(GPIOA, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_3);//PA10配置成串口输入
+	gpio_output_options_set(GPIOA, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,GPIO_PIN_3);
 }
 
 void USART5_Clear(void)
@@ -222,6 +248,18 @@ void USART_Init(u32 usart_periph, u32 baud)
 					usart_prior[0]=1;
 					usart_prior[1]=1;
 					usart_num = USART0_IRQn;
+					break;
+			case USART1:
+					USART1_Config();
+					usart_prior[0]=0;
+					usart_prior[1]=1;
+					usart_num = USART1_IRQn;
+					break;
+			case USART2:
+					USART2_Config();
+					usart_prior[0]=0;
+					usart_prior[1]=1;
+					usart_num = USART2_IRQn;
 					break;
 			case USART5:
 					USART5_Config();

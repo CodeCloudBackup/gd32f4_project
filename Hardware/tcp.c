@@ -4,7 +4,7 @@
 #include <string.h>
 #include "systick.h"
 #include "usart.h"
-
+#include "delay.h"
 
 char res_at[20];
 
@@ -105,7 +105,7 @@ u8 TCP_InAT(void)
 						sign = 0;
 						return 10;
 					}else {
-					// 	printf("AT\r\n进入AT模式%d\r\n",cnt+1);
+					 	printf("AT\r\n进入AT模式%d\r\n",cnt+1);
 						g_tcpTime = 150;
 						cnt++;
 						u5_printf("AT\r\n");
@@ -195,7 +195,7 @@ u8 TCP_config(void)
             {
                 case 0: //取消核心板回显功能
                 {
-                    //printf("A|ATE0\r\n");
+                    printf("A|ATE0\r\n");
 										ESP8266_AT_ATEO(res_at);
                     g_tcpTime = 200;          //超时时间ms
                     cnt = 3;   //重复检查次数,*air208_Tim后时总体时间
@@ -205,14 +205,14 @@ u8 TCP_config(void)
                 case 1: //  设置波特率
                 {
 										ESP8266_AT_BaudRate(res_at);
-//                    printf("A|“AT+IPR=115200;&W\r\n");
+                   printf("A|“AT+IPR=115200;&W\r\n");
                     g_tcpTime = 200;          //超时时间ms
                     cnt = 5;   //重复检查次数,*air208_Tim后时总体时间
                 }
                 break;
                 case 2: // 设置为STA模式
                 {
-//                    printf("A|AT+CIPMODE=0\r\n");
+                   printf("A|AT+CIPMODE=0\r\n");
                     g_tcpTime = 200;          	//超时时间ms
                     cnt = 5;   //重复检查次数,*air208_Tim后时总体时间
                     ESP8266_Net_Mode_Choose(STA,res_at);
@@ -264,6 +264,7 @@ u8 TCP_Connect(void)// 建立TCP连接
 						{
 							  g_tcpTime = 200;          //超时时间ms
                 cnt = 5;   //重复检查次数,*air208_Tim后时总体时间
+								printf("Connect to WIFI %s\r\n",User_ESP8266_PWD);
 								ESP8266_AT_JoinAP(User_ESP8266_SSID, User_ESP8266_PWD, res_at);
 						}
 						break;
@@ -278,6 +279,7 @@ u8 TCP_Connect(void)// 建立TCP连接
 						{
 								cnt = 3;
 								g_tcpTime  = 100*5;
+								printf("Connect to Server %s\r\n",TCPServer_IP);		
 								ESP8266_Link_Server(enumTCP,TCPServer_IP,TCPServer_PORT,Single_ID_0,res_at);
 						}
 						break;
@@ -442,7 +444,7 @@ BOOL TCP_Send_Data(char *data,  uint16_t len)
 {
 		if(!esp8266_conn_flag) return FALSE;
 		u5_printf("AT+CIPSEND=%d\r\n",len);
-		delay_1ms(10);
+		delay_ms(10);
 		USART5_Send(data,len);
 		esp8266_send_return=1;
 		g_send_return_tim = 30000;

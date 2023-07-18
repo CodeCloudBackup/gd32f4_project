@@ -2,9 +2,9 @@
 
 void SPI_Init(void)
 {
-		rcu_periph_clock_enable(RCU_GPIOC);//使能GPIOC时钟	
-		rcu_periph_clock_enable(RCU_GPIOD);//使能GPIOD时钟	
-		rcu_periph_clock_enable(RCU_SPI2);//使能SPI2时钟 
+		RCU->AHB1EN|=1<<2;//使能GPIOC时钟	
+		RCU->AHB1EN|=1<<3;//使能GPIOD时钟	
+		RCU->APB1EN|=1<<15;//使能SPI2时钟
 		gpio_af_set(GPIOC, GPIO_AF_6, GPIO_PIN_10);//复用功能6
 		gpio_af_set(GPIOC, GPIO_AF_6, GPIO_PIN_11);//复用功能6
 		gpio_af_set(GPIOC, GPIO_AF_6, GPIO_PIN_12);//复用功能6

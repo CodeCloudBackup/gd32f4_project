@@ -326,6 +326,47 @@ typedef enum {RESET = 0, SET = !RESET} FlagStatus;
 typedef enum {ERROR = 0, SUCCESS = !ERROR} ErrStatus;
 typedef enum {FALSE = 0, TRUE = !FALSE} BOOL;
 
+/** 
+  * @brief Reset and Clock Control
+  */
+
+typedef struct
+{
+  __IO uint32_t CTL;            /*!< RCC clock control register,                                  Address offset: 0x00 */
+  __IO uint32_t PLL;       /*!< RCC PLL configuration register,                              Address offset: 0x04 */
+  __IO uint32_t CFG0;          /*!< RCC clock configuration register,                            Address offset: 0x08 */
+  __IO uint32_t INT;           /*!< RCC clock interrupt register,                                Address offset: 0x0C */
+  __IO uint32_t AHB1RST;      /*!< RCC AHB1 peripheral reset register,                          Address offset: 0x10 */
+  __IO uint32_t AHB2RST;      /*!< RCC AHB2 peripheral reset register,                          Address offset: 0x14 */
+  __IO uint32_t AHB3RST;      /*!< RCC AHB3 peripheral reset register,                          Address offset: 0x18 */
+  uint32_t      RESERVED0;     /*!< Reserved, 0x1C                                                                    */
+  __IO uint32_t APB1RST;      /*!< RCC APB1 peripheral reset register,                          Address offset: 0x20 */
+  __IO uint32_t APB2RST;      /*!< RCC APB2 peripheral reset register,                          Address offset: 0x24 */
+  uint32_t      RESERVED1[2];  /*!< Reserved, 0x28-0x2C                                                               */
+  __IO uint32_t AHB1EN;       /*!< RCC AHB1 peripheral clock register,                          Address offset: 0x30 */
+  __IO uint32_t AHB2EN;       /*!< RCC AHB2 peripheral clock register,                          Address offset: 0x34 */
+  __IO uint32_t AHB3EN;       /*!< RCC AHB3 peripheral clock register,                          Address offset: 0x38 */
+  uint32_t      RESERVED2;     /*!< Reserved, 0x3C                                                                    */
+  __IO uint32_t APB1EN;       /*!< RCC APB1 peripheral clock enable register,                   Address offset: 0x40 */
+  __IO uint32_t APB2EN;       /*!< RCC APB2 peripheral clock enable register,                   Address offset: 0x44 */
+  uint32_t      RESERVED3[2];  /*!< Reserved, 0x48-0x4C                                                               */
+  __IO uint32_t AHB1SPEN;     /*!< RCC AHB1 peripheral clock enable in low power mode register, Address offset: 0x50 */
+  __IO uint32_t AHB2SPEN;     /*!< RCC AHB2 peripheral clock enable in low power mode register, Address offset: 0x54 */
+  __IO uint32_t AHB3SPEN;     /*!< RCC AHB3 peripheral clock enable in low power mode register, Address offset: 0x58 */
+  uint32_t      RESERVED4;     /*!< Reserved, 0x5C                                                                    */
+  __IO uint32_t APB1SPEN;     /*!< RCC APB1 peripheral clock enable in low power mode register, Address offset: 0x60 */
+  __IO uint32_t APB2SPEN;     /*!< RCC APB2 peripheral clock enable in low power mode register, Address offset: 0x64 */
+  uint32_t      RESERVED5[2];  /*!< Reserved, 0x68-0x6C                                                               */
+  __IO uint32_t BDCTL;          /*!< RCC Backup domain control register,                          Address offset: 0x70 */
+  __IO uint32_t RSTSCK;           /*!< RCC clock control & status register,                         Address offset: 0x74 */
+  uint32_t      RESERVED6[2];  /*!< Reserved, 0x78-0x7C                                                               */
+  __IO uint32_t PLLSSCTL;         /*!< RCC spread spectrum clock generation register,               Address offset: 0x80 */
+  __IO uint32_t PLLI2S;    /*!< RCC PLLI2S configuration register,                           Address offset: 0x84 */
+  __IO uint32_t PLLSAI;    /*!< RCC PLLSAI configuration register,                           Address offset: 0x88 */
+  __IO uint32_t CFG1;       /*!< RCC Dedicated Clocks configuration register,                 Address offset: 0x8C */
+
+} RCU_TypeDef;
+
 /* bit operations */
 #define REG32(addr)                  (*(vu32 *)(u32)(addr))
 #define REG16(addr)                  (*(vu16 *)(u32)(addr))
@@ -388,6 +429,14 @@ typedef enum {FALSE = 0, TRUE = !FALSE} BOOL;
 /* option byte and debug memory map */
 #define OB_BASE               ((uint32_t)0x1FFEC000U)        /*!< OB base address                  */
 #define DBG_BASE              ((uint32_t)0xE0042000U)        /*!< DBG base address                 */
+/**
+  * @}
+  */
+  
+/** @addtogroup Peripheral_declaration
+  * @{
+  */ 
+#define RCU 									((RCU_TypeDef *) RCU_BASE)
 
 /* define marco USE_STDPERIPH_DRIVER */
 #if !defined  USE_STDPERIPH_DRIVER

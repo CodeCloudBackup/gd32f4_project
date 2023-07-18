@@ -2,6 +2,7 @@
 #include "ov2640cfg.h"
 #include "sccb.h"	
 #include "usart.h"
+#include "delay.h"
 //初始化OV2640 
 //配置完以后,默认输出是1600*1200尺寸的图片!! 
 //返回值:0,成功
@@ -11,8 +12,13 @@ u8 OV2640_Init(void)
 	u16 i=0;
 	u16 reg;
 	//设置IO     	
-  	RCC->AHB1ENR|=1<<6;		//使能外设PORTG时钟    
- 	GPIO_Set(GPIOG,PIN9|PIN15,GPIO_MODE_OUT,GPIO_OTYPE_PP,GPIO_SPEED_50M,GPIO_PUPD_PU);	//PG9,15推挽输出
+  /* enable GPIO clock */
+	RCU->AHB1EN|=1<<3;//使能GPIOD时钟  
+	gpio_mode_set(GPIOG, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO_PIN_9);
+	gpio_output_options_set(GPIOG, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,GPIO_PIN_9);
+	gpio_mode_set(GPIOG, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO_PIN_15);
+	gpio_output_options_set(GPIOG, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,GPIO_PIN_15);
+ 
  	OV2640_PWDN=0;	//POWER ON
 	delay_ms(10);
 	OV2640_RST=0;	//复位OV2640

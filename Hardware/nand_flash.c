@@ -3,8 +3,8 @@
 __align(4) u8 g_DataTmpBuffer[4096] = {0};
 #define SectorBuf  g_DataTmpBuffer
 
-#define FLASH_CS_0()			{gpio_bit_write(GPIOD, GPIO_PIN_0,RESET);delay_1ms(10);}
-#define FLASH_CS_1() 			{gpio_bit_write(GPIOD, GPIO_PIN_0,SET);delay_1ms(10);}
+#define FLASH_CS_0()			{gpio_bit_write(GPIOD, GPIO_PIN_0,RESET);delay_ms(10);}
+#define FLASH_CS_1() 			{gpio_bit_write(GPIOD, GPIO_PIN_0,SET);delay_ms(10);}
 
 __align(4) u16 g_WriteReadcnt = 0;
 __align(4) u8 g_WriteData[0x100] = {0};

@@ -5,8 +5,8 @@
 
 void DAC_Init(void)
 {
-		rcu_periph_clock_enable(RCU_GPIOA);//GPIOA时钟使能
-		rcu_periph_clock_enable(RCU_DAC);//DAC时钟使能
+		RCU->AHB1EN|=1<<0;//GPIOA时钟使能
+		RCU->APB1EN|=1<<29;//DAC时钟使能
 		gpio_mode_set(GPIOA, GPIO_MODE_ANALOG, GPIO_PUPD_NONE, GPIO_PIN_4|GPIO_PIN_5);//PA4,PA5配置成AD
 		dac_deinit();
     /* configure the DAC0 */

@@ -61,7 +61,7 @@ OF SUCH DAMAGE.
 #include "gd32f4xx_timer.h"
 #include "gd32f4xx_trng.h"
 #include "gd32f4xx_usart.h"
-#include "gd32f4xx_wwdgt.h"
+//#include "gd32f4xx_wwdgt.h"
 #include "gd32f4xx_misc.h"
 #endif
 

@@ -104,8 +104,9 @@ void TIMER1_Init(void)
 	  系统主频168MHZ,timer_initpara.prescaler为167，timer_initpara.period为999，频率就为1KHZ
     ----------------------------------------------------------------------- */
     timer_parameter_struct timer_initpara;
-    rcu_periph_clock_enable(RCU_TIMER1);
-	  rcu_timer_clock_prescaler_config(RCU_TIMER_PSC_MUL4);//AP1总线最高42MHZ,所以TIME1到168M需要4倍频
+    RCU->APB1EN|=1<<0;//使能TIME1时钟	
+		RCU->CFG1|=BIT(24);//AP1总线最高42MHZ,所以TIME1到168M需要4倍频
+	  //rcu_timer_clock_prescaler_config(RCU_TIMER_PSC_MUL4);
     timer_deinit(TIMER1);
     /* TIMER1 configuration */
     timer_initpara.prescaler         = 167;
@@ -138,8 +139,9 @@ void TIMER2_Init(void)
 	  系统主频168MHZ,timer_initpara.prescaler为167，timer_initpara.period为999，频率就为1KHZ
     ----------------------------------------------------------------------- */
     timer_parameter_struct timer_initpara;
-    rcu_periph_clock_enable(RCU_TIMER2);
-	  rcu_timer_clock_prescaler_config(RCU_TIMER_PSC_MUL4);//AP1总线最高42MHZ,所以TIME1到168M需要4倍频
+    RCU->APB1EN|=1<<1;//使能TIME2时钟	
+		RCU->CFG1|=BIT(24);//AP1总线最高42MHZ,所以TIME1到168M需要4倍频
+	  //rcu_timer_clock_prescaler_config(RCU_TIMER_PSC_MUL4);//AP1总线最高42MHZ,所以TIME2到168M需要4倍频
     timer_deinit(TIMER2);
     /* TIMER1 configuration */
     timer_initpara.prescaler         = 16700;

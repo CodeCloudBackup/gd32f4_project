@@ -1,14 +1,14 @@
 #include "adc.h"
 #include "systick.h"
-
+#include "delay.h"
 void ADC_Init(u32 adc_periph)
 {
 	
 		//配置PA4 ADC引脚
-		rcu_periph_clock_enable(RCU_GPIOA);
+		RCU->AHB1EN|=1<<0;
 		gpio_mode_set(GPIOA, GPIO_MODE_ANALOG, GPIO_PUPD_NONE, GPIO_PIN_4);//PA4配置成输入
 		/* enable ADC1 clock */
-		rcu_periph_clock_enable(RCU_ADC1);
+		RCU->APB2EN|=1<<9;
 		/* config ADC1 clock */
 		adc_clock_config(ADC_ADCCK_PCLK2_DIV4);
 	
@@ -29,7 +29,7 @@ void ADC_Init(u32 adc_periph)
 	  adc_external_trigger_config(adc_periph, ADC_REGULAR_CHANNEL, EXTERNAL_TRIGGER_DISABLE);//不采用外部触发
     /* enable ADC interface */
     adc_enable(adc_periph); //使能 
-    delay_1ms(1);
+    delay_ms(1);
     /* ADC calibration and reset calibration */
     adc_calibration_enable(adc_periph);
 		

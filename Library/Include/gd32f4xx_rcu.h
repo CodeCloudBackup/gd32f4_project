@@ -39,42 +39,39 @@ OF SUCH DAMAGE.
 
 #include "gd32f4xx.h"
 
-/* RCU definitions */
-#define RCU                             RCU_BASE
-
 /* registers definitions */
-#define RCU_CTL                         REG32(RCU + 0x00U)        /*!< control register */
-#define RCU_PLL                         REG32(RCU + 0x04U)        /*!< PLL register */
-#define RCU_CFG0                        REG32(RCU + 0x08U)        /*!< clock configuration register 0 */
-#define RCU_INT                         REG32(RCU + 0x0CU)        /*!< clock interrupt register */
-#define RCU_AHB1RST                     REG32(RCU + 0x10U)        /*!< AHB1 reset register */
-#define RCU_AHB2RST                     REG32(RCU + 0x14U)        /*!< AHB2 reset register */
-#define RCU_AHB3RST                     REG32(RCU + 0x18U)        /*!< AHB3 reset register */
-#define RCU_APB1RST                     REG32(RCU + 0x20U)        /*!< APB1 reset register */
-#define RCU_APB2RST                     REG32(RCU + 0x24U)        /*!< APB2 reset register */
-#define RCU_AHB1EN                      REG32(RCU + 0x30U)        /*!< AHB1 enable register */
-#define RCU_AHB2EN                      REG32(RCU + 0x34U)        /*!< AHB2 enable register */
-#define RCU_AHB3EN                      REG32(RCU + 0x38U)        /*!< AHB3 enable register */
-#define RCU_APB1EN                      REG32(RCU + 0x40U)        /*!< APB1 enable register */
-#define RCU_APB2EN                      REG32(RCU + 0x44U)        /*!< APB2 enable register */
-#define RCU_AHB1SPEN                    REG32(RCU + 0x50U)        /*!< AHB1 sleep mode enable register */
-#define RCU_AHB2SPEN                    REG32(RCU + 0x54U)        /*!< AHB2 sleep mode enable register */
-#define RCU_AHB3SPEN                    REG32(RCU + 0x58U)        /*!< AHB3 sleep mode enable register */ 
-#define RCU_APB1SPEN                    REG32(RCU + 0x60U)        /*!< APB1 sleep mode enable register */
-#define RCU_APB2SPEN                    REG32(RCU + 0x64U)        /*!< APB2 sleep mode enable register */
-#define RCU_BDCTL                       REG32(RCU + 0x70U)        /*!< backup domain control register */
-#define RCU_RSTSCK                      REG32(RCU + 0x74U)        /*!< reset source / clock register */
-#define RCU_PLLSSCTL                    REG32(RCU + 0x80U)        /*!< PLL clock spread spectrum control register */
-#define RCU_PLLI2S                      REG32(RCU + 0x84U)        /*!< PLLI2S register */ 
-#define RCU_PLLSAI                      REG32(RCU + 0x88U)        /*!< PLLSAI register */ 
-#define RCU_CFG1                        REG32(RCU + 0x8CU)        /*!< clock configuration register 1 */
-#define RCU_ADDCTL                      REG32(RCU + 0xC0U)        /*!< Additional clock control register */
-#define RCU_ADDINT                      REG32(RCU + 0xCCU)        /*!< Additional clock interrupt register */
-#define RCU_ADDAPB1RST                  REG32(RCU + 0xE0U)        /*!< APB1 additional reset register */
-#define RCU_ADDAPB1EN                   REG32(RCU + 0xE4U)        /*!< APB1 additional enable register */
-#define RCU_ADDAPB1SPEN                 REG32(RCU + 0xE8U)        /*!< APB1 additional sleep mode enable register */
-#define RCU_VKEY                        REG32(RCU + 0x100U)       /*!< voltage key register */
-#define RCU_DSV                         REG32(RCU + 0x134U)       /*!< deep-sleep mode voltage register */
+#define RCU_CTL                         REG32(RCU_BASE + 0x00U)        /*!< control register */
+#define RCU_PLL                         REG32(RCU_BASE + 0x04U)        /*!< PLL register */
+#define RCU_CFG0                        REG32(RCU_BASE + 0x08U)        /*!< clock configuration register 0 */
+#define RCU_INT                         REG32(RCU_BASE + 0x0CU)        /*!< clock interrupt register */
+#define RCU_AHB1RST                     REG32(RCU_BASE + 0x10U)        /*!< AHB1 reset register */
+#define RCU_AHB2RST                     REG32(RCU_BASE + 0x14U)        /*!< AHB2 reset register */
+#define RCU_AHB3RST                     REG32(RCU_BASE + 0x18U)        /*!< AHB3 reset register */
+#define RCU_APB1RST                     REG32(RCU_BASE + 0x20U)        /*!< APB1 reset register */
+#define RCU_APB2RST                     REG32(RCU_BASE + 0x24U)        /*!< APB2 reset register */
+#define RCU_AHB1EN                      REG32(RCU_BASE + 0x30U)        /*!< AHB1 enable register */
+#define RCU_AHB2EN                      REG32(RCU_BASE + 0x34U)        /*!< AHB2 enable register */
+#define RCU_AHB3EN                      REG32(RCU_BASE + 0x38U)        /*!< AHB3 enable register */
+#define RCU_APB1EN                      REG32(RCU_BASE + 0x40U)        /*!< APB1 enable register */
+#define RCU_APB2EN                      REG32(RCU_BASE + 0x44U)        /*!< APB2 enable register */
+#define RCU_AHB1SPEN                    REG32(RCU_BASE + 0x50U)        /*!< AHB1 sleep mode enable register */
+#define RCU_AHB2SPEN                    REG32(RCU_BASE + 0x54U)        /*!< AHB2 sleep mode enable register */
+#define RCU_AHB3SPEN                    REG32(RCU_BASE + 0x58U)        /*!< AHB3 sleep mode enable register */ 
+#define RCU_APB1SPEN                    REG32(RCU_BASE + 0x60U)        /*!< APB1 sleep mode enable register */
+#define RCU_APB2SPEN                    REG32(RCU_BASE + 0x64U)        /*!< APB2 sleep mode enable register */
+#define RCU_BDCTL                       REG32(RCU_BASE + 0x70U)        /*!< backup domain control register */
+#define RCU_RSTSCK                      REG32(RCU_BASE + 0x74U)        /*!< reset source / clock register */
+#define RCU_PLLSSCTL                    REG32(RCU_BASE + 0x80U)        /*!< PLL clock spread spectrum control register */
+#define RCU_PLLI2S                      REG32(RCU_BASE + 0x84U)        /*!< PLLI2S register */ 
+#define RCU_PLLSAI                      REG32(RCU_BASE + 0x88U)        /*!< PLLSAI register */ 
+#define RCU_CFG1                        REG32(RCU_BASE + 0x8CU)        /*!< clock configuration register 1 */
+#define RCU_ADDCTL                      REG32(RCU_BASE + 0xC0U)        /*!< Additional clock control register */
+#define RCU_ADDINT                      REG32(RCU_BASE + 0xCCU)        /*!< Additional clock interrupt register */
+#define RCU_ADDAPB1RST                  REG32(RCU_BASE + 0xE0U)        /*!< APB1 additional reset register */
+#define RCU_ADDAPB1EN                   REG32(RCU_BASE + 0xE4U)        /*!< APB1 additional enable register */
+#define RCU_ADDAPB1SPEN                 REG32(RCU_BASE + 0xE8U)        /*!< APB1 additional sleep mode enable register */
+#define RCU_VKEY                        REG32(RCU_BASE + 0x100U)       /*!< voltage key register */
+#define RCU_DSV                         REG32(RCU_BASE + 0x134U)       /*!< deep-sleep mode voltage register */
 
 /* bits definitions */
 /* RCU_CTL */
@@ -443,7 +440,7 @@ OF SUCH DAMAGE.
 /* constants definitions */
 /* define the peripheral clock enable bit position and its register index offset */
 #define RCU_REGIDX_BIT(regidx, bitpos)      (((uint32_t)(regidx) << 6) | (uint32_t)(bitpos))
-#define RCU_REG_VAL(periph)                 (REG32(RCU + ((uint32_t)(periph) >> 6)))
+#define RCU_REG_VAL(periph)                 (REG32(RCU_BASE + ((uint32_t)(periph) >> 6)))
 #define RCU_BIT_POS(val)                    ((uint32_t)(val) & 0x1FU)
 /* define the voltage key unlock value */
 #define RCU_VKEY_UNLOCK                 ((uint32_t)0x1A2B3C4DU)

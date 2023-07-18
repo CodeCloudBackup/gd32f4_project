@@ -26,7 +26,8 @@ void Program_Init(void)
 {
 		uint32_t FlashJedecid,FlashDeviceid;//FLASH ID变量
 		SEI();
-	  systick_config();//配置系统主频168M,外部8M晶振,配置在#define __SYSTEM_CLOCK_168M_PLL_8M_HXTAL        (uint32_t)(168000000)
+	  //systick_config();//配置系统主频168M,外部8M晶振,配置在#define __SYSTEM_CLOCK_168M_PLL_8M_HXTAL        (uint32_t)(168000000)
+		delay_init(168);	
 		nvic_vector_table_set(NVIC_VECTTAB_FLASH, 0x10000);//中断向量地址偏移0x4000
 		IC_Informatin();
 		LED_Init();
@@ -38,7 +39,7 @@ void Program_Init(void)
 		my_mem_init(SRAMIN);
 		USART5_RX_STA = 0;
 		USART_Init(USART0,115200);
-		USART_Init(USART5,115200);
+		USART_Init(USART2,115200);
 		USART5_RX_BUF=mymalloc(SRAMIN, USART5_MAX_RECV_LEN);
 		//
 		MPU6050_Init();//MPU6050初始化配置，中断使能配置
@@ -53,6 +54,8 @@ void Program_Init(void)
 		Flash_WriteSR(0x42);//解除保护
 		// 
 		GDFLASH_Write(FLASH_APP_INFO, (u32*)&g_appInfo, sizeof(g_appInfo)/sizeof(uint32_t));
-		delay_1ms(100);
+		delay_ms(100);
+		
+	//	OV2640_Init();
 }
 
