@@ -2,18 +2,16 @@
 
 void LED_Init(void)
 {
+	GPIO_InitTypeDef  GPIO_InitStructure;
 	RCU->AHB1EN|=1<<1;//使能GPIOB时钟	
-	gpio_mode_set(GPIOB, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO_PIN_4);//PB4?????
-	gpio_output_options_set(GPIOB, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_4);//PB4???????,50M??
-}
-
-void LED_ON(void)
-{
-	gpio_bit_set(GPIOB, GPIO_PIN_4);//PB4?????
-}
-void LED_OFF(void)
-{
-	gpio_bit_reset(GPIOB, GPIO_PIN_4);//PB4?????
+	
+	 //GPIOF9,F10初始化设置
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;//PA4/6   复用功能输出
+  GPIO_InitStructure.GPIO_Mode = GPIO_MODE_OUTPUT; //复用功能输出
+  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;//推挽输出
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;//100MHz
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;//上拉
+  GPIO_Init(GPIOB, &GPIO_InitStructure);//初始化
 }
 
 

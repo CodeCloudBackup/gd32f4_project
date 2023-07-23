@@ -11,13 +11,17 @@ u8 OV2640_Init(void)
 { 
 	u16 i=0;
 	u16 reg;
-	//设置IO     	
+	//设置IO     	   
+  GPIO_InitTypeDef  GPIO_InitStructure;    	
   /* enable GPIO clock */
-	RCU->AHB1EN|=1<<3;//使能GPIOD时钟  
-	gpio_mode_set(GPIOG, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO_PIN_9);
-	gpio_output_options_set(GPIOG, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,GPIO_PIN_9);
-	gpio_mode_set(GPIOG, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO_PIN_15);
-	gpio_output_options_set(GPIOG, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,GPIO_PIN_15);
+	RCU->AHB1EN|=1<<3;//使能GPIOD时钟 
+	//GPIOG9,15初始化设置
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9|GPIO_Pin_15;//PG9,15推挽输出
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT; //推挽输出
+  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;//推挽输出
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;//100MHz
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;//上拉
+  GPIO_Init(GPIOG, &GPIO_InitStructure);//初始化
  
  	OV2640_PWDN=0;	//POWER ON
 	delay_ms(10);

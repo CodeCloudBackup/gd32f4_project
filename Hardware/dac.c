@@ -5,9 +5,14 @@
 
 void DAC_Init(void)
 {
+		GPIO_InitTypeDef  GPIO_InitStructure;
 		RCU->AHB1EN|=1<<0;//GPIOA时钟使能
 		RCU->APB1EN|=1<<29;//DAC时钟使能
-		gpio_mode_set(GPIOA, GPIO_MODE_ANALOG, GPIO_PUPD_NONE, GPIO_PIN_4|GPIO_PIN_5);//PA4,PA5配置成AD
+
+		GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
+		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;//模拟输入
+		GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_DOWN;//下拉
+		GPIO_Init(GPIOA, &GPIO_InitStructure);//初始化
 		dac_deinit();
     /* configure the DAC0 */
     dac_trigger_disable(DAC0);

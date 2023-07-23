@@ -3,20 +3,27 @@
 
 void ESP8266_Init(void)
 {
-    ESP8266_RST_Pin_Periph_Clock();
+  GPIO_InitTypeDef  GPIO_InitStructure;
+	ESP8266_RST_Pin_Periph_Clock();
 	
-		gpio_mode_set(ESP8266_RST_Pin_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, ESP8266_RST_Pin);//PC13配置成输出
-    gpio_output_options_set(ESP8266_RST_Pin_Port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, ESP8266_RST_Pin);//PC13配置成推挽输出，50M速度
-	  ESP8266_Rst();
+	//GPIOF9,F10初始化设置
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13;//PA4/6   复用功能输出
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT; //复用功能输出
+  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;//推挽输出
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;//100MHz
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;//上拉
+  GPIO_Init(GPIOC, &GPIO_InitStructure);//初始化
+	
+	ESP8266_Rst();
 }
 
 u8* ESP8266_Check_Cmd(u8 *str)
 {
 		char *strx=0;
-		if(USART5_RX_STA&0X8000)		//接收到一次数据了
+		if(USART2_RX_STA&0X8000)		//接收到一次数据了
 		{ 
-			USART5_RX_BUF[USART5_RX_STA&0X7FFF]=0;//添加结束符
-			strx=strstr((const char*)USART5_RX_BUF,(const char*)str);
+			USART2_RX_BUF[USART2_RX_STA&0X7FFF]=0;//添加结束符
+			strx=strstr((const char*)USART2_RX_BUF,(const char*)str);
 		} 
 		return (u8*)strx;
 }
@@ -29,20 +36,20 @@ u8* ESP8266_Check_Cmd(u8 *str)
 bool ESP8266_Send_AT_Cmd(const u8 *cmd, u8 *ack, u32 time)
 { 
 		bool res=true;
-		USART5_RX_STA=0;
-		u5_printf("%s\r\n",cmd);	//发送命令
+		USART2_RX_STA=0;
+		u2_printf("%s\r\n",cmd);	//发送命令
 		if(ack&& time) {
 				while(--time)
 				{
 					delay_ms(10);
-					if(USART5_RX_STA&0x8000)
+					if(USART2_RX_STA&0x8000)
 					{
 						if(ESP8266_Check_Cmd(ack))
 						{
 							printf("ack:%s\r\n",(u8*)ack);
 							break;
 						}
-						USART5_RX_STA=0;
+						USART2_RX_STA=0;
 					}
 				}
 				if(time==0)res=false; 
@@ -53,7 +60,7 @@ bool ESP8266_Send_AT_Cmd(const u8 *cmd, u8 *ack, u32 time)
 //发送恢复出厂默认设置指令将模块恢复成出厂设置
 void ESP8266_AT_Restore(char *ret_ask)
 {
-    u5_printf("AT+RESTORE\r\n");
+    u2_printf("AT+RESTORE\r\n");
 		
 		strcpy(ret_ask, "OK");
 }
@@ -61,14 +68,14 @@ void ESP8266_AT_Restore(char *ret_ask)
 //取消回显
 void ESP8266_AT_ATEO(char *ret_ask)
 {
-    u5_printf("ATE0\r\n");
+    u2_printf("ATE0\r\n");
 		
 		strcpy(ret_ask, "OK");
 }
 //  设置波特率
 void ESP8266_AT_BaudRate(char *ret_ask)
 {
-		u5_printf("AT+UART_DEF=115200,8,1,0,0\r\n");
+		u2_printf("AT+UART_DEF=115200,8,1,0,0\r\n");
 		strcpy(ret_ask, "OK");
 }
 
@@ -76,7 +83,7 @@ void ESP8266_AT_BaudRate(char *ret_ask)
 bool ESP8266_Check_AT_Response(const char *ret_ask)
 {
 	char buf[100];
-	if(USART5_Revice(COMMAND, buf)){			
+	if(USART2_Revice(COMMAND, buf)){			
 			if(strstr((const char*)buf, ret_ask) != NULL)
 			{
 					return true;
@@ -89,9 +96,9 @@ bool ESP8266_Check_AT_Response(const char *ret_ask)
 //复位重启
 void ESP8266_Rst(void)
 {
-    ESP8266_RST_Pin_SetL;
+    ESP8266_RST=0;
     delay_ms(500); 
-    ESP8266_RST_Pin_SetH;
+    ESP8266_RST=1;
 }
 
 bool ESP8266_Net_Mode_Choose(ENUM_Net_ModeTypeDef enumMode, char *ret_ask)
@@ -99,13 +106,13 @@ bool ESP8266_Net_Mode_Choose(ENUM_Net_ModeTypeDef enumMode, char *ret_ask)
     switch ( enumMode )
     {
         case STA:
-						u5_printf("AT+CWMODE=1\r\n");
+						u2_printf("AT+CWMODE=1\r\n");
 						break;
         case AP:
-						u5_printf("AT+CWMODE=2\r\n"); 
+						u2_printf("AT+CWMODE=2\r\n"); 
 						break;
         case STA_AP:
-            u5_printf("AT+CWMODE=3\r\n");
+            u2_printf("AT+CWMODE=3\r\n");
 						break;	
         default:
           return false;
@@ -139,17 +146,17 @@ bool ESP8266_AT_Quit_Trans(void)
 u8 ESP8266_Send_Data(u8 *data,u8 *ack,u16 waittime)
 {
 	u8 res=0; 
-	USART5_RX_STA=0;
-	u5_printf("%s",data);	//发送命令
+	USART2_RX_STA=0;
+	u2_printf("%s",data);	//发送命令
 	if(ack&&waittime)		//需要等待应答
 	{
 		while(--waittime)	//等待倒计时
 		{
 			delay_ms(10);
-			if(USART5_RX_STA&0X8000)//接收到期待的应答结果
+			if(USART2_RX_STA&0X8000)//接收到期待的应答结果
 			{
 				if(ESP8266_Check_Cmd(ack))break;//得到有效数据 
-				USART5_RX_STA=0;
+				USART2_RX_STA=0;
 			} 
 		}
 		if(waittime==0)res=1; 
@@ -163,7 +170,7 @@ bool ESP8266_AT_JoinAP(const char * pSSID, const char * pPassWord, char *res_ask
 {
     char cCmd [120];
     sprintf ( cCmd, "AT+CWJAP=\"%s\",\"%s\"\r\n", pSSID, pPassWord );
-    u5_printf(cCmd);
+    u2_printf(cCmd);
 		strcpy(res_ask, "WIFI GOT IP");
 	  return true;
 }
@@ -172,7 +179,7 @@ bool ESP8266_Enable_MultipleId (EventStatus enumEnUnvarnishTx,char *res_ask)
 {
     char cStr [20];
     sprintf ( cStr, "AT+CIPMUX=%d", ( enumEnUnvarnishTx ? 1 : 0 ) );
-    u5_printf("%s\r\n",cStr);	//发送AT指令
+    u2_printf("%s\r\n",cStr);	//发送AT指令
 		strcpy(res_ask, "OK");
 		return true;
 }
@@ -201,7 +208,7 @@ bool ESP8266_Link_Server(ENUM_NetPro_TypeDef enumE, char * ip, char * ComNum, EN
 
     else
         sprintf ( cCmd, "AT+CIPSTART=%s\r\n", cStr );
-		u5_printf(cCmd);
+		u2_printf(cCmd);
     strcpy(res_ask, "OK"); 
 		return true;
 }
@@ -232,7 +239,7 @@ bool ESP8266_SendString(EventStatus enumEnUnvarnishTx, const char * pStr, u32 ul
     bool bRet = false;
     if ( enumEnUnvarnishTx )
     {
-        u5_printf ( "%s", pStr );
+        u2_printf ( "%s", pStr );
 
         bRet = true;
     }

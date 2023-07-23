@@ -27,7 +27,7 @@ void TCP_TIM_10ms(void)
 void TCP_Restart(void)
 {
 		g_state = 0;
-		ESP8266_RST_Pin_SetL;
+		ESP8266_RST=0;
 		g_tcpTime = 0;
 		esp8266_conn_flag = 0;
 		esp8266_reg_flag = 0;
@@ -42,7 +42,7 @@ u8 TCP_Restart_Program(void)
 			case 0:
 			{
 				// 关闭模块电源
-				ESP8266_RST_Pin_SetL;
+				ESP8266_RST=0;
 				g_tcpTime = 50;
 				signs++;
 			}
@@ -50,7 +50,7 @@ u8 TCP_Restart_Program(void)
 			case 1:
 			{
 				// 打开模块电源
-				ESP8266_RST_Pin_SetH;
+				ESP8266_RST=1;
 				g_tcpTime = 1500;
 				signs++;
 			}
@@ -75,7 +75,7 @@ u8 TCP_InAT(void)
 				cnt = 0;
 				sign++;
 				g_tcpTime = 150;
-				USART5_Clear(); //清空接收缓存
+				USART2_Clear(); //清空接收缓存
 			}
 			break;
 			case 1:
@@ -90,7 +90,7 @@ u8 TCP_InAT(void)
 						printf("+++\r\nAT命令测试%d\r\n",cnt+1);
 						g_tcpTime = 150;
 						cnt++;
-						u5_printf("+++");
+						u2_printf("+++");
 					}
 				}
 			}
@@ -108,7 +108,7 @@ u8 TCP_InAT(void)
 					 	printf("AT\r\n进入AT模式%d\r\n",cnt+1);
 						g_tcpTime = 150;
 						cnt++;
-						u5_printf("AT\r\n");
+						u2_printf("AT\r\n");
 					}
 				}else{
 					if(ESP8266_Check_AT_Response("OK")){
@@ -153,7 +153,7 @@ u8 ESP8266_tcp_off(void)// 关闭TCP连接
 //            printf("A|AT+CIPCLOSE");    // 关闭TCP连接
             g_tcpTime = 100;      //超时时间ms
             count++;
-            u5_printf("AT+CIPCLOSE\r\n");     //发送AT指令
+            u2_printf("AT+CIPCLOSE\r\n");     //发送AT指令
         }
     }
     else
@@ -296,7 +296,7 @@ u8 TCP_Connect(void)// 建立TCP连接
 		}
 		else
 		{
-				if(USART5_Revice(COMMAND,response))         //从串口3读取数据
+				if(USART2_Revice(COMMAND,response))         //从串口3读取数据
         {
             if(strstr((const char *)response, (const char *)res_at) != NULL) //检查是否包含关键字
             {
@@ -443,9 +443,9 @@ void TCP_Program(void)
 BOOL TCP_Send_Data(char *data,  uint16_t len)
 {
 		if(!esp8266_conn_flag) return FALSE;
-		u5_printf("AT+CIPSEND=%d\r\n",len);
+		u2_printf("AT+CIPSEND=%d\r\n",len);
 		delay_ms(10);
-		USART5_Send(data,len);
+		USART2_Send(data,len);
 		esp8266_send_return=1;
 		g_send_return_tim = 30000;
 		return TRUE;

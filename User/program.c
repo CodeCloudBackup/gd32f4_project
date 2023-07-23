@@ -24,7 +24,6 @@ void App_Info_Init(void)
 #define SEI() __set_PRIMASK(0)//打开总中断
 void Program_Init(void)
 {
-		uint32_t FlashJedecid,FlashDeviceid;//FLASH ID变量
 		SEI();
 	  //systick_config();//配置系统主频168M,外部8M晶振,配置在#define __SYSTEM_CLOCK_168M_PLL_8M_HXTAL        (uint32_t)(168000000)
 		delay_init(168);	
@@ -37,10 +36,10 @@ void Program_Init(void)
 		timer_disable(TIMER2);
 		// 
 		my_mem_init(SRAMIN);
-		USART5_RX_STA = 0;
+		USART2_RX_STA = 0;
 		USART_Init(USART0,115200);
 		USART_Init(USART2,115200);
-		USART5_RX_BUF=mymalloc(SRAMIN, USART5_MAX_RECV_LEN);
+		USART2_RX_BUF=mymalloc(SRAMIN, USART2_MAX_RECV_LEN);
 		//
 		MPU6050_Init();//MPU6050初始化配置，中断使能配置
 		while(MPU6050ReadID() == 0)//读取MPU6050 ID
@@ -50,7 +49,6 @@ void Program_Init(void)
 		ESP8266_Init();
 		SPI_Init();
 		App_Info_Init();
-		FlashDeviceid=SFLASH_ReadID();//读取Device ID
 		Flash_WriteSR(0x42);//解除保护
 		// 
 		GDFLASH_Write(FLASH_APP_INFO, (u32*)&g_appInfo, sizeof(g_appInfo)/sizeof(uint32_t));

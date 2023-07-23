@@ -3,9 +3,6 @@
 __align(4) u8 g_DataTmpBuffer[4096] = {0};
 #define SectorBuf  g_DataTmpBuffer
 
-#define FLASH_CS_0()			{gpio_bit_write(GPIOD, GPIO_PIN_0,RESET);delay_ms(10);}
-#define FLASH_CS_1() 			{gpio_bit_write(GPIOD, GPIO_PIN_0,SET);delay_ms(10);}
-
 __align(4) u16 g_WriteReadcnt = 0;
 __align(4) u8 g_WriteData[0x100] = {0};
 __align(4) u16 g_Count = 0;
@@ -92,24 +89,18 @@ u32 spi_flash_read_id(void)
 {
 	u32 ulJedId = 0;
 	u8 recv_buff[5] = {0};
-	
-	 FLASH_CS_0();
-
-	spi_master_send_recv_byte(FLASH_READ_JEDEC_ID);	//9fh
-	 
+	W25QXX_CS=0;
+	spi_master_send_recv_byte(FLASH_READ_JEDEC_ID);	//9fh 
 	spi_master_recv_some_bytes(recv_buff, sizeof(recv_buff));
-	
 	ulJedId = (recv_buff[0] <<16) | (recv_buff[1] <<8) | (recv_buff[2]);
-
-	 FLASH_CS_1();
-	
+	W25QXX_CS=1;
 	return ulJedId;
 }
 
 u16 SFLASH_ReadID(void)
 {
   u16 ID = 0;
-   FLASH_CS_0();                              //使能器件
+  W25QXX_CS=0;                              //使能器件
 
 	spi_master_send_recv_byte(0x90);//发送读取ID命令	    
 	spi_master_send_recv_byte(0x00); 	    
@@ -119,7 +110,7 @@ u16 SFLASH_ReadID(void)
 	ID |= spi_master_send_recv_byte(0xFF)<<8;              //读取ID
 	ID |= spi_master_send_recv_byte(0xFF);
   
-   FLASH_CS_1();                             //失能器件
+  W25QXX_CS=1;                             //失能器件
 	
   return ID;
 }
@@ -127,9 +118,9 @@ u16 SFLASH_ReadID(void)
 void Flash_WriteDisable(void)
 {
 	u8 command = FLASH_WRITE_DISABLE_CMD;
-	FLASH_CS_0();  
+	W25QXX_CS=0;  
 	spi_master_send_recv_byte(command);
-	FLASH_CS_1(); 
+	W25QXX_CS=1; 
 }
 
 
@@ -137,9 +128,9 @@ void Flash_WriteEnable(void)
 {
 	u8 command = FLASH_WRITE_ENABLE_CMD;
 
-	FLASH_CS_0();	
+	W25QXX_CS=0;	
 	spi_master_send_recv_byte(command);//开启写使能
-	FLASH_CS_1();
+	W25QXX_CS=1;
 }
 
 
@@ -148,12 +139,12 @@ u8 Flash_ReadSR(void)
 	u8 ucTmpVal = 0;
 	u8 command = FLASH_READ_SR_CMD;
 
-	FLASH_CS_0();	
+	W25QXX_CS=0;
 	
 	spi_master_send_recv_byte(command);	//05h
 	spi_master_recv_some_bytes(&ucTmpVal,1);
 	
-	FLASH_CS_1();
+	W25QXX_CS=1;
 	
 	return ucTmpVal;
 }
@@ -169,10 +160,10 @@ void Flash_WriteSR(u8 _ucByte)
 	Flash_WriteEnable();	
 	Flash_WaitNobusy();
 
-	FLASH_CS_0();	
+	W25QXX_CS=0;	
 	spi_master_send_recv_byte(command);	//01h
 	spi_master_send_recv_byte(_ucByte);	//写入一个字节
-  FLASH_CS_1();
+  W25QXX_CS=1;
 }
 
 void Flash_ErasePage(u32 _ulPageAddr)
@@ -182,12 +173,12 @@ void Flash_ErasePage(u32 _ulPageAddr)
 	Flash_WriteEnable();
 	Flash_WaitNobusy();
 	
-	FLASH_CS_0();
+	W25QXX_CS=0;
 	spi_master_send_recv_byte(FLASH_ERASE_PAGE);//页擦除指令
 	spi_master_send_recv_byte((u8)(_ulPageAddr>>16));	//写入24位地址
 	spi_master_send_recv_byte((u8)(_ulPageAddr>>8));
 	spi_master_send_recv_byte((u8)(_ulPageAddr>>0));
-	FLASH_CS_1();
+	W25QXX_CS=1;
 	Flash_WaitNobusy();	//等待写入结束
 }
 
@@ -198,13 +189,13 @@ void Flash_EraseSector(u32 _ulSectorAddr)
 	_ulSectorAddr *= 4096;	//1个扇区 4 KBytes
 	Flash_WriteEnable();
 	Flash_WaitNobusy();
-	FLASH_CS_0();
+	W25QXX_CS=0;
 	
 	spi_master_send_recv_byte(command);
 	spi_master_send_recv_byte((u8)(_ulSectorAddr >> 16));
 	spi_master_send_recv_byte((u8)(_ulSectorAddr >> 8));
 	spi_master_send_recv_byte((u8)(_ulSectorAddr));
-	FLASH_CS_1();
+	W25QXX_CS=1;
 	
 	Flash_WaitNobusy();	//等待写入结束
 }
@@ -218,12 +209,12 @@ void Flash_EraseBlock(u32 _ulBlockAddr)
 	Flash_WriteEnable();
 	Flash_WaitNobusy();
 
-	FLASH_CS_0();
+	W25QXX_CS=0;
 	spi_master_send_recv_byte(command);
 	spi_master_send_recv_byte(_ulBlockAddr>>16);
 	spi_master_send_recv_byte(_ulBlockAddr>>8);
 	spi_master_send_recv_byte(_ulBlockAddr>>0);
-	FLASH_CS_1();
+	W25QXX_CS=1;
 
 	Flash_WaitNobusy();	//等待写入结束
 }
@@ -236,9 +227,9 @@ void Flash_EraseChip(void)
 	Flash_WriteEnable();	//flash芯片写使能
 	Flash_WaitNobusy();	//等待写操作完成
 	
-	FLASH_CS_0();
+	W25QXX_CS=0;
 	spi_master_send_recv_byte(command);
-	FLASH_CS_1();
+	W25QXX_CS=1;
 	Flash_WaitNobusy();	//等待写入结束
 }
 void Flash_ReadSomeBytes(u8 *ucpBuffer, u32 _ulReadAddr, u16 _usNByte)
@@ -250,7 +241,7 @@ void Flash_ReadSomeBytes(u8 *ucpBuffer, u32 _ulReadAddr, u16 _usNByte)
 	temp_buff[1] = (u8)(_ulReadAddr >> 8);
 	temp_buff[2] = (u8)(_ulReadAddr >> 0);
 
-	FLASH_CS_0();
+	W25QXX_CS=0;
 	
 	spi_master_send_recv_byte(command);
 	spi_master_send_recv_byte(temp_buff[0]);
@@ -259,7 +250,7 @@ void Flash_ReadSomeBytes(u8 *ucpBuffer, u32 _ulReadAddr, u16 _usNByte)
 
 	spi_master_recv_some_bytes(ucpBuffer, _usNByte);
 	
-		FLASH_CS_1();
+		W25QXX_CS=1;
 }
 void Flash_WritePage(u8 *ucpBuffer, u32 _ulWriteAddr, u16 _usNByte)
 {
@@ -268,7 +259,7 @@ void Flash_WritePage(u8 *ucpBuffer, u32 _ulWriteAddr, u16 _usNByte)
 	Flash_WriteEnable();	//写使能
 	Flash_WaitNobusy();	//等待写入结束
 	
-  FLASH_CS_0();
+  W25QXX_CS=0;
 	
 	spi_master_send_recv_byte(FLASH_WRITE_PAGE);	//02h
 	spi_master_send_recv_byte(_ulWriteAddr>>16);	//写入24位地址
@@ -279,7 +270,7 @@ void Flash_WritePage(u8 *ucpBuffer, u32 _ulWriteAddr, u16 _usNByte)
 		spi_master_send_recv_byte(*ucpBuffer);	//SPI 写入单个字节
 		ucpBuffer++;
 	}
-	FLASH_CS_1();
+	W25QXX_CS=1;
 	Flash_WaitNobusy();	//等待写入结束
 }
 

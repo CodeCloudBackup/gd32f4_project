@@ -3,15 +3,20 @@
 #include "delay.h"
 //初始化SCCB接口 
 void SCCB_Init(void)
-{											      	 
+{		
+	GPIO_InitTypeDef  GPIO_InitStructure;	
 	/* enable GPIO clock */
 	RCU->AHB1EN|=1<<3;//使能GPIOD时钟
-	gpio_mode_set(GPIOD, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO_PIN_6);
-	gpio_output_options_set(GPIOD, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,GPIO_PIN_6);
-	gpio_mode_set(GPIOD, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO_PIN_7);
-	gpio_output_options_set(GPIOD, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ,GPIO_PIN_7);
-	SCCB_SDA=1;     //数据线高电平	   
-  SCCB_SCL=1;	    //在时钟线高的时候数据线由高至低 
+	
+	//GPIOF9,F10初始化设置
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6|GPIO_Pin_7;//PD6,7 推挽输出
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;  //PD6,7 推挽输出
+  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;//推挽输出
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;//100MHz
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;//上拉
+  GPIO_Init(GPIOD, &GPIO_InitStructure);//初始化
+	
+	GPIO_SetBits(GPIOD,GPIO_Pin_6|GPIO_Pin_7);
 	SCCB_SDA_OUT();	   
 }		
 

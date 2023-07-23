@@ -4,6 +4,10 @@
 #include "gd32f4xx.h"
 #include "gd32f4xx_gpio.h"
 #include "systick.h"
+#include "delay.h"
+
+#define	W25QXX_CS 		PBout(14)  		//W25QXXµÄÆ¬Ñ¡ÐÅºÅ
+
 #define  FLASH_WRITE_ENABLE_CMD 		0x06
 #define  FLASH_WRITE_DISABLE_CMD		0x04
 #define  FLASH_READ_SR_CMD				   0x05

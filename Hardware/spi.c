@@ -2,17 +2,30 @@
 
 void SPI_Init(void)
 {
+		GPIO_InitTypeDef  GPIO_InitStructure;
 		RCU->AHB1EN|=1<<2;//使能GPIOC时钟	
 		RCU->AHB1EN|=1<<3;//使能GPIOD时钟	
 		RCU->APB1EN|=1<<15;//使能SPI2时钟
-		gpio_af_set(GPIOC, GPIO_AF_6, GPIO_PIN_10);//复用功能6
-		gpio_af_set(GPIOC, GPIO_AF_6, GPIO_PIN_11);//复用功能6
-		gpio_af_set(GPIOC, GPIO_AF_6, GPIO_PIN_12);//复用功能6
 	
-		gpio_mode_set(GPIOC, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12); /* SPI2 GPIO config:SCK/PC10, MISO/PC11, MOSI/PC12 */
-    gpio_output_options_set(GPIOC, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12);
-	  gpio_mode_set(GPIOD, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO_PIN_0); /* PD0 CS */
-    gpio_output_options_set(GPIOD, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_0);
+		gpio_af_set(GPIOC_BASE, GPIO_AF_6, GPIO_PIN_10);//复用功能6
+		gpio_af_set(GPIOC_BASE, GPIO_AF_6, GPIO_PIN_11);//复用功能6
+		gpio_af_set(GPIOC_BASE, GPIO_AF_6, GPIO_PIN_12);//复用功能6
+	  gpio_mode_set(GPIOC_BASE, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12); /* SPI2 GPIO config:SCK/PC10, MISO/PC11, MOSI/PC12 */
+    gpio_output_options_set(GPIOC_BASE, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12);
+		 //GPIOFB3,4,5初始化设置
+//		GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10|GPIO_Pin_11|GPIO_Pin_12;//PB3~5复用功能输出	
+//		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;//复用功能
+//		GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;//推挽输出
+//		GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;//100MHz
+//		GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;//上拉
+//		GPIO_Init(GPIOC, &GPIO_InitStructure);//初始化
+//	
+//		GPIO_PinAFConfig(GPIOC,GPIO_PinSource10,GPIO_AF_6); //PC10复用为 SPI1
+//		GPIO_PinAFConfig(GPIOC,GPIO_PinSource11,GPIO_AF_6); //PC11复用为 SPI1
+//		GPIO_PinAFConfig(GPIOC,GPIO_PinSource12,GPIO_AF_6); //PC12复用为 SPI1
+
+	  gpio_mode_set(GPIOD_BASE, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO_PIN_0); /* PD0 CS */
+    gpio_output_options_set(GPIOD_BASE, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_0);
 	
 		spi_parameter_struct spi_init_struct;
     /* deinitilize SPI and the parameters */

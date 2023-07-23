@@ -69,6 +69,7 @@ int main(void)
 	{
 		printf("new: %x\n old: %x\n",flash_version.u32_data, oldVersion);
 		softwartUpdateFlag = TRUE;
+		if(flash_size.u32_data > 0x10000) flash_size.u32_data=0;
 	}
 	while(1)
 	{

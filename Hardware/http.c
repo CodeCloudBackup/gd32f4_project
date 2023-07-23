@@ -19,8 +19,6 @@ BOOL Http_Program(void)
 {
 	u8 resp_code = 0,is_stream = 0;
 	u32 cont_len = 0,head_len = 0;
-	u32 version = 0x1234567a;
-	u8 appInfoBuff[8];
 	static u8 cnt = 0, state =0;
 	if (!flag) return TRUE;
 	Package_Http_Get_Download_Header(g_urlStr, sizeof(g_urlStr));
@@ -40,7 +38,7 @@ BOOL Http_Program(void)
 			case 1:
 				if(http_buff == NULL)
 					http_buff = mymalloc(SRAMIN, 32*1024);
-				if(USART5_Revice(DATA,http_buff)){
+				if(USART2_Revice(DATA,http_buff)){
 					resp_code = Analysis_Http_Download_Header(http_buff, sizeof(http_buff), &is_stream, &cont_len);
 					if(resp_code == 200)
 					{
@@ -54,9 +52,7 @@ BOOL Http_Program(void)
 				if(Get_Http_Download_File(http_buff, cont_len, &head_len))
 				{
 					//Flash_WriteSomeBytes((u8*)app_info,0,8);
-					u32 len=sizeof(http_buff);
 					Flash_WriteSomeBytes(http_buff+head_len,8,g_appInfo.App_Size);//把WriteBuff数组中的内容写入FLASH 0地址
-					
 					memset((u8*)http_buff, 0 ,8*4096);
 					Flash_ReadSomeBytes(http_buff,8,4096);
 					flag = 0;

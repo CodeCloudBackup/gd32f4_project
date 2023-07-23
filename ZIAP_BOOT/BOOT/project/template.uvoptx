@@ -197,6 +197,38 @@
           <ExecCommand></ExecCommand>
           <Expression>\\template\../User/main.c\63</Expression>
         </Bp>
+        <Bp>
+          <Number>3</Number>
+          <Type>0</Type>
+          <LineNumber>41</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134219510</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>..\User\iap.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\template\../User/iap.c\41</Expression>
+        </Bp>
+        <Bp>
+          <Number>4</Number>
+          <Type>0</Type>
+          <LineNumber>91</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>..\User\main.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
       </Breakpoint>
       <WatchWindow1>
         <Ww>
@@ -219,7 +251,7 @@
         <Mm>
           <WinNumber>1</WinNumber>
           <SubType>8</SubType>
-          <ItemText>binBuff</ItemText>
+          <ItemText>0x40003c00</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow1>

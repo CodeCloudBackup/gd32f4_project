@@ -3,10 +3,15 @@
 #include "delay.h"
 void ADC_Init(u32 adc_periph)
 {
-	
+		GPIO_InitTypeDef  GPIO_InitStructure;
 		//配置PA4 ADC引脚
 		RCU->AHB1EN|=1<<0;
-		gpio_mode_set(GPIOA, GPIO_MODE_ANALOG, GPIO_PUPD_NONE, GPIO_PIN_4);//PA4配置成输入
+		 //先初始化ADC1通道5 IO口
+		GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;//PA5 通道5
+		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;//模拟输入
+		GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL ;//不带上下拉
+		GPIO_Init(GPIOA, &GPIO_InitStructure);//初始化  
+ 
 		/* enable ADC1 clock */
 		RCU->APB2EN|=1<<9;
 		/* config ADC1 clock */

@@ -19,9 +19,6 @@ int main(void)
 		static u8 led_flag = 0;
 		U8_U32 flash_version;
 		U8_U32 flash_size;
-		u8 ReadBuff[10];
-		// bin file info
-		u16 applenth=0;	//接收到的app代码长度
 		Program_Init();
 		while(1)
 		{
@@ -30,24 +27,15 @@ int main(void)
 			
 			if(TIMER1_50ms())
 			{
-				applenth = USART0_TIM_50ms();
-				if(applenth)
-				{
-				
-					Flash_WriteSomeBytes(USART0_RX_BUF,0,applenth+8);//把WriteBuff数组中的内容写入FLASH 0地址
-					Flash_ReadSomeBytes(ReadBuff,0,8);//从FLASH 0地址读取8字节内容放入ReadBuff数组
-					ReadBuff[8]= '\0';
-					applenth=0;
-				}
 			}
 			
 			if(TIMER1_100ms()) 
 			{
 				led_flag ^= 1;
 				if(led_flag)
-					LED_OFF();
+					LED=1;
 				else
-					LED_ON();
+					LED=0;
 			}
 			if(TIMER1_200ms()) 
 			{

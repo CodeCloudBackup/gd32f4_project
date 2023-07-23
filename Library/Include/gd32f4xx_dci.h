@@ -1,238 +1,312 @@
-/*!
-    \file    gd32f4xx_dci.h
-    \brief   definitions for the DCI
+/**
+  ******************************************************************************
+  * @file    stm32f4xx_dcmi.h
+  * @author  MCD Application Team
+  * @version V1.4.0
+  * @date    04-August-2014
+  * @brief   This file contains all the functions prototypes for the DCMI firmware library.
+  ******************************************************************************
+  * @attention
+  *
+  * <h2><center>&copy; COPYRIGHT 2014 STMicroelectronics</center></h2>
+  *
+  * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
+  * You may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at:
+  *
+  *        http://www.st.com/software_license_agreement_liberty_v2
+  *
+  * Unless required by applicable law or agreed to in writing, software 
+  * distributed under the License is distributed on an "AS IS" BASIS, 
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  *
+  ******************************************************************************
+  */
 
-    \version 2016-08-15, V1.0.0, firmware for GD32F4xx
-    \version 2018-12-12, V2.0.0, firmware for GD32F4xx
-    \version 2020-09-30, V2.1.0, firmware for GD32F4xx
-*/
+/* Define to prevent recursive inclusion -------------------------------------*/
+#ifndef __STM32F4xx_DCMI_H
+#define __STM32F4xx_DCMI_H
 
-/*
-    Copyright (c) 2020, GigaDevice Semiconductor Inc.
+#ifdef __cplusplus
+ extern "C" {
+#endif
 
-    Redistribution and use in source and binary forms, with or without modification, 
-are permitted provided that the following conditions are met:
-
-    1. Redistributions of source code must retain the above copyright notice, this 
-       list of conditions and the following disclaimer.
-    2. Redistributions in binary form must reproduce the above copyright notice, 
-       this list of conditions and the following disclaimer in the documentation 
-       and/or other materials provided with the distribution.
-    3. Neither the name of the copyright holder nor the names of its contributors 
-       may be used to endorse or promote products derived from this software without 
-       specific prior written permission.
-
-    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
-IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
-INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
-NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR 
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
-WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
-ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
-OF SUCH DAMAGE.
-*/
-
-#ifndef GD32F4XX_DCI_H
-#define GD32F4XX_DCI_H
-
+/* Includes ------------------------------------------------------------------*/
 #include "gd32f4xx.h"
 
-/* DCI definitions */
-#define DCI                       DCI_BASE
+/** @addtogroup STM32F4xx_StdPeriph_Driver
+  * @{
+  */
 
-/* registers definitions */
-#define DCI_CTL                   REG32(DCI + 0x00U) /*!< DCI control register */
-#define DCI_STAT0                 REG32(DCI + 0x04U) /*!< DCI status register 0 */
-#define DCI_STAT1                 REG32(DCI + 0x08U) /*!< DCI status register 1 */
-#define DCI_INTEN                 REG32(DCI + 0x0CU) /*!< DCI interrupt enable register */
-#define DCI_INTF                  REG32(DCI + 0x10U) /*!< DCI interrupt flag register */
-#define DCI_INTC                  REG32(DCI + 0x14U) /*!< DCI interrupt clear register */
-#define DCI_SC                    REG32(DCI + 0x18U) /*!< DCI synchronization codes register */
-#define DCI_SCUMSK                REG32(DCI + 0x1CU) /*!< DCI synchronization codes unmask register */
-#define DCI_CWSPOS                REG32(DCI + 0x20U) /*!< DCI cropping window start position register */
-#define DCI_CWSZ                  REG32(DCI + 0x24U) /*!< DCI cropping window size register */
-#define DCI_DATA                  REG32(DCI + 0x28U) /*!< DCI data register */
+/** @addtogroup DCMI
+  * @{
+  */ 
 
-/* bits definitions */
-/* DCI_CTL */
-#define DCI_CTL_CAP               BIT(0)             /*!< capture enable */
-#define DCI_CTL_SNAP              BIT(1)             /*!< snapshot mode */
-#define DCI_CTL_WDEN              BIT(2)             /*!< window enable */
-#define DCI_CTL_JM                BIT(3)             /*!< JPEG mode */
-#define DCI_CTL_ESM               BIT(4)             /*!< embedded synchronous mode */
-#define DCI_CTL_CKS               BIT(5)             /*!< clock polarity selection */
-#define DCI_CTL_HPS               BIT(6)             /*!< horizontal polarity selection */
-#define DCI_CTL_VPS               BIT(7)             /*!< vertical polarity selection */
-#define DCI_CTL_FR                BITS(8,9)          /*!< frame rate */
-#define DCI_CTL_DCIF              BITS(10,11)        /*!< digital camera interface format */
-#define DCI_CTL_DCIEN             BIT(14)            /*!< DCI enable */
-
-/* DCI_STAT0 */
-#define DCI_STAT0_HS              BIT(0)            /*!< HS line status */
-#define DCI_STAT0_VS              BIT(1)            /*!< VS line status */
-#define DCI_STAT0_FV              BIT(2)            /*!< FIFO valid */
-
-/* DCI_STAT1 */
-#define DCI_STAT1_EFF             BIT(0)            /*!< end of frame flag */
-#define DCI_STAT1_OVRF            BIT(1)            /*!< FIFO overrun flag */
-#define DCI_STAT1_ESEF            BIT(2)            /*!< embedded synchronous error flag */
-#define DCI_STAT1_VSF             BIT(3)            /*!< vsync flag */
-#define DCI_STAT1_ELF             BIT(4)            /*!< end of line flag */
-
-/* DCI_INTEN */
-#define DCI_INTEN_EFIE            BIT(0)            /*!< end of frame interrupt enable */
-#define DCI_INTEN_OVRIE           BIT(1)            /*!< FIFO overrun interrupt enable */
-#define DCI_INTEN_ESEIE           BIT(2)            /*!< embedded synchronous error interrupt enable */
-#define DCI_INTEN_VSIE            BIT(3)            /*!< vsync interrupt enable */
-#define DCI_INTEN_ELIE            BIT(4)            /*!< end of line interrupt enable */
-
-/* DCI_INTF */
-#define DCI_INTF_EFIF             BIT(0)            /*!< end of frame interrupt flag */
-#define DCI_INTF_OVRIF            BIT(1)            /*!< FIFO overrun interrupt flag */
-#define DCI_INTF_ESEIF            BIT(2)            /*!< embedded synchronous error interrupt flag */
-#define DCI_INTF_VSIF             BIT(3)            /*!< vsync interrupt flag  */
-#define DCI_INTF_ELIF             BIT(4)            /*!< end of line interrupt flag */
-
-/* DCI_INTC */
-#define DCI_INTC_EFFC             BIT(0)            /*!< clear end of frame flag */
-#define DCI_INTC_OVRFC            BIT(1)            /*!< clear FIFO overrun flag */
-#define DCI_INTC_ESEFC            BIT(2)            /*!< clear embedded synchronous error flag */
-#define DCI_INTC_VSFC             BIT(3)            /*!< vsync flag clear */
-#define DCI_INTC_ELFC             BIT(4)            /*!< end of line flag clear */
-
-/* DCI_SC */
-#define DCI_SC_FS                 BITS(0,7)         /*!< frame start code in embedded synchronous mode */
-#define DCI_SC_LS                 BITS(8,15)        /*!< line start code in embedded synchronous mode */
-#define DCI_SC_LE                 BITS(16,23)       /*!< line end code in embedded synchronous mode */
-#define DCI_SC_FE                 BITS(24,31)       /*!< frame end code in embedded synchronous mode */
-
-/* DCI_SCUNMSK */
-#define DCI_SCUMSK_FSM            BITS(0,7)         /*!< frame start code unmask bits in embedded synchronous mode */
-#define DCI_SCUMSK_LSM            BITS(8,15)        /*!< line start code unmask bits in embedded synchronous mode */
-#define DCI_SCUMSK_LEM            BITS(16,23)       /*!< line end code unmask bits in embedded synchronous mode */
-#define DCI_SCUMSK_FEM            BITS(24,31)       /*!< frame end code unmask bits in embedded synchronous mode */
-
-/* DCI_CWSPOS */
-#define DCI_CWSPOS_WHSP           BITS(0,13)        /*!< window horizontal start position */
-#define DCI_CWSPOS_WVSP           BITS(16,28)       /*!< window vertical start position */
-
-/* DCI_CWSZ */
-#define DCI_CWSZ_WHSZ             BITS(0,13)        /*!< window horizontal size */
-#define DCI_CWSZ_WVSZ             BITS(16,29)       /*!< window vertical size */
-
-/* constants definitions */
-/* DCI parameter structure definitions */
+/* Exported types ------------------------------------------------------------*/
+/** 
+  * @brief   DCMI Init structure definition  
+  */ 
 typedef struct
-{   
-    uint32_t capture_mode;                                           /*!< DCI capture mode: continuous or snapshot */
-    uint32_t clock_polarity;                                         /*!< clock polarity selection */
-    uint32_t hsync_polarity;                                         /*!< horizontal polarity selection */
-    uint32_t vsync_polarity;                                         /*!< vertical polarity selection */
-    uint32_t frame_rate;                                             /*!< frame capture rate */
-    uint32_t interface_format;                                       /*!< digital camera interface format */
-}dci_parameter_struct;                                                         
+{
+  uint16_t DCMI_CaptureMode;      /*!< Specifies the Capture Mode: Continuous or Snapshot.
+                                       This parameter can be a value of @ref DCMI_Capture_Mode */
 
-#define DCI_CAPTURE_MODE_CONTINUOUS   ((uint32_t)0x00000000U)        /*!< continuous capture mode */
-#define DCI_CAPTURE_MODE_SNAPSHOT     DCI_CTL_SNAP                   /*!< snapshot capture mode */
+  uint16_t DCMI_SynchroMode;      /*!< Specifies the Synchronization Mode: Hardware or Embedded.
+                                       This parameter can be a value of @ref DCMI_Synchronization_Mode */
 
-#define DCI_CK_POLARITY_FALLING       ((uint32_t)0x00000000U)        /*!< capture at falling edge */
-#define DCI_CK_POLARITY_RISING        DCI_CTL_CKS                    /*!< capture at rising edge */
+  uint16_t DCMI_PCKPolarity;      /*!< Specifies the Pixel clock polarity: Falling or Rising.
+                                       This parameter can be a value of @ref DCMI_PIXCK_Polarity */
 
-#define DCI_HSYNC_POLARITY_LOW        ((uint32_t)0x00000000U)        /*!< low level during blanking period */
-#define DCI_HSYNC_POLARITY_HIGH       DCI_CTL_HPS                    /*!< high level during blanking period */
+  uint16_t DCMI_VSPolarity;       /*!< Specifies the Vertical synchronization polarity: High or Low.
+                                       This parameter can be a value of @ref DCMI_VSYNC_Polarity */
 
-#define DCI_VSYNC_POLARITY_LOW        ((uint32_t)0x00000000U)        /*!< low level during blanking period */
-#define DCI_VSYNC_POLARITY_HIGH       DCI_CTL_VPS                    /*!< high level during blanking period*/
- 
-#define CTL_FR(regval)                (BITS(8,9)&((uint32_t)(regval) << 8U))    
-#define DCI_FRAME_RATE_ALL            CTL_FR(0)                      /*!< capture all frames */
-#define DCI_FRAME_RATE_1_2            CTL_FR(1)                      /*!< capture one in 2 frames */
-#define DCI_FRAME_RATE_1_4            CTL_FR(2)                      /*!< capture one in 4 frames */
+  uint16_t DCMI_HSPolarity;       /*!< Specifies the Horizontal synchronization polarity: High or Low.
+                                       This parameter can be a value of @ref DCMI_HSYNC_Polarity */
 
-#define CTL_DCIF(regval)              (BITS(10,11)&((uint32_t)(regval) << 10U)) 
-#define DCI_INTERFACE_FORMAT_8BITS    CTL_DCIF(0)                    /*!< 8-bit data on every pixel clock */
-#define DCI_INTERFACE_FORMAT_10BITS   CTL_DCIF(1)                    /*!< 10-bit data on every pixel clock */
-#define DCI_INTERFACE_FORMAT_12BITS   CTL_DCIF(2)                    /*!< 12-bit data on every pixel clock */
-#define DCI_INTERFACE_FORMAT_14BITS   CTL_DCIF(3)                    /*!< 14-bit data on every pixel clock */
+  uint16_t DCMI_CaptureRate;      /*!< Specifies the frequency of frame capture: All, 1/2 or 1/4.
+                                       This parameter can be a value of @ref DCMI_Capture_Rate */
 
-/* DCI interrupt constants definitions */
-#define DCI_INT_EF                    BIT(0)                         /*!< end of frame interrupt */
-#define DCI_INT_OVR                   BIT(1)                         /*!< FIFO overrun interrupt */
-#define DCI_INT_ESE                   BIT(2)                         /*!< embedded synchronous error interrupt */
-#define DCI_INT_VSYNC                 BIT(3)                         /*!< vsync interrupt */
-#define DCI_INT_EL                    BIT(4)                         /*!< end of line interrupt */
+  uint16_t DCMI_ExtendedDataMode; /*!< Specifies the data width: 8-bit, 10-bit, 12-bit or 14-bit.
+                                       This parameter can be a value of @ref DCMI_Extended_Data_Mode */
+} DCMI_InitTypeDef;
 
-/* DCI interrupt flag definitions */
-#define DCI_INT_FLAG_EF               BIT(0)                         /*!< end of frame interrupt flag */
-#define DCI_INT_FLAG_OVR              BIT(1)                         /*!< FIFO overrun interrupt flag */
-#define DCI_INT_FLAG_ESE              BIT(2)                         /*!< embedded synchronous error interrupt flag */
-#define DCI_INT_FLAG_VSYNC            BIT(3)                         /*!< vsync interrupt flag */
-#define DCI_INT_FLAG_EL               BIT(4)                         /*!< end of line interrupt flag */
+/** 
+  * @brief   DCMI CROP Init structure definition  
+  */ 
+typedef struct
+{
+  uint16_t DCMI_VerticalStartLine;      /*!< Specifies the Vertical start line count from which the image capture
+                                             will start. This parameter can be a value between 0x00 and 0x1FFF */
 
-/* DCI flag definitions */  
-#define DCI_FLAG_HS                   DCI_STAT0_HS                   /*!< HS line status */
-#define DCI_FLAG_VS                   DCI_STAT0_VS                   /*!< VS line status */
-#define DCI_FLAG_FV                   DCI_STAT0_FV                   /*!< FIFO valid */
-#define DCI_FLAG_EF                   (DCI_STAT1_EFF | BIT(31))      /*!< end of frame flag */
-#define DCI_FLAG_OVR                  (DCI_STAT1_OVRF | BIT(31))     /*!< FIFO overrun flag */
-#define DCI_FLAG_ESE                  (DCI_STAT1_ESEF | BIT(31))     /*!< embedded synchronous error flag */
-#define DCI_FLAG_VSYNC                (DCI_STAT1_VSF | BIT(31))      /*!< vsync flag */
-#define DCI_FLAG_EL                   (DCI_STAT1_ELF | BIT(31))      /*!< end of line flag */
+  uint16_t DCMI_HorizontalOffsetCount;  /*!< Specifies the number of pixel clocks to count before starting a capture.
+                                             This parameter can be a value between 0x00 and 0x3FFF */
 
-/* function declarations */
-/* initialization functions */
-/* DCI deinit */
-void dci_deinit(void);
-/* initialize DCI registers */
-void dci_init(dci_parameter_struct* dci_struct);
+  uint16_t DCMI_VerticalLineCount;      /*!< Specifies the number of lines to be captured from the starting point.
+                                             This parameter can be a value between 0x00 and 0x3FFF */
 
-/* enable DCI function */
-void dci_enable(void);
-/* disable DCI function */
-void dci_disable(void);
-/* enable DCI capture */
-void dci_capture_enable(void);
-/* disable DCI capture */
-void dci_capture_disable(void);
-/* enable DCI jpeg mode */
-void dci_jpeg_enable(void);
-/* disable DCI jpeg mode */
-void dci_jpeg_disable(void);
+  uint16_t DCMI_CaptureCount;           /*!< Specifies the number of pixel clocks to be captured from the starting
+                                             point on the same line.
+                                             This parameter can be a value between 0x00 and 0x3FFF */
+} DCMI_CROPInitTypeDef;
 
-/* function configuration */
-/* enable cropping window function */
-void dci_crop_window_enable(void);
-/* disable cropping window function */
-void dci_crop_window_disable(void);
-/* configure DCI cropping window */
-void dci_crop_window_config(uint16_t start_x, uint16_t start_y, uint16_t size_width, uint16_t size_height);
+/** 
+  * @brief   DCMI Embedded Synchronisation CODE Init structure definition  
+  */ 
+typedef struct
+{
+  uint8_t DCMI_FrameStartCode; /*!< Specifies the code of the frame start delimiter. */
+  uint8_t DCMI_LineStartCode;  /*!< Specifies the code of the line start delimiter. */
+  uint8_t DCMI_LineEndCode;    /*!< Specifies the code of the line end delimiter. */
+  uint8_t DCMI_FrameEndCode;   /*!< Specifies the code of the frame end delimiter. */
+} DCMI_CodesInitTypeDef;
 
-/* enable embedded synchronous mode */
-void dci_embedded_sync_enable(void);
-/* disable embedded synchronous mode */
-void dci_embedded_sync_disable(void);
-/* configure synchronous codes in embedded synchronous mode */
-void dci_sync_codes_config(uint8_t frame_start, uint8_t line_start, uint8_t line_end, uint8_t frame_end);
-/* configure synchronous codes unmask in embedded synchronous mode */
-void dci_sync_codes_unmask_config(uint8_t frame_start, uint8_t line_start, uint8_t line_end, uint8_t frame_end);
+/* Exported constants --------------------------------------------------------*/
 
-/* read DCI data register */
-uint32_t dci_data_read(void);
+/** @defgroup DCMI_Exported_Constants
+  * @{
+  */
 
-/* interrupt & flag functions */
-/* get specified flag */
-FlagStatus dci_flag_get(uint32_t flag);
-/* enable specified DCI interrupt */
-void dci_interrupt_enable(uint32_t interrupt);
-/* disable specified DCI interrupt */
-void dci_interrupt_disable(uint32_t interrupt);
+/** @defgroup DCMI_Capture_Mode 
+  * @{
+  */ 
+#define DCMI_CaptureMode_Continuous    ((uint16_t)0x0000) /*!< The received data are transferred continuously 
+                                                               into the destination memory through the DMA */
+#define DCMI_CaptureMode_SnapShot      ((uint16_t)0x0002) /*!< Once activated, the interface waits for the start of 
+                                                               frame and then transfers a single frame through the DMA */
+#define IS_DCMI_CAPTURE_MODE(MODE)(((MODE) == DCMI_CaptureMode_Continuous) || \
+                                   ((MODE) == DCMI_CaptureMode_SnapShot))
+/**
+  * @}
+  */ 
 
 
-/* get specified interrupt flag */
-FlagStatus dci_interrupt_flag_get(uint32_t int_flag);
-/* clear specified interrupt flag */
-void dci_interrupt_flag_clear(uint32_t int_flag);
+/** @defgroup DCMI_Synchronization_Mode
+  * @{
+  */ 
+#define DCMI_SynchroMode_Hardware    ((uint16_t)0x0000) /*!< Hardware synchronization data capture (frame/line start/stop)
+                                                             is synchronized with the HSYNC/VSYNC signals */
+#define DCMI_SynchroMode_Embedded    ((uint16_t)0x0010) /*!< Embedded synchronization data capture is synchronized with 
+                                                             synchronization codes embedded in the data flow */
+#define IS_DCMI_SYNCHRO(MODE)(((MODE) == DCMI_SynchroMode_Hardware) || \
+                              ((MODE) == DCMI_SynchroMode_Embedded))
+/**
+  * @}
+  */ 
 
-#endif /* GD32F4XX_DCI_H */
+
+/** @defgroup DCMI_PIXCK_Polarity 
+  * @{
+  */ 
+#define DCMI_PCKPolarity_Falling    ((uint16_t)0x0000) /*!< Pixel clock active on Falling edge */
+#define DCMI_PCKPolarity_Rising     ((uint16_t)0x0020) /*!< Pixel clock active on Rising edge */
+#define IS_DCMI_PCKPOLARITY(POLARITY)(((POLARITY) == DCMI_PCKPolarity_Falling) || \
+                                      ((POLARITY) == DCMI_PCKPolarity_Rising))
+/**
+  * @}
+  */ 
+
+
+/** @defgroup DCMI_VSYNC_Polarity 
+  * @{
+  */ 
+#define DCMI_VSPolarity_Low     ((uint16_t)0x0000) /*!< Vertical synchronization active Low */
+#define DCMI_VSPolarity_High    ((uint16_t)0x0080) /*!< Vertical synchronization active High */
+#define IS_DCMI_VSPOLARITY(POLARITY)(((POLARITY) == DCMI_VSPolarity_Low) || \
+                                     ((POLARITY) == DCMI_VSPolarity_High))
+/**
+  * @}
+  */ 
+
+
+/** @defgroup DCMI_HSYNC_Polarity 
+  * @{
+  */ 
+#define DCMI_HSPolarity_Low     ((uint16_t)0x0000) /*!< Horizontal synchronization active Low */
+#define DCMI_HSPolarity_High    ((uint16_t)0x0040) /*!< Horizontal synchronization active High */
+#define IS_DCMI_HSPOLARITY(POLARITY)(((POLARITY) == DCMI_HSPolarity_Low) || \
+                                     ((POLARITY) == DCMI_HSPolarity_High))
+/**
+  * @}
+  */ 
+
+
+/** @defgroup DCMI_Capture_Rate 
+  * @{
+  */ 
+#define DCMI_CaptureRate_All_Frame     ((uint16_t)0x0000) /*!< All frames are captured */
+#define DCMI_CaptureRate_1of2_Frame    ((uint16_t)0x0100) /*!< Every alternate frame captured */
+#define DCMI_CaptureRate_1of4_Frame    ((uint16_t)0x0200) /*!< One frame in 4 frames captured */
+#define IS_DCMI_CAPTURE_RATE(RATE) (((RATE) == DCMI_CaptureRate_All_Frame) || \
+                                    ((RATE) == DCMI_CaptureRate_1of2_Frame) ||\
+                                    ((RATE) == DCMI_CaptureRate_1of4_Frame))
+/**
+  * @}
+  */ 
+
+
+/** @defgroup DCMI_Extended_Data_Mode 
+  * @{
+  */ 
+#define DCMI_ExtendedDataMode_8b     ((uint16_t)0x0000) /*!< Interface captures 8-bit data on every pixel clock */
+#define DCMI_ExtendedDataMode_10b    ((uint16_t)0x0400) /*!< Interface captures 10-bit data on every pixel clock */
+#define DCMI_ExtendedDataMode_12b    ((uint16_t)0x0800) /*!< Interface captures 12-bit data on every pixel clock */
+#define DCMI_ExtendedDataMode_14b    ((uint16_t)0x0C00) /*!< Interface captures 14-bit data on every pixel clock */
+#define IS_DCMI_EXTENDED_DATA(DATA)(((DATA) == DCMI_ExtendedDataMode_8b) || \
+                                    ((DATA) == DCMI_ExtendedDataMode_10b) ||\
+                                    ((DATA) == DCMI_ExtendedDataMode_12b) ||\
+                                    ((DATA) == DCMI_ExtendedDataMode_14b))
+/**
+  * @}
+  */ 
+
+
+/** @defgroup DCMI_interrupt_sources 
+  * @{
+  */ 
+#define DCMI_IT_FRAME    ((uint16_t)0x0001)
+#define DCMI_IT_OVF      ((uint16_t)0x0002)
+#define DCMI_IT_ERR      ((uint16_t)0x0004)
+#define DCMI_IT_VSYNC    ((uint16_t)0x0008)
+#define DCMI_IT_LINE     ((uint16_t)0x0010)
+#define IS_DCMI_CONFIG_IT(IT) ((((IT) & (uint16_t)0xFFE0) == 0x0000) && ((IT) != 0x0000))
+#define IS_DCMI_GET_IT(IT) (((IT) == DCMI_IT_FRAME) || \
+                            ((IT) == DCMI_IT_OVF) || \
+                            ((IT) == DCMI_IT_ERR) || \
+                            ((IT) == DCMI_IT_VSYNC) || \
+                            ((IT) == DCMI_IT_LINE))
+/**
+  * @}
+  */ 
+
+
+/** @defgroup DCMI_Flags 
+  * @{
+  */ 
+/** 
+  * @brief   DCMI SR register  
+  */ 
+#define DCMI_FLAG_HSYNC     ((uint16_t)0x2001)
+#define DCMI_FLAG_VSYNC     ((uint16_t)0x2002)
+#define DCMI_FLAG_FNE       ((uint16_t)0x2004)
+/** 
+  * @brief   DCMI RISR register  
+  */ 
+#define DCMI_FLAG_FRAMERI    ((uint16_t)0x0001)
+#define DCMI_FLAG_OVFRI      ((uint16_t)0x0002)
+#define DCMI_FLAG_ERRRI      ((uint16_t)0x0004)
+#define DCMI_FLAG_VSYNCRI    ((uint16_t)0x0008)
+#define DCMI_FLAG_LINERI     ((uint16_t)0x0010)
+/** 
+  * @brief   DCMI MISR register  
+  */ 
+#define DCMI_FLAG_FRAMEMI    ((uint16_t)0x1001)
+#define DCMI_FLAG_OVFMI      ((uint16_t)0x1002)
+#define DCMI_FLAG_ERRMI      ((uint16_t)0x1004)
+#define DCMI_FLAG_VSYNCMI    ((uint16_t)0x1008)
+#define DCMI_FLAG_LINEMI     ((uint16_t)0x1010)
+#define IS_DCMI_GET_FLAG(FLAG) (((FLAG) == DCMI_FLAG_HSYNC) || \
+                                ((FLAG) == DCMI_FLAG_VSYNC) || \
+                                ((FLAG) == DCMI_FLAG_FNE) || \
+                                ((FLAG) == DCMI_FLAG_FRAMERI) || \
+                                ((FLAG) == DCMI_FLAG_OVFRI) || \
+                                ((FLAG) == DCMI_FLAG_ERRRI) || \
+                                ((FLAG) == DCMI_FLAG_VSYNCRI) || \
+                                ((FLAG) == DCMI_FLAG_LINERI) || \
+                                ((FLAG) == DCMI_FLAG_FRAMEMI) || \
+                                ((FLAG) == DCMI_FLAG_OVFMI) || \
+                                ((FLAG) == DCMI_FLAG_ERRMI) || \
+                                ((FLAG) == DCMI_FLAG_VSYNCMI) || \
+                                ((FLAG) == DCMI_FLAG_LINEMI))
+                                
+#define IS_DCMI_CLEAR_FLAG(FLAG) ((((FLAG) & (uint16_t)0xFFE0) == 0x0000) && ((FLAG) != 0x0000))
+/**
+  * @}
+  */ 
+
+/**
+  * @}
+  */ 
+
+/* Exported macro ------------------------------------------------------------*/
+/* Exported functions --------------------------------------------------------*/ 
+
+/*  Function used to set the DCMI configuration to the default reset state ****/ 
+void DCMI_DeInit(void);
+
+/* Initialization and Configuration functions *********************************/
+void DCMI_Init(DCMI_InitTypeDef* DCMI_InitStruct);
+void DCMI_StructInit(DCMI_InitTypeDef* DCMI_InitStruct);
+void DCMI_CROPConfig(DCMI_CROPInitTypeDef* DCMI_CROPInitStruct);
+void DCMI_CROPCmd(EventStatus NewState);
+void DCMI_SetEmbeddedSynchroCodes(DCMI_CodesInitTypeDef* DCMI_CodesInitStruct);
+void DCMI_JPEGCmd(EventStatus NewState);
+
+/* Image capture functions ****************************************************/
+void DCMI_Cmd(EventStatus NewState);
+void DCMI_CaptureCmd(EventStatus NewState);
+uint32_t DCMI_ReadData(void);
+
+/* Interrupts and flags management functions **********************************/
+void DCMI_ITConfig(uint16_t DCMI_IT, EventStatus NewState);
+FlagStatus DCMI_GetFlagStatus(uint16_t DCMI_FLAG);
+void DCMI_ClearFlag(uint16_t DCMI_FLAG);
+FlagStatus DCMI_GetITStatus(uint16_t DCMI_IT);
+void DCMI_ClearITPendingBit(uint16_t DCMI_IT);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /*__STM32F4xx_DCMI_H */
+
+/**
+  * @}
+  */ 
+
+/**
+  * @}
+  */ 
+
+/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

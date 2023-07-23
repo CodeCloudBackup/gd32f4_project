@@ -34,7 +34,6 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 OF SUCH DAMAGE.
 */
 
-#include "gd32f4xx.h"
 #include "systick.h"
 
 volatile static uint32_t delay;

@@ -43,7 +43,7 @@ typedef enum{
 
 
 
-
+#define ESP8266_RST    PCout(12) 
 #define ESP8266_RST_Pin_SetH     gpio_bit_set(ESP8266_RST_Pin_Port, ESP8266_RST_Pin)
 #define ESP8266_RST_Pin_SetL     gpio_bit_reset(ESP8266_RST_Pin_Port, ESP8266_RST_Pin)
 

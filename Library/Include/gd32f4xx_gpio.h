@@ -38,69 +38,190 @@ OF SUCH DAMAGE.
 #define GD32F4XX_GPIO_H
 
 #include "gd32f4xx.h"
-#define BITBAND(addr, bitnum) ((addr & 0xF0000000)+0x2000000+((addr &0xFFFFF)<<5)+(bitnum<<2))
-#define MEM_ADDR(addr)  *((volatile unsigned long  *)(addr)) 
-#define BIT_ADDR(addr, bitnum)   MEM_ADDR(BITBAND(addr, bitnum)) 
-/* GPIOx(x=A,B,C,D,E,F,G,H,I) definitions */
-#define GPIOA                      (GPIO_BASE + 0x00000000U)
-#define GPIOB                      (GPIO_BASE + 0x00000400U)
-#define GPIOC                      (GPIO_BASE + 0x00000800U)
-#define GPIOD                      (GPIO_BASE + 0x00000C00U)
-#define GPIOE                      (GPIO_BASE + 0x00001000U)
-#define GPIOF                      (GPIO_BASE + 0x00001400U)
-#define GPIOG                      (GPIO_BASE + 0x00001800U)
-#define GPIOH                      (GPIO_BASE + 0x00001C00U)
-#define GPIOI                      (GPIO_BASE + 0x00002000U)
 
-//IO口地址映射
-#define GPIOA_OCTL_Addr    (GPIOA+20) //0x40020014
-#define GPIOB_OCTL_Addr    (GPIOB+20) //0x40020414 
-#define GPIOC_OCTL_Addr    (GPIOC+20) //0x40020814 
-#define GPIOD_OCTL_Addr    (GPIOD+20) //0x40020C14 
-#define GPIOE_OCTL_Addr    (GPIOE+20) //0x40021014 
-#define GPIOF_OCTL_Addr    (GPIOF+20) //0x40021414    
-#define GPIOG_OCTL_Addr    (GPIOG+20) //0x40021814   
-#define GPIOH_OCTL_Addr    (GPIOH+20) //0x40021C14    
-#define GPIOI_OCTL_Addr    (GPIOI+20) //0x40022014 
+/** @addtogroup GPIO
+  * @{
+  */ 
 
-#define GPIOA_ISTAT_Addr    (GPIOA+16) //0x40020010 
-#define GPIOB_ISTAT_Addr    (GPIOB+16) //0x40020410 
-#define GPIOC_ISTAT_Addr    (GPIOC+16) //0x40020810 
-#define GPIOD_ISTAT_Addr    (GPIOD+16) //0x40020C10 
-#define GPIOE_ISTAT_Addr    (GPIOE+16) //0x40021010 
-#define GPIOF_ISTAT_Addr    (GPIOF+16) //0x40021410 
-#define GPIOG_ISTAT_Addr    (GPIOG+16) //0x40021810 
-#define GPIOH_ISTAT_Addr    (GPIOH+16) //0x40021C10 
-#define GPIOI_ISTAT_Addr    (GPIOI+16) //0x40022010 
+/* Exported types ------------------------------------------------------------*/
 
-//IO口操作,只对单一的IO口!
-//确保n的值小于16!
-#define PAout(n)   BIT_ADDR(GPIOA_OCTL_Addr,n)  //输出 
-#define PAin(n)    BIT_ADDR(GPIOA_ISTAT_Addr,n)  //输入 
+#define IS_GPIO_ALL_PERIPH(PERIPH) (((PERIPH) == GPIOA) || \
+                                    ((PERIPH) == GPIOB) || \
+                                    ((PERIPH) == GPIOC) || \
+                                    ((PERIPH) == GPIOD) || \
+                                    ((PERIPH) == GPIOE) || \
+                                    ((PERIPH) == GPIOF) || \
+                                    ((PERIPH) == GPIOG) || \
+                                    ((PERIPH) == GPIOH) || \
+                                    ((PERIPH) == GPIOI) 
 
-#define PBout(n)   BIT_ADDR(GPIOB_OCTL_Addr,n)  //输出 
-#define PBin(n)    BIT_ADDR(GPIOB_ISTAT_Addr,n)  //输入 
+/** 
+  * @brief  GPIO Configuration Mode enumeration 
+  */   
+typedef enum
+{ 
+  GPIO_Mode_IN   = 0x00, /*!< GPIO Input Mode */
+  GPIO_Mode_OUT  = 0x01, /*!< GPIO Output Mode */
+  GPIO_Mode_AF   = 0x02, /*!< GPIO Alternate function Mode */
+  GPIO_Mode_AN   = 0x03  /*!< GPIO Analog Mode */
+}GPIOMode_TypeDef;
+#define IS_GPIO_MODE(MODE) (((MODE) == GPIO_Mode_IN)  || ((MODE) == GPIO_Mode_OUT) || \
+                            ((MODE) == GPIO_Mode_AF)|| ((MODE) == GPIO_Mode_AN))
 
-#define PCout(n)   BIT_ADDR(GPIOC_OCTL_Addr,n)  //输出 
-#define PCin(n)    BIT_ADDR(GPIOC_ISTAT_Addr,n)  //输入 
+/** 
+  * @brief  GPIO Output type enumeration 
+  */  
+typedef enum
+{ 
+  GPIO_OType_PP = 0x00,
+  GPIO_OType_OD = 0x01
+}GPIOOType_TypeDef;
+#define IS_GPIO_OTYPE(OTYPE) (((OTYPE) == GPIO_OType_PP) || ((OTYPE) == GPIO_OType_OD))
+/** 
+  * @brief  GPIO Configuration PullUp PullDown enumeration 
+  */ 
+typedef enum
+{ 
+  GPIO_PuPd_NOPULL = 0x00,
+  GPIO_PuPd_UP     = 0x01,
+  GPIO_PuPd_DOWN   = 0x02
+}GPIOPuPd_TypeDef;
+#define IS_GPIO_PUPD(PUPD) (((PUPD) == GPIO_PuPd_NOPULL) || ((PUPD) == GPIO_PuPd_UP) || \
+                            ((PUPD) == GPIO_PuPd_DOWN))
 
-#define PDout(n)   BIT_ADDR(GPIOD_OCTL_Addr,n)  //输出 
-#define PDin(n)    BIT_ADDR(GPIOD_ISTAT_Addr,n)  //输入 
 
-#define PEout(n)   BIT_ADDR(GPIOE_OCTL_Addr,n)  //输出 
-#define PEin(n)    BIT_ADDR(GPIOE_ISTAT_Addr,n)  //输入
+/** 
+  * @brief  GPIO Output Maximum frequency enumeration 
+  */  
+typedef enum
+{ 
+  GPIO_Low_Speed     = 0x00, /*!< Low speed    */
+  GPIO_Medium_Speed  = 0x01, /*!< Medium speed */
+  GPIO_Fast_Speed    = 0x02, /*!< Fast speed   */
+  GPIO_High_Speed    = 0x03  /*!< High speed   */
+}GPIOSpeed_TypeDef;
 
-#define PFout(n)   BIT_ADDR(GPIOF_OCTL_Addr,n)  //输出 
-#define PFin(n)    BIT_ADDR(GPIOF_ISTAT_Addr,n)  //输入
+/* Add legacy definition */
+#define  GPIO_Speed_2MHz    GPIO_Low_Speed    
+#define  GPIO_Speed_25MHz   GPIO_Medium_Speed 
+#define  GPIO_Speed_50MHz   GPIO_Fast_Speed 
+#define  GPIO_Speed_100MHz  GPIO_High_Speed  
+  
+#define IS_GPIO_SPEED(SPEED) (((SPEED) == GPIO_Low_Speed) || ((SPEED) == GPIO_Medium_Speed) || \
+                              ((SPEED) == GPIO_Fast_Speed)||  ((SPEED) == GPIO_High_Speed)) 
 
-#define PGout(n)   BIT_ADDR(GPIOG_OCTL_Addr,n)  //输出 
-#define PGin(n)    BIT_ADDR(GPIOG_ISTAT_Addr,n)  //输入
+/** 
+  * @brief  GPIO Bit SET and Bit RESET enumeration 
+  */ 
+typedef enum
+{ 
+  Bit_RESET = 0,
+  Bit_SET
+}BitAction;
+#define IS_GPIO_BIT_ACTION(ACTION) (((ACTION) == Bit_RESET) || ((ACTION) == Bit_SET))
 
-#define PHout(n)   BIT_ADDR(GPIOH_OCTL_Addr,n)  //输出 
-#define PHin(n)    BIT_ADDR(GPIOH_ISTAT_Addr,n)  //输入
+/** 
+  * @brief   GPIO Init structure definition  
+  */ 
+typedef struct
+{
+  uint32_t GPIO_Pin;              /*!< Specifies the GPIO pins to be configured.
+                                       This parameter can be any value of @ref GPIO_pins_define */
 
-#define PIout(n)   BIT_ADDR(GPIOI_OCTL_Addr,n)  //输出 
-#define PIin(n)    BIT_ADDR(GPIOI_ISTAT_Addr,n)  //输入
+  GPIOMode_TypeDef GPIO_Mode;     /*!< Specifies the operating mode for the selected pins.
+                                       This parameter can be a value of @ref GPIOMode_TypeDef */
+
+  GPIOSpeed_TypeDef GPIO_Speed;   /*!< Specifies the speed for the selected pins.
+                                       This parameter can be a value of @ref GPIOSpeed_TypeDef */
+
+  GPIOOType_TypeDef GPIO_OType;   /*!< Specifies the operating output type for the selected pins.
+                                       This parameter can be a value of @ref GPIOOType_TypeDef */
+
+  GPIOPuPd_TypeDef GPIO_PuPd;     /*!< Specifies the operating Pull-up/Pull down for the selected pins.
+                                       This parameter can be a value of @ref GPIOPuPd_TypeDef */
+}GPIO_InitTypeDef;
+
+/** @defgroup GPIO_pins_define 
+  * @{
+  */ 
+#define GPIO_Pin_0                 ((uint16_t)0x0001)  /* Pin 0 selected */
+#define GPIO_Pin_1                 ((uint16_t)0x0002)  /* Pin 1 selected */
+#define GPIO_Pin_2                 ((uint16_t)0x0004)  /* Pin 2 selected */
+#define GPIO_Pin_3                 ((uint16_t)0x0008)  /* Pin 3 selected */
+#define GPIO_Pin_4                 ((uint16_t)0x0010)  /* Pin 4 selected */
+#define GPIO_Pin_5                 ((uint16_t)0x0020)  /* Pin 5 selected */
+#define GPIO_Pin_6                 ((uint16_t)0x0040)  /* Pin 6 selected */
+#define GPIO_Pin_7                 ((uint16_t)0x0080)  /* Pin 7 selected */
+#define GPIO_Pin_8                 ((uint16_t)0x0100)  /* Pin 8 selected */
+#define GPIO_Pin_9                 ((uint16_t)0x0200)  /* Pin 9 selected */
+#define GPIO_Pin_10                ((uint16_t)0x0400)  /* Pin 10 selected */
+#define GPIO_Pin_11                ((uint16_t)0x0800)  /* Pin 11 selected */
+#define GPIO_Pin_12                ((uint16_t)0x1000)  /* Pin 12 selected */
+#define GPIO_Pin_13                ((uint16_t)0x2000)  /* Pin 13 selected */
+#define GPIO_Pin_14                ((uint16_t)0x4000)  /* Pin 14 selected */
+#define GPIO_Pin_15                ((uint16_t)0x8000)  /* Pin 15 selected */
+#define GPIO_Pin_All               ((uint16_t)0xFFFF)  /* All pins selected */
+
+#define GPIO_PIN_MASK              ((uint32_t)0x0000FFFF) /* PIN mask for assert test */
+#define IS_GPIO_PIN(PIN)           (((PIN) & GPIO_PIN_MASK ) != (uint32_t)0x00)
+#define IS_GET_GPIO_PIN(PIN) (((PIN) == GPIO_Pin_0) || \
+                              ((PIN) == GPIO_Pin_1) || \
+                              ((PIN) == GPIO_Pin_2) || \
+                              ((PIN) == GPIO_Pin_3) || \
+                              ((PIN) == GPIO_Pin_4) || \
+                              ((PIN) == GPIO_Pin_5) || \
+                              ((PIN) == GPIO_Pin_6) || \
+                              ((PIN) == GPIO_Pin_7) || \
+                              ((PIN) == GPIO_Pin_8) || \
+                              ((PIN) == GPIO_Pin_9) || \
+                              ((PIN) == GPIO_Pin_10) || \
+                              ((PIN) == GPIO_Pin_11) || \
+                              ((PIN) == GPIO_Pin_12) || \
+                              ((PIN) == GPIO_Pin_13) || \
+                              ((PIN) == GPIO_Pin_14) || \
+                              ((PIN) == GPIO_Pin_15))
+/**
+  * @}
+  */ 
+/** @defgroup GPIO_Pin_sources 
+  * @{
+  */ 
+#define GPIO_PinSource0            ((uint8_t)0x00)
+#define GPIO_PinSource1            ((uint8_t)0x01)
+#define GPIO_PinSource2            ((uint8_t)0x02)
+#define GPIO_PinSource3            ((uint8_t)0x03)
+#define GPIO_PinSource4            ((uint8_t)0x04)
+#define GPIO_PinSource5            ((uint8_t)0x05)
+#define GPIO_PinSource6            ((uint8_t)0x06)
+#define GPIO_PinSource7            ((uint8_t)0x07)
+#define GPIO_PinSource8            ((uint8_t)0x08)
+#define GPIO_PinSource9            ((uint8_t)0x09)
+#define GPIO_PinSource10           ((uint8_t)0x0A)
+#define GPIO_PinSource11           ((uint8_t)0x0B)
+#define GPIO_PinSource12           ((uint8_t)0x0C)
+#define GPIO_PinSource13           ((uint8_t)0x0D)
+#define GPIO_PinSource14           ((uint8_t)0x0E)
+#define GPIO_PinSource15           ((uint8_t)0x0F)
+
+#define IS_GPIO_PIN_SOURCE(PINSOURCE) (((PINSOURCE) == GPIO_PinSource0) || \
+                                       ((PINSOURCE) == GPIO_PinSource1) || \
+                                       ((PINSOURCE) == GPIO_PinSource2) || \
+                                       ((PINSOURCE) == GPIO_PinSource3) || \
+                                       ((PINSOURCE) == GPIO_PinSource4) || \
+                                       ((PINSOURCE) == GPIO_PinSource5) || \
+                                       ((PINSOURCE) == GPIO_PinSource6) || \
+                                       ((PINSOURCE) == GPIO_PinSource7) || \
+                                       ((PINSOURCE) == GPIO_PinSource8) || \
+                                       ((PINSOURCE) == GPIO_PinSource9) || \
+                                       ((PINSOURCE) == GPIO_PinSource10) || \
+                                       ((PINSOURCE) == GPIO_PinSource11) || \
+                                       ((PINSOURCE) == GPIO_PinSource12) || \
+                                       ((PINSOURCE) == GPIO_PinSource13) || \
+                                       ((PINSOURCE) == GPIO_PinSource14) || \
+                                       ((PINSOURCE) == GPIO_PinSource15))
+/**
+  * @}
+  */ 
 
 /* registers definitions */
 #define GPIO_CTL(gpiox)            REG32((gpiox) + 0x00U)    /*!< GPIO port control register */
@@ -350,6 +471,7 @@ typedef FlagStatus bit_status;
 #define GPIO_PUPD_PULLUP           PUD_PUPD(1)               /*!< with pull-up resistor */
 #define GPIO_PUPD_PULLDOWN         PUD_PUPD(2)               /*!< with pull-down resistor */
 
+
 /* GPIO pin definitions */
 #define GPIO_PIN_0                 BIT(0)                    /*!< GPIO pin 0 */
 #define GPIO_PIN_1                 BIT(1)                    /*!< GPIO pin 1 */
@@ -423,7 +545,16 @@ typedef FlagStatus bit_status;
 
 /* function declarations */
 /* reset GPIO port */
-void gpio_deinit(uint32_t gpio_periph);
+void GPIO_DeInit(GPIO_TypeDef* GPIOx);
+/* Initialization and Configuration functions *********************************/
+void GPIO_Init(GPIO_TypeDef* GPIOx, GPIO_InitTypeDef* GPIO_InitStruct);
+void GPIO_StructInit(GPIO_InitTypeDef* GPIO_InitStruct);
+void GPIO_PinLockConfig(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
+
+void GPIO_SetBits(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
+/* GPIO Alternate functions configuration function ****************************/
+void GPIO_PinAFConfig(GPIO_TypeDef* GPIOx, uint16_t GPIO_PinSource, uint8_t GPIO_AF);
+
 /* set GPIO mode */
 void gpio_mode_set(uint32_t gpio_periph, uint32_t mode, uint32_t pull_up_down, uint32_t pin);
 /* set GPIO output type and speed */

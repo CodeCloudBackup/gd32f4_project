@@ -4,8 +4,9 @@
 #include "gd32f4xx.h"
 #include "gd32f4xx_gpio.h"
 
-#define SCCB_SDA_IN() gpio_mode_set(GPIOD, GPIO_MODE_INPUT, GPIO_PUPD_NONE, GPIO_PIN_7);
-#define SCCB_SDA_OUT() gpio_mode_set(GPIOD, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO_PIN_7);
+//IO方向设置
+#define SCCB_SDA_IN()  {GPIOD->MODER&=~(3<<(7*2));GPIOD->MODER|=0<<7*2;}	//PD7 输入
+#define SCCB_SDA_OUT() {GPIOD->MODER&=~(3<<(7*2));GPIOD->MODER|=1<<7*2;} 	//PD7 输出
 #define SCCB_ID   			0X60  			//OV2640的ID
 
 //IO操作函数	 
