@@ -108,10 +108,16 @@ typedef union {
 		}Bits;
 }Byte8;
 
+typedef union 
+{
+	u8 u8_data[4];
+	u32 u32_data;
+} U8_U32;
+
 typedef struct
 {
-	uint32_t App_Version;
-	uint32_t App_Size;
+	U8_U32 App_Version;
+	U8_U32 App_Size;
 }APP_INFO;
 
 #define U8ToU32(u8_buf) ((*(u8_buf)<<24)|(*(u8_buf+1)<<16)|(*(u8_buf+2)<<8)|*(u8_buf+3))

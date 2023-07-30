@@ -40,14 +40,6 @@ OF SUCH DAMAGE.
 
 #include "gd32f4xx.h"
 
-/* SPIx(x=0,1,2,3,4,5) definitions */
-#define SPI0                            (SPI_BASE + 0x0000F800U)
-#define SPI1                            SPI_BASE
-#define SPI2                            (SPI_BASE + 0x00000400U)
-#define SPI3                            (SPI_BASE + 0x0000FC00U)
-#define SPI4                            (SPI_BASE + 0x00011800U)
-#define SPI5                            (SPI_BASE + 0x00011C00U)
-
 /* I2Sx_ADD(x=1,2) definitions */
 #define I2S1_ADD                        I2S_ADD_BASE
 #define I2S2_ADD                        (I2S_ADD_BASE + 0x00000C00U)

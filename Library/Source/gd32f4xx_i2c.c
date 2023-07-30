@@ -36,7 +36,7 @@ OF SUCH DAMAGE.
 */
 
 #include "gd32f4xx_i2c.h"
-
+#include "gd32f4xx_rcu.h"
 /* I2C register bit mask */
 #define I2CCLK_MAX                    ((uint32_t)0x00000032U)             /*!< i2cclk maximum value */
 #define I2CCLK_MIN                    ((uint32_t)0x00000002U)             /*!< i2cclk minimum value */
@@ -58,18 +58,18 @@ void i2c_deinit(uint32_t i2c_periph)
     switch(i2c_periph){
     case I2C0:
         /* reset I2C0 */
-        rcu_periph_reset_enable(RCU_I2C0RST);
-        rcu_periph_reset_disable(RCU_I2C0RST);
+				RCU_APB1PeriphResetCmd(RCU_APB1Periph_I2C0,ENABLE);
+				RCU_APB1PeriphResetCmd(RCU_APB1Periph_I2C0,DISABLE);
         break;
     case I2C1:
         /* reset I2C1 */
-        rcu_periph_reset_enable(RCU_I2C1RST);
-        rcu_periph_reset_disable(RCU_I2C1RST);
+				RCU_APB1PeriphResetCmd(RCU_APB1Periph_I2C1,ENABLE);
+				RCU_APB1PeriphResetCmd(RCU_APB1Periph_I2C1,DISABLE);
         break;
     case I2C2:
         /* reset I2C2 */
-        rcu_periph_reset_enable(RCU_I2C2RST);
-        rcu_periph_reset_disable(RCU_I2C2RST);
+				RCU_APB1PeriphResetCmd(RCU_APB1Periph_I2C2,ENABLE);
+				RCU_APB1PeriphResetCmd(RCU_APB1Periph_I2C2,DISABLE);
         break;
     default:
         break;
@@ -91,8 +91,9 @@ void i2c_clock_config(uint32_t i2c_periph, uint32_t clkspeed, uint32_t dutycyc)
 {
     uint32_t pclk1, clkc, freq, risetime;
     uint32_t temp;
-    
-    pclk1 = rcu_clock_freq_get(CK_APB1);
+    RCU_ClocksTypeDef RCU_ClocksStatus;
+		RCU_GetClocksFreq(&RCU_ClocksStatus);
+    pclk1 = RCU_ClocksStatus.PCLK1_Frequency;
     /* I2C peripheral clock frequency */
     freq = (uint32_t)(pclk1/1000000U);
     if(freq >= I2CCLK_MAX){

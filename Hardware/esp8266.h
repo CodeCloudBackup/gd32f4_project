@@ -37,23 +37,11 @@ typedef enum{
     Single_ID_0 = 5,
 } ENUM_ID_NO_TypeDef;
 
-#define ESP8266_RST_Pin                   GPIO_PIN_13    //复位管脚
-#define ESP8266_RST_Pin_Port              GPIOC    //复位 
 #define ESP8266_RST_Pin_Periph_Clock()    RCU->AHB1EN|=1<<2;//使能GPIOB时钟 
-
-
-
-#define ESP8266_RST    PCout(12) 
-#define ESP8266_RST_Pin_SetH     gpio_bit_set(ESP8266_RST_Pin_Port, ESP8266_RST_Pin)
-#define ESP8266_RST_Pin_SetL     gpio_bit_reset(ESP8266_RST_Pin_Port, ESP8266_RST_Pin)
-
-
-
+#define ESP8266_RST    PCout(13) 
 
 #define ESP8266_USART(fmt, ...)  USART_printf (USART5, fmt, ##__VA_ARGS__)    
 #define PC_USART(fmt, ...)       printf(fmt, ##__VA_ARGS__)       //这是串口打印函数，串口1，执行printf后会自动执行fput函数，重定向了printf。
-
-
 
 #define RX_BUF_MAX_LEN 1024       //最大字节数
 extern struct STRUCT_USART_Fram   //数据帧结构体

@@ -55,35 +55,35 @@ OF SUCH DAMAGE.
 void spi_i2s_deinit(uint32_t spi_periph)
 {
     switch(spi_periph){
-    case SPI0:
+    case SPI0_BASE:
         /* reset SPI0 */
-        rcu_periph_reset_enable(RCU_SPI0RST);
-        rcu_periph_reset_disable(RCU_SPI0RST);
+				RCU_APB2PeriphResetCmd(RCU_APB2Periph_SPI0,ENABLE);
+				RCU_APB2PeriphResetCmd(RCU_APB2Periph_SPI0,DISABLE);
         break;
-    case SPI1:
+    case SPI1_BASE:
+				RCU_APB1PeriphResetCmd(RCU_APB1Periph_SPI1,ENABLE);
+				RCU_APB1PeriphResetCmd(RCU_APB1Periph_SPI1,DISABLE);
         /* reset SPI1,I2S1 and I2S1_ADD */
-        rcu_periph_reset_enable(RCU_SPI1RST);
-        rcu_periph_reset_disable(RCU_SPI1RST);
         break;
-    case SPI2:
+    case SPI2_BASE:
         /* reset SPI2,I2S2 and I2S2_ADD */
-        rcu_periph_reset_enable(RCU_SPI2RST);
-        rcu_periph_reset_disable(RCU_SPI2RST);
+				RCU_APB1PeriphResetCmd(RCU_APB1Periph_SPI2,ENABLE);
+				RCU_APB1PeriphResetCmd(RCU_APB1Periph_SPI2,DISABLE);
         break;
-    case SPI3:
+    case SPI3_BASE:
         /* reset SPI3 */
-        rcu_periph_reset_enable(RCU_SPI3RST);
-        rcu_periph_reset_disable(RCU_SPI3RST);
+				RCU_APB2PeriphResetCmd(RCU_APB2Periph_SPI3,ENABLE);
+				RCU_APB2PeriphResetCmd(RCU_APB2Periph_SPI3,DISABLE);
         break;
-    case SPI4:
+    case SPI4_BASE:
         /* reset SPI4 */
-        rcu_periph_reset_enable(RCU_SPI4RST);
-        rcu_periph_reset_disable(RCU_SPI4RST);
+				RCU_APB2PeriphResetCmd(RCU_APB2Periph_SPI4,ENABLE);
+				RCU_APB2PeriphResetCmd(RCU_APB2Periph_SPI4,DISABLE);
         break;
-    case SPI5:
+    case SPI5_BASE:
         /* reset SPI5 */
-        rcu_periph_reset_enable(RCU_SPI5RST);
-        rcu_periph_reset_disable(RCU_SPI5RST);
+				RCU_APB2PeriphResetCmd(RCU_APB2Periph_SPI5,ENABLE);
+				RCU_APB2PeriphResetCmd(RCU_APB2Periph_SPI5,DISABLE);
         break;
     default :
         break;
@@ -247,40 +247,56 @@ void i2s_psc_config(uint32_t spi_periph, uint32_t i2s_audiosample, uint32_t i2s_
     uint32_t i2sdiv = 2U, i2sof = 0U;
     uint32_t clks = 0U;
     uint32_t i2sclock = 0U;
-
+	
 #ifndef I2S_EXTERNAL_CLOCK_IN
   uint32_t plli2sm = 0U, plli2sn = 0U, plli2sr = 0U;
 #endif /* I2S_EXTERNAL_CLOCK_IN */
-
+		uint32_t stb_cnt = 0U;
+    ErrStatus reval = ERROR;
+    FlagStatus osci_stat = RESET;
     /* deinit SPI_I2SPSC register */
     SPI_I2SPSC(spi_periph) = SPI_I2SPSC_DEFAULT_VALUE;
 
 #ifdef I2S_EXTERNAL_CLOCK_IN
-    rcu_i2s_clock_config(RCU_I2SSRC_I2S_CKIN);
+    RCC_I2SCLKConfig(RCU_I2S2CLKSource_Ext);
 
     /* set the I2S clock to the external clock input value */
     i2sclock = I2S_EXTERNAL_CLOCK_IN;
 #else
 
     /* turn on the oscillator HXTAL */
-    rcu_osci_on(RCU_HXTAL);
-    /* wait for oscillator stabilization flags is SET */
-    rcu_osci_stab_wait(RCU_HXTAL);
-    /* turn on the PLLI2S */
-    rcu_osci_on(RCU_PLLI2S_CK);
-    /* wait for PLLI2S flags is SET */
-    rcu_osci_stab_wait(RCU_PLLI2S_CK);
+		RCU->CTL |= BIT(16);
+		
+		while((RESET == osci_stat) && (HXTAL_STARTUP_TIMEOUT != stb_cnt)){
+            osci_stat = RCU_GetFlagStatus(RCU_FLAG_HXTALSTB);
+            stb_cnt++;
+    }
+        
+        /* check whether flag is set */
+    if(RESET != RCU_GetFlagStatus(RCU_FLAG_HXTALSTB)){
+            reval = SUCCESS;
+     }
+		
+		RCU->CTL|=BIT(26);
+		while((RESET == osci_stat) && (OSC_STARTUP_TIMEOUT != stb_cnt)){
+            osci_stat = RCU_GetFlagStatus(RCU_FLAG_PLLI2SSTB);
+            stb_cnt++;
+    }
+        
+        /* check whether flag is set */
+    if(RESET != RCU_GetFlagStatus(RCU_FLAG_PLLI2SSTB)){
+            reval = SUCCESS;
+     }
     /* configure the I2S clock source selection */
-    rcu_i2s_clock_config(RCU_I2SSRC_PLLI2S);
-
+		RCC_I2SCLKConfig(RCU_I2S2CLKSource_PLLI2S);
     /* get the RCU_PLL_PLLPSC value */
-    plli2sm = (uint32_t)(RCU_PLL & RCU_PLL_PLLPSC);
+    plli2sm = (uint32_t)(RCU->PLL & RCU_PLL_PLLPSC);
     /* get the RCU_PLLI2S_PLLI2SN value */
-    plli2sn = (uint32_t)((RCU_PLLI2S & RCU_PLLI2S_PLLI2SN) >> 6);
+    plli2sn = (uint32_t)((RCU->PLLI2S & RCU_PLLI2S_PLLI2SN) >> 6);
     /* get the RCU_PLLI2S_PLLI2SR value */
-    plli2sr = (uint32_t)((RCU_PLLI2S & RCU_PLLI2S_PLLI2SR) >> 28);
+    plli2sr = (uint32_t)((RCU->PLLI2S & RCU_PLLI2S_PLLI2SR) >> 28);
 
-    if((RCU_PLL & RCU_PLL_PLLSEL) == RCU_PLLSRC_HXTAL)
+    if((RCU->PLL & RCU_PLL_PLLSEL) == RCU_PLLSRC_HXTAL)
     {
       /* get the I2S source clock value */
       i2sclock = (uint32_t)(((HXTAL_VALUE / plli2sm) * plli2sn) / plli2sr);

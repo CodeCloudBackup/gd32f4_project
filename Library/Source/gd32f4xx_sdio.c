@@ -44,8 +44,8 @@ OF SUCH DAMAGE.
 */
 void sdio_deinit(void)
 {
-    rcu_periph_reset_enable(RCU_SDIORST);
-    rcu_periph_reset_disable(RCU_SDIORST);
+		RCU_APB2PeriphResetCmd(RCU_APB2Periph_SDIO,ENABLE);
+		RCU_APB2PeriphResetCmd(RCU_APB2Periph_SDIO,DISABLE);
 }
 
 /*!

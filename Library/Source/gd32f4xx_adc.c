@@ -68,8 +68,8 @@ OF SUCH DAMAGE.
 */
 void adc_deinit(void)
 {
-    rcu_periph_reset_enable(RCU_ADCRST);
-    rcu_periph_reset_disable(RCU_ADCRST);
+		RCU_APB2PeriphResetCmd(RCU_APB2Periph_ADC0,ENABLE);
+    RCU_APB2PeriphResetCmd(RCU_APB2Periph_ADC0,DISABLE);
 }
 
 /*!

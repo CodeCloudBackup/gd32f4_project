@@ -48,73 +48,73 @@ void timer_deinit(uint32_t timer_periph)
     switch(timer_periph){
     case TIMER0:
         /* reset TIMER0 */
-        rcu_periph_reset_enable(RCU_TIMER0RST);
-        rcu_periph_reset_disable(RCU_TIMER0RST);
+				RCU_APB2PeriphResetCmd(RCU_APB2Periph_TIM0,ENABLE);
+				RCU_APB2PeriphResetCmd(RCU_APB2Periph_TIM0,DISABLE);
         break;
     case TIMER1:
         /* reset TIMER1 */
-        rcu_periph_reset_enable(RCU_TIMER1RST);
-        rcu_periph_reset_disable(RCU_TIMER1RST);
+				RCU_APB1PeriphResetCmd(RCU_APB1Periph_TIM1,ENABLE);
+				RCU_APB1PeriphResetCmd(RCU_APB1Periph_TIM1,DISABLE);
         break;
     case TIMER2:
         /* reset TIMER2 */
-        rcu_periph_reset_enable(RCU_TIMER2RST);
-        rcu_periph_reset_disable(RCU_TIMER2RST);
+				RCU_APB1PeriphResetCmd(RCU_APB1Periph_TIM2,ENABLE);
+				RCU_APB1PeriphResetCmd(RCU_APB1Periph_TIM2,DISABLE);
         break;
     case TIMER3:
         /* reset TIMER3 */
-        rcu_periph_reset_enable(RCU_TIMER3RST);
-        rcu_periph_reset_disable(RCU_TIMER3RST);
+				RCU_APB1PeriphResetCmd(RCU_APB1Periph_TIM3,ENABLE);
+				RCU_APB1PeriphResetCmd(RCU_APB1Periph_TIM3,DISABLE);
         break;
     case TIMER4:
         /* reset TIMER4 */
-        rcu_periph_reset_enable(RCU_TIMER4RST);
-        rcu_periph_reset_disable(RCU_TIMER4RST);
+				RCU_APB1PeriphResetCmd(RCU_APB1Periph_TIM4,ENABLE);
+				RCU_APB1PeriphResetCmd(RCU_APB1Periph_TIM4,DISABLE);
         break;
     case TIMER5:
         /* reset TIMER5 */
-        rcu_periph_reset_enable(RCU_TIMER5RST);
-        rcu_periph_reset_disable(RCU_TIMER5RST);
+				RCU_APB1PeriphResetCmd(RCU_APB1Periph_TIM5,ENABLE);
+				RCU_APB1PeriphResetCmd(RCU_APB1Periph_TIM5,DISABLE);
         break;
     case TIMER6:
         /* reset TIMER6 */
-        rcu_periph_reset_enable(RCU_TIMER6RST);
-        rcu_periph_reset_disable(RCU_TIMER6RST);
+				RCU_APB1PeriphResetCmd(RCU_APB1Periph_TIM6,ENABLE);
+				RCU_APB1PeriphResetCmd(RCU_APB1Periph_TIM6,DISABLE);
         break;
     case TIMER7:
         /* reset TIMER7 */
-        rcu_periph_reset_enable(RCU_TIMER7RST);
-        rcu_periph_reset_disable(RCU_TIMER7RST);
+				RCU_APB2PeriphResetCmd(RCU_APB2Periph_TIM7,ENABLE);
+				RCU_APB2PeriphResetCmd(RCU_APB2Periph_TIM7,DISABLE);
         break;
     case TIMER8:
         /* reset TIMER8 */
-        rcu_periph_reset_enable(RCU_TIMER8RST);
-        rcu_periph_reset_disable(RCU_TIMER8RST);
+				RCU_APB2PeriphResetCmd(RCU_APB2Periph_TIM8,ENABLE);
+				RCU_APB2PeriphResetCmd(RCU_APB2Periph_TIM8,DISABLE);
         break;
     case TIMER9:
         /* reset TIMER9 */
-        rcu_periph_reset_enable(RCU_TIMER9RST);
-        rcu_periph_reset_disable(RCU_TIMER9RST);
+				RCU_APB2PeriphResetCmd(RCU_APB2Periph_TIM9,ENABLE);
+				RCU_APB2PeriphResetCmd(RCU_APB2Periph_TIM9,DISABLE);
         break;
     case TIMER10:
         /* reset TIMER10 */
-        rcu_periph_reset_enable(RCU_TIMER10RST);
-        rcu_periph_reset_disable(RCU_TIMER10RST);
+        RCU_APB2PeriphResetCmd(RCU_APB2Periph_TIM10,ENABLE);
+				RCU_APB2PeriphResetCmd(RCU_APB2Periph_TIM10,DISABLE);
         break;
     case TIMER11:
         /* reset TIMER11 */
-        rcu_periph_reset_enable(RCU_TIMER11RST);
-        rcu_periph_reset_disable(RCU_TIMER11RST);
+				RCU_APB1PeriphResetCmd(RCU_APB1Periph_TIM11,ENABLE);
+				RCU_APB1PeriphResetCmd(RCU_APB1Periph_TIM11,DISABLE);
         break;
     case TIMER12:
         /* reset TIMER12 */
-        rcu_periph_reset_enable(RCU_TIMER12RST);
-        rcu_periph_reset_disable(RCU_TIMER12RST);
+				RCU_APB1PeriphResetCmd(RCU_APB1Periph_TIM12,ENABLE);
+				RCU_APB1PeriphResetCmd(RCU_APB1Periph_TIM12,DISABLE);
         break;
     case TIMER13:
         /* reset TIMER13 */
-        rcu_periph_reset_enable(RCU_TIMER13RST);
-        rcu_periph_reset_disable(RCU_TIMER13RST);
+				RCU_APB1PeriphResetCmd(RCU_APB1Periph_TIM13,ENABLE);
+				RCU_APB1PeriphResetCmd(RCU_APB1Periph_TIM13,DISABLE);
         break;
     default:
         break;

@@ -44,6 +44,8 @@ OF SUCH DAMAGE.
 */
 void iref_deinit(void)
 {
+		RCU_APB1PeriphResetCmd(RCU_APB1Periph_PWR,ENABLE);
+		RCU_APB1PeriphResetCmd(RCU_APB1Periph_PWR,DISABLE);
     rcu_periph_reset_enable(RCU_IREFRST);
     rcu_periph_reset_disable(RCU_IREFRST);
 }

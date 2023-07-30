@@ -44,8 +44,8 @@ OF SUCH DAMAGE.
 */
 void syscfg_deinit(void)
 {
-    rcu_periph_reset_enable(RCU_SYSCFGRST);
-    rcu_periph_reset_disable(RCU_SYSCFGRST);
+		RCU_APB2PeriphResetCmd(RCU_APB2Periph_SYSCFG,ENABLE);
+		RCU_APB2PeriphResetCmd(RCU_APB2Periph_SYSCFG,DISABLE);
 }
 
 /*!

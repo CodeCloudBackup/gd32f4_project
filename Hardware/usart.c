@@ -91,8 +91,8 @@ void USART0_Config(void)
 	GPIO_Init(GPIOA,&GPIO_InitStructure); //初始化PA8，PA9
 	
 	//串口0对应引脚复用映射
-	GPIO_PinAFConfig(GPIOA,GPIO_PinSource9,GPIO_AF_7); //GPIOA8复用为USART0
-	GPIO_PinAFConfig(GPIOA,GPIO_PinSource10,GPIO_AF_7); //GPIOA9复用为USART0
+	GPIO_PinAFConfig(GPIOA,GPIO_PinSource9,GPIO_AF_USART1); //GPIOA8复用为USART0
+	GPIO_PinAFConfig(GPIOA,GPIO_PinSource10,GPIO_AF_USART1); //GPIOA9复用为USART0
 }
 
 //串口发送缓存区 	
@@ -180,8 +180,8 @@ void USART5_Config(void)
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP; //上拉
 	GPIO_Init(GPIOC,&GPIO_InitStructure); //初始化PC6，PC7
 	//串口1对应引脚复用映射
-	GPIO_PinAFConfig(GPIOC,GPIO_PinSource6,GPIO_AF_8); //GPIOC6复用为USART5
-	GPIO_PinAFConfig(GPIOC,GPIO_PinSource7,GPIO_AF_8); //GPIOC7复用为USART5
+	GPIO_PinAFConfig(GPIOC,GPIO_PinSource6,GPIO_AF_USART6); //GPIOC6复用为USART5
+	GPIO_PinAFConfig(GPIOC,GPIO_PinSource7,GPIO_AF_USART6); //GPIOC7复用为USART5
 }
 
 void USART2_Config(void)
@@ -199,8 +199,8 @@ void USART2_Config(void)
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP; //上拉
 	GPIO_Init(GPIOB,&GPIO_InitStructure); //初始化PB10，PB11
 	//串口1对应引脚复用映射
-	GPIO_PinAFConfig(GPIOB,GPIO_PinSource10,GPIO_AF_7); //GPIOB10复用为USART2
-	GPIO_PinAFConfig(GPIOB,GPIO_PinSource11,GPIO_AF_7); //GPIOB11复用为USART2
+	GPIO_PinAFConfig(GPIOB,GPIO_PinSource10,GPIO_AF_USART3); //GPIOB10复用为USART2
+	GPIO_PinAFConfig(GPIOB,GPIO_PinSource11,GPIO_AF_USART3); //GPIOB11复用为USART2
 }
 
 void USART1_Config(void)
@@ -218,8 +218,8 @@ void USART1_Config(void)
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP; //上拉
 	GPIO_Init(GPIOA,&GPIO_InitStructure); //初始化PA2，PA3
 	//串口1对应引脚复用映射
-	GPIO_PinAFConfig(GPIOA,GPIO_PinSource2,GPIO_AF_7); //GPIOB10复用为USART1
-	GPIO_PinAFConfig(GPIOA,GPIO_PinSource3,GPIO_AF_7); //GPIOB11复用为USART1
+	GPIO_PinAFConfig(GPIOA,GPIO_PinSource2,GPIO_AF_USART2); //GPIOB10复用为USART1
+	GPIO_PinAFConfig(GPIOA,GPIO_PinSource3,GPIO_AF_USART2); //GPIOB11复用为USART1
 }
 
 void USART2_Clear(void)
@@ -281,6 +281,7 @@ void USART_Init(u32 usart_periph, u32 baud)
 					usart_prior[0]=0;
 					usart_prior[1]=1;
 					usart_num = USART2_IRQn;
+					USART2_RX_STA = 0;
 					break;
 			case USART5:
 					USART5_Config();

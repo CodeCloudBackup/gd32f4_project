@@ -106,7 +106,6 @@ void TIMER1_Init(void)
     timer_parameter_struct timer_initpara;
     RCU->APB1EN|=1<<0;//使能TIME1时钟	
 		RCU->CFG1|=BIT(24);//AP1总线最高42MHZ,所以TIME1到168M需要4倍频
-	  //rcu_timer_clock_prescaler_config(RCU_TIMER_PSC_MUL4);
     timer_deinit(TIMER1);
     /* TIMER1 configuration */
     timer_initpara.prescaler         = 167;

@@ -1,6 +1,6 @@
 #include "http.h"
 #include <string.h>
-
+#include <stdlib.h>
 static char g_urlStr[100];
 static char *g_interface = "/iob/download/app.bin";
 static char *g_ip = "101.37.89.157";
@@ -40,10 +40,9 @@ BOOL Http_Program(void)
 					http_buff = mymalloc(SRAMIN, 32*1024);
 				if(USART2_Revice(DATA,http_buff)){
 					resp_code = Analysis_Http_Download_Header(http_buff, sizeof(http_buff), &is_stream, &cont_len);
-					if(resp_code == 200)
-					{
-						g_appInfo.App_Version = 0x12345679;
-						g_appInfo.App_Size = cont_len;
+					if(resp_code == 200){
+						g_appInfo.App_Version.u32_data = 0x12345679;
+						g_appInfo.App_Size.u32_data = cont_len;
 						state++;
 					}
 				}else state = 0;
@@ -51,13 +50,16 @@ BOOL Http_Program(void)
 			case 2:
 				if(Get_Http_Download_File(http_buff, cont_len, &head_len))
 				{
-					//Flash_WriteSomeBytes((u8*)app_info,0,8);
-					Flash_WriteSomeBytes(http_buff+head_len,8,g_appInfo.App_Size);//把WriteBuff数组中的内容写入FLASH 0地址
+					memcpy(http_buff+head_len-8,(u8*)&g_appInfo,8);
+					Flash_WriteSomeBytes(http_buff+head_len-8,0,g_appInfo.App_Size.u32_data);//把WriteBuff数组中的内容写入FLASH 0地址
 					memset((u8*)http_buff, 0 ,8*4096);
 					Flash_ReadSomeBytes(http_buff,8,4096);
 					flag = 0;
-					myfree(SRAMIN, http_buff);
-					http_buff =NULL;
+					if(http_buff != NULL){
+							myfree(SRAMIN, http_buff);
+							http_buff =NULL;
+					}
+					
 					state++;
 				}
 				break;
@@ -120,7 +122,7 @@ u8 Analysis_Http_Download_Header(u8* buff, u16 len_buf, u8 *is_stream, u32 *cont
 BOOL Get_Http_Download_File(u8* buff, u32 size, u32* head_len)
 {
 	u8* posHeader = NULL;
-	posHeader = (u8*)strstr((char*)buff, "\r\n\r\n");
+	posHeader = (u8*)strstr((char*)(buff+27), "\r\n\r\n");
 	*head_len = posHeader + 4 - buff;
 	return TRUE;
 }

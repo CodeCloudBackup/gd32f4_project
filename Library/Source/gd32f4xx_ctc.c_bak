@@ -53,6 +53,8 @@ OF SUCH DAMAGE.
 void ctc_deinit(void)
 {
     /* reset CTC */
+		RCU_APB1PeriphResetCmd(RCU_APB1Periph_UART7,ENABLE);
+        RCU_APB1PeriphResetCmd(RCU_APB1Periph_UART7,DISABLE);
     rcu_periph_reset_enable(RCU_CTCRST);
     rcu_periph_reset_disable(RCU_CTCRST);
 }

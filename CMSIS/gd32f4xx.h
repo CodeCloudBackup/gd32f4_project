@@ -45,7 +45,7 @@ OF SUCH DAMAGE.
 #if !defined (GD32F450)  && !defined (GD32F405) && !defined (GD32F407)
   /* #define GD32F450 */
   /* #define GD32F405 */
-  /* #define GD32F407 */
+   /*  #define GD32F407 */
 #endif /* define GD32F4xx */
    
 #if !defined (GD32F450)  && !defined (GD32F405) && !defined (GD32F407)
@@ -386,7 +386,31 @@ typedef struct
   __IO uint32_t LCKR;     /*!< GPIO port configuration lock register, Address offset: 0x1C      */
   __IO uint32_t AFR[2];   /*!< GPIO alternate function registers,     Address offset: 0x20-0x24 */
 } GPIO_TypeDef;
+/** 
+  * @brief Serial Peripheral Interface
+  */
 
+typedef struct
+{
+  __IO uint16_t CR1;        /*!< SPI control register 1 (not used in I2S mode),      Address offset: 0x00 */
+  uint16_t      RESERVED0;  /*!< Reserved, 0x02                                                           */
+  __IO uint16_t CR2;        /*!< SPI control register 2,                             Address offset: 0x04 */
+  uint16_t      RESERVED1;  /*!< Reserved, 0x06                                                           */
+  __IO uint16_t SR;         /*!< SPI status register,                                Address offset: 0x08 */
+  uint16_t      RESERVED2;  /*!< Reserved, 0x0A                                                           */
+  __IO uint16_t DR;         /*!< SPI data register,                                  Address offset: 0x0C */
+  uint16_t      RESERVED3;  /*!< Reserved, 0x0E                                                           */
+  __IO uint16_t CRCPR;      /*!< SPI CRC polynomial register (not used in I2S mode), Address offset: 0x10 */
+  uint16_t      RESERVED4;  /*!< Reserved, 0x12                                                           */
+  __IO uint16_t RXCRCR;     /*!< SPI RX CRC register (not used in I2S mode),         Address offset: 0x14 */
+  uint16_t      RESERVED5;  /*!< Reserved, 0x16                                                           */
+  __IO uint16_t TXCRCR;     /*!< SPI TX CRC register (not used in I2S mode),         Address offset: 0x18 */
+  uint16_t      RESERVED6;  /*!< Reserved, 0x1A                                                           */
+  __IO uint16_t I2SCFGR;    /*!< SPI_I2S configuration register,                     Address offset: 0x1C */
+  uint16_t      RESERVED7;  /*!< Reserved, 0x1E                                                           */
+  __IO uint16_t I2SPR;      /*!< SPI_I2S prescaler register,                         Address offset: 0x20 */
+  uint16_t      RESERVED8;  /*!< Reserved, 0x22                                                           */
+} SPI_TypeDef;
 /** 
   * @brief DCMI
   */
@@ -437,10 +461,25 @@ typedef struct
 #define GET_BITS(regval, start, end) (((regval) & BITS((start),(end))) >> (start))
 
 /* main flash and SRAM memory map */
-#define FLASH_BASE            ((u32)0x08000000U)        /*!< main FLASH base address          */
-#define TCMSRAM_BASE          ((u32)0x10000000U)        /*!< TCMSRAM(64KB) base address       */
+
+/** @addtogroup Peripheral_memory_map
+  * @{
+  */
+#define FLASH_BASE            ((u32)0x08000000) /*!< FLASH(up to 1 MB) base address in the alias region                         */
+#define TCMSRAM_BASE     		  ((u32)0x10000000) /*!< CCM(core coupled memory) data RAM(64 KB) base address in the alias region  */
+#define SRAM1_BASE            ((u32)0x20000000) /*!< SRAM1(112 KB) base address in the alias region                             */
+#define SRAM2_BASE            ((u32)0x2001C000) /*!< SRAM2(16 KB) base address in the alias region                              */
+#define SRAM3_BASE            ((u32)0x20020000) /*!< SRAM3(64 KB) base address in the alias region                              */
+#define PERIPH_BASE           ((u32)0x40000000) /*!< Peripheral base address in the alias region                                */
+#define BKPSRAM_BASE          ((u32)0x40024000) /*!< Backup SRAM(4 KB) base address in the alias region     											*/
 #define OPTION_BASE           ((u32)0x1FFEC000U)        /*!< Option bytes base address        */
-#define SRAM_BASE             ((u32)0x20000000U)        /*!< SRAM0 base address               */
+
+#define CCMDATARAM_BB_BASE    ((uint32_t)0x12000000) /*!< CCM(core coupled memory) data RAM(64 KB) base address in the bit-band region  */
+#define SRAM1_BB_BASE         ((uint32_t)0x22000000) /*!< SRAM1(112 KB) base address in the bit-band region                             */
+#define SRAM2_BB_BASE         ((uint32_t)0x2201C000) /*!< SRAM2(16 KB) base address in the bit-band region                              */
+#define SRAM3_BB_BASE         ((uint32_t)0x22400000) /*!< SRAM3(64 KB) base address in the bit-band region                              */
+#define PERIPH_BB_BASE        ((uint32_t)0x42000000) /*!< Peripheral base address in the bit-band region                                */
+#define BKPSRAM_BB_BASE       ((uint32_t)0x42024000) /*!< Backup SRAM(4 KB) base address in the bit-band region  */
 
 /* peripheral memory map */
 #define APB1_BUS_BASE         ((uint32_t)0x40000000U)        /*!< apb1 base address                */
@@ -458,6 +497,10 @@ typedef struct
 #define FWDGT_BASE            (APB1_BUS_BASE + 0x00003000U)  /*!< FWDGT base address               */
 #define I2S_ADD_BASE          (APB1_BUS_BASE + 0x00003400U)  /*!< I2S1_add base address            */
 #define SPI_BASE              (APB1_BUS_BASE + 0x00003800U)  /*!< SPI base address                 */
+#define I2S1ext_BASE          (APB1_BUS_BASE + 0x00003400U)
+#define SPI1_BASE             (APB1_BUS_BASE + 0x00003800U)
+#define SPI2_BASE             (APB1_BUS_BASE + 0x00003C00U)
+#define I2S2ext_BASE          (APB1_BUS_BASE + 0x00004000U)
 #define USART_BASE            (APB1_BUS_BASE + 0x00004400U)  /*!< USART base address               */
 #define I2C_BASE              (APB1_BUS_BASE + 0x00005400U)  /*!< I2C base address                 */
 #define CAN_BASE              (APB1_BUS_BASE + 0x00006400U)  /*!< CAN base address                 */
@@ -467,11 +510,15 @@ typedef struct
 #define IREF_BASE             (APB1_BUS_BASE + 0x0000C400U)  /*!< IREF base address                */
 
 /* advanced peripheral bus 2 memory map */
-#define TLI_BASE              (APB2_BUS_BASE + 0x00006800U)  /*!< TLI base address                 */
+#define ADC_BASE              (APB2_BUS_BASE + 0x00002000U)  /*!< ADC base address                 */
+#define SDIO_BASE             (APB2_BUS_BASE + 0x00002C00U)  /*!< SDIO base address                */
+#define SPI0_BASE             (APB2_BUS_BASE + 0x00003000U)
+#define SPI3_BASE             (APB2_BUS_BASE + 0x00003400U)
 #define SYSCFG_BASE           (APB2_BUS_BASE + 0x00003800U)  /*!< SYSCFG base address              */
 #define EXTI_BASE             (APB2_BUS_BASE + 0x00003C00U)  /*!< EXTI base address                */
-#define SDIO_BASE             (APB2_BUS_BASE + 0x00002C00U)  /*!< SDIO base address                */
-#define ADC_BASE              (APB2_BUS_BASE + 0x00002000U)  /*!< ADC base address                 */
+#define SPI4_BASE             (APB2_BUS_BASE + 0x00005000U)
+#define SPI5_BASE             (APB2_BUS_BASE + 0x00005400U)
+#define TLI_BASE              (APB2_BUS_BASE + 0x00006800U)  /*!< TLI base address                 */
 /* advanced high performance bus 1 memory map */
 #define GPIO_BASE             (AHB1_BUS_BASE + 0x00000000U)  /*!< GPIO base address                */
 /*!< AHB1 peripherals */
@@ -489,7 +536,7 @@ typedef struct
 #define CRC_BASE              (AHB1_BUS_BASE + 0x00003000U)  /*!< CRC base address                 */
 #define RCU_BASE              (AHB1_BUS_BASE + 0x00003800U)  /*!< RCU base address                 */
 #define FMC_BASE              (AHB1_BUS_BASE + 0x00003C00U)  /*!< FMC base address                 */
-#define BKPSRAM_BASE          (AHB1_BUS_BASE + 0x00004000U)  /*!< BKPSRAM base address             */
+
 #define DMA0_BASE             (AHB1_BUS_BASE + 0x00006000U)  /*!< DMA base address                 */
 #define DMA0_Stream0_BASE     (DMA0_BASE   +   0x00000010U)
 #define DMA0_Stream1_BASE     (DMA0_BASE   +   0x00000028U)
@@ -525,7 +572,12 @@ typedef struct
 /** @addtogroup Peripheral_declaration
   * @{
   */ 
-#define RCU 									((RCU_TypeDef *) RCU_BASE)
+#define SPI1                	((SPI_TypeDef *) SPI1_BASE)
+#define SPI2                	((SPI_TypeDef *) SPI2_BASE)
+#define SPI0               	 	((SPI_TypeDef *) SPI0_BASE) 
+#define SPI3               		((SPI_TypeDef *) SPI3_BASE)
+#define SPI4               		((SPI_TypeDef *) SPI4_BASE)
+#define SPI5                	((SPI_TypeDef *) SPI5_BASE)
 #define DCMI                	((DCMI_TypeDef *) DCMI_BASE)
 #define GPIOA             	  ((GPIO_TypeDef *) GPIOA_BASE)
 #define GPIOB               	((GPIO_TypeDef *) GPIOB_BASE)
@@ -536,6 +588,7 @@ typedef struct
 #define GPIOG               	((GPIO_TypeDef *) GPIOG_BASE)
 #define GPIOH               	((GPIO_TypeDef *) GPIOH_BASE)
 #define GPIOI              		((GPIO_TypeDef *) GPIOI_BASE)
+#define RCU 									((RCU_TypeDef *) RCU_BASE)
 #define DMA0                	((DMA_TypeDef *) DMA0_BASE)
 #define DMA0_Stream0        ((DMA_Stream_TypeDef *) DMA0_Stream0_BASE)
 #define DMA0_Stream1        ((DMA_Stream_TypeDef *) DMA0_Stream1_BASE)
@@ -554,6 +607,223 @@ typedef struct
 #define DMA1_Stream5        ((DMA_Stream_TypeDef *) DMA1_Stream5_BASE)
 #define DMA1_Stream6        ((DMA_Stream_TypeDef *) DMA1_Stream6_BASE)
 #define DMA1_Stream7        ((DMA_Stream_TypeDef *) DMA1_Stream7_BASE)
+
+/******************************************************************************/
+/*                                                                            */
+/*                         Reset and Clock Control                            */
+/*                                                                            */
+/******************************************************************************/
+/********************  Bit definition for RCC_CR register  ********************/
+#define  RCC_CR_HSION                        ((uint32_t)0x00000001)
+#define  RCC_CR_HSIRDY                       ((uint32_t)0x00000002)
+
+#define  RCC_CR_HSITRIM                      ((uint32_t)0x000000F8)
+#define  RCC_CR_HSITRIM_0                    ((uint32_t)0x00000008)/*!<Bit 0 */
+#define  RCC_CR_HSITRIM_1                    ((uint32_t)0x00000010)/*!<Bit 1 */
+#define  RCC_CR_HSITRIM_2                    ((uint32_t)0x00000020)/*!<Bit 2 */
+#define  RCC_CR_HSITRIM_3                    ((uint32_t)0x00000040)/*!<Bit 3 */
+#define  RCC_CR_HSITRIM_4                    ((uint32_t)0x00000080)/*!<Bit 4 */
+
+#define  RCC_CR_HSICAL                       ((uint32_t)0x0000FF00)
+#define  RCC_CR_HSICAL_0                     ((uint32_t)0x00000100)/*!<Bit 0 */
+#define  RCC_CR_HSICAL_1                     ((uint32_t)0x00000200)/*!<Bit 1 */
+#define  RCC_CR_HSICAL_2                     ((uint32_t)0x00000400)/*!<Bit 2 */
+#define  RCC_CR_HSICAL_3                     ((uint32_t)0x00000800)/*!<Bit 3 */
+#define  RCC_CR_HSICAL_4                     ((uint32_t)0x00001000)/*!<Bit 4 */
+#define  RCC_CR_HSICAL_5                     ((uint32_t)0x00002000)/*!<Bit 5 */
+#define  RCC_CR_HSICAL_6                     ((uint32_t)0x00004000)/*!<Bit 6 */
+#define  RCC_CR_HSICAL_7                     ((uint32_t)0x00008000)/*!<Bit 7 */
+
+#define  RCC_CR_HSEON                        ((uint32_t)0x00010000)
+#define  RCC_CR_HSERDY                       ((uint32_t)0x00020000)
+#define  RCC_CR_HSEBYP                       ((uint32_t)0x00040000)
+#define  RCC_CR_CSSON                        ((uint32_t)0x00080000)
+#define  RCC_CR_PLLON                        ((uint32_t)0x01000000)
+#define  RCC_CR_PLLRDY                       ((uint32_t)0x02000000)
+#define  RCC_CR_PLLI2SON                     ((uint32_t)0x04000000)
+#define  RCC_CR_PLLI2SRDY                    ((uint32_t)0x08000000)
+#define  RCC_CR_PLLSAION                     ((uint32_t)0x10000000)
+#define  RCC_CR_PLLSAIRDY                    ((uint32_t)0x20000000)
+
+/********************  Bit definition for RCC_PLLCFGR register  ***************/
+#define  RCC_PLLCFGR_PLLM                    ((uint32_t)0x0000003F)
+#define  RCC_PLLCFGR_PLLM_0                  ((uint32_t)0x00000001)
+#define  RCC_PLLCFGR_PLLM_1                  ((uint32_t)0x00000002)
+#define  RCC_PLLCFGR_PLLM_2                  ((uint32_t)0x00000004)
+#define  RCC_PLLCFGR_PLLM_3                  ((uint32_t)0x00000008)
+#define  RCC_PLLCFGR_PLLM_4                  ((uint32_t)0x00000010)
+#define  RCC_PLLCFGR_PLLM_5                  ((uint32_t)0x00000020)
+
+#define  RCC_PLLCFGR_PLLN                     ((uint32_t)0x00007FC0)
+#define  RCC_PLLCFGR_PLLN_0                   ((uint32_t)0x00000040)
+#define  RCC_PLLCFGR_PLLN_1                   ((uint32_t)0x00000080)
+#define  RCC_PLLCFGR_PLLN_2                   ((uint32_t)0x00000100)
+#define  RCC_PLLCFGR_PLLN_3                   ((uint32_t)0x00000200)
+#define  RCC_PLLCFGR_PLLN_4                   ((uint32_t)0x00000400)
+#define  RCC_PLLCFGR_PLLN_5                   ((uint32_t)0x00000800)
+#define  RCC_PLLCFGR_PLLN_6                   ((uint32_t)0x00001000)
+#define  RCC_PLLCFGR_PLLN_7                   ((uint32_t)0x00002000)
+#define  RCC_PLLCFGR_PLLN_8                   ((uint32_t)0x00004000)
+
+#define  RCC_PLLCFGR_PLLP                    ((uint32_t)0x00030000)
+#define  RCC_PLLCFGR_PLLP_0                  ((uint32_t)0x00010000)
+#define  RCC_PLLCFGR_PLLP_1                  ((uint32_t)0x00020000)
+
+#define  RCC_PLLCFGR_PLLSRC                  ((uint32_t)0x00400000)
+#define  RCC_PLLCFGR_PLLSRC_HSE              ((uint32_t)0x00400000)
+#define  RCC_PLLCFGR_PLLSRC_HSI              ((uint32_t)0x00000000)
+
+#define  RCC_PLLCFGR_PLLQ                    ((uint32_t)0x0F000000)
+#define  RCC_PLLCFGR_PLLQ_0                  ((uint32_t)0x01000000)
+#define  RCC_PLLCFGR_PLLQ_1                  ((uint32_t)0x02000000)
+#define  RCC_PLLCFGR_PLLQ_2                  ((uint32_t)0x04000000)
+#define  RCC_PLLCFGR_PLLQ_3                  ((uint32_t)0x08000000)
+
+/********************  Bit definition for RCC_CFGR register  ******************/
+/*!< SW configuration */
+#define  RCC_CFGR_SW                         ((uint32_t)0x00000003)        /*!< SW[1:0] bits (System clock Switch) */
+#define  RCC_CFGR_SW_0                       ((uint32_t)0x00000001)        /*!< Bit 0 */
+#define  RCC_CFGR_SW_1                       ((uint32_t)0x00000002)        /*!< Bit 1 */
+
+#define  RCC_CFGR_SW_HSI                     ((uint32_t)0x00000000)        /*!< HSI selected as system clock */
+#define  RCC_CFGR_SW_HSE                     ((uint32_t)0x00000001)        /*!< HSE selected as system clock */
+#define  RCC_CFGR_SW_PLL                     ((uint32_t)0x00000002)        /*!< PLL selected as system clock */
+
+/*!< SWS configuration */
+#define  RCC_CFGR_SWS                        ((uint32_t)0x0000000C)        /*!< SWS[1:0] bits (System Clock Switch Status) */
+#define  RCC_CFGR_SWS_0                      ((uint32_t)0x00000004)        /*!< Bit 0 */
+#define  RCC_CFGR_SWS_1                      ((uint32_t)0x00000008)        /*!< Bit 1 */
+
+#define  RCC_CFGR_SWS_HSI                    ((uint32_t)0x00000000)        /*!< HSI oscillator used as system clock */
+#define  RCC_CFGR_SWS_HSE                    ((uint32_t)0x00000004)        /*!< HSE oscillator used as system clock */
+#define  RCC_CFGR_SWS_PLL                    ((uint32_t)0x00000008)        /*!< PLL used as system clock */
+
+/*!< HPRE configuration */
+#define  RCC_CFGR_HPRE                       ((uint32_t)0x000000F0)        /*!< HPRE[3:0] bits (AHB prescaler) */
+#define  RCC_CFGR_HPRE_0                     ((uint32_t)0x00000010)        /*!< Bit 0 */
+#define  RCC_CFGR_HPRE_1                     ((uint32_t)0x00000020)        /*!< Bit 1 */
+#define  RCC_CFGR_HPRE_2                     ((uint32_t)0x00000040)        /*!< Bit 2 */
+#define  RCC_CFGR_HPRE_3                     ((uint32_t)0x00000080)        /*!< Bit 3 */
+
+#define  RCC_CFGR_HPRE_DIV1                  ((uint32_t)0x00000000)        /*!< SYSCLK not divided */
+#define  RCC_CFGR_HPRE_DIV2                  ((uint32_t)0x00000080)        /*!< SYSCLK divided by 2 */
+#define  RCC_CFGR_HPRE_DIV4                  ((uint32_t)0x00000090)        /*!< SYSCLK divided by 4 */
+#define  RCC_CFGR_HPRE_DIV8                  ((uint32_t)0x000000A0)        /*!< SYSCLK divided by 8 */
+#define  RCC_CFGR_HPRE_DIV16                 ((uint32_t)0x000000B0)        /*!< SYSCLK divided by 16 */
+#define  RCC_CFGR_HPRE_DIV64                 ((uint32_t)0x000000C0)        /*!< SYSCLK divided by 64 */
+#define  RCC_CFGR_HPRE_DIV128                ((uint32_t)0x000000D0)        /*!< SYSCLK divided by 128 */
+#define  RCC_CFGR_HPRE_DIV256                ((uint32_t)0x000000E0)        /*!< SYSCLK divided by 256 */
+#define  RCC_CFGR_HPRE_DIV512                ((uint32_t)0x000000F0)        /*!< SYSCLK divided by 512 */
+
+/*!< PPRE1 configuration */
+#define  RCC_CFGR_PPRE1                      ((uint32_t)0x00001C00)        /*!< PRE1[2:0] bits (APB1 prescaler) */
+#define  RCC_CFGR_PPRE1_0                    ((uint32_t)0x00000400)        /*!< Bit 0 */
+#define  RCC_CFGR_PPRE1_1                    ((uint32_t)0x00000800)        /*!< Bit 1 */
+#define  RCC_CFGR_PPRE1_2                    ((uint32_t)0x00001000)        /*!< Bit 2 */
+
+#define  RCC_CFGR_PPRE1_DIV1                 ((uint32_t)0x00000000)        /*!< HCLK not divided */
+#define  RCC_CFGR_PPRE1_DIV2                 ((uint32_t)0x00001000)        /*!< HCLK divided by 2 */
+#define  RCC_CFGR_PPRE1_DIV4                 ((uint32_t)0x00001400)        /*!< HCLK divided by 4 */
+#define  RCC_CFGR_PPRE1_DIV8                 ((uint32_t)0x00001800)        /*!< HCLK divided by 8 */
+#define  RCC_CFGR_PPRE1_DIV16                ((uint32_t)0x00001C00)        /*!< HCLK divided by 16 */
+
+/*!< PPRE2 configuration */
+#define  RCC_CFGR_PPRE2                      ((uint32_t)0x0000E000)        /*!< PRE2[2:0] bits (APB2 prescaler) */
+#define  RCC_CFGR_PPRE2_0                    ((uint32_t)0x00002000)        /*!< Bit 0 */
+#define  RCC_CFGR_PPRE2_1                    ((uint32_t)0x00004000)        /*!< Bit 1 */
+#define  RCC_CFGR_PPRE2_2                    ((uint32_t)0x00008000)        /*!< Bit 2 */
+
+#define  RCC_CFGR_PPRE2_DIV1                 ((uint32_t)0x00000000)        /*!< HCLK not divided */
+#define  RCC_CFGR_PPRE2_DIV2                 ((uint32_t)0x00008000)        /*!< HCLK divided by 2 */
+#define  RCC_CFGR_PPRE2_DIV4                 ((uint32_t)0x0000A000)        /*!< HCLK divided by 4 */
+#define  RCC_CFGR_PPRE2_DIV8                 ((uint32_t)0x0000C000)        /*!< HCLK divided by 8 */
+#define  RCC_CFGR_PPRE2_DIV16                ((uint32_t)0x0000E000)        /*!< HCLK divided by 16 */
+
+/*!< RTCPRE configuration */
+#define  RCC_CFGR_RTCPRE                     ((uint32_t)0x001F0000)
+#define  RCC_CFGR_RTCPRE_0                   ((uint32_t)0x00010000)
+#define  RCC_CFGR_RTCPRE_1                   ((uint32_t)0x00020000)
+#define  RCC_CFGR_RTCPRE_2                   ((uint32_t)0x00040000)
+#define  RCC_CFGR_RTCPRE_3                   ((uint32_t)0x00080000)
+#define  RCC_CFGR_RTCPRE_4                   ((uint32_t)0x00100000)
+
+/*!< MCO1 configuration */
+#define  RCC_CFGR_MCO1                       ((uint32_t)0x00600000)
+#define  RCC_CFGR_MCO1_0                     ((uint32_t)0x00200000)
+#define  RCC_CFGR_MCO1_1                     ((uint32_t)0x00400000)
+
+#define  RCC_CFGR_I2SSRC                     ((uint32_t)0x00800000)
+
+#define  RCC_CFGR_MCO1PRE                    ((uint32_t)0x07000000)
+#define  RCC_CFGR_MCO1PRE_0                  ((uint32_t)0x01000000)
+#define  RCC_CFGR_MCO1PRE_1                  ((uint32_t)0x02000000)
+#define  RCC_CFGR_MCO1PRE_2                  ((uint32_t)0x04000000)
+
+#define  RCC_CFGR_MCO2PRE                    ((uint32_t)0x38000000)
+#define  RCC_CFGR_MCO2PRE_0                  ((uint32_t)0x08000000)
+#define  RCC_CFGR_MCO2PRE_1                  ((uint32_t)0x10000000)
+#define  RCC_CFGR_MCO2PRE_2                  ((uint32_t)0x20000000)
+
+#define  RCC_CFGR_MCO2                       ((uint32_t)0xC0000000)
+#define  RCC_CFGR_MCO2_0                     ((uint32_t)0x40000000)
+#define  RCC_CFGR_MCO2_1                     ((uint32_t)0x80000000)
+/********************  Bit definition for RCC_BDCR register  ******************/
+#define  RCC_BDCR_LSEON                      ((uint32_t)0x00000001)
+#define  RCC_BDCR_LSERDY                     ((uint32_t)0x00000002)
+#define  RCC_BDCR_LSEBYP                     ((uint32_t)0x00000004)
+#define  RCC_BDCR_LSEMOD                     ((uint32_t)0x00000008)
+
+#define  RCC_BDCR_RTCSEL                    ((uint32_t)0x00000300)
+#define  RCC_BDCR_RTCSEL_0                  ((uint32_t)0x00000100)
+#define  RCC_BDCR_RTCSEL_1                  ((uint32_t)0x00000200)
+
+#define  RCC_BDCR_RTCEN                      ((uint32_t)0x00008000)
+#define  RCC_BDCR_BDRST                      ((uint32_t)0x00010000)
+
+/********************  Bit definition for RCC_CSR register  *******************/
+#define  RCC_CSR_LSION                       ((uint32_t)0x00000001)
+#define  RCC_CSR_LSIRDY                      ((uint32_t)0x00000002)
+#define  RCC_CSR_RMVF                        ((uint32_t)0x01000000)
+#define  RCC_CSR_BORRSTF                     ((uint32_t)0x02000000)
+#define  RCC_CSR_PADRSTF                     ((uint32_t)0x04000000)
+#define  RCC_CSR_PORRSTF                     ((uint32_t)0x08000000)
+#define  RCC_CSR_SFTRSTF                     ((uint32_t)0x10000000)
+#define  RCC_CSR_WDGRSTF                     ((uint32_t)0x20000000)
+#define  RCC_CSR_WWDGRSTF                    ((uint32_t)0x40000000)
+#define  RCC_CSR_LPWRRSTF                    ((uint32_t)0x80000000)
+
+/********************  Bit definition for RCC_SSCGR register  *****************/
+#define  RCC_SSCGR_MODPER                    ((uint32_t)0x00001FFF)
+#define  RCC_SSCGR_INCSTEP                   ((uint32_t)0x0FFFE000)
+#define  RCC_SSCGR_SPREADSEL                 ((uint32_t)0x40000000)
+#define  RCC_SSCGR_SSCGEN                    ((uint32_t)0x80000000)
+
+/********************  Bit definition for RCC_PLLI2SCFGR register  ************/
+#define  RCC_PLLI2SCFGR_PLLI2SM              ((uint32_t)0x0000003F)
+#define  RCC_PLLI2SCFGR_PLLI2SM_0            ((uint32_t)0x00000001)
+#define  RCC_PLLI2SCFGR_PLLI2SM_1            ((uint32_t)0x00000002)
+#define  RCC_PLLI2SCFGR_PLLI2SM_2            ((uint32_t)0x00000004)
+#define  RCC_PLLI2SCFGR_PLLI2SM_3            ((uint32_t)0x00000008)
+#define  RCC_PLLI2SCFGR_PLLI2SM_4            ((uint32_t)0x00000010)
+#define  RCC_PLLI2SCFGR_PLLI2SM_5            ((uint32_t)0x00000020)
+
+/********************  Bit definition for RCC_PLLI2SCFGR register  ************/
+#define  RCC_PLLI2SCFGR_PLLI2SN              ((uint32_t)0x00007FC0)
+#define  RCC_PLLI2SCFGR_PLLI2SQ              ((uint32_t)0x0F000000)
+#define  RCC_PLLI2SCFGR_PLLI2SR              ((uint32_t)0x70000000)
+
+/********************  Bit definition for RCC_PLLSAICFGR register  ************/
+#define  RCC_PLLSAICFGR_PLLI2SN              ((uint32_t)0x00007FC0)
+#define  RCC_PLLSAICFGR_PLLI2SQ              ((uint32_t)0x0F000000)
+#define  RCC_PLLSAICFGR_PLLI2SR              ((uint32_t)0x70000000)
+
+/********************  Bit definition for RCC_DCKCFGR register  ***************/
+#define  RCC_DCKCFGR_PLLI2SDIVQ              ((uint32_t)0x0000001F)
+#define  RCC_DCKCFGR_PLLSAIDIVQ              ((uint32_t)0x00001F00)
+#define  RCC_DCKCFGR_PLLSAIDIVR              ((uint32_t)0x00030000)
+#define  RCC_DCKCFGR_SAI1ASRC                ((uint32_t)0x00300000)
+#define  RCC_DCKCFGR_SAI1BSRC                ((uint32_t)0x00C00000)
+#define  RCC_DCKCFGR_TIMPRE                  ((uint32_t)0x01000000)
 
 
 /******************************************************************************/
@@ -1233,6 +1503,88 @@ typedef struct
 #define GPIO_BSRR_BR_13                      ((uint32_t)0x20000000)
 #define GPIO_BSRR_BR_14                      ((uint32_t)0x40000000)
 #define GPIO_BSRR_BR_15                      ((uint32_t)0x80000000)
+/******************************************************************************/
+/*                                                                            */
+/*                        Serial Peripheral Interface                         */
+/*                                                                            */
+/******************************************************************************/
+/*******************  Bit definition for SPI_CR1 register  ********************/
+#define  SPI_CR1_CPHA                        ((uint16_t)0x0001)            /*!<Clock Phase      */
+#define  SPI_CR1_CPOL                        ((uint16_t)0x0002)            /*!<Clock Polarity   */
+#define  SPI_CR1_MSTR                        ((uint16_t)0x0004)            /*!<Master Selection */
+
+#define  SPI_CR1_BR                          ((uint16_t)0x0038)            /*!<BR[2:0] bits (Baud Rate Control) */
+#define  SPI_CR1_BR_0                        ((uint16_t)0x0008)            /*!<Bit 0 */
+#define  SPI_CR1_BR_1                        ((uint16_t)0x0010)            /*!<Bit 1 */
+#define  SPI_CR1_BR_2                        ((uint16_t)0x0020)            /*!<Bit 2 */
+
+#define  SPI_CR1_SPE                         ((uint16_t)0x0040)            /*!<SPI Enable                          */
+#define  SPI_CR1_LSBFIRST                    ((uint16_t)0x0080)            /*!<Frame Format                        */
+#define  SPI_CR1_SSI                         ((uint16_t)0x0100)            /*!<Internal slave select               */
+#define  SPI_CR1_SSM                         ((uint16_t)0x0200)            /*!<Software slave management           */
+#define  SPI_CR1_RXONLY                      ((uint16_t)0x0400)            /*!<Receive only                        */
+#define  SPI_CR1_DFF                         ((uint16_t)0x0800)            /*!<Data Frame Format                   */
+#define  SPI_CR1_CRCNEXT                     ((uint16_t)0x1000)            /*!<Transmit CRC next                   */
+#define  SPI_CR1_CRCEN                       ((uint16_t)0x2000)            /*!<Hardware CRC calculation enable     */
+#define  SPI_CR1_BIDIOE                      ((uint16_t)0x4000)            /*!<Output enable in bidirectional mode */
+#define  SPI_CR1_BIDIMODE                    ((uint16_t)0x8000)            /*!<Bidirectional data mode enable      */
+
+/*******************  Bit definition for SPI_CR2 register  ********************/
+#define  SPI_CR2_RXDMAEN                     ((uint8_t)0x01)               /*!<Rx Buffer DMA Enable                 */
+#define  SPI_CR2_TXDMAEN                     ((uint8_t)0x02)               /*!<Tx Buffer DMA Enable                 */
+#define  SPI_CR2_SSOE                        ((uint8_t)0x04)               /*!<SS Output Enable                     */
+#define  SPI_CR2_ERRIE                       ((uint8_t)0x20)               /*!<Error Interrupt Enable               */
+#define  SPI_CR2_RXNEIE                      ((uint8_t)0x40)               /*!<RX buffer Not Empty Interrupt Enable */
+#define  SPI_CR2_TXEIE                       ((uint8_t)0x80)               /*!<Tx buffer Empty Interrupt Enable     */
+
+/********************  Bit definition for SPI_SR register  ********************/
+#define  SPI_SR_RXNE                         ((uint8_t)0x01)               /*!<Receive buffer Not Empty */
+#define  SPI_SR_TXE                          ((uint8_t)0x02)               /*!<Transmit buffer Empty    */
+#define  SPI_SR_CHSIDE                       ((uint8_t)0x04)               /*!<Channel side             */
+#define  SPI_SR_UDR                          ((uint8_t)0x08)               /*!<Underrun flag            */
+#define  SPI_SR_CRCERR                       ((uint8_t)0x10)               /*!<CRC Error flag           */
+#define  SPI_SR_MODF                         ((uint8_t)0x20)               /*!<Mode fault               */
+#define  SPI_SR_OVR                          ((uint8_t)0x40)               /*!<Overrun flag             */
+#define  SPI_SR_BSY                          ((uint8_t)0x80)               /*!<Busy flag                */
+
+/********************  Bit definition for SPI_DR register  ********************/
+#define  SPI_DR_DR                           ((uint16_t)0xFFFF)            /*!<Data Register           */
+
+/*******************  Bit definition for SPI_CRCPR register  ******************/
+#define  SPI_CRCPR_CRCPOLY                   ((uint16_t)0xFFFF)            /*!<CRC polynomial register */
+
+/******************  Bit definition for SPI_RXCRCR register  ******************/
+#define  SPI_RXCRCR_RXCRC                    ((uint16_t)0xFFFF)            /*!<Rx CRC Register         */
+
+/******************  Bit definition for SPI_TXCRCR register  ******************/
+#define  SPI_TXCRCR_TXCRC                    ((uint16_t)0xFFFF)            /*!<Tx CRC Register         */
+
+/******************  Bit definition for SPI_I2SCFGR register  *****************/
+#define  SPI_I2SCFGR_CHLEN                   ((uint16_t)0x0001)            /*!<Channel length (number of bits per audio channel) */
+
+#define  SPI_I2SCFGR_DATLEN                  ((uint16_t)0x0006)            /*!<DATLEN[1:0] bits (Data length to be transferred)  */
+#define  SPI_I2SCFGR_DATLEN_0                ((uint16_t)0x0002)            /*!<Bit 0 */
+#define  SPI_I2SCFGR_DATLEN_1                ((uint16_t)0x0004)            /*!<Bit 1 */
+
+#define  SPI_I2SCFGR_CKPOL                   ((uint16_t)0x0008)            /*!<steady state clock polarity               */
+
+#define  SPI_I2SCFGR_I2SSTD                  ((uint16_t)0x0030)            /*!<I2SSTD[1:0] bits (I2S standard selection) */
+#define  SPI_I2SCFGR_I2SSTD_0                ((uint16_t)0x0010)            /*!<Bit 0 */
+#define  SPI_I2SCFGR_I2SSTD_1                ((uint16_t)0x0020)            /*!<Bit 1 */
+
+#define  SPI_I2SCFGR_PCMSYNC                 ((uint16_t)0x0080)            /*!<PCM frame synchronization                 */
+
+#define  SPI_I2SCFGR_I2SCFG                  ((uint16_t)0x0300)            /*!<I2SCFG[1:0] bits (I2S configuration mode) */
+#define  SPI_I2SCFGR_I2SCFG_0                ((uint16_t)0x0100)            /*!<Bit 0 */
+#define  SPI_I2SCFGR_I2SCFG_1                ((uint16_t)0x0200)            /*!<Bit 1 */
+
+#define  SPI_I2SCFGR_I2SE                    ((uint16_t)0x0400)            /*!<I2S Enable         */
+#define  SPI_I2SCFGR_I2SMOD                  ((uint16_t)0x0800)            /*!<I2S mode selection */
+
+/******************  Bit definition for SPI_I2SPR register  *******************/
+#define  SPI_I2SPR_I2SDIV                    ((uint16_t)0x00FF)            /*!<I2S Linear prescaler         */
+#define  SPI_I2SPR_ODD                       ((uint16_t)0x0100)            /*!<Odd factor for the prescaler */
+#define  SPI_I2SPR_MCKOE                     ((uint16_t)0x0200)            /*!<Master Clock Output Enable   */
 
 /* define marco USE_STDPERIPH_DRIVER */
 #if !defined  USE_STDPERIPH_DRIVER

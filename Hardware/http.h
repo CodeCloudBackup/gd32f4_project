@@ -4,7 +4,7 @@
 #include "tcp.h"
 #include "usart.h"
 #include "malloc.h"
-#include "nand_flash.h"
+#include "w25qxx.h"
 #include "gdflash.h"
 
 BOOL Package_Http_Get_Download_Header(char* buff, u16 size);

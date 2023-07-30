@@ -7,7 +7,7 @@ void ESP8266_Init(void)
 	ESP8266_RST_Pin_Periph_Clock();
 	
 	//GPIOF9,F10初始化设置
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13;//PA4/6   复用功能输出
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13;//PC13   复用功能输出
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT; //复用功能输出
   GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;//推挽输出
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;//100MHz

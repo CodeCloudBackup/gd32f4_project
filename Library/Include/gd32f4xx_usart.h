@@ -38,7 +38,6 @@ OF SUCH DAMAGE.
 #define GD32F4XX_USART_H
 
 #include "gd32f4xx.h"
-
 /* USARTx(x=0,1,2,5)/UARTx(x=3,4,6,7) definitions */
 #define USART1                        USART_BASE                     /*!< USART1 base address */
 #define USART2                        (USART_BASE+0x00000400U)       /*!< USART2 base address */

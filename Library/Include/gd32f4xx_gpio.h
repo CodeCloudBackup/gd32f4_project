@@ -223,6 +223,160 @@ typedef struct
   * @}
   */ 
 
+/** @defgroup GPIO_Alternat_function_selection_define 
+  * @{
+  */ 
+/** 
+  * @brief   AF 0 selection  
+  */ 
+#define GPIO_AF_RTC_50Hz      ((uint8_t)0x00)  /* RTC_50Hz Alternate Function mapping */
+#define GPIO_AF_MCO           ((uint8_t)0x00)  /* MCO (MCO1 and MCO2) Alternate Function mapping */
+#define GPIO_AF_TAMPER        ((uint8_t)0x00)  /* TAMPER (TAMPER_1 and TAMPER_2) Alternate Function mapping */
+#define GPIO_AF_SWJ           ((uint8_t)0x00)  /* SWJ (SWD and JTAG) Alternate Function mapping */
+#define GPIO_AF_TRACE         ((uint8_t)0x00)  /* TRACE Alternate Function mapping */
+
+/** 
+  * @brief   AF 1 selection  
+  */ 
+#define GPIO_AF_TIM1          ((uint8_t)0x01)  /* TIM1 Alternate Function mapping */
+#define GPIO_AF_TIM2          ((uint8_t)0x01)  /* TIM2 Alternate Function mapping */
+
+/** 
+  * @brief   AF 2 selection  
+  */ 
+#define GPIO_AF_TIM3          ((uint8_t)0x02)  /* TIM3 Alternate Function mapping */
+#define GPIO_AF_TIM4          ((uint8_t)0x02)  /* TIM4 Alternate Function mapping */
+#define GPIO_AF_TIM5          ((uint8_t)0x02)  /* TIM5 Alternate Function mapping */
+
+/** 
+  * @brief   AF 3 selection  
+  */ 
+#define GPIO_AF_TIM8          ((uint8_t)0x03)  /* TIM8 Alternate Function mapping */
+#define GPIO_AF_TIM9          ((uint8_t)0x03)  /* TIM9 Alternate Function mapping */
+#define GPIO_AF_TIM10         ((uint8_t)0x03)  /* TIM10 Alternate Function mapping */
+#define GPIO_AF_TIM11         ((uint8_t)0x03)  /* TIM11 Alternate Function mapping */
+
+/** 
+  * @brief   AF 4 selection  
+  */ 
+#define GPIO_AF_I2C0          ((uint8_t)0x04)  /* I2C1 Alternate Function mapping */
+#define GPIO_AF_I2C1          ((uint8_t)0x04)  /* I2C2 Alternate Function mapping */
+#define GPIO_AF_I2C2          ((uint8_t)0x04)  /* I2C3 Alternate Function mapping */
+
+/** 
+  * @brief   AF 5 selection  
+  */ 
+#define GPIO_AF_SPI1          ((uint8_t)0x05)  /* SPI1/I2S1 Alternate Function mapping */
+#define GPIO_AF_SPI2          ((uint8_t)0x05)  /* SPI2/I2S2 Alternate Function mapping */
+#define GPIO_AF5_SPI3         ((uint8_t)0x05)  /* SPI3/I2S3 Alternate Function mapping (Only for STM32F411xE Devices) */
+#define GPIO_AF_SPI4          ((uint8_t)0x05)  /* SPI4/I2S4 Alternate Function mapping */
+#define GPIO_AF_SPI5          ((uint8_t)0x05)  /* SPI5 Alternate Function mapping      */
+#define GPIO_AF_SPI6          ((uint8_t)0x05)  /* SPI6 Alternate Function mapping      */
+
+/** 
+  * @brief   AF 6 selection  
+  */ 
+#define GPIO_AF_SPI3          ((uint8_t)0x06)  /* SPI3/I2S3 Alternate Function mapping */
+#define GPIO_AF6_SPI2         ((uint8_t)0x06)  /* SPI2 Alternate Function mapping (Only for STM32F411xE Devices) */
+#define GPIO_AF6_SPI4         ((uint8_t)0x06)  /* SPI4 Alternate Function mapping (Only for STM32F411xE Devices) */
+#define GPIO_AF6_SPI5         ((uint8_t)0x06)  /* SPI5 Alternate Function mapping (Only for STM32F411xE Devices) */
+#define GPIO_AF_SAI1          ((uint8_t)0x06)  /* SAI1 Alternate Function mapping      */
+
+/** 
+  * @brief   AF 7 selection  
+  */ 
+#define GPIO_AF_USART1         ((uint8_t)0x07)  /* USART1 Alternate Function mapping  */
+#define GPIO_AF_USART2         ((uint8_t)0x07)  /* USART2 Alternate Function mapping  */
+#define GPIO_AF_USART3         ((uint8_t)0x07)  /* USART3 Alternate Function mapping  */
+#define GPIO_AF7_SPI3          ((uint8_t)0x07)  /* SPI3/I2S3ext Alternate Function mapping */
+
+/** 
+  * @brief   AF 7 selection Legacy 
+  */ 
+#define GPIO_AF_I2S3ext   GPIO_AF7_SPI3
+
+/** 
+  * @brief   AF 8 selection  
+  */ 
+#define GPIO_AF_UART4         ((uint8_t)0x08)  /* UART4 Alternate Function mapping  */
+#define GPIO_AF_UART5         ((uint8_t)0x08)  /* UART5 Alternate Function mapping  */
+#define GPIO_AF_USART6        ((uint8_t)0x08)  /* USART6 Alternate Function mapping */
+#define GPIO_AF_UART7         ((uint8_t)0x08)  /* UART7 Alternate Function mapping  */
+#define GPIO_AF_UART8         ((uint8_t)0x08)  /* UART8 Alternate Function mapping  */
+
+/** 
+  * @brief   AF 9 selection 
+  */ 
+#define GPIO_AF_CAN1          ((uint8_t)0x09)  /* CAN1 Alternate Function mapping  */
+#define GPIO_AF_CAN2          ((uint8_t)0x09)  /* CAN2 Alternate Function mapping  */
+#define GPIO_AF_TIM12         ((uint8_t)0x09)  /* TIM12 Alternate Function mapping */
+#define GPIO_AF_TIM13         ((uint8_t)0x09)  /* TIM13 Alternate Function mapping */
+#define GPIO_AF_TIM14         ((uint8_t)0x09)  /* TIM14 Alternate Function mapping */
+
+#define GPIO_AF9_I2C2         ((uint8_t)0x09)  /* I2C2 Alternate Function mapping (Only for STM32F401xx/STM32F411xE Devices) */
+#define GPIO_AF9_I2C3         ((uint8_t)0x09)  /* I2C3 Alternate Function mapping (Only for STM32F401xx/STM32F411xE Devices) */
+
+/** 
+  * @brief   AF 10 selection  
+  */ 
+#define GPIO_AF_OTG_FS         ((uint8_t)0xA)  /* OTG_FS Alternate Function mapping */
+#define GPIO_AF_OTG_HS         ((uint8_t)0xA)  /* OTG_HS Alternate Function mapping */
+
+/** 
+  * @brief   AF 11 selection  
+  */ 
+#define GPIO_AF_ETH             ((uint8_t)0x0B)  /* ETHERNET Alternate Function mapping */
+
+/** 
+  * @brief   AF 12 selection  
+  */ 
+#if defined (GD32F407)
+#define GPIO_AF_FSMC             ((uint8_t)0xC)  /* FSMC Alternate Function mapping                     */
+#endif /* STM32F40_41xxx */
+
+#if defined (STM32F427_437xx) || defined (STM32F429_439xx)
+#define GPIO_AF_FMC              ((uint8_t)0xC)  /* FMC Alternate Function mapping                      */
+#endif /* STM32F427_437xx ||  STM32F429_439xx */
+
+#define GPIO_AF_OTG_HS_FS        ((uint8_t)0xC)  /* OTG HS configured in FS, Alternate Function mapping */
+#define GPIO_AF_SDIO             ((uint8_t)0xC)  /* SDIO Alternate Function mapping                     */
+
+/** 
+  * @brief   AF 13 selection  
+  */ 
+#define GPIO_AF_DCMI          ((uint8_t)0x0D)  /* DCMI Alternate Function mapping */
+
+/** 
+  * @brief   AF 14 selection  
+  */
+
+#define GPIO_AF_LTDC          ((uint8_t)0x0E)  /* LCD-TFT Alternate Function mapping */
+
+/** 
+  * @brief   AF 15 selection  
+  */ 
+#define GPIO_AF_EVENTOUT      ((uint8_t)0x0F)  /* EVENTOUT Alternate Function mapping */
+
+#if defined (GD32F407)
+#define IS_GPIO_AF(AF)   (((AF) == GPIO_AF_RTC_50Hz)  || ((AF) == GPIO_AF_TIM14)     || \
+                          ((AF) == GPIO_AF_MCO)       || ((AF) == GPIO_AF_TAMPER)    || \
+                          ((AF) == GPIO_AF_SWJ)       || ((AF) == GPIO_AF_TRACE)     || \
+                          ((AF) == GPIO_AF_TIM1)      || ((AF) == GPIO_AF_TIM2)      || \
+                          ((AF) == GPIO_AF_TIM3)      || ((AF) == GPIO_AF_TIM4)      || \
+                          ((AF) == GPIO_AF_TIM5)      || ((AF) == GPIO_AF_TIM8)      || \
+                          ((AF) == GPIO_AF_I2C1)      || ((AF) == GPIO_AF_I2C2)      || \
+                          ((AF) == GPIO_AF_I2C3)      || ((AF) == GPIO_AF_SPI1)      || \
+                          ((AF) == GPIO_AF_SPI2)      || ((AF) == GPIO_AF_TIM13)     || \
+                          ((AF) == GPIO_AF_SPI3)      || ((AF) == GPIO_AF_TIM14)     || \
+                          ((AF) == GPIO_AF_USART1)    || ((AF) == GPIO_AF_USART2)    || \
+                          ((AF) == GPIO_AF_USART3)    || ((AF) == GPIO_AF_UART4)     || \
+                          ((AF) == GPIO_AF_UART5)     || ((AF) == GPIO_AF_USART6)    || \
+                          ((AF) == GPIO_AF_CAN1)      || ((AF) == GPIO_AF_CAN2)      || \
+                          ((AF) == GPIO_AF_OTG_FS)    || ((AF) == GPIO_AF_OTG_HS)    || \
+                          ((AF) == GPIO_AF_ETH)       || ((AF) == GPIO_AF_OTG_HS_FS) || \
+                          ((AF) == GPIO_AF_SDIO)      || ((AF) == GPIO_AF_DCMI)      || \
+                          ((AF) == GPIO_AF_EVENTOUT)  || ((AF) == GPIO_AF_FSMC))
+#endif /* STM32F401xx */													
 /* registers definitions */
 #define GPIO_CTL(gpiox)            REG32((gpiox) + 0x00U)    /*!< GPIO port control register */
 #define GPIO_OMODE(gpiox)          REG32((gpiox) + 0x04U)    /*!< GPIO port output mode register */
@@ -455,94 +609,6 @@ typedef struct
 #define GPIO_TG_TG14               BIT(14)                   /*!< pin 14 toggle bit */
 #define GPIO_TG_TG15               BIT(15)                   /*!< pin 15 toggle bit */
 
-/* constants definitions */
-typedef FlagStatus bit_status;
-
-/* output mode definitions */
-#define CTL_CLTR(regval)           (BITS(0,1) & ((uint32_t)(regval) << 0))
-#define GPIO_MODE_INPUT            CTL_CLTR(0)               /*!< input mode */
-#define GPIO_MODE_OUTPUT           CTL_CLTR(1)               /*!< output mode */
-#define GPIO_MODE_AF               CTL_CLTR(2)               /*!< alternate function mode */
-#define GPIO_MODE_ANALOG           CTL_CLTR(3)               /*!< analog mode */
-
-/* pull-up/ pull-down definitions */
-#define PUD_PUPD(regval)           (BITS(0,1) & ((uint32_t)(regval) << 0))
-#define GPIO_PUPD_NONE             PUD_PUPD(0)               /*!< floating mode, no pull-up and pull-down resistors */
-#define GPIO_PUPD_PULLUP           PUD_PUPD(1)               /*!< with pull-up resistor */
-#define GPIO_PUPD_PULLDOWN         PUD_PUPD(2)               /*!< with pull-down resistor */
-
-
-/* GPIO pin definitions */
-#define GPIO_PIN_0                 BIT(0)                    /*!< GPIO pin 0 */
-#define GPIO_PIN_1                 BIT(1)                    /*!< GPIO pin 1 */
-#define GPIO_PIN_2                 BIT(2)                    /*!< GPIO pin 2 */
-#define GPIO_PIN_3                 BIT(3)                    /*!< GPIO pin 3 */
-#define GPIO_PIN_4                 BIT(4)                    /*!< GPIO pin 4 */
-#define GPIO_PIN_5                 BIT(5)                    /*!< GPIO pin 5 */
-#define GPIO_PIN_6                 BIT(6)                    /*!< GPIO pin 6 */
-#define GPIO_PIN_7                 BIT(7)                    /*!< GPIO pin 7 */
-#define GPIO_PIN_8                 BIT(8)                    /*!< GPIO pin 8 */
-#define GPIO_PIN_9                 BIT(9)                    /*!< GPIO pin 9 */
-#define GPIO_PIN_10                BIT(10)                   /*!< GPIO pin 10 */
-#define GPIO_PIN_11                BIT(11)                   /*!< GPIO pin 11 */
-#define GPIO_PIN_12                BIT(12)                   /*!< GPIO pin 12 */
-#define GPIO_PIN_13                BIT(13)                   /*!< GPIO pin 13 */
-#define GPIO_PIN_14                BIT(14)                   /*!< GPIO pin 14 */
-#define GPIO_PIN_15                BIT(15)                   /*!< GPIO pin 15 */
-#define GPIO_PIN_ALL               BITS(0,15)                /*!< GPIO pin all */
-
-/* GPIO mode configuration values */
-#define GPIO_MODE_SET(n, mode)     ((uint32_t)((uint32_t)(mode) << (2U * (n))))
-#define GPIO_MODE_MASK(n)          (0x3U << (2U * (n)))
-
-/* GPIO pull-up/ pull-down values */
-#define GPIO_PUPD_SET(n, pupd)     ((uint32_t)((uint32_t)(pupd) << (2U * (n))))
-#define GPIO_PUPD_MASK(n)          (0x3U << (2U * (n)))
-
-/* GPIO output speed values */
-#define GPIO_OSPEED_SET(n, speed)  ((uint32_t)((uint32_t)(speed) << (2U * (n))))
-#define GPIO_OSPEED_MASK(n)        (0x3U << (2U * (n)))
-
-/* GPIO output type */
-#define GPIO_OTYPE_PP              ((uint8_t)(0x00U))        /*!< push pull mode */
-#define GPIO_OTYPE_OD              ((uint8_t)(0x01U))        /*!< open drain mode */
-
-/* GPIO output max speed level */
-#define OSPD_OSPD(regval)          (BITS(0,1) & ((uint32_t)(regval) << 0))
-#define GPIO_OSPEED_LEVEL0         OSPD_OSPD(0)              /*!< output max speed level 0 */
-#define GPIO_OSPEED_LEVEL1         OSPD_OSPD(1)              /*!< output max speed level 1 */
-#define GPIO_OSPEED_LEVEL2         OSPD_OSPD(2)              /*!< output max speed level 2 */
-#define GPIO_OSPEED_LEVEL3         OSPD_OSPD(3)              /*!< output max speed level 3 */
-
-/* GPIO output max speed value */
-#define GPIO_OSPEED_2MHZ           GPIO_OSPEED_LEVEL0        /*!< output max speed 2MHz */
-#define GPIO_OSPEED_25MHZ          GPIO_OSPEED_LEVEL1        /*!< output max speed 25MHz */
-#define GPIO_OSPEED_50MHZ          GPIO_OSPEED_LEVEL2        /*!< output max speed 50MHz */
-#define GPIO_OSPEED_200MHZ         GPIO_OSPEED_LEVEL3        /*!< output max speed 200MHz */
-
-/* GPIO alternate function values */
-#define GPIO_AFR_SET(n, af)        ((uint32_t)((uint32_t)(af) << (4U * (n))))
-#define GPIO_AFR_MASK(n)           (0xFU << (4U * (n)))
- 
-/* GPIO alternate function */
-#define AF(regval)                 (BITS(0,3) & ((uint32_t)(regval) << 0)) 
-#define GPIO_AF_0                   AF(0)                    /*!< alternate function 0 selected */
-#define GPIO_AF_1                   AF(1)                    /*!< alternate function 1 selected */
-#define GPIO_AF_2                   AF(2)                    /*!< alternate function 2 selected */
-#define GPIO_AF_3                   AF(3)                    /*!< alternate function 3 selected */
-#define GPIO_AF_4                   AF(4)                    /*!< alternate function 4 selected */
-#define GPIO_AF_5                   AF(5)                    /*!< alternate function 5 selected */
-#define GPIO_AF_6                   AF(6)                    /*!< alternate function 6 selected */
-#define GPIO_AF_7                   AF(7)                    /*!< alternate function 7 selected */
-#define GPIO_AF_8                   AF(8)                    /*!< alternate function 8 selected */
-#define GPIO_AF_9                   AF(9)                    /*!< alternate function 9 selected */
-#define GPIO_AF_10                  AF(10)                   /*!< alternate function 10 selected */
-#define GPIO_AF_11                  AF(11)                   /*!< alternate function 11 selected */
-#define GPIO_AF_12                  AF(12)                   /*!< alternate function 12 selected */
-#define GPIO_AF_13                  AF(13)                   /*!< alternate function 13 selected */
-#define GPIO_AF_14                  AF(14)                   /*!< alternate function 14 selected */
-#define GPIO_AF_15                  AF(15)                   /*!< alternate function 15 selected */
-
 /* function declarations */
 /* reset GPIO port */
 void GPIO_DeInit(GPIO_TypeDef* GPIOx);
@@ -555,37 +621,5 @@ void GPIO_SetBits(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
 /* GPIO Alternate functions configuration function ****************************/
 void GPIO_PinAFConfig(GPIO_TypeDef* GPIOx, uint16_t GPIO_PinSource, uint8_t GPIO_AF);
 
-/* set GPIO mode */
-void gpio_mode_set(uint32_t gpio_periph, uint32_t mode, uint32_t pull_up_down, uint32_t pin);
-/* set GPIO output type and speed */
-void gpio_output_options_set(uint32_t gpio_periph, uint8_t otype, uint32_t speed, uint32_t pin);
-
-/* set GPIO pin bit */
-void gpio_bit_set(uint32_t gpio_periph, uint32_t pin);
-/* reset GPIO pin bit */
-void gpio_bit_reset(uint32_t gpio_periph, uint32_t pin);
-/* write data to the specified GPIO pin */
-void gpio_bit_write(uint32_t gpio_periph, uint32_t pin, bit_status bit_value);
-/* write data to the specified GPIO port */
-void gpio_port_write(uint32_t gpio_periph, uint16_t data);
-
-/* get GPIO pin input status */
-FlagStatus gpio_input_bit_get(uint32_t gpio_periph, uint32_t pin);
-/* get GPIO port input status */
-uint16_t gpio_input_port_get(uint32_t gpio_periph);
-/* get GPIO pin output status */
-FlagStatus gpio_output_bit_get(uint32_t gpio_periph, uint32_t pin);
-/* get GPIO port output status */
-uint16_t gpio_output_port_get(uint32_t gpio_periph);
-
-/* set GPIO alternate function */
-void gpio_af_set(uint32_t gpio_periph, uint32_t alt_func_num, uint32_t pin);
-/* lock GPIO pin bit */
-void gpio_pin_lock(uint32_t gpio_periph, uint32_t pin);
-
-/* toggle GPIO pin status */
-void gpio_bit_toggle(uint32_t gpio_periph, uint32_t pin);
-/* toggle GPIO port status */
-void gpio_port_toggle(uint32_t gpio_periph);
 
 #endif /* GD32F4XX_GPIO_H */

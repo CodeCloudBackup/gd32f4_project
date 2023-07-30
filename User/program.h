@@ -2,7 +2,6 @@
 #define __PROGRAM_H
 
 #include "gd32f4xx.h"
-#include "gd32f4xx_libopt.h"
 #include "systick.h"
 #include "oled.h"
 #include "led.h"
@@ -14,7 +13,7 @@
 #include "tcp.h"
 #include "http.h"
 #include "gdflash.h"
-#include "nand_flash.h"
+#include "w25qxx.h"
 #include "spi.h"
 #include "malloc.h"
 #include "delay.h"
@@ -26,12 +25,6 @@ typedef struct
 	u16 flash_size;
 	u32 IC_ID[3];
 }IC_INFO;
-
-typedef union 
-{
-	u8 u8_data[4];
-	u32 u32_data;
-} U8_U32;
 
 
 extern IC_INFO g_icInfo;

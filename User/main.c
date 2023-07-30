@@ -46,8 +46,8 @@ int main(void)
 				MPU6050ReadAcc2Real(AccelData);//读取加速度数据	
 				MPU6050ReadGyro2Real(GyroData);//读取陀螺仪数据	
 				printf("x:%ld, y:%ld, z:%ld\n",GyroData[0],GyroData[1],GyroData[2]);
-				printf("curVersion:0x%x\n",g_appInfo.App_Version);
-				printf("curSize:0x%x\r\n",g_appInfo.App_Size);
+				printf("curVersion:0x%x\n",g_appInfo.App_Version.u32_data);
+				printf("curSize:0x%x\r\n",g_appInfo.App_Size.u32_data);
 				Flash_ReadSomeBytes(flash_version.u8_data,0,4);//从FLASH 0地址读取8字节内容放入ReadBuff数组
 				Flash_ReadSomeBytes(flash_size.u8_data,4,4);//从FLASH 0地址读取8字节内容放入ReadBuff数组
 				printf("flashAppVersion:0x%x\r\n",flash_version.u32_data);

@@ -409,19 +409,9 @@
               <FilePath>..\Library\Source\gd32f4xx_adc.c</FilePath>
             </File>
             <File>
-              <FileName>gd32f4xx_can.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Library\Source\gd32f4xx_can.c</FilePath>
-            </File>
-            <File>
               <FileName>gd32f4xx_crc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Library\Source\gd32f4xx_crc.c</FilePath>
-            </File>
-            <File>
-              <FileName>gd32f4xx_ctc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Library\Source\gd32f4xx_ctc.c</FilePath>
             </File>
             <File>
               <FileName>gd32f4xx_dac.c</FileName>
@@ -442,11 +432,6 @@
               <FileName>gd32f4xx_dma.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Library\Source\gd32f4xx_dma.c</FilePath>
-            </File>
-            <File>
-              <FileName>gd32f4xx_enet.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Library\Source\gd32f4xx_enet.c</FilePath>
             </File>
             <File>
               <FileName>gd32f4xx_exmc.c</FileName>
@@ -479,24 +464,9 @@
               <FilePath>..\Library\Source\gd32f4xx_i2c.c</FilePath>
             </File>
             <File>
-              <FileName>gd32f4xx_ipa.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Library\Source\gd32f4xx_ipa.c</FilePath>
-            </File>
-            <File>
-              <FileName>gd32f4xx_iref.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Library\Source\gd32f4xx_iref.c</FilePath>
-            </File>
-            <File>
               <FileName>gd32f4xx_misc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Library\Source\gd32f4xx_misc.c</FilePath>
-            </File>
-            <File>
-              <FileName>gd32f4xx_pmu.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Library\Source\gd32f4xx_pmu.c</FilePath>
             </File>
             <File>
               <FileName>gd32f4xx_rcu.c</FileName>
@@ -529,24 +499,14 @@
               <FilePath>..\Library\Source\gd32f4xx_timer.c</FilePath>
             </File>
             <File>
-              <FileName>gd32f4xx_tli.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Library\Source\gd32f4xx_tli.c</FilePath>
-            </File>
-            <File>
-              <FileName>gd32f4xx_trng.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Library\Source\gd32f4xx_trng.c</FilePath>
-            </File>
-            <File>
               <FileName>gd32f4xx_usart.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Library\Source\gd32f4xx_usart.c</FilePath>
             </File>
             <File>
-              <FileName>gd32f4xx_wwdgt.c</FileName>
+              <FileName>gd32f4xx_pmu.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Library\Source\gd32f4xx_wwdgt.c</FilePath>
+              <FilePath>..\Library\Source\gd32f4xx_pmu.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -619,16 +579,6 @@
               <FilePath>..\Hardware\usart.c</FilePath>
             </File>
             <File>
-              <FileName>nand_flash.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Hardware\nand_flash.c</FilePath>
-            </File>
-            <File>
-              <FileName>spi.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Hardware\spi.c</FilePath>
-            </File>
-            <File>
               <FileName>gdflash.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Hardware\gdflash.c</FilePath>
@@ -677,6 +627,26 @@
               <FileName>myiic.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Hardware\myiic.h</FilePath>
+            </File>
+            <File>
+              <FileName>spi.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\spi.h</FilePath>
+            </File>
+            <File>
+              <FileName>spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\spi.c</FilePath>
+            </File>
+            <File>
+              <FileName>w25qxx.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\w25qxx.h</FilePath>
+            </File>
+            <File>
+              <FileName>w25qxx.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\w25qxx.c</FilePath>
             </File>
           </Files>
         </Group>

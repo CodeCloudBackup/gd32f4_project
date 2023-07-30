@@ -52,36 +52,36 @@ void usart_deinit(uint32_t usart_periph)
 {
     switch(usart_periph){
     case USART0:
-        rcu_periph_reset_enable(RCU_USART0RST);
-        rcu_periph_reset_disable(RCU_USART0RST);
+				RCU_APB2PeriphResetCmd(RCU_APB2Periph_USART5,ENABLE);
+				RCU_APB2PeriphResetCmd(RCU_APB2Periph_USART5,DISABLE);
         break;
     case USART1:
-        rcu_periph_reset_enable(RCU_USART1RST);
-        rcu_periph_reset_disable(RCU_USART1RST);
+			  RCU_APB1PeriphResetCmd(RCU_APB1Periph_USART1,ENABLE);
+        RCU_APB1PeriphResetCmd(RCU_APB1Periph_USART1,DISABLE);
         break;
     case USART2:
-        rcu_periph_reset_enable(RCU_USART2RST);
-        rcu_periph_reset_disable(RCU_USART2RST);
+        RCU_APB1PeriphResetCmd(RCU_APB1Periph_USART2,ENABLE);
+        RCU_APB1PeriphResetCmd(RCU_APB1Periph_USART2,DISABLE);
         break;
     case USART5:
-        rcu_periph_reset_enable(RCU_USART5RST);
-        rcu_periph_reset_disable(RCU_USART5RST);
+				RCU_APB2PeriphResetCmd(RCU_APB2Periph_USART5,ENABLE);
+        RCU_APB2PeriphResetCmd(RCU_APB2Periph_USART5,DISABLE);
         break;
     case UART3:
-        rcu_periph_reset_enable(RCU_UART3RST);
-        rcu_periph_reset_disable(RCU_UART3RST);
+				RCU_APB1PeriphResetCmd(RCU_APB1Periph_UART3,ENABLE);
+        RCU_APB1PeriphResetCmd(RCU_APB1Periph_UART3,DISABLE);
         break;
     case UART4:
-        rcu_periph_reset_enable(RCU_UART4RST);
-        rcu_periph_reset_disable(RCU_UART4RST);
+				RCU_APB1PeriphResetCmd(RCU_APB1Periph_UART4,ENABLE);
+        RCU_APB1PeriphResetCmd(RCU_APB1Periph_UART4,DISABLE);
         break;
     case UART6:
-        rcu_periph_reset_enable(RCU_UART6RST);
-        rcu_periph_reset_disable(RCU_UART6RST);
+				RCU_APB1PeriphResetCmd(RCU_APB1Periph_UART6,ENABLE);
+        RCU_APB1PeriphResetCmd(RCU_APB1Periph_UART6,DISABLE);
         break;
     case UART7:
-        rcu_periph_reset_enable(RCU_UART7RST);
-        rcu_periph_reset_disable(RCU_UART7RST);
+				RCU_APB1PeriphResetCmd(RCU_APB1Periph_UART7,ENABLE);
+        RCU_APB1PeriphResetCmd(RCU_APB1Periph_UART7,DISABLE);
         break;
     default:
         break;
@@ -98,31 +98,22 @@ void usart_deinit(uint32_t usart_periph)
 void usart_baudrate_set(uint32_t usart_periph, uint32_t baudval)
 {
     uint32_t uclk=0U, intdiv=0U, fradiv=0U, udiv=0U;
+		/* Configure the USART Baud Rate */
+		RCU_ClocksTypeDef RCU_ClocksStatus;
+		RCU_GetClocksFreq(&RCU_ClocksStatus);
     switch(usart_periph){
          /* get clock frequency */
     case USART0:
-         uclk=rcu_clock_freq_get(CK_APB2);
-         break;
-    case USART5:
-         uclk=rcu_clock_freq_get(CK_APB2);
+		case USART5:
+         uclk= RCU_ClocksStatus.PCLK2_Frequency;
          break;
     case USART1:
-         uclk=rcu_clock_freq_get(CK_APB1);
-         break;
-    case USART2:
-         uclk=rcu_clock_freq_get(CK_APB1);
-         break;
-    case UART3:
-         uclk=rcu_clock_freq_get(CK_APB1);
-         break;
-    case UART4:
-         uclk=rcu_clock_freq_get(CK_APB1);
-         break;
-    case UART6:
-         uclk=rcu_clock_freq_get(CK_APB1);
-         break;
+		case USART2:
+		case UART3:
+		case UART4:
+		case UART6:
     case UART7:
-         uclk=rcu_clock_freq_get(CK_APB1);
+         uclk=RCU_ClocksStatus.PCLK1_Frequency;;
          break;
     default:
          break;

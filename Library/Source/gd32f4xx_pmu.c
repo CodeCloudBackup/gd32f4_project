@@ -45,8 +45,8 @@ OF SUCH DAMAGE.
 void pmu_deinit(void)
 {
     /* reset PMU */
-    rcu_periph_reset_enable(RCU_PMURST);
-    rcu_periph_reset_disable(RCU_PMURST);
+		RCU_APB1PeriphResetCmd(RCU_APB1Periph_PWR,ENABLE);
+		RCU_APB1PeriphResetCmd(RCU_APB1Periph_PWR,DISABLE);
 }
 
 /*!

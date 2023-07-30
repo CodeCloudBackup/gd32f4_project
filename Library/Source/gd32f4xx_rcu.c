@@ -40,1290 +40,863 @@ OF SUCH DAMAGE.
 #define SEL_IRC16M                  ((uint16_t)0U)                            /* IRC16M is selected as CK_SYS */
 #define SEL_HXTAL                   ((uint16_t)1U)                            /* HXTAL is selected as CK_SYS */
 #define SEL_PLLP                    ((uint16_t)2U)                            /* PLLP is selected as CK_SYS */
-/* define startup timeout count */
-#define OSC_STARTUP_TIMEOUT         ((uint32_t)0x000fffffU)
-#define LXTAL_STARTUP_TIMEOUT       ((uint32_t)0x0fffffffU)
+
 
 /* RCU IRC16M adjust value mask and offset*/
 #define RCU_IRC16M_ADJUST_MASK      ((uint8_t)0x1FU)
 #define RCU_IRC16M_ADJUST_OFFSET    ((uint32_t)3U)
 
-/*!
-    \brief    deinitialize the RCU
-    \param[in]  none
-    \param[out] none
-    \retval     none
-*/
-void rcu_deinit(void)
+/* Private typedef -----------------------------------------------------------*/
+/* Private define ------------------------------------------------------------*/
+/* ------------ RCC registers bit address in the alias region ----------- */
+#define RCU_OFFSET                (RCU_BASE - PERIPH_BASE)
+/* --- CR Register ---*/
+/* Alias word address of HSION bit */
+#define CR_OFFSET                 (RCU_OFFSET + 0x00)
+#define HSION_BitNumber           0x00
+#define CR_HSION_BB               (PERIPH_BB_BASE + (CR_OFFSET * 32) + (HSION_BitNumber * 4))
+/* Alias word address of CSSON bit */
+#define CSSON_BitNumber           0x13
+#define CR_CSSON_BB               (PERIPH_BB_BASE + (CR_OFFSET * 32) + (CSSON_BitNumber * 4))
+/* Alias word address of PLLON bit */
+#define PLLON_BitNumber           0x18
+#define CR_PLLON_BB               (PERIPH_BB_BASE + (CR_OFFSET * 32) + (PLLON_BitNumber * 4))
+/* Alias word address of PLLI2SON bit */
+#define PLLI2SON_BitNumber        0x1A
+#define CR_PLLI2SON_BB            (PERIPH_BB_BASE + (CR_OFFSET * 32) + (PLLI2SON_BitNumber * 4))
+
+/* Alias word address of PLLSAION bit */
+#define PLLSAION_BitNumber        0x1C
+#define CR_PLLSAION_BB            (PERIPH_BB_BASE + (CR_OFFSET * 32) + (PLLSAION_BitNumber * 4))
+
+/* --- CFGR Register ---*/
+/* Alias word address of I2SSRC bit */
+#define CFGR_OFFSET               (RCU_OFFSET + 0x08)
+#define I2SSRC_BitNumber          0x17
+#define CFGR_I2SSRC_BB            (PERIPH_BB_BASE + (CFGR_OFFSET * 32) + (I2SSRC_BitNumber * 4))
+
+/* --- BDCR Register ---*/
+/* Alias word address of RTCEN bit */
+#define BDCR_OFFSET               (RCU_OFFSET + 0x70)
+#define RTCEN_BitNumber           0x0F
+#define BDCR_RTCEN_BB             (PERIPH_BB_BASE + (BDCR_OFFSET * 32) + (RTCEN_BitNumber * 4))
+/* Alias word address of BDRST bit */
+#define BDRST_BitNumber           0x10
+#define BDCR_BDRST_BB             (PERIPH_BB_BASE + (BDCR_OFFSET * 32) + (BDRST_BitNumber * 4))
+
+/* --- CSR Register ---*/
+/* Alias word address of LSION bit */
+#define CSR_OFFSET                (RCU_OFFSET + 0x74)
+#define LSION_BitNumber           0x00
+#define CSR_LSION_BB              (PERIPH_BB_BASE + (CSR_OFFSET * 32) + (LSION_BitNumber * 4))
+
+/* --- DCKCFGR Register ---*/
+/* Alias word address of TIMPRE bit */
+#define DCKCFGR_OFFSET            (RCU_OFFSET + 0x8C)
+#define TIMPRE_BitNumber          0x18
+#define DCKCFGR_TIMPRE_BB         (PERIPH_BB_BASE + (DCKCFGR_OFFSET * 32) + (TIMPRE_BitNumber * 4))
+/* ---------------------- RCC registers bit mask ------------------------ */
+/* CFGR register bit mask */
+#define CFGR_MCO2_RESET_MASK      ((uint32_t)0x07FFFFFF)
+#define CFGR_MCO1_RESET_MASK      ((uint32_t)0xF89FFFFF)
+
+/* RCC Flag Mask */
+#define FLAG_MASK                 ((uint8_t)0x1F)
+
+/* CR register byte 3 (Bits[23:16]) base address */
+#define CR_BYTE3_ADDRESS          ((uint32_t)0x40023802)
+
+/* CIR register byte 2 (Bits[15:8]) base address */
+#define CIR_BYTE2_ADDRESS         ((uint32_t)(RCU_BASE + 0x0C + 0x01))
+
+/* CIR register byte 3 (Bits[23:16]) base address */
+#define CIR_BYTE3_ADDRESS         ((uint32_t)(RCU_BASE + 0x0C + 0x02))
+
+/* BDCR register base address */
+#define BDCR_ADDRESS              (PERIPH_BASE + BDCR_OFFSET)
+
+/* Private macro -------------------------------------------------------------*/
+/* Private variables ---------------------------------------------------------*/
+static __I uint8_t APBAHBPrescTable[16] = {0, 0, 0, 0, 1, 2, 3, 4, 1, 2, 3, 4, 6, 7, 8, 9};
+/**
+  * @brief  Enables or disables the AHB1 peripheral clock.
+  * @note   After reset, the peripheral clock (used for registers read/write access)
+  *         is disabled and the application software has to enable this clock before 
+  *         using it.   
+  * @param  RCC_AHBPeriph: specifies the AHB1 peripheral to gates its clock.
+  *          This parameter can be any combination of the following values:
+  *            @arg RCC_AHB1Periph_GPIOA:       GPIOA clock
+  *            @arg RCC_AHB1Periph_GPIOB:       GPIOB clock 
+  *            @arg RCC_AHB1Periph_GPIOC:       GPIOC clock
+  *            @arg RCC_AHB1Periph_GPIOD:       GPIOD clock
+  *            @arg RCC_AHB1Periph_GPIOE:       GPIOE clock
+  *            @arg RCC_AHB1Periph_GPIOF:       GPIOF clock
+  *            @arg RCC_AHB1Periph_GPIOG:       GPIOG clock
+  *            @arg RCC_AHB1Periph_GPIOG:       GPIOG clock
+  *            @arg RCC_AHB1Periph_GPIOI:       GPIOI clock
+  *            @arg RCC_AHB1Periph_GPIOJ:       GPIOJ clock (STM32F42xxx/43xxx devices) 
+  *            @arg RCC_AHB1Periph_GPIOK:       GPIOK clock (STM32F42xxx/43xxx devices)  
+  *            @arg RCC_AHB1Periph_CRC:         CRC clock
+  *            @arg RCC_AHB1Periph_BKPSRAM:     BKPSRAM interface clock
+  *            @arg RCC_AHB1Periph_CCMDATARAMEN CCM data RAM interface clock
+  *            @arg RCC_AHB1Periph_DMA1:        DMA1 clock
+  *            @arg RCC_AHB1Periph_DMA2:        DMA2 clock
+  *            @arg RCC_AHB1Periph_DMA2D:       DMA2D clock (STM32F429xx/439xx devices)  
+  *            @arg RCC_AHB1Periph_ETH_MAC:     Ethernet MAC clock
+  *            @arg RCC_AHB1Periph_ETH_MAC_Tx:  Ethernet Transmission clock
+  *            @arg RCC_AHB1Periph_ETH_MAC_Rx:  Ethernet Reception clock
+  *            @arg RCC_AHB1Periph_ETH_MAC_PTP: Ethernet PTP clock
+  *            @arg RCC_AHB1Periph_OTG_HS:      USB OTG HS clock
+  *            @arg RCC_AHB1Periph_OTG_HS_ULPI: USB OTG HS ULPI clock
+  * @param  NewState: new state of the specified peripheral clock.
+  *          This parameter can be: ENABLE or DISABLE.
+  * @retval None
+  */
+void RCC_AHB1PeriphClockCmd(RCU_AHB1PERIPH_ENUM RCU_AHB1Periph, ControlStatus NewState)
 {
-    /* enable IRC16M */
-    RCU_CTL |= RCU_CTL_IRC16MEN;
-    rcu_osci_stab_wait(RCU_IRC16M);
-    /* reset CFG0 register */
-    RCU_CFG0 &= ~(RCU_CFG0_SCS | RCU_CFG0_AHBPSC | RCU_CFG0_APB1PSC | RCU_CFG0_APB2PSC |
-                  RCU_CFG0_RTCDIV | RCU_CFG0_CKOUT0SEL | RCU_CFG0_I2SSEL | RCU_CFG0_CKOUT0DIV |
-                  RCU_CFG0_CKOUT1DIV | RCU_CFG0_CKOUT1SEL);
-    /* reset CTL register */
-    RCU_CTL &= ~(RCU_CTL_HXTALEN | RCU_CTL_CKMEN | RCU_CTL_PLLEN | RCU_CTL_PLLI2SEN 
-                 | RCU_CTL_PLLSAIEN);
-    RCU_CTL &= ~(RCU_CTL_HXTALBPS);
-    /* reset PLL register */
-    RCU_PLL = 0x24003010U;
-    /* reset PLLI2S register */
-    RCU_PLLI2S = 0x24003000U;
-    /* reset PLLSAI register */
-    RCU_PLLSAI = 0x24003010U;
-    /* reset INT register */
-    RCU_INT = 0x00000000U;
-    /* reset CFG1 register */
-    RCU_CFG1 &= ~(RCU_CFG1_PLLSAIRDIV | RCU_CFG1_TIMERSEL);                
+  assert_param(IS_RCC_AHB1_CLOCK_PERIPH(RCC_AHB1Periph));
+
+  assert_param(IS_FUNCTIONAL_STATE(NewState));
+  if (NewState != DISABLE)
+  {
+    RCU->AHB1EN |= RCU_AHB1Periph;
+  }
+  else
+  {
+    RCU->AHB1EN &= ~RCU_AHB1Periph;
+  }
 }
 
-/*!
-    \brief    enable the peripherals clock
-    \param[in]  periph: RCU peripherals, refer to rcu_periph_enum
-                only one parameter can be selected which is shown as below:
-      \arg        RCU_GPIOx (x=A,B,C,D,E,F,G,H,I): GPIO ports clock
-      \arg        RCU_CRC: CRC clock
-      \arg        RCU_BKPSRAM: BKPSRAM clock
-      \arg        RCU_TCMSRAM: TCMSRAM clock
-      \arg        RCU_DMAx (x=0,1): DMA clock
-      \arg        RCU_IPA: IPA clock
-      \arg        RCU_ENET: ENET clock
-      \arg        RCU_ENETTX: ENETTX clock
-      \arg        RCU_ENETRX: ENETRX clock
-      \arg        RCU_ENETPTP: ENETPTP clock
-      \arg        RCU_USBHS: USBHS clock
-      \arg        RCU_USBHSULPI: USBHSULPI clock
-      \arg        RCU_DCI: DCI clock
-      \arg        RCU_TRNG: TRNG clock
-      \arg        RCU_USBFS: USBFS clock
-      \arg        RCU_EXMC: EXMC clock
-      \arg        RCU_TIMERx (x=0,1,2,3,4,5,6,7,8,9,10,11,12,13): TIMER clock
-      \arg        RCU_WWDGT: WWDGT clock
-      \arg        RCU_SPIx (x=0,1,2,3,4,5): SPI clock
-      \arg        RCU_USARTx (x=0,1,2,5): USART clock
-      \arg        RCU_UARTx (x=3,4,6,7): UART clock
-      \arg        RCU_I2Cx (x=0,1,2): I2C clock
-      \arg        RCU_CANx (x=0,1): CAN clock
-      \arg        RCU_PMU: PMU clock
-      \arg        RCU_DAC: DAC clock
-      \arg        RCU_RTC: RTC clock
-      \arg        RCU_ADCx (x=0,1,2): ADC clock
-      \arg        RCU_SDIO: SDIO clock
-      \arg        RCU_SYSCFG: SYSCFG clock
-      \arg        RCU_TLI: TLI clock
-      \arg        RCU_CTC: CTC clock
-      \arg        RCU_IREF: IREF clock
-    \param[out] none
-    \retval     none
-*/
-void rcu_periph_clock_enable(rcu_periph_enum periph)
+/**
+  * @brief  Enables or disables the AHB2 peripheral clock.
+  * @note   After reset, the peripheral clock (used for registers read/write access)
+  *         is disabled and the application software has to enable this clock before 
+  *         using it. 
+  * @param  RCC_AHBPeriph: specifies the AHB2 peripheral to gates its clock.
+  *          This parameter can be any combination of the following values:
+  *            @arg RCC_AHB2Periph_DCMI:   DCMI clock
+  *            @arg RCC_AHB2Periph_CRYP:   CRYP clock
+  *            @arg RCC_AHB2Periph_HASH:   HASH clock
+  *            @arg RCC_AHB2Periph_RNG:    RNG clock
+  *            @arg RCC_AHB2Periph_OTG_FS: USB OTG FS clock
+  * @param  NewState: new state of the specified peripheral clock.
+  *          This parameter can be: ENABLE or DISABLE.
+  * @retval None
+  */
+void RCC_AHB2PeriphClockCmd(RCU_AHB2PERIPH_ENUM RCU_AHB2Periph, ControlStatus NewState)
 {
-    RCU_REG_VAL(periph) |= BIT(RCU_BIT_POS(periph));
+  if (NewState != DISABLE)
+  {
+    RCU->AHB2EN |= RCU_AHB2Periph;
+  }
+  else
+  {
+    RCU->AHB2EN &= ~RCU_AHB2Periph;
+  }
 }
 
-/*!
-    \brief    disable the peripherals clock
-    \param[in]  periph: RCU peripherals, refer to rcu_periph_enum
-                only one parameter can be selected which is shown as below:
-      \arg        RCU_GPIOx (x=A,B,C,D,E,F,G,H,I): GPIO ports clock
-      \arg        RCU_CRC: CRC clock
-      \arg        RCU_BKPSRAM: BKPSRAM clock
-      \arg        RCU_TCMSRAM: TCMSRAM clock
-      \arg        RCU_DMAx (x=0,1): DMA clock
-      \arg        RCU_IPA: IPA clock
-      \arg        RCU_ENET: ENET clock
-      \arg        RCU_ENETTX: ENETTX clock
-      \arg        RCU_ENETRX: ENETRX clock
-      \arg        RCU_ENETPTP: ENETPTP clock
-      \arg        RCU_USBHS: USBHS clock
-      \arg        RCU_USBHSULPI: USBHSULPI clock
-      \arg        RCU_DCI: DCI clock
-      \arg        RCU_TRNG: TRNG clock
-      \arg        RCU_USBFS: USBFS clock
-      \arg        RCU_EXMC: EXMC clock
-      \arg        RCU_TIMERx (x=0,1,2,3,4,5,6,7,8,9,10,11,12,13): TIMER clock
-      \arg        RCU_WWDGT: WWDGT clock
-      \arg        RCU_SPIx (x=0,1,2,3,4,5): SPI clock
-      \arg        RCU_USARTx (x=0,1,2,5): USART clock
-      \arg        RCU_UARTx (x=3,4,6,7): UART clock
-      \arg        RCU_I2Cx (x=0,1,2): I2C clock
-      \arg        RCU_CANx (x=0,1): CAN clock
-      \arg        RCU_PMU: PMU clock
-      \arg        RCU_DAC: DAC clock
-      \arg        RCU_RTC: RTC clock
-      \arg        RCU_ADCx (x=0,1,2): ADC clock
-      \arg        RCU_SDIO: SDIO clock
-      \arg        RCU_SYSCFG: SYSCFG clock
-      \arg        RCU_TLI: TLI clock
-      \arg        RCU_CTC: CTC clock
-      \arg        RCU_IREF: IREF clock
-    \param[out] none
-    \retval     none
-*/
-void rcu_periph_clock_disable(rcu_periph_enum periph)
+/**
+  * @brief  Enables or disables the AHB3 peripheral clock.
+  * @note   After reset, the peripheral clock (used for registers read/write access)
+  *         is disabled and the application software has to enable this clock before 
+  *         using it. 
+  * @param  RCC_AHBPeriph: specifies the AHB3 peripheral to gates its clock.
+  *          This parameter must be: RCC_AHB3Periph_FSMC
+  *                                  or RCC_AHB3Periph_FMC (STM32F42xxx/43xxx devices)  
+  * @param  NewState: new state of the specified peripheral clock.
+  *          This parameter can be: ENABLE or DISABLE.
+  * @retval None
+  */
+void RCC_AHB3PeriphClockCmd(uint32_t RCU_AHB3Periph, ControlStatus NewState)
 {
-    RCU_REG_VAL(periph) &= ~BIT(RCU_BIT_POS(periph));
+  if (NewState != DISABLE)
+  {
+    RCU->AHB3EN |= RCU_AHB3Periph;
+  }
+  else
+  {
+    RCU->AHB3EN &= ~RCU_AHB3Periph;
+  }
 }
 
-/*!
-    \brief    enable the peripherals clock when sleep mode
-    \param[in]  periph: RCU peripherals, refer to rcu_periph_sleep_enum
-                only one parameter can be selected which is shown as below:
-      \arg        RCU_GPIOx_SLP (x=A,B,C,D,E,F,G,H,I): GPIO ports clock
-      \arg        RCU_CRC_SLP: CRC clock
-      \arg        RCU_FMC_SLP: FMC clock
-      \arg        RCU_SRAM0_SLP: SRAM0 clock
-      \arg        RCU_SRAM1_SLP: SRAM1 clock
-      \arg        RCU_BKPSRAM: BKPSRAM clock
-      \arg        RCU_SRAM2_SLP: SRAM2 clock
-      \arg        RCU_DMAx_SLP (x=0,1): DMA clock
-      \arg        RCU_IPA_SLP: IPA clock
-      \arg        RCU_ENET_SLP: ENET clock
-      \arg        RCU_ENETTX_SLP: ENETTX clock
-      \arg        RCU_ENETRX_SLP: ENETRX clock
-      \arg        RCU_ENETPTP_SLP: ENETPTP clock
-      \arg        RCU_USBHS_SLP: USBHS clock
-      \arg        RCU_USBHSULPI_SLP: USBHSULPI clock
-      \arg        RCU_DCI_SLP: DCI clock
-      \arg        RCU_TRNG_SLP: TRNG clock
-      \arg        RCU_USBFS_SLP: USBFS clock
-      \arg        RCU_EXMC_SLP: EXMC clock
-      \arg        RCU_TIMERx_SLP (x=0,1,2,3,4,5,6,7,8,9,10,11,12,13): TIMER clock
-      \arg        RCU_WWDGT_SLP: WWDGT clock
-      \arg        RCU_SPIx_SLP (x=0,1,2,3,4,5): SPI clock
-      \arg        RCU_USARTx_SLP (x=0,1,2,5): USART clock
-      \arg        RCU_UARTx_SLP (x=3,4,6,7): UART clock
-      \arg        RCU_I2Cx_SLP (x=0,1,2): I2C clock
-      \arg        RCU_CANx_SLP (x=0,1): CAN clock
-      \arg        RCU_PMU_SLP: PMU clock
-      \arg        RCU_DAC_SLP: DAC clock
-      \arg        RCU_RTC_SLP: RTC clock
-      \arg        RCU_ADCx_SLP (x=0,1,2): ADC clock
-      \arg        RCU_SDIO_SLP: SDIO clock
-      \arg        RCU_SYSCFG_SLP: SYSCFG clock
-      \arg        RCU_TLI_SLP: TLI clock
-      \arg        RCU_CTC_SLP: CTC clock
-      \arg        RCU_IREF_SLP: IREF clock
-    \param[out] none
-    \retval     none
-*/
-void rcu_periph_clock_sleep_enable(rcu_periph_sleep_enum periph)
+/**
+  * @brief  Enables or disables the Low Speed APB (APB1) peripheral clock.
+  * @note   After reset, the peripheral clock (used for registers read/write access)
+  *         is disabled and the application software has to enable this clock before 
+  *         using it. 
+  * @param  RCC_APB1Periph: specifies the APB1 peripheral to gates its clock.
+  *          This parameter can be any combination of the following values:
+  *            @arg RCC_APB1Periph_TIM2:   TIM2 clock
+  *            @arg RCC_APB1Periph_TIM3:   TIM3 clock
+  *            @arg RCC_APB1Periph_TIM4:   TIM4 clock
+  *            @arg RCC_APB1Periph_TIM5:   TIM5 clock
+  *            @arg RCC_APB1Periph_TIM6:   TIM6 clock
+  *            @arg RCC_APB1Periph_TIM7:   TIM7 clock
+  *            @arg RCC_APB1Periph_TIM12:  TIM12 clock
+  *            @arg RCC_APB1Periph_TIM13:  TIM13 clock
+  *            @arg RCC_APB1Periph_TIM14:  TIM14 clock
+  *            @arg RCC_APB1Periph_WWDG:   WWDG clock
+  *            @arg RCC_APB1Periph_SPI2:   SPI2 clock
+  *            @arg RCC_APB1Periph_SPI3:   SPI3 clock
+  *            @arg RCC_APB1Periph_USART2: USART2 clock
+  *            @arg RCC_APB1Periph_USART3: USART3 clock
+  *            @arg RCC_APB1Periph_UART4:  UART4 clock
+  *            @arg RCC_APB1Periph_UART5:  UART5 clock
+  *            @arg RCC_APB1Periph_I2C1:   I2C1 clock
+  *            @arg RCC_APB1Periph_I2C2:   I2C2 clock
+  *            @arg RCC_APB1Periph_I2C3:   I2C3 clock
+  *            @arg RCC_APB1Periph_CAN1:   CAN1 clock
+  *            @arg RCC_APB1Periph_CAN2:   CAN2 clock
+  *            @arg RCC_APB1Periph_PWR:    PWR clock
+  *            @arg RCC_APB1Periph_DAC:    DAC clock
+  *            @arg RCC_APB1Periph_UART7:  UART7 clock
+  *            @arg RCC_APB1Periph_UART8:  UART8 clock
+  * @param  NewState: new state of the specified peripheral clock.
+  *          This parameter can be: ENABLE or DISABLE.
+  * @retval None
+  */
+void RCC_APB1PeriphClockCmd(uint32_t RCU_APB1Periph, ControlStatus NewState)
 {
-    RCU_REG_VAL(periph) |= BIT(RCU_BIT_POS(periph));
+  if (NewState != DISABLE)
+  {
+    RCU->APB1EN |= RCU_APB1Periph;
+  }
+  else
+  {
+    RCU->APB1EN &= ~RCU_APB1Periph;
+  }
 }
 
-/*!
-    \brief    disable the peripherals clock when sleep mode
-    \param[in]  periph: RCU peripherals, refer to rcu_periph_sleep_enum
-                only one parameter can be selected which is shown as below:
-      \arg        RCU_GPIOx_SLP (x=A,B,C,D,E,F,G,H,I): GPIO ports clock
-      \arg        RCU_CRC_SLP: CRC clock
-      \arg        RCU_FMC_SLP: FMC clock
-      \arg        RCU_SRAM0_SLP: SRAM0 clock
-      \arg        RCU_SRAM1_SLP: SRAM1 clock
-      \arg        RCU_BKPSRAM: BKPSRAM clock
-      \arg        RCU_SRAM2_SLP: SRAM2 clock
-      \arg        RCU_DMAx_SLP (x=0,1): DMA clock
-      \arg        RCU_IPA_SLP: IPA clock
-      \arg        RCU_ENET_SLP: ENET clock
-      \arg        RCU_ENETTX_SLP: ENETTX clock
-      \arg        RCU_ENETRX_SLP: ENETRX clock
-      \arg        RCU_ENETPTP_SLP: ENETPTP clock
-      \arg        RCU_USBHS_SLP: USBHS clock
-      \arg        RCU_USBHSULPI_SLP: USBHSULPI clock
-      \arg        RCU_DCI_SLP: DCI clock
-      \arg        RCU_TRNG_SLP: TRNG clock
-      \arg        RCU_USBFS_SLP: USBFS clock
-      \arg        RCU_EXMC_SLP: EXMC clock
-      \arg        RCU_TIMERx_SLP (x=0,1,2,3,4,5,6,7,8,9,10,11,12,13): TIMER clock
-      \arg        RCU_WWDGT_SLP: WWDGT clock
-      \arg        RCU_SPIx_SLP (x=0,1,2,3,4,5): SPI clock
-      \arg        RCU_USARTx_SLP (x=0,1,2,5): USART clock
-      \arg        RCU_UARTx_SLP (x=3,4,6,7): UART clock
-      \arg        RCU_I2Cx_SLP (x=0,1,2): I2C clock
-      \arg        RCU_CANx_SLP (x=0,1): CAN clock
-      \arg        RCU_PMU_SLP: PMU clock
-      \arg        RCU_DAC_SLP: DAC clock
-      \arg        RCU_RTC_SLP: RTC clock
-      \arg        RCU_ADCx_SLP (x=0,1,2): ADC clock
-      \arg        RCU_SDIO_SLP: SDIO clock
-      \arg        RCU_SYSCFG_SLP: SYSCFG clock
-      \arg        RCU_TLI_SLP: TLI clock
-      \arg        RCU_CTC_SLP: CTC clock
-      \arg        RCU_IREF_SLP: IREF clock
-    \param[out] none
-    \retval     none
-*/
-void rcu_periph_clock_sleep_disable(rcu_periph_sleep_enum periph)
+/**
+  * @brief  Enables or disables the High Speed APB (APB2) peripheral clock.
+  * @note   After reset, the peripheral clock (used for registers read/write access)
+  *         is disabled and the application software has to enable this clock before 
+  *         using it.
+  * @param  RCC_APB2Periph: specifies the APB2 peripheral to gates its clock.
+  *          This parameter can be any combination of the following values:
+  *            @arg RCC_APB2Periph_TIM1:   TIM1 clock
+  *            @arg RCC_APB2Periph_TIM8:   TIM8 clock
+  *            @arg RCC_APB2Periph_USART1: USART1 clock
+  *            @arg RCC_APB2Periph_USART6: USART6 clock
+  *            @arg RCC_APB2Periph_ADC1:   ADC1 clock
+  *            @arg RCC_APB2Periph_ADC2:   ADC2 clock
+  *            @arg RCC_APB2Periph_ADC3:   ADC3 clock
+  *            @arg RCC_APB2Periph_SDIO:   SDIO clock
+  *            @arg RCC_APB2Periph_SPI1:   SPI1 clock
+  *            @arg RCC_APB2Periph_SPI4:   SPI4 clock
+  *            @arg RCC_APB2Periph_SYSCFG: SYSCFG clock
+  *            @arg RCC_APB2Periph_TIM9:   TIM9 clock
+  *            @arg RCC_APB2Periph_TIM10:  TIM10 clock
+  *            @arg RCC_APB2Periph_TIM11:  TIM11 clock
+  *            @arg RCC_APB2Periph_SPI5:   SPI5 clock
+  *            @arg RCC_APB2Periph_SPI6:   SPI6 clock
+  *            @arg RCC_APB2Periph_SAI1:   SAI1 clock (STM32F42xxx/43xxx devices) 
+  *            @arg RCC_APB2Periph_LTDC:   LTDC clock (STM32F429xx/439xx devices) 
+  * @param  NewState: new state of the specified peripheral clock.
+  *          This parameter can be: ENABLE or DISABLE.
+  * @retval None
+  */
+void RCC_APB2PeriphClockCmd(RCU_APB2PERIPH_ENUM RCU_APB2Periph, ControlStatus NewState)
 {
-    RCU_REG_VAL(periph) &= ~BIT(RCU_BIT_POS(periph));
+  /* Check the parameters */
+
+  if (NewState != DISABLE)
+  {
+    RCU->APB2EN |= RCU_APB2Periph;
+  }
+  else
+  {
+    RCU->APB2EN &= ~RCU_APB2Periph;
+  }
+}
+/**
+  * @brief  Forces or releases AHB1 peripheral reset.
+  * @param  RCC_AHB1Periph: specifies the AHB1 peripheral to reset.
+  *          This parameter can be any combination of the following values:
+  *            @arg RCC_AHB1Periph_GPIOA:   GPIOA clock
+  *            @arg RCC_AHB1Periph_GPIOB:   GPIOB clock 
+  *            @arg RCC_AHB1Periph_GPIOC:   GPIOC clock
+  *            @arg RCC_AHB1Periph_GPIOD:   GPIOD clock
+  *            @arg RCC_AHB1Periph_GPIOE:   GPIOE clock
+  *            @arg RCC_AHB1Periph_GPIOF:   GPIOF clock
+  *            @arg RCC_AHB1Periph_GPIOG:   GPIOG clock
+  *            @arg RCC_AHB1Periph_GPIOG:   GPIOG clock
+  *            @arg RCC_AHB1Periph_GPIOI:   GPIOI clock
+  *            @arg RCC_AHB1Periph_GPIOJ:   GPIOJ clock (STM32F42xxx/43xxx devices) 
+  *            @arg RCC_AHB1Periph_GPIOK:   GPIOK clock (STM32F42xxx/43xxxdevices)   
+  *            @arg RCC_AHB1Periph_CRC:     CRC clock
+  *            @arg RCC_AHB1Periph_DMA1:    DMA1 clock
+  *            @arg RCC_AHB1Periph_DMA2:    DMA2 clock
+  *            @arg RCC_AHB1Periph_DMA2D:   DMA2D clock (STM32F429xx/439xx devices)   
+  *            @arg RCC_AHB1Periph_ETH_MAC: Ethernet MAC clock
+  *            @arg RCC_AHB1Periph_OTG_HS:  USB OTG HS clock
+  *                  
+  * @param  NewState: new state of the specified peripheral reset.
+  *          This parameter can be: ENABLE or DISABLE.
+  * @retval None
+  */
+void RCU_AHB1PeriphResetCmd(RCU_AHB1PERIPH_ENUM RCU_AHB1Periph, ControlStatus NewState)
+{
+  if (NewState != DISABLE)
+  {
+    RCU->AHB1RST |= RCU_AHB1Periph;
+  }
+  else
+  {
+    RCU->AHB1RST &= ~RCU_AHB1Periph;
+  }
+}
+/**
+  * @brief  Forces or releases AHB2 peripheral reset.
+  * @param  RCC_AHB2Periph: specifies the AHB2 peripheral to reset.
+  *          This parameter can be any combination of the following values:
+  *            @arg RCC_AHB2Periph_DCMI:   DCMI clock
+  *            @arg RCC_AHB2Periph_CRYP:   CRYP clock
+  *            @arg RCC_AHB2Periph_HASH:   HASH clock
+  *            @arg RCC_AHB2Periph_RNG:    RNG clock
+  *            @arg RCC_AHB2Periph_OTG_FS: USB OTG FS clock
+  * @param  NewState: new state of the specified peripheral reset.
+  *          This parameter can be: ENABLE or DISABLE.
+  * @retval None
+  */
+void RCU_AHB2PeriphResetCmd(RCU_AHB2PERIPH_ENUM RCU_AHB2Periph, ControlStatus NewState)
+{
+
+  if (NewState != DISABLE)
+  {
+    RCU->AHB2RST |= RCU_AHB2Periph;
+  }
+  else
+  {
+    RCU->AHB2RST &= ~RCU_AHB2Periph;
+  }
 }
 
-/*!
-    \brief    reset the peripherals
-    \param[in]  periph_reset: RCU peripherals reset, refer to rcu_periph_reset_enum
-                only one parameter can be selected which is shown as below:
-      \arg        RCU_GPIOxRST (x=A,B,C,D,E,F,G,H,I): reset GPIO ports
-      \arg        RCU_CRCRST: reset CRC
-      \arg        RCU_DMAxRST (x=0,1): reset DMA
-      \arg        RCU_IPARST: reset IPA
-      \arg        RCU_ENETRST: reset ENET
-      \arg        RCU_USBHSRST: reset USBHS
-      \arg        RCU_DCIRST: reset DCI
-      \arg        RCU_TRNGRST: reset TRNG
-      \arg        RCU_USBFSRST: reset USBFS
-      \arg        RCU_EXMCRST: reset EXMC
-      \arg        RCU_TIMERxRST (x=0,1,2,3,4,5,6,7,8,9,10,11,12,13): reset TIMER
-      \arg        RCU_WWDGTRST: reset WWDGT
-      \arg        RCU_SPIxRST (x=0,1,2,3,4,5): reset SPI
-      \arg        RCU_USARTxRST (x=0,1,2,5): reset USART
-      \arg        RCU_UARTxRST (x=3,4,6,7): reset UART
-      \arg        RCU_I2CxRST (x=0,1,2): reset I2C
-      \arg        RCU_CANxRST (x=0,1): reset CAN
-      \arg        RCU_PMURST: reset PMU
-      \arg        RCU_DACRST: reset DAC
-      \arg        RCU_ADCRST (x=0,1,2): reset ADC
-      \arg        RCU_SDIORST: reset SDIO
-      \arg        RCU_SYSCFGRST: reset SYSCFG
-      \arg        RCU_TLIRST: reset TLI
-      \arg        RCU_CTCRST: reset CTC
-      \arg        RCU_IREFRST: reset IREF
-    \param[out] none
-    \retval     none
-*/
-void rcu_periph_reset_enable(rcu_periph_reset_enum periph_reset)
+/**
+  * @brief  Forces or releases AHB3 peripheral reset.
+  * @param  RCC_AHB3Periph: specifies the AHB3 peripheral to reset.
+  *          This parameter must be: RCC_AHB3Periph_FSMC
+  *                                  or RCC_AHB3Periph_FMC (STM32F42xxx/43xxx devices)  
+  * @param  NewState: new state of the specified peripheral reset.
+  *          This parameter can be: ENABLE or DISABLE.
+  * @retval None
+  */
+void RCU_AHB3PeriphResetCmd(uint32_t RCU_AHB3Periph, ControlStatus NewState)
 {
-    RCU_REG_VAL(periph_reset) |= BIT(RCU_BIT_POS(periph_reset));
+  if (NewState != DISABLE)
+  {
+    RCU->AHB3RST |= RCU_AHB3Periph;
+  }
+  else
+  {
+    RCU->AHB3RST &= ~RCU_AHB3Periph;
+  }
 }
 
-/*!
-    \brief    disable reset the peripheral
-    \param[in]  periph_reset: RCU peripherals reset, refer to rcu_periph_reset_enum
-                only one parameter can be selected which is shown as below:
-      \arg        RCU_GPIOxRST (x=A,B,C,D,E,F,G,H,I): reset GPIO ports
-      \arg        RCU_CRCRST: reset CRC
-      \arg        RCU_DMAxRST (x=0,1): reset DMA
-      \arg        RCU_IPARST: reset IPA
-      \arg        RCU_ENETRST: reset ENET
-      \arg        RCU_USBHSRST: reset USBHS
-      \arg        RCU_DCIRST: reset DCI
-      \arg        RCU_TRNGRST: reset TRNG
-      \arg        RCU_USBFSRST: reset USBFS
-      \arg        RCU_EXMCRST: reset EXMC
-      \arg        RCU_TIMERxRST (x=0,1,2,3,4,5,6,7,8,9,10,11,12,13): reset TIMER
-      \arg        RCU_WWDGTRST: reset WWDGT
-      \arg        RCU_SPIxRST (x=0,1,2,3,4,5): reset SPI
-      \arg        RCU_USARTxRST (x=0,1,2,5): reset USART
-      \arg        RCU_UARTxRST (x=3,4,6,7): reset UART
-      \arg        RCU_I2CxRST (x=0,1,2): reset I2C
-      \arg        RCU_CANxRST (x=0,1): reset CAN
-      \arg        RCU_PMURST: reset PMU
-      \arg        RCU_DACRST: reset DAC
-      \arg        RCU_ADCRST (x=0,1,2): reset ADC
-      \arg        RCU_SDIORST: reset SDIO
-      \arg        RCU_SYSCFGRST: reset SYSCFG
-      \arg        RCU_TLIRST: reset TLI
-      \arg        RCU_CTCRST: reset CTC
-      \arg        RCU_IREFRST: reset IREF
-    \param[out] none
-    \retval     none
-*/
-void rcu_periph_reset_disable(rcu_periph_reset_enum periph_reset)
+/**
+  * @brief  Forces or releases Low Speed APB (APB1) peripheral reset.
+  * @param  RCC_APB1Periph: specifies the APB1 peripheral to reset.
+  *          This parameter can be any combination of the following values:
+  *            @arg RCC_APB1Periph_TIM2:   TIM2 clock
+  *            @arg RCC_APB1Periph_TIM3:   TIM3 clock
+  *            @arg RCC_APB1Periph_TIM4:   TIM4 clock
+  *            @arg RCC_APB1Periph_TIM5:   TIM5 clock
+  *            @arg RCC_APB1Periph_TIM6:   TIM6 clock
+  *            @arg RCC_APB1Periph_TIM7:   TIM7 clock
+  *            @arg RCC_APB1Periph_TIM12:  TIM12 clock
+  *            @arg RCC_APB1Periph_TIM13:  TIM13 clock
+  *            @arg RCC_APB1Periph_TIM14:  TIM14 clock
+  *            @arg RCC_APB1Periph_WWDG:   WWDG clock
+  *            @arg RCC_APB1Periph_SPI2:   SPI2 clock
+  *            @arg RCC_APB1Periph_SPI3:   SPI3 clock
+  *            @arg RCC_APB1Periph_USART2: USART2 clock
+  *            @arg RCC_APB1Periph_USART3: USART3 clock
+  *            @arg RCC_APB1Periph_UART4:  UART4 clock
+  *            @arg RCC_APB1Periph_UART5:  UART5 clock
+  *            @arg RCC_APB1Periph_I2C1:   I2C1 clock
+  *            @arg RCC_APB1Periph_I2C2:   I2C2 clock
+  *            @arg RCC_APB1Periph_I2C3:   I2C3 clock
+  *            @arg RCC_APB1Periph_CAN1:   CAN1 clock
+  *            @arg RCC_APB1Periph_CAN2:   CAN2 clock
+  *            @arg RCC_APB1Periph_PWR:    PWR clock
+  *            @arg RCC_APB1Periph_DAC:    DAC clock
+  *            @arg RCC_APB1Periph_UART7:  UART7 clock
+  *            @arg RCC_APB1Periph_UART8:  UART8 clock  
+  * @param  NewState: new state of the specified peripheral reset.
+  *          This parameter can be: ENABLE or DISABLE.
+  * @retval None
+  */
+void RCU_APB1PeriphResetCmd(RCU_APB1PERIPH_ENUM RCU_APB1Periph, ControlStatus NewState)
 {
-    RCU_REG_VAL(periph_reset) &= ~BIT(RCU_BIT_POS(periph_reset));
+  if (NewState != DISABLE)
+  {
+    RCU->APB1RST |= RCU_APB1Periph;
+  }
+  else
+  {
+    RCU->APB1RST &= ~RCU_APB1Periph;
+  }
 }
 
-/*!
-    \brief    reset the BKP
-    \param[in]  none
-    \param[out] none
-    \retval     none
-*/
-void rcu_bkp_reset_enable(void)
+/**
+  * @brief  Forces or releases High Speed APB (APB2) peripheral reset.
+  * @param  RCC_APB2Periph: specifies the APB2 peripheral to reset.
+  *          This parameter can be any combination of the following values:
+  *            @arg RCC_APB2Periph_TIM1:   TIM1 clock
+  *            @arg RCC_APB2Periph_TIM8:   TIM8 clock
+  *            @arg RCC_APB2Periph_USART1: USART1 clock
+  *            @arg RCC_APB2Periph_USART6: USART6 clock
+  *            @arg RCC_APB2Periph_ADC1:   ADC1 clock
+  *            @arg RCC_APB2Periph_ADC2:   ADC2 clock
+  *            @arg RCC_APB2Periph_ADC3:   ADC3 clock
+  *            @arg RCC_APB2Periph_SDIO:   SDIO clock
+  *            @arg RCC_APB2Periph_SPI1:   SPI1 clock
+  *            @arg RCC_APB2Periph_SPI4:   SPI4 clock  
+  *            @arg RCC_APB2Periph_SYSCFG: SYSCFG clock
+  *            @arg RCC_APB2Periph_TIM9:   TIM9 clock
+  *            @arg RCC_APB2Periph_TIM10:  TIM10 clock
+  *            @arg RCC_APB2Periph_TIM11:  TIM11 clock
+  *            @arg RCC_APB2Periph_SPI5:   SPI5 clock
+  *            @arg RCC_APB2Periph_SPI6:   SPI6 clock
+  *            @arg RCC_APB2Periph_SAI1:   SAI1 clock (STM32F42xxx/43xxx devices) 
+  *            @arg RCC_APB2Periph_LTDC:   LTDC clock (STM32F429xx/439xx devices)   
+  * @param  NewState: new state of the specified peripheral reset.
+  *          This parameter can be: ENABLE or DISABLE.
+  * @retval None
+  */
+void RCU_APB2PeriphResetCmd(RCU_APB2PERIPH_ENUM RCU_APB2Periph, ControlStatus NewState)
 {
-    RCU_BDCTL |= RCU_BDCTL_BKPRST;
+  if (NewState != DISABLE)
+  {
+    RCU->APB2RST |= RCU_APB2Periph;
+  }
+  else
+  {
+    RCU->APB2RST &= ~RCU_APB2Periph;
+  }
+}
+/**
+  * @brief  Enables or disables the AHB1 peripheral clock during Low Power (Sleep) mode.
+  * @note   Peripheral clock gating in SLEEP mode can be used to further reduce
+  *         power consumption.
+  * @note   After wakeup from SLEEP mode, the peripheral clock is enabled again.
+  * @note   By default, all peripheral clocks are enabled during SLEEP mode.
+  * @param  RCC_AHBPeriph: specifies the AHB1 peripheral to gates its clock.
+  *          This parameter can be any combination of the following values:
+  *            @arg RCC_AHB1Periph_GPIOA:       GPIOA clock
+  *            @arg RCC_AHB1Periph_GPIOB:       GPIOB clock 
+  *            @arg RCC_AHB1Periph_GPIOC:       GPIOC clock
+  *            @arg RCC_AHB1Periph_GPIOD:       GPIOD clock
+  *            @arg RCC_AHB1Periph_GPIOE:       GPIOE clock
+  *            @arg RCC_AHB1Periph_GPIOF:       GPIOF clock
+  *            @arg RCC_AHB1Periph_GPIOG:       GPIOG clock
+  *            @arg RCC_AHB1Periph_GPIOG:       GPIOG clock
+  *            @arg RCC_AHB1Periph_GPIOI:       GPIOI clock
+  *            @arg RCC_AHB1Periph_GPIOJ:       GPIOJ clock (STM32F42xxx/43xxx devices) 
+  *            @arg RCC_AHB1Periph_GPIOK:       GPIOK clock (STM32F42xxx/43xxx devices)   
+  *            @arg RCC_AHB1Periph_CRC:         CRC clock
+  *            @arg RCC_AHB1Periph_BKPSRAM:     BKPSRAM interface clock
+  *            @arg RCC_AHB1Periph_DMA1:        DMA1 clock
+  *            @arg RCC_AHB1Periph_DMA2:        DMA2 clock
+  *            @arg RCC_AHB1Periph_DMA2D:       DMA2D clock (STM32F429xx/439xx devices) 
+  *            @arg RCC_AHB1Periph_ETH_MAC:     Ethernet MAC clock
+  *            @arg RCC_AHB1Periph_ETH_MAC_Tx:  Ethernet Transmission clock
+  *            @arg RCC_AHB1Periph_ETH_MAC_Rx:  Ethernet Reception clock
+  *            @arg RCC_AHB1Periph_ETH_MAC_PTP: Ethernet PTP clock
+  *            @arg RCC_AHB1Periph_OTG_HS:      USB OTG HS clock
+  *            @arg RCC_AHB1Periph_OTG_HS_ULPI: USB OTG HS ULPI clock
+  * @param  NewState: new state of the specified peripheral clock.
+  *          This parameter can be: ENABLE or DISABLE.
+  * @retval None
+  */
+void RCC_AHB1PeriphClockSPModeCmd(RCU_AHB1PERIPH_ENUM RCU_AHB1Periph, ControlStatus NewState)
+{
+  if (NewState != DISABLE)
+  {
+    RCU->AHB1SPEN |= RCU_AHB1Periph;
+  }
+  else
+  {
+    RCU->AHB1SPEN &= ~RCU_AHB1Periph;
+  }
 }
 
-/*!
-    \brief    disable the BKP reset
-    \param[in]  none
-    \param[out] none
-    \retval     none
-*/
-void rcu_bkp_reset_disable(void)
+/**
+  * @brief  Enables or disables the AHB2 peripheral clock during Low Power (Sleep) mode.
+  * @note   Peripheral clock gating in SLEEP mode can be used to further reduce
+  *           power consumption.
+  * @note   After wakeup from SLEEP mode, the peripheral clock is enabled again.
+  * @note   By default, all peripheral clocks are enabled during SLEEP mode.
+  * @param  RCC_AHBPeriph: specifies the AHB2 peripheral to gates its clock.
+  *          This parameter can be any combination of the following values:
+  *            @arg RCC_AHB2Periph_DCMI:   DCMI clock
+  *            @arg RCC_AHB2Periph_CRYP:   CRYP clock
+  *            @arg RCC_AHB2Periph_HASH:   HASH clock
+  *            @arg RCC_AHB2Periph_RNG:    RNG clock
+  *            @arg RCC_AHB2Periph_OTG_FS: USB OTG FS clock  
+  * @param  NewState: new state of the specified peripheral clock.
+  *          This parameter can be: ENABLE or DISABLE.
+  * @retval None
+  */
+void RCC_AHB2PeriphClockLPModeCmd(RCU_AHB2PERIPH_ENUM RCU_AHB2Periph, ControlStatus NewState)
 {
-    RCU_BDCTL &= ~RCU_BDCTL_BKPRST;
+  if (NewState != DISABLE)
+  {
+    RCU->AHB2SPEN |= RCU_AHB2Periph;
+  }
+  else
+  {
+    RCU->AHB2SPEN &= ~RCU_AHB2Periph;
+  }
 }
 
-/*!
-    \brief    configure the system clock source
-    \param[in]  ck_sys: system clock source select
-                only one parameter can be selected which is shown as below:
-      \arg        RCU_CKSYSSRC_IRC16M: select CK_IRC16M as the CK_SYS source
-      \arg        RCU_CKSYSSRC_HXTAL: select CK_HXTAL as the CK_SYS source
-      \arg        RCU_CKSYSSRC_PLLP: select CK_PLLP as the CK_SYS source
-    \param[out] none
-    \retval     none
-*/
-void rcu_system_clock_source_config(uint32_t ck_sys)
+/**
+  * @brief  Enables or disables the AHB3 peripheral clock during Low Power (Sleep) mode.
+  * @note   Peripheral clock gating in SLEEP mode can be used to further reduce
+  *         power consumption.
+  * @note   After wakeup from SLEEP mode, the peripheral clock is enabled again.
+  * @note   By default, all peripheral clocks are enabled during SLEEP mode.
+  * @param  RCC_AHBPeriph: specifies the AHB3 peripheral to gates its clock.
+  *          This parameter must be: RCC_AHB3Periph_FSMC
+  *                                  or RCC_AHB3Periph_FMC (STM32F429x/439x devices) 
+  * @param  NewState: new state of the specified peripheral clock.
+  *          This parameter can be: ENABLE or DISABLE.
+  * @retval None
+  */
+void RCC_AHB3PeriphClockSPModeCmd(uint32_t RCU_AHB3Periph, ControlStatus NewState)
 {
-    uint32_t reg;
-    
-    reg = RCU_CFG0;
-    /* reset the SCS bits and set according to ck_sys */
-    reg &= ~RCU_CFG0_SCS;
-    RCU_CFG0 = (reg | ck_sys);
+  if (NewState != DISABLE)
+  {
+    RCU->AHB3SPEN |= RCU_AHB3Periph;
+  }
+  else
+  {
+    RCU->AHB3SPEN &= ~RCU_AHB3Periph;
+  }
 }
 
-/*!
-    \brief    get the system clock source
-    \param[in]  none
-    \param[out] none
-    \retval     which clock is selected as CK_SYS source
-      \arg        RCU_SCSS_IRC16M: CK_IRC16M is selected as the CK_SYS source
-      \arg        RCU_SCSS_HXTAL: CK_HXTAL is selected as the CK_SYS source
-      \arg        RCU_SCSS_PLLP: CK_PLLP is selected as the CK_SYS source
-*/
-uint32_t rcu_system_clock_source_get(void)
+/**
+  * @brief  Enables or disables the APB1 peripheral clock during Low Power (Sleep) mode.
+  * @note   Peripheral clock gating in SLEEP mode can be used to further reduce
+  *         power consumption.
+  * @note   After wakeup from SLEEP mode, the peripheral clock is enabled again.
+  * @note   By default, all peripheral clocks are enabled during SLEEP mode.
+  * @param  RCC_APB1Periph: specifies the APB1 peripheral to gates its clock.
+  *          This parameter can be any combination of the following values:
+  *            @arg RCC_APB1Periph_TIM2:   TIM2 clock
+  *            @arg RCC_APB1Periph_TIM3:   TIM3 clock
+  *            @arg RCC_APB1Periph_TIM4:   TIM4 clock
+  *            @arg RCC_APB1Periph_TIM5:   TIM5 clock
+  *            @arg RCC_APB1Periph_TIM6:   TIM6 clock
+  *            @arg RCC_APB1Periph_TIM7:   TIM7 clock
+  *            @arg RCC_APB1Periph_TIM12:  TIM12 clock
+  *            @arg RCC_APB1Periph_TIM13:  TIM13 clock
+  *            @arg RCC_APB1Periph_TIM14:  TIM14 clock
+  *            @arg RCC_APB1Periph_WWDG:   WWDG clock
+  *            @arg RCC_APB1Periph_SPI2:   SPI2 clock
+  *            @arg RCC_APB1Periph_SPI3:   SPI3 clock
+  *            @arg RCC_APB1Periph_USART2: USART2 clock
+  *            @arg RCC_APB1Periph_USART3: USART3 clock
+  *            @arg RCC_APB1Periph_UART4:  UART4 clock
+  *            @arg RCC_APB1Periph_UART5:  UART5 clock
+  *            @arg RCC_APB1Periph_I2C1:   I2C1 clock
+  *            @arg RCC_APB1Periph_I2C2:   I2C2 clock
+  *            @arg RCC_APB1Periph_I2C3:   I2C3 clock
+  *            @arg RCC_APB1Periph_CAN1:   CAN1 clock
+  *            @arg RCC_APB1Periph_CAN2:   CAN2 clock
+  *            @arg RCC_APB1Periph_PWR:    PWR clock
+  *            @arg RCC_APB1Periph_DAC:    DAC clock
+  *            @arg RCC_APB1Periph_UART7:  UART7 clock
+  *            @arg RCC_APB1Periph_UART8:  UART8 clock
+  * @param  NewState: new state of the specified peripheral clock.
+  *          This parameter can be: ENABLE or DISABLE.
+  * @retval None
+  */
+void RCU_APB1PeriphClockSPModeCmd(RCU_APB1PERIPH_ENUM RCU_APB1Periph, ControlStatus NewState)
 {
-    return (RCU_CFG0 & RCU_CFG0_SCSS);
+  if (NewState != DISABLE)
+  {
+    RCU->APB1SPEN |= RCU_APB1Periph;
+  }
+  else
+  {
+    RCU->APB1SPEN &= ~RCU_APB1Periph;
+  }
 }
 
-/*!
-    \brief    configure the AHB clock prescaler selection
-    \param[in]  ck_ahb: AHB clock prescaler selection
-                only one parameter can be selected which is shown as below:
-      \arg        RCU_AHB_CKSYS_DIVx, x=1, 2, 4, 8, 16, 64, 128, 256, 512
-    \param[out] none
-    \retval     none
-*/
-void rcu_ahb_clock_config(uint32_t ck_ahb)
+/**
+  * @brief  Enables or disables the APB2 peripheral clock during Low Power (Sleep) mode.
+  * @note   Peripheral clock gating in SLEEP mode can be used to further reduce
+  *         power consumption.
+  * @note   After wakeup from SLEEP mode, the peripheral clock is enabled again.
+  * @note   By default, all peripheral clocks are enabled during SLEEP mode.
+  * @param  RCC_APB2Periph: specifies the APB2 peripheral to gates its clock.
+  *          This parameter can be any combination of the following values:
+  *            @arg RCC_APB2Periph_TIM1:   TIM1 clock
+  *            @arg RCC_APB2Periph_TIM8:   TIM8 clock
+  *            @arg RCC_APB2Periph_USART1: USART1 clock
+  *            @arg RCC_APB2Periph_USART6: USART6 clock
+  *            @arg RCC_APB2Periph_ADC1:   ADC1 clock
+  *            @arg RCC_APB2Periph_ADC2:   ADC2 clock
+  *            @arg RCC_APB2Periph_ADC3:   ADC3 clock
+  *            @arg RCC_APB2Periph_SDIO:   SDIO clock
+  *            @arg RCC_APB2Periph_SPI1:   SPI1 clock
+  *            @arg RCC_APB2Periph_SPI4:   SPI4 clock
+  *            @arg RCC_APB2Periph_SYSCFG: SYSCFG clock
+  *            @arg RCC_APB2Periph_TIM9:   TIM9 clock
+  *            @arg RCC_APB2Periph_TIM10:  TIM10 clock
+  *            @arg RCC_APB2Periph_TIM11:  TIM11 clock
+  *            @arg RCC_APB2Periph_SPI5:   SPI5 clock
+  *            @arg RCC_APB2Periph_SPI6:   SPI6 clock
+  *            @arg RCC_APB2Periph_SAI1:   SAI1 clock (STM32F42xxx/43xxx devices) 
+  *            @arg RCC_APB2Periph_LTDC:   LTDC clock (STM32F429xx/439xx devices)   
+  * @param  NewState: new state of the specified peripheral clock.
+  *          This parameter can be: ENABLE or DISABLE.
+  * @retval None
+  */
+void RCU_APB2PeriphClockSPModeCmd(RCU_APB2PERIPH_ENUM RCU_APB2Periph, ControlStatus NewState)
 {
-    uint32_t reg;
-    
-    reg = RCU_CFG0;
-    /* reset the AHBPSC bits and set according to ck_ahb */
-    reg &= ~RCU_CFG0_AHBPSC;
-    RCU_CFG0 = (reg | ck_ahb);
+  if (NewState != DISABLE)
+  {
+    RCU->APB2SPEN |= RCU_APB2Periph;
+  }
+  else
+  {
+    RCU->APB2SPEN &= ~RCU_APB2Periph;
+  }
+}
+/**
+  * @brief  Configures the I2S clock source (I2SCLK).
+  * @note   This function must be called before enabling the I2S APB clock.
+  * @param  RCC_I2SCLKSource: specifies the I2S clock source.
+  *          This parameter can be one of the following values:
+  *            @arg RCC_I2S2CLKSource_PLLI2S: PLLI2S clock used as I2S clock source
+  *            @arg RCC_I2S2CLKSource_Ext: External clock mapped on the I2S_CKIN pin
+  *                                        used as I2S clock source
+  * @retval None
+  */
+void RCC_I2SCLKConfig(uint32_t RCU_I2SCLKSource)
+{
+  /* Check the parameters */
+  assert_param(IS_RCC_I2SCLK_SOURCE(RCU_I2SCLKSource));
+
+  *(__IO uint32_t *) CFGR_I2SSRC_BB = RCU_I2SCLKSource;
+}
+/**
+  * @brief  Enables or disables the specified RCC interrupts.
+  * @param  RCC_IT: specifies the RCC interrupt sources to be enabled or disabled.
+  *          This parameter can be any combination of the following values:
+  *            @arg RCC_IT_LSIRDY: LSI ready interrupt
+  *            @arg RCC_IT_LSERDY: LSE ready interrupt
+  *            @arg RCC_IT_HSIRDY: HSI ready interrupt
+  *            @arg RCC_IT_HSERDY: HSE ready interrupt
+  *            @arg RCC_IT_PLLRDY: main PLL ready interrupt
+  *            @arg RCC_IT_PLLI2SRDY: PLLI2S ready interrupt
+  *            @arg RCC_IT_PLLSAIRDY: PLLSAI ready interrupt (only for STM32F42xxx/43xxx devices)
+  * @param  NewState: new state of the specified RCC interrupts.
+  *          This parameter can be: ENABLE or DISABLE.
+  * @retval None
+  */
+	
+void RCU_ITConfig(RCU_INT_ENUM RCU_IT, EventStatus NewState)
+{
+  if (NewState != DISABLE)
+  {
+    /* Perform Byte access to RCC_CIR[14:8] bits to enable the selected interrupts */
+    *(vu8 *) CIR_BYTE2_ADDRESS |= RCU_IT;
+  }
+  else
+  {
+    /* Perform Byte access to RCC_CIR[14:8] bits to disable the selected interrupts */
+    *(vu8 *) CIR_BYTE2_ADDRESS &= (u8)~RCU_IT;
+  }
+}
+/**
+  * @brief  Checks whether the specified RCC flag is set or not.
+  * @param  RCC_FLAG: specifies the flag to check.
+  *          This parameter can be one of the following values:
+  *            @arg RCC_FLAG_HSIRDY: HSI oscillator clock ready
+  *            @arg RCC_FLAG_HSERDY: HSE oscillator clock ready
+  *            @arg RCC_FLAG_PLLRDY: main PLL clock ready
+  *            @arg RCC_FLAG_PLLI2SRDY: PLLI2S clock ready
+  *            @arg RCC_FLAG_PLLSAIRDY: PLLSAI clock ready (only for STM32F42xxx/43xxx devices)
+  *            @arg RCC_FLAG_LSERDY: LSE oscillator clock ready
+  *            @arg RCC_FLAG_LSIRDY: LSI oscillator clock ready
+  *            @arg RCC_FLAG_BORRST: POR/PDR or BOR reset
+  *            @arg RCC_FLAG_PINRST: Pin reset
+  *            @arg RCC_FLAG_PORRST: POR/PDR reset
+  *            @arg RCC_FLAG_SFTRST: Software reset
+  *            @arg RCC_FLAG_IWDGRST: Independent Watchdog reset
+  *            @arg RCC_FLAG_WWDGRST: Window Watchdog reset
+  *            @arg RCC_FLAG_LPWRRST: Low Power reset
+  * @retval The new state of RCC_FLAG (SET or RESET).
+  */
+FlagStatus RCU_GetFlagStatus(RCU_FLAG_ENUM RCU_FLAG)
+{
+  uint32_t tmp = 0;
+  uint32_t statusreg = 0;
+  FlagStatus bitstatus = RESET;
+
+  /* Get the RCC register index */
+  tmp = RCU_FLAG >> 5;
+  if (tmp == 1)               /* The flag to check is in CR register */
+  {
+    statusreg = RCU->CTL;
+  }
+  else if (tmp == 2)          /* The flag to check is in BDCR register */
+  {
+    statusreg = RCU->BDCTL;
+  }
+  else if (tmp == 3)                    /* The flag to check is in CSR register */
+  {
+    statusreg = RCU->RSTSCK;
+  }
+	else 
+	{
+		statusreg = REG32(RCU_BASE+(uint32_t)0x000000C0U);
+	}
+
+  /* Get the flag position */
+  tmp = RCU_FLAG & FLAG_MASK;
+  if ((statusreg & ((uint32_t)1 << tmp)) != (uint32_t)RESET)
+  {
+    bitstatus = SET;
+  }
+  else
+  {
+    bitstatus = RESET;
+  }
+  /* Return the flag status */
+  return bitstatus;
 }
 
-/*!
-    \brief    configure the APB1 clock prescaler selection
-    \param[in]  ck_apb1: APB1 clock prescaler selection
-                only one parameter can be selected which is shown as below:
-      \arg        RCU_APB1_CKAHB_DIV1: select CK_AHB as CK_APB1
-      \arg        RCU_APB1_CKAHB_DIV2: select CK_AHB/2 as CK_APB1
-      \arg        RCU_APB1_CKAHB_DIV4: select CK_AHB/4 as CK_APB1
-      \arg        RCU_APB1_CKAHB_DIV8: select CK_AHB/8 as CK_APB1
-      \arg        RCU_APB1_CKAHB_DIV16: select CK_AHB/16 as CK_APB1
-    \param[out] none
-    \retval     none
-*/
-void rcu_apb1_clock_config(uint32_t ck_apb1)
+/**
+  * @brief  Clears the RCC reset flags.
+  *         The reset flags are: RCC_FLAG_PINRST, RCC_FLAG_PORRST,  RCC_FLAG_SFTRST,
+  *         RCC_FLAG_IWDGRST, RCC_FLAG_WWDGRST, RCC_FLAG_LPWRRST
+  * @param  None
+  * @retval None
+  */
+void RCC_ClearFlag(void)
 {
-    uint32_t reg;
-    
-    reg = RCU_CFG0;
-    /* reset the APB1PSC and set according to ck_apb1 */
-    reg &= ~RCU_CFG0_APB1PSC;
-    RCU_CFG0 = (reg | ck_apb1);
+  /* Set RMVF bit to clear the reset flags */
+  RCU->RSTSCK |= RCC_CSR_RMVF;
 }
 
-/*!
-    \brief    configure the APB2 clock prescaler selection
-    \param[in]  ck_apb2: APB2 clock prescaler selection
-                only one parameter can be selected which is shown as below:
-      \arg        RCU_APB2_CKAHB_DIV1: select CK_AHB as CK_APB2
-      \arg        RCU_APB2_CKAHB_DIV2: select CK_AHB/2 as CK_APB2
-      \arg        RCU_APB2_CKAHB_DIV4: select CK_AHB/4 as CK_APB2
-      \arg        RCU_APB2_CKAHB_DIV8: select CK_AHB/8 as CK_APB2
-      \arg        RCU_APB2_CKAHB_DIV16: select CK_AHB/16 as CK_APB2
-    \param[out] none
-    \retval     none
-*/
-void rcu_apb2_clock_config(uint32_t ck_apb2)
+/**
+  * @brief  Checks whether the specified RCC interrupt has occurred or not.
+  * @param  RCC_IT: specifies the RCC interrupt source to check.
+  *          This parameter can be one of the following values:
+  *            @arg RCC_IT_LSIRDY: LSI ready interrupt
+  *            @arg RCC_IT_LSERDY: LSE ready interrupt
+  *            @arg RCC_IT_HSIRDY: HSI ready interrupt
+  *            @arg RCC_IT_HSERDY: HSE ready interrupt
+  *            @arg RCC_IT_PLLRDY: main PLL ready interrupt
+  *            @arg RCC_IT_PLLI2SRDY: PLLI2S ready interrupt           
+  *            @arg RCC_IT_PLLSAIRDY: PLLSAI clock ready interrupt (only for STM32F42xxx/43xxx devices)    
+  *            @arg RCC_IT_CSS: Clock Security System interrupt
+  * @retval The new state of RCC_IT (SET or RESET).
+  */
+FlagStatus RCU_GetITStatus(RCU_INT_FLAG_ENUM RCU_IT)
 {
-    uint32_t reg;
-    
-    reg = RCU_CFG0;
-    /* reset the APB2PSC and set according to ck_apb2 */
-    reg &= ~RCU_CFG0_APB2PSC;
-    RCU_CFG0 = (reg | ck_apb2);
+  FlagStatus bitstatus = RESET;
+
+  /* Check the status of the specified RCC interrupt */
+  if ((RCU->INT & RCU_IT) != (uint32_t)RESET)
+  {
+    bitstatus = SET;
+  }
+  else
+  {
+    bitstatus = RESET;
+  }
+  /* Return the RCC_IT status */
+  return  bitstatus;
 }
 
-/*!
-    \brief    configure the CK_OUT0 clock source and divider
-    \param[in]  ckout0_src: CK_OUT0 clock source selection
-                only one parameter can be selected which is shown as below:
-      \arg        RCU_CKOUT0SRC_IRC16M: IRC16M selected
-      \arg        RCU_CKOUT0SRC_LXTAL: LXTAL selected
-      \arg        RCU_CKOUT0SRC_HXTAL: HXTAL selected
-      \arg        RCU_CKOUT0SRC_PLLP: PLLP selected
-    \param[in]  ckout0_div: CK_OUT0 divider 
-      \arg        RCU_CKOUT0_DIVx(x=1,2,3,4,5): CK_OUT0 is divided by x
-    \param[out] none
-    \retval     none
-*/
-void rcu_ckout0_config(uint32_t ckout0_src, uint32_t ckout0_div)
+/**
+  * @brief  Clears the RCC's interrupt pending bits.
+  * @param  RCC_IT: specifies the interrupt pending bit to clear.
+  *          This parameter can be any combination of the following values:
+  *            @arg RCC_IT_LSIRDY: LSI ready interrupt
+  *            @arg RCC_IT_LSERDY: LSE ready interrupt
+  *            @arg RCC_IT_HSIRDY: HSI ready interrupt
+  *            @arg RCC_IT_HSERDY: HSE ready interrupt
+  *            @arg RCC_IT_PLLRDY: main PLL ready interrupt
+  *            @arg RCC_IT_PLLI2SRDY: PLLI2S ready interrupt  
+  *            @arg RCC_IT_PLLSAIRDY: PLLSAI ready interrupt (only for STM32F42xxx/43xxx devices)   
+  *            @arg RCC_IT_CSS: Clock Security System interrupt
+  * @retval None
+  */
+void RCU_ClearITPendingBit(RCU_INT_FLAG_CLEAR_ENUM RCU_IT)
 {
-    uint32_t reg;
-    
-    reg = RCU_CFG0;
-    /* reset the CKOUT0SRC, CKOUT0DIV and set according to ckout0_src and ckout0_div */
-    reg &= ~(RCU_CFG0_CKOUT0SEL | RCU_CFG0_CKOUT0DIV );
-    RCU_CFG0 = (reg | ckout0_src | ckout0_div);
+
+  /* Perform Byte access to RCC_CIR[23:16] bits to clear the selected interrupt
+     pending bits */
+  *(__IO uint8_t *) CIR_BYTE3_ADDRESS = RCU_IT;
 }
 
-/*!
-    \brief    configure the CK_OUT1 clock source and divider
-    \param[in]  ckout1_src: CK_OUT1 clock source selection
-                only one parameter can be selected which is shown as below:
-      \arg        RCU_CKOUT1SRC_SYSTEMCLOCK: system clock selected
-      \arg        RCU_CKOUT1SRC_PLLI2SR: PLLI2SR selected
-      \arg        RCU_CKOUT1SRC_HXTAL: HXTAL selected
-      \arg        RCU_CKOUT1SRC_PLLP: PLLP selected           
-    \param[in]  ckout1_div: CK_OUT1 divider 
-      \arg        RCU_CKOUT1_DIVx(x=1,2,3,4,5): CK_OUT1 is divided by x
-    \param[out] none
-    \retval     none
-*/
-void rcu_ckout1_config(uint32_t ckout1_src, uint32_t ckout1_div)
+void RCU_GetClocksFreq(RCU_ClocksTypeDef* RCU_Clocks)
 {
-    uint32_t reg;
-    
-    reg = RCU_CFG0;
-    /* reset the CKOUT1SRC, CKOUT1DIV and set according to ckout1_src and ckout1_div */
-    reg &= ~(RCU_CFG0_CKOUT1SEL | RCU_CFG0_CKOUT1DIV);
-    RCU_CFG0 = (reg | ckout1_src | ckout1_div);
-}
+  uint32_t tmp = 0, presc = 0, pllvco = 0, pllp = 2, pllsource = 0, pllm = 2;
 
-/*!
-    \brief    configure the main PLL clock 
-    \param[in]  pll_src: PLL clock source selection
-      \arg        RCU_PLLSRC_IRC16M: select IRC16M as PLL source clock
-      \arg        RCU_PLLSRC_HXTAL: select HXTAL as PLL source clock
-    \param[in]  pll_psc: the PLL VCO source clock prescaler
-      \arg         this parameter should be selected between 2 and 63
-    \param[in]  pll_n: the PLL VCO clock multi factor
-      \arg        this parameter should be selected between 64 and 500
-    \param[in]  pll_p: the PLLP output frequency division factor from PLL VCO clock
-      \arg        this parameter should be selected 2,4,6,8
-    \param[in]  pll_q: the PLL Q output frequency division factor from PLL VCO clock
-      \arg        this parameter should be selected between 2 and 15
-    \param[out] none
-    \retval     ErrStatus: SUCCESS or ERROR
-*/
-ErrStatus rcu_pll_config(uint32_t pll_src, uint32_t pll_psc, uint32_t pll_n, uint32_t pll_p, uint32_t pll_q)
-{
-    uint32_t ss_modulation_inc;
-    uint32_t ss_modulation_reg;
-    
-    ss_modulation_inc = 0U;
-    ss_modulation_reg = RCU_PLLSSCTL;
+  /* Get SYSCLK source -------------------------------------------------------*/
+  tmp = RCU->CFG0 & RCC_CFGR_SWS;
 
-    /* calculate the minimum factor of PLLN */
-    if((ss_modulation_reg & RCU_PLLSSCTL_SSCGON) == RCU_PLLSSCTL_SSCGON){
-        if((ss_modulation_reg & RCU_SS_TYPE_DOWN) == RCU_SS_TYPE_DOWN){
-            ss_modulation_inc += RCU_SS_MODULATION_DOWN_INC;
-        }else{
-            ss_modulation_inc += RCU_SS_MODULATION_CENTER_INC;
-        }
-    }
-    
-    /* check the function parameter */
-    if(CHECK_PLL_PSC_VALID(pll_psc) && CHECK_PLL_N_VALID(pll_n,ss_modulation_inc) && 
-       CHECK_PLL_P_VALID(pll_p) && CHECK_PLL_Q_VALID(pll_q)){
-         RCU_PLL = pll_psc | (pll_n << 6) | (((pll_p >> 1) - 1U) << 16) |
-                   (pll_src) | (pll_q << 24);
-    }else{
-        /* return status */
-        return ERROR;
-    }
-    
-    /* return status */
-    return SUCCESS;
-}
+  switch (tmp)
+  {
+    case 0x00:  /* HSI used as system clock source */
+      RCU_Clocks->SYSCLK_Frequency = IRC16M_VALUE;
+      break;
+    case 0x04:  /* HSE used as system clock  source */
+      RCU_Clocks->SYSCLK_Frequency = HXTAL_VALUE;
+      break;
+    case 0x08:  /* PLL used as system clock  source */
 
-/*!
-    \brief    configure the PLLI2S clock 
-    \param[in]  plli2s_n: the PLLI2S VCO clock multi factor
-      \arg        this parameter should be selected between 50 and 500
-    \param[in]  plli2s_r: the PLLI2S R output frequency division factor from PLLI2S VCO clock
-      \arg        this parameter should be selected between 2 and 7
-    \param[out] none
-    \retval     ErrStatus: SUCCESS or ERROR
-*/
-ErrStatus rcu_plli2s_config(uint32_t plli2s_n, uint32_t plli2s_r)
-{
-    /* check the function parameter */
-    if(CHECK_PLLI2S_N_VALID(plli2s_n) && CHECK_PLLI2S_R_VALID(plli2s_r)){
-        RCU_PLLI2S = (plli2s_n << 6) | (plli2s_r << 28);
-    }else{
-        /* return status */
-        return ERROR;
-    }
-    
-    /* return status */
-    return SUCCESS;  
-}
+      /* PLL_VCO = (HSE_VALUE or HSI_VALUE / PLLM) * PLLN
+         SYSCLK = PLL_VCO / PLLP
+         */    
+      pllsource = (RCU->PLL & RCC_PLLCFGR_PLLSRC) >> 22;
+      pllm = RCU->PLL & RCC_PLLCFGR_PLLM;
+      
+      if (pllsource != 0)
+      {
+        /* HSE used as PLL clock source */
+        pllvco = (HXTAL_VALUE / pllm) * ((RCU->PLL & RCC_PLLCFGR_PLLN) >> 6);
+      }
+      else
+      {
+        /* HSI used as PLL clock source */
+        pllvco = (IRC16M_VALUE / pllm) * ((RCU->PLL & RCC_PLLCFGR_PLLN) >> 6);      
+      }
 
-/*!
-    \brief    configure the PLLSAI clock 
-    \param[in]  pllsai_n: the PLLSAI VCO clock multi factor
-      \arg        this parameter should be selected between 50 and 500
-    \param[in]  pllsai_p: the PLLSAI P output frequency division factor from PLL VCO clock
-      \arg        this parameter should be selected 2,4,6,8
-    \param[in]  pllsai_r: the PLLSAI R output frequency division factor from PLL VCO clock
-      \arg        this parameter should be selected between 2 and 7
-    \param[out] none
-    \retval     ErrStatus: SUCCESS or ERROR
-*/
-ErrStatus rcu_pllsai_config(uint32_t pllsai_n, uint32_t pllsai_p, uint32_t pllsai_r)
-{
-    /* check the function parameter */
-    if(CHECK_PLLSAI_N_VALID(pllsai_n) && CHECK_PLLSAI_P_VALID(pllsai_p) && CHECK_PLLSAI_R_VALID(pllsai_r)){
-        RCU_PLLSAI = (pllsai_n << 6U) | (((pllsai_p >> 1U) - 1U) << 16U) | (pllsai_r << 28U);
-    }else{
-        /* return status */
-        return ERROR;
-    }
-    
-    /* return status */
-    return SUCCESS;
-}
-
-/*!
-    \brief    configure the RTC clock source selection
-    \param[in]  rtc_clock_source: RTC clock source selection
-                only one parameter can be selected which is shown as below:
-      \arg        RCU_RTCSRC_NONE: no clock selected
-      \arg        RCU_RTCSRC_LXTAL: CK_LXTAL selected as RTC source clock
-      \arg        RCU_RTCSRC_IRC32K: CK_IRC32K selected as RTC source clock
-      \arg        RCU_RTCSRC_HXTAL_DIV_RTCDIV: CK_HXTAL/RTCDIV selected as RTC source clock
-    \param[out] none
-    \retval     none
-*/
-void rcu_rtc_clock_config(uint32_t rtc_clock_source)
-{
-    uint32_t reg;
-    
-    reg = RCU_BDCTL; 
-    /* reset the RTCSRC bits and set according to rtc_clock_source */
-    reg &= ~RCU_BDCTL_RTCSRC;
-    RCU_BDCTL = (reg | rtc_clock_source);
-}
-
-/*!
-    \brief    configure the frequency division of RTC clock when HXTAL was selected as its clock source 
-    \param[in]  rtc_div: RTC clock frequency division
-                only one parameter can be selected which is shown as below:
-      \arg        RCU_RTC_HXTAL_NONE: no clock for RTC
-      \arg        RCU_RTC_HXTAL_DIVx: RTCDIV clock select CK_HXTAL/x, x = 2....31
-    \param[out] none
-    \retval     none
-*/
-void rcu_rtc_div_config(uint32_t rtc_div)
-{
-    uint32_t reg;
-    
-    reg = RCU_CFG0; 
-    /* reset the RTCDIV bits and set according to rtc_div value */
-    reg &= ~RCU_CFG0_RTCDIV;
-    RCU_CFG0 = (reg | rtc_div);
-}
-
-
-/*!
-    \brief    configure the I2S clock source selection
-    \param[in]  i2s_clock_source: I2S clock source selection
-                only one parameter can be selected which is shown as below:
-      \arg        RCU_I2SSRC_PLLI2S: CK_PLLI2S selected as I2S source clock
-      \arg        RCU_I2SSRC_I2S_CKIN: external i2s_ckin pin selected as I2S source clock
-    \param[out] none
-    \retval     none
-*/
-void rcu_i2s_clock_config(uint32_t i2s_clock_source)
-{
-    uint32_t reg;
-    
-    reg = RCU_CFG0; 
-    /* reset the I2SSEL bit and set according to i2s_clock_source */
-    reg &= ~RCU_CFG0_I2SSEL;
-    RCU_CFG0 = (reg | i2s_clock_source);
-}
-
-/*!
-    \brief    configure the CK48M clock source selection
-    \param[in]  ck48m_clock_source: CK48M clock source selection
-                only one parameter can be selected which is shown as below:
-      \arg        RCU_CK48MSRC_PLL48M: CK_PLL48M selected as CK48M source clock
-      \arg        RCU_CK48MSRC_IRC48M: CK_IRC48M selected as CK48M source clock
-    \param[out] none
-    \retval     none
-*/
-void rcu_ck48m_clock_config(uint32_t ck48m_clock_source)
-{
-    uint32_t reg;
-    
-    reg = RCU_ADDCTL;
-    /* reset the CK48MSEL bit and set according to i2s_clock_source */
-    reg &= ~RCU_ADDCTL_CK48MSEL;
-    RCU_ADDCTL = (reg | ck48m_clock_source);
-}
-
-/*!
-    \brief    configure the PLL48M clock source selection
-    \param[in]  pll48m_clock_source: PLL48M clock source selection
-                only one parameter can be selected which is shown as below:
-      \arg        RCU_PLL48MSRC_PLLQ: CK_PLLQ selected as PLL48M source clock
-      \arg        RCU_PLL48MSRC_PLLSAIP: CK_PLLSAIP selected as PLL48M source clock
-    \param[out] none
-    \retval     none
-*/
-void rcu_pll48m_clock_config(uint32_t pll48m_clock_source)
-{
-    uint32_t reg;
-    
-    reg = RCU_ADDCTL;
-    /* reset the PLL48MSEL bit and set according to pll48m_clock_source */
-    reg &= ~RCU_ADDCTL_PLL48MSEL;
-    RCU_ADDCTL = (reg | pll48m_clock_source);
-}
-
-/*!
-    \brief    configure the TIMER clock prescaler selection
-    \param[in]  timer_clock_prescaler: TIMER clock selection
-                only one parameter can be selected which is shown as below:
-      \arg        RCU_TIMER_PSC_MUL2: if APB1PSC/APB2PSC in RCU_CFG0 register is 0b0xx(CK_APBx = CK_AHB) 
-                                      or 0b100(CK_APBx = CK_AHB/2), the TIMER clock is equal to CK_AHB(CK_TIMERx = CK_AHB).
-                                      or else, the TIMER clock is twice the corresponding APB clock (TIMER in APB1 domain: CK_TIMERx = 2 x CK_APB1; 
-                                      TIMER in APB2 domain: CK_TIMERx = 2 x CK_APB2)
-      \arg        RCU_TIMER_PSC_MUL4: if APB1PSC/APB2PSC in RCU_CFG0 register is 0b0xx(CK_APBx = CK_AHB), 
-                                      0b100(CK_APBx = CK_AHB/2), or 0b101(CK_APBx = CK_AHB/4), the TIMER clock is equal to CK_AHB(CK_TIMERx = CK_AHB). 
-                                      or else, the TIMER clock is four timers the corresponding APB clock (TIMER in APB1 domain: CK_TIMERx = 4 x CK_APB1;  
-                                      TIMER in APB2 domain: CK_TIMERx = 4 x CK_APB2)
-    \param[out] none
-    \retval     none
-*/
-void rcu_timer_clock_prescaler_config(uint32_t timer_clock_prescaler)
-{
-    /* configure the TIMERSEL bit and select the TIMER clock prescaler */
-    if(timer_clock_prescaler == RCU_TIMER_PSC_MUL2){
-        RCU_CFG1 &= timer_clock_prescaler;
-    }else{
-        RCU_CFG1 |= timer_clock_prescaler;
-    }
-}
-
-/*!
-    \brief    configure the PLLSAIR divider used as input of TLI
-    \param[in]  pllsai_r_div: PLLSAIR divider used as input of TLI
-                only one parameter can be selected which is shown as below:
-      \arg        RCU_PLLSAIR_DIVx(x=2,4,8,16): PLLSAIR divided x used as input of TLI
-    \param[out] none
-    \retval     none
-*/
-void rcu_tli_clock_div_config(uint32_t pllsai_r_div)
-{
-    uint32_t reg;
-    
-    reg = RCU_CFG1;
-    /* reset the PLLSAIRDIV bit and set according to pllsai_r_div */
-    reg &= ~RCU_CFG1_PLLSAIRDIV;
-    RCU_CFG1 = (reg | pllsai_r_div);
-}
-
-/*!
-    \brief    get the clock stabilization and periphral reset flags
-    \param[in]  flag: the clock stabilization and periphral reset flags, refer to rcu_flag_enum
-                only one parameter can be selected which is shown as below:
-      \arg        RCU_FLAG_IRC16MSTB: IRC16M stabilization flag
-      \arg        RCU_FLAG_HXTALSTB: HXTAL stabilization flag
-      \arg        RCU_FLAG_PLLSTB: PLL stabilization flag
-      \arg        RCU_FLAG_PLLI2SSTB: PLLI2S stabilization flag
-      \arg        RCU_FLAG_PLLSAISTB: PLLSAI stabilization flag
-      \arg        RCU_FLAG_LXTALSTB: LXTAL stabilization flag
-      \arg        RCU_FLAG_IRC32KSTB: IRC32K stabilization flag
-      \arg        RCU_FLAG_IRC48MSTB: IRC48M stabilization flag
-      \arg        RCU_FLAG_BORRST: BOR reset flags
-      \arg        RCU_FLAG_EPRST: external PIN reset flag
-      \arg        RCU_FLAG_PORRST: Power reset flag
-      \arg        RCU_FLAG_SWRST: software reset flag
-      \arg        RCU_FLAG_FWDGTRST: free watchdog timer reset flag
-      \arg        RCU_FLAG_WWDGTRST: window watchdog timer reset flag
-      \arg        RCU_FLAG_LPRST: low-power reset flag
-    \param[out] none
-    \retval     none
-*/
-FlagStatus rcu_flag_get(rcu_flag_enum flag)
-{
-    /* get the rcu flag */
-    if(RESET != (RCU_REG_VAL(flag) & BIT(RCU_BIT_POS(flag)))){
-        return SET;
-    }else{
-        return RESET;
-    }
-}
-
-/*!
-    \brief    clear all the reset flag
-    \param[in]  none
-    \param[out] none
-    \retval     none
-*/
-void rcu_all_reset_flag_clear(void)
-{
-    RCU_RSTSCK |= RCU_RSTSCK_RSTFC;
-}
-
-/*!
-    \brief    get the clock stabilization interrupt and ckm flags
-    \param[in]  int_flag: interrupt and ckm flags, refer to rcu_int_flag_enum
-                only one parameter can be selected which is shown as below:
-      \arg        RCU_INT_FLAG_IRC32KSTB: IRC32K stabilization interrupt flag
-      \arg        RCU_INT_FLAG_LXTALSTB: LXTAL stabilization interrupt flag
-      \arg        RCU_INT_FLAG_IRC16MSTB: IRC16M stabilization interrupt flag
-      \arg        RCU_INT_FLAG_HXTALSTB: HXTAL stabilization interrupt flag
-      \arg        RCU_INT_FLAG_PLLSTB: PLL stabilization interrupt flag
-      \arg        RCU_INT_FLAG_PLLI2SSTB: PLLI2S stabilization interrupt flag
-      \arg        RCU_INT_FLAG_PLLSAISTB: PLLSAI stabilization interrupt flag
-      \arg        RCU_INT_FLAG_CKM: HXTAL clock stuck interrupt flag
-      \arg        RCU_INT_FLAG_IRC48MSTB: IRC48M stabilization interrupt flag
-    \param[out] none
-    \retval     FlagStatus: SET or RESET
-*/
-FlagStatus rcu_interrupt_flag_get(rcu_int_flag_enum int_flag)
-{
-    /* get the rcu interrupt flag */
-    if(RESET != (RCU_REG_VAL(int_flag) & BIT(RCU_BIT_POS(int_flag)))){
-        return SET;
-    }else{
-        return RESET;
-    }
-}
-
-/*!
-    \brief    clear the interrupt flags
-    \param[in]  int_flag: clock stabilization and stuck interrupt flags clear, refer to rcu_int_flag_clear_enum
-                only one parameter can be selected which is shown as below:
-      \arg        RCU_INT_FLAG_IRC32KSTB_CLR: IRC32K stabilization interrupt flag clear
-      \arg        RCU_INT_FLAG_LXTALSTB_CLR: LXTAL stabilization interrupt flag clear
-      \arg        RCU_INT_FLAG_IRC16MSTB_CLR: IRC16M stabilization interrupt flag clear
-      \arg        RCU_INT_FLAG_HXTALSTB_CLR: HXTAL stabilization interrupt flag clear
-      \arg        RCU_INT_FLAG_PLLSTB_CLR: PLL stabilization interrupt flag clear
-      \arg        RCU_INT_FLAG_PLLI2SSTB_CLR: PLLI2S stabilization interrupt flag clear
-      \arg        RCU_INT_FLAG_PLLSAISTB_CLR: PLLSAI stabilization interrupt flag clear
-      \arg        RCU_INT_FLAG_CKM_CLR: clock stuck interrupt flag clear
-      \arg        RCU_INT_FLAG_IRC48MSTB_CLR: IRC48M stabilization interrupt flag clear
-    \param[out] none
-    \retval     none
-*/
-void rcu_interrupt_flag_clear(rcu_int_flag_clear_enum int_flag)
-{
-    RCU_REG_VAL(int_flag) |= BIT(RCU_BIT_POS(int_flag));
-}
-
-/*!
-    \brief    enable the stabilization interrupt
-    \param[in]  interrupt: clock stabilization interrupt, refer to rcu_int_enum
-                Only one parameter can be selected which is shown as below:
-      \arg        RCU_INT_IRC32KSTB: IRC32K stabilization interrupt enable
-      \arg        RCU_INT_LXTALSTB: LXTAL stabilization interrupt enable
-      \arg        RCU_INT_IRC16MSTB: IRC16M stabilization interrupt enable
-      \arg        RCU_INT_HXTALSTB: HXTAL stabilization interrupt enable
-      \arg        RCU_INT_PLLSTB: PLL stabilization interrupt enable
-      \arg        RCU_INT_PLLI2SSTB: PLLI2S stabilization interrupt enable
-      \arg        RCU_INT_PLLSAISTB: PLLSAI stabilization interrupt enable
-      \arg        RCU_INT_IRC48MSTB: IRC48M stabilization interrupt enable
-    \param[out] none
-    \retval     none
-*/
-void rcu_interrupt_enable(rcu_int_enum interrupt)
-{
-    RCU_REG_VAL(interrupt) |= BIT(RCU_BIT_POS(interrupt));
-}
-
-
-/*!
-    \brief    disable the stabilization interrupt
-    \param[in]  interrupt: clock stabilization interrupt, refer to rcu_int_enum
-                only one parameter can be selected which is shown as below:
-      \arg        RCU_INT_IRC32KSTB: IRC32K stabilization interrupt disable
-      \arg        RCU_INT_LXTALSTB: LXTAL stabilization interrupt disable
-      \arg        RCU_INT_IRC16MSTB: IRC16M stabilization interrupt disable
-      \arg        RCU_INT_HXTALSTB: HXTAL stabilization interrupt disable
-      \arg        RCU_INT_PLLSTB: PLL stabilization interrupt disable
-      \arg        RCU_INT_PLLI2SSTB: PLLI2S stabilization interrupt disable
-      \arg        RCU_INT_PLLSAISTB: PLLSAI stabilization interrupt disable
-      \arg        RCU_INT_IRC48MSTB: IRC48M stabilization interrupt disable
-    \param[out] none
-    \retval     none
-*/
-void rcu_interrupt_disable(rcu_int_enum interrupt)
-{
-    RCU_REG_VAL(interrupt) &= ~BIT(RCU_BIT_POS(interrupt));
-}
-
-/*!
-    \brief    configure the LXTAL drive capability
-    \param[in]  lxtal_dricap: drive capability of LXTAL
-                only one parameter can be selected which is shown as below:
-      \arg        RCU_LXTALDRI_LOWER_DRIVE: lower driving capability
-      \arg        RCU_LXTALDRI_HIGHER_DRIVE: higher driving capability
-    \param[out] none
-    \retval     none
-*/
-void rcu_lxtal_drive_capability_config(uint32_t lxtal_dricap)
-{
-    uint32_t reg;
-    
-    reg = RCU_BDCTL;
-    
-    /* reset the LXTALDRI bits and set according to lxtal_dricap */
-    reg &= ~RCU_BDCTL_LXTALDRI;
-    RCU_BDCTL = (reg | lxtal_dricap);
-}
-
-/*!
-    \brief    wait for oscillator stabilization flags is SET or oscillator startup is timeout
-    \param[in]  osci: oscillator types, refer to rcu_osci_type_enum
-                only one parameter can be selected which is shown as below:
-      \arg        RCU_HXTAL: HXTAL
-      \arg        RCU_LXTAL: LXTAL
-      \arg        RCU_IRC16M: IRC16M
-      \arg        RCU_IRC48M: IRC48M
-      \arg        RCU_IRC32K: IRC32K
-      \arg        RCU_PLL_CK: PLL
-      \arg        RCU_PLLI2S_CK: PLLI2S
-      \arg        RCU_PLLSAI_CK: PLLSAI
-    \param[out] none
-    \retval     ErrStatus: SUCCESS or ERROR
-*/
-ErrStatus rcu_osci_stab_wait(rcu_osci_type_enum osci)
-{
-    uint32_t stb_cnt = 0U;
-    ErrStatus reval = ERROR;
-    FlagStatus osci_stat = RESET;
-    
-    switch(osci){
-    /* wait HXTAL stable */
-    case RCU_HXTAL:
-        while((RESET == osci_stat) && (HXTAL_STARTUP_TIMEOUT != stb_cnt)){
-            osci_stat = rcu_flag_get(RCU_FLAG_HXTALSTB);
-            stb_cnt++;
-        }
-        
-        /* check whether flag is set */
-        if(RESET != rcu_flag_get(RCU_FLAG_HXTALSTB)){
-            reval = SUCCESS;
-        }
-        break;
-    /* wait LXTAL stable */
-    case RCU_LXTAL:
-        while((RESET == osci_stat) && (LXTAL_STARTUP_TIMEOUT != stb_cnt)){
-            osci_stat = rcu_flag_get(RCU_FLAG_LXTALSTB);
-            stb_cnt++;
-        }
-        
-        /* check whether flag is set */
-        if(RESET != rcu_flag_get(RCU_FLAG_LXTALSTB)){
-            reval = SUCCESS;
-        }
-        break;
-    /* wait IRC16M stable */    
-    case RCU_IRC16M:
-        while((RESET == osci_stat) && (IRC16M_STARTUP_TIMEOUT != stb_cnt)){
-            osci_stat = rcu_flag_get(RCU_FLAG_IRC16MSTB);
-            stb_cnt++;
-        }
-        
-        /* check whether flag is set */
-        if(RESET != rcu_flag_get(RCU_FLAG_IRC16MSTB)){
-            reval = SUCCESS;
-        }
-        break;
-    /* wait IRC48M stable */    
-    case RCU_IRC48M:
-        while((RESET == osci_stat) && (OSC_STARTUP_TIMEOUT != stb_cnt)){
-            osci_stat = rcu_flag_get(RCU_FLAG_IRC48MSTB);
-            stb_cnt++;
-        }
-        
-        /* check whether flag is set */
-        if (RESET != rcu_flag_get(RCU_FLAG_IRC48MSTB)){
-            reval = SUCCESS;
-        }
-        break;
-    /* wait IRC32K stable */
-    case RCU_IRC32K:
-        while((RESET == osci_stat) && (OSC_STARTUP_TIMEOUT != stb_cnt)){
-            osci_stat = rcu_flag_get(RCU_FLAG_IRC32KSTB);
-            stb_cnt++;
-        }
-        
-        /* check whether flag is set */
-        if(RESET != rcu_flag_get(RCU_FLAG_IRC32KSTB)){
-            reval = SUCCESS;
-        }
-        break;
-    /* wait PLL stable */    
-    case RCU_PLL_CK:
-        while((RESET == osci_stat) && (OSC_STARTUP_TIMEOUT != stb_cnt)){
-            osci_stat = rcu_flag_get(RCU_FLAG_PLLSTB);
-            stb_cnt++;
-        }
-        
-        /* check whether flag is set */
-        if(RESET != rcu_flag_get(RCU_FLAG_PLLSTB)){
-            reval = SUCCESS;
-        }
-        break;
-    /* wait PLLI2S stable */
-    case RCU_PLLI2S_CK:
-        while((RESET == osci_stat) && (OSC_STARTUP_TIMEOUT != stb_cnt)){
-            osci_stat = rcu_flag_get(RCU_FLAG_PLLI2SSTB);
-            stb_cnt++;
-        }
-        
-        /* check whether flag is set */
-        if(RESET != rcu_flag_get(RCU_FLAG_PLLI2SSTB)){
-            reval = SUCCESS;
-        }
-        break;
-    /* wait PLLSAI stable */    
-    case RCU_PLLSAI_CK:
-        while((RESET == osci_stat) && (OSC_STARTUP_TIMEOUT != stb_cnt)){
-            osci_stat = rcu_flag_get(RCU_FLAG_PLLSAISTB);
-            stb_cnt++;
-        }
-        
-        /* check whether flag is set */
-        if(RESET != rcu_flag_get(RCU_FLAG_PLLSAISTB)){
-            reval = SUCCESS;
-        }
-        break;
-    
+      pllp = (((RCU->PLL & RCC_PLLCFGR_PLLP) >>16) + 1 ) *2;
+      RCU_Clocks->SYSCLK_Frequency = pllvco/pllp;
+      break;
     default:
-        break;
-    }
-    
-    /* return value */
-    return reval;
-}
+      RCU_Clocks->SYSCLK_Frequency = IRC16M_VALUE;
+      break;
+  }
+  /* Compute HCLK, PCLK1 and PCLK2 clocks frequencies ------------------------*/
 
-/*!
-    \brief    turn on the oscillator
-    \param[in]  osci: oscillator types, refer to rcu_osci_type_enum
-                only one parameter can be selected which is shown as below:
-      \arg        RCU_HXTAL: HXTAL
-      \arg        RCU_LXTAL: LXTAL
-      \arg        RCU_IRC16M: IRC16M
-      \arg        RCU_IRC48M: IRC48M
-      \arg        RCU_IRC32K: IRC32K
-      \arg        RCU_PLL_CK: PLL
-      \arg        RCU_PLLI2S_CK: PLLI2S
-      \arg        RCU_PLLSAI_CK: PLLSAI
-    \param[out] none
-    \retval     none
-*/
-void rcu_osci_on(rcu_osci_type_enum osci)
-{
-    RCU_REG_VAL(osci) |= BIT(RCU_BIT_POS(osci));
-}
+  /* Get HCLK prescaler */
+  tmp = RCU->CFG0 & RCC_CFGR_HPRE;
+  tmp = tmp >> 4;
+  presc = APBAHBPrescTable[tmp];
+  /* HCLK clock frequency */
+  RCU_Clocks->HCLK_Frequency = RCU_Clocks->SYSCLK_Frequency >> presc;
 
-/*!
-    \brief    turn off the oscillator
-    \param[in]  osci: oscillator types, refer to rcu_osci_type_enum
-                only one parameter can be selected which is shown as below:
-      \arg        RCU_HXTAL: HXTAL
-      \arg        RCU_LXTAL: LXTAL
-      \arg        RCU_IRC16M: IRC16M
-      \arg        RCU_IRC48M: IRC48M
-      \arg        RCU_IRC32K: IRC32K
-      \arg        RCU_PLL_CK: PLL
-      \arg        RCU_PLLI2S_CK: PLLI2S
-      \arg        RCU_PLLSAI_CK: PLLSAI
-    \param[out] none
-    \retval     none
-*/
-void rcu_osci_off(rcu_osci_type_enum osci)
-{
-    RCU_REG_VAL(osci) &= ~BIT(RCU_BIT_POS(osci));
-}
+  /* Get PCLK1 prescaler */
+  tmp = RCU->CFG0 & RCC_CFGR_PPRE1;
+  tmp = tmp >> 10;
+  presc = APBAHBPrescTable[tmp];
+  /* PCLK1 clock frequency */
+  RCU_Clocks->PCLK1_Frequency = RCU_Clocks->HCLK_Frequency >> presc;
 
-/*!
-    \brief    enable the oscillator bypass mode, HXTALEN or LXTALEN must be reset before it
-    \param[in]  osci: oscillator types, refer to rcu_osci_type_enum
-                only one parameter can be selected which is shown as below:
-      \arg        RCU_HXTAL: high speed crystal oscillator(HXTAL)
-      \arg        RCU_LXTAL: low speed crystal oscillator(LXTAL)
-    \param[out] none
-    \retval     none
-*/
-void rcu_osci_bypass_mode_enable(rcu_osci_type_enum osci)
-{
-    uint32_t reg;
-
-    switch(osci){
-    /* enable HXTAL to bypass mode */    
-    case RCU_HXTAL:
-        reg = RCU_CTL;
-        RCU_CTL &= ~RCU_CTL_HXTALEN;
-        RCU_CTL = (reg | RCU_CTL_HXTALBPS);
-        break;
-    /* enable LXTAL to bypass mode */
-    case RCU_LXTAL:
-        reg = RCU_BDCTL;
-        RCU_BDCTL &= ~RCU_BDCTL_LXTALEN;
-        RCU_BDCTL = (reg | RCU_BDCTL_LXTALBPS);
-        break;
-    case RCU_IRC16M:
-    case RCU_IRC48M:
-    case RCU_IRC32K:
-    case RCU_PLL_CK:
-    case RCU_PLLI2S_CK:
-    case RCU_PLLSAI_CK:    
-        break;
-    default:
-        break;
-    }
-}
-
-/*!
-    \brief    disable the oscillator bypass mode, HXTALEN or LXTALEN must be reset before it
-    \param[in]  osci: oscillator types, refer to rcu_osci_type_enum
-                only one parameter can be selected which is shown as below:
-      \arg        RCU_HXTAL: high speed crystal oscillator(HXTAL)
-      \arg        RCU_LXTAL: low speed crystal oscillator(LXTAL)
-    \param[out] none
-    \retval     none
-*/
-void rcu_osci_bypass_mode_disable(rcu_osci_type_enum osci)
-{
-    uint32_t reg;
-    
-    switch(osci){
-    /* disable HXTAL to bypass mode */    
-    case RCU_HXTAL:
-        reg = RCU_CTL;
-        RCU_CTL &= ~RCU_CTL_HXTALEN;
-        RCU_CTL = (reg & ~RCU_CTL_HXTALBPS);
-        break;
-    /* disable LXTAL to bypass mode */
-    case RCU_LXTAL:
-        reg = RCU_BDCTL;
-        RCU_BDCTL &= ~RCU_BDCTL_LXTALEN;
-        RCU_BDCTL = (reg & ~RCU_BDCTL_LXTALBPS);
-        break;
-    case RCU_IRC16M:
-    case RCU_IRC48M:
-    case RCU_IRC32K:
-    case RCU_PLL_CK:
-    case RCU_PLLI2S_CK:
-    case RCU_PLLSAI_CK:    
-        break;
-    default:
-        break;
-    }
-}
-
-/*!
-    \brief    enable the HXTAL clock monitor
-    \param[in]  none
-    \param[out] none
-    \retval     none
-*/
-
-void rcu_hxtal_clock_monitor_enable(void)
-{
-    RCU_CTL |= RCU_CTL_CKMEN;
-}
-
-/*!
-    \brief    disable the HXTAL clock monitor
-    \param[in]  none
-    \param[out] none
-    \retval     none
-*/
-void rcu_hxtal_clock_monitor_disable(void)
-{
-    RCU_CTL &= ~RCU_CTL_CKMEN;
-}
-
-/*!
-    \brief    set the IRC16M adjust value
-    \param[in]  irc16m_adjval: IRC16M adjust value, must be between 0 and 0x1F
-      \arg        0x00 - 0x1F
-    \param[out] none
-    \retval     none
-*/
-void rcu_irc16m_adjust_value_set(uint32_t irc16m_adjval)
-{
-    uint32_t reg;
-    
-    reg = RCU_CTL;
-    /* reset the IRC16MADJ bits and set according to irc16m_adjval */
-    reg &= ~RCU_CTL_IRC16MADJ;
-    RCU_CTL = (reg | ((irc16m_adjval & RCU_IRC16M_ADJUST_MASK) << RCU_IRC16M_ADJUST_OFFSET));
-}
-
-/*!
-    \brief    unlock the voltage key
-    \param[in]  none
-    \param[out] none
-    \retval     none
-*/
-void rcu_voltage_key_unlock(void)
-{
-    RCU_VKEY = RCU_VKEY_UNLOCK;
-}
-
-/*!
-    \brief    deep-sleep mode voltage select
-    \param[in]  dsvol: deep sleep mode voltage
-                only one parameter can be selected which is shown as below:
-      \arg        RCU_DEEPSLEEP_V_1_2: the core voltage is 1.2V
-      \arg        RCU_DEEPSLEEP_V_1_1: the core voltage is 1.1V
-      \arg        RCU_DEEPSLEEP_V_1_0: the core voltage is 1.0V
-      \arg        RCU_DEEPSLEEP_V_0_9: the core voltage is 0.9V
-    \param[out] none
-    \retval     none
-*/
-void rcu_deepsleep_voltage_set(uint32_t dsvol)
-{    
-    dsvol &= RCU_DSV_DSLPVS;
-    RCU_DSV = dsvol;
-}
-
-/*!
-    \brief    configure the spread spectrum modulation for the main PLL clock
-    \param[in]  spread_spectrum_type: PLL spread spectrum modulation type select
-      \arg        RCU_SS_TYPE_CENTER: center spread type is selected
-      \arg        RCU_SS_TYPE_DOWN: down spread type is selected
-    \param[in]  modstep: configure PLL spread spectrum modulation profile amplitude and frequency
-      \arg        This parameter should be selected between 0 and 7FFF.The following criteria must be met: MODSTEP*MODCNT <=2^15-1
-    \param[in]  modcnt: configure PLL spread spectrum modulation profile amplitude and frequency
-      \arg        This parameter should be selected between 0 and 1FFF.The following criteria must be met: MODSTEP*MODCNT <=2^15-1
-    \param[out] none
-    \retval     none
-*/
-void rcu_spread_spectrum_config(uint32_t spread_spectrum_type, uint32_t modstep, uint32_t modcnt)
-{
-    uint32_t reg;
-    
-    reg = RCU_PLLSSCTL;
-    /* reset the RCU_PLLSSCTL register bits */
-    reg &= ~(RCU_PLLSSCTL_MODCNT | RCU_PLLSSCTL_MODSTEP | RCU_PLLSSCTL_SS_TYPE);
-    RCU_PLLSSCTL = (reg | spread_spectrum_type | modstep << 13 | modcnt);
-}
-
-/*!
-    \brief    enable the PLL spread spectrum modulation
-    \param[in]  none
-    \param[out] none
-    \retval     none
-*/
-void rcu_spread_spectrum_enable(void)
-{
-    RCU_PLLSSCTL |= RCU_PLLSSCTL_SSCGON;
-}
-
-/*!
-    \brief    disable the PLL spread spectrum modulation
-    \param[in]  none
-    \param[out] none
-    \retval     none
-*/
-void rcu_spread_spectrum_disable(void)
-{
-    RCU_PLLSSCTL &= ~RCU_PLLSSCTL_SSCGON;
-}
-
-/*!
-    \brief    get the system clock, bus and peripheral clock frequency
-    \param[in]  clock: the clock frequency which to get
-                only one parameter can be selected which is shown as below:
-      \arg        CK_SYS: system clock frequency
-      \arg        CK_AHB: AHB clock frequency
-      \arg        CK_APB1: APB1 clock frequency
-      \arg        CK_APB2: APB2 clock frequency
-    \param[out] none
-    \retval     clock frequency of system, AHB, APB1, APB2
-*/
-uint32_t rcu_clock_freq_get(rcu_clock_freq_enum clock)
-{
-    uint32_t sws, ck_freq = 0U;
-    uint32_t cksys_freq, ahb_freq, apb1_freq, apb2_freq;
-    uint32_t pllpsc, plln, pllsel, pllp, ck_src, idx, clk_exp;
-    
-    /* exponent of AHB, APB1 and APB2 clock divider */
-    const uint8_t ahb_exp[16] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6, 7, 8, 9};
-    const uint8_t apb1_exp[8] = {0, 0, 0, 0, 1, 2, 3, 4};
-    const uint8_t apb2_exp[8] = {0, 0, 0, 0, 1, 2, 3, 4};
-
-    sws = GET_BITS(RCU_CFG0, 2, 3);
-    switch(sws){
-    /* IRC16M is selected as CK_SYS */
-    case SEL_IRC16M:
-        cksys_freq = IRC16M_VALUE;
-        break;
-    /* HXTAL is selected as CK_SYS */
-    case SEL_HXTAL:
-        cksys_freq = HXTAL_VALUE;
-        break;
-    /* PLLP is selected as CK_SYS */
-    case SEL_PLLP:
-        /* get the value of PLLPSC[5:0] */
-        pllpsc = GET_BITS(RCU_PLL, 0U, 5U);
-        plln = GET_BITS(RCU_PLL, 6U, 14U);
-        pllp = (GET_BITS(RCU_PLL, 16U, 17U) + 1U) * 2U;
-        /* PLL clock source selection, HXTAL or IRC16M/2 */
-        pllsel = (RCU_PLL & RCU_PLL_PLLSEL);
-        if (RCU_PLLSRC_HXTAL == pllsel) {
-            ck_src = HXTAL_VALUE;
-        } else {
-            ck_src = IRC16M_VALUE;
-        }
-        cksys_freq = ((ck_src / pllpsc) * plln)/pllp;
-        break;
-    /* IRC16M is selected as CK_SYS */
-    default:
-        cksys_freq = IRC16M_VALUE;
-        break;
-    }
-    /* calculate AHB clock frequency */
-    idx = GET_BITS(RCU_CFG0, 4, 7);
-    clk_exp = ahb_exp[idx];
-    ahb_freq = cksys_freq >> clk_exp;
-    
-    /* calculate APB1 clock frequency */
-    idx = GET_BITS(RCU_CFG0, 10, 12);
-    clk_exp = apb1_exp[idx];
-    apb1_freq = ahb_freq >> clk_exp;
-    
-    /* calculate APB2 clock frequency */
-    idx = GET_BITS(RCU_CFG0, 13, 15);
-    clk_exp = apb2_exp[idx];
-    apb2_freq = ahb_freq >> clk_exp;
-    
-    /* return the clocks frequency */
-    switch(clock){
-    case CK_SYS:
-        ck_freq = cksys_freq;
-        break;
-    case CK_AHB:
-        ck_freq = ahb_freq;
-        break;
-    case CK_APB1:
-        ck_freq = apb1_freq;
-        break;
-    case CK_APB2:
-        ck_freq = apb2_freq;
-        break;
-    default:
-        break;
-    }
-    return ck_freq;
+  /* Get PCLK2 prescaler */
+  tmp = RCU->CFG0 & RCC_CFGR_PPRE2;
+  tmp = tmp >> 13;
+  presc = APBAHBPrescTable[tmp];
+  /* PCLK2 clock frequency */
+  RCU_Clocks->PCLK2_Frequency = RCU_Clocks->HCLK_Frequency >> presc;
 }

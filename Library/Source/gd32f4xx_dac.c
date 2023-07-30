@@ -49,8 +49,8 @@ OF SUCH DAMAGE.
 */
 void dac_deinit(void)
 {
-    rcu_periph_reset_enable(RCU_DACRST);
-    rcu_periph_reset_disable(RCU_DACRST);
+		RCU_APB1PeriphResetCmd(RCU_APB1Periph_DAC,ENABLE);
+		RCU_APB1PeriphResetCmd(RCU_APB1Periph_DAC,DISABLE);
 }
 
 /*!

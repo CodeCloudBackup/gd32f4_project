@@ -19,30 +19,29 @@ void IIC0_Init(void)
 {
 	GPIO_InitTypeDef  GPIO_InitStructure;
 	RCU->AHB1EN|=1<<1;//使能GPIOB时钟
-
-		gpio_af_set(GPIOB_BASE, GPIO_AF_4, GPIO_PIN_6);//复用功能4
-		gpio_af_set(GPIOB_BASE, GPIO_AF_4, GPIO_PIN_7);//复用功能4
-	  gpio_mode_set(GPIOB_BASE, GPIO_MODE_AF, GPIO_PUPD_PULLUP,GPIO_PIN_6);//PB6,PB7配置成I2C
-    gpio_output_options_set(GPIOB_BASE, GPIO_OTYPE_OD, GPIO_OSPEED_50MHZ,GPIO_PIN_6);
-    gpio_mode_set(GPIOB_BASE, GPIO_MODE_AF, GPIO_PUPD_PULLUP,GPIO_PIN_7);
-    gpio_output_options_set(GPIOB_BASE, GPIO_OTYPE_OD, GPIO_OSPEED_50MHZ,GPIO_PIN_7);
 	 //GPIOB8,B9初始化设置
-//  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6 | GPIO_Pin_7;
-//  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;//普通输出模式
-//  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;//推挽输出
-//  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;//100MHz
-//  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;//上拉
-//  GPIO_Init(GPIOB, &GPIO_InitStructure);//初始化
-//	//串口1对应引脚复用映射
-//	GPIO_PinAFConfig(GPIOB,GPIO_PinSource6,GPIO_AF_4); //GPIOB10复用为IIC
-//	GPIO_PinAFConfig(GPIOB,GPIO_PinSource7,GPIO_AF_4); //GPIOB11复用为IIC
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6 | GPIO_Pin_7;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;//普通输出模式
+  GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;//推挽输出
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;//100MHz
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;//上拉
+  GPIO_Init(GPIOB, &GPIO_InitStructure);//初始化
+	//串口1对应引脚复用映射
+	GPIO_PinAFConfig(GPIOB,GPIO_PinSource6,GPIO_AF_I2C0); //GPIOB10复用为IIC
+	GPIO_PinAFConfig(GPIOB,GPIO_PinSource7,GPIO_AF_I2C0); //GPIOB11复用为IIC
 	
 	RCU->APB1EN|=1<<21;//I2C0时钟使能
 	IIC_Config(I2C0);
 	//////////////////////////外部中断配置//////////////////////////////////
 	RCU->AHB1EN|=1<<0;//使能GPIOA时钟
 	
-	gpio_mode_set(GPIOA_BASE, GPIO_MODE_INPUT, GPIO_PUPD_PULLDOWN, GPIO_PIN_5);//PA5配置成下拉输入
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;//100MHz
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_DOWN;
+	GPIO_Init(GPIOA, &GPIO_InitStructure);//初始化
+	//gpio_mode_set(GPIOA_BASE, GPIO_MODE_INPUT, GPIO_PUPD_PULLDOWN, GPIO_PIN_5);//PA5配置成下拉输入
 
 	nvic_irq_enable(EXTI5_9_IRQn, 2U, 0U);//中断使能
 		/* configure key EXTI line */
@@ -63,8 +62,8 @@ void IIC1_Init(void)
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;//上拉
   GPIO_Init(GPIOB, &GPIO_InitStructure);//初始化
 	//串口1对应引脚复用映射
-	GPIO_PinAFConfig(GPIOB,GPIO_PinSource10,GPIO_AF_4); //GPIOB10复用为USART2
-	GPIO_PinAFConfig(GPIOB,GPIO_PinSource11,GPIO_AF_4); //GPIOB11复用为USART2
+	GPIO_PinAFConfig(GPIOB,GPIO_PinSource10,GPIO_AF_I2C1); //GPIOB10复用为USART2
+	GPIO_PinAFConfig(GPIOB,GPIO_PinSource11,GPIO_AF_I2C1); //GPIOB11复用为USART2
 	
 	RCU->APB1EN|=1<<22;//I2C1时钟使能
 	IIC_Config(I2C1);

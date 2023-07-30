@@ -15,8 +15,8 @@ APP_INFO g_appInfo;
 
 void App_Info_Init(void)
 {
-	g_appInfo.App_Version = 0x12345678;
-	g_appInfo.App_Size = 0;
+	g_appInfo.App_Version.u32_data = 0x12345678;
+	g_appInfo.App_Size.u32_data = 0;
 	
 }
 
@@ -36,7 +36,6 @@ void Program_Init(void)
 		timer_disable(TIMER2);
 		// 
 		my_mem_init(SRAMIN);
-		USART2_RX_STA = 0;
 		USART_Init(USART0,115200);
 		USART_Init(USART2,115200);
 		USART2_RX_BUF=mymalloc(SRAMIN, USART2_MAX_RECV_LEN);
@@ -49,7 +48,6 @@ void Program_Init(void)
 		ESP8266_Init();
 		SPI_Init();
 		App_Info_Init();
-		Flash_WriteSR(0x42);//½â³ý±£»¤
 		// 
 		GDFLASH_Write(FLASH_APP_INFO, (u32*)&g_appInfo, sizeof(g_appInfo)/sizeof(uint32_t));
 		delay_ms(100);
