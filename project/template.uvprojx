@@ -10,7 +10,7 @@
       <TargetName>Target 1</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>5060960::V5.06 update 7 (build 960)::ARMCC</pCCUsed>
+      <pCCUsed>5060960::V5.06 update 7 (build 960)::.\ARMCC</pCCUsed>
       <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
@@ -629,24 +629,24 @@
               <FilePath>..\Hardware\myiic.h</FilePath>
             </File>
             <File>
-              <FileName>spi.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Hardware\spi.h</FilePath>
-            </File>
-            <File>
               <FileName>spi.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Hardware\spi.c</FilePath>
             </File>
             <File>
-              <FileName>w25qxx.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Hardware\w25qxx.h</FilePath>
-            </File>
-            <File>
               <FileName>w25qxx.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Hardware\w25qxx.c</FilePath>
+            </File>
+            <File>
+              <FileName>flash_f35sqa512m.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\flash_f35sqa512m.h</FilePath>
+            </File>
+            <File>
+              <FileName>flash_f35sqa512m.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\flash_f35sqa512m.c</FilePath>
             </File>
           </Files>
         </Group>

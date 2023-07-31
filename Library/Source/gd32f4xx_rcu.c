@@ -152,7 +152,7 @@ static __I uint8_t APBAHBPrescTable[16] = {0, 0, 0, 0, 1, 2, 3, 4, 1, 2, 3, 4, 6
   *          This parameter can be: ENABLE or DISABLE.
   * @retval None
   */
-void RCC_AHB1PeriphClockCmd(RCU_AHB1PERIPH_ENUM RCU_AHB1Periph, ControlStatus NewState)
+void RCU_AHB1PeriphClockCmd(RCU_AHB1PERIPH_ENUM RCU_AHB1Periph, ControlStatus NewState)
 {
   assert_param(IS_RCC_AHB1_CLOCK_PERIPH(RCC_AHB1Periph));
 
@@ -183,7 +183,7 @@ void RCC_AHB1PeriphClockCmd(RCU_AHB1PERIPH_ENUM RCU_AHB1Periph, ControlStatus Ne
   *          This parameter can be: ENABLE or DISABLE.
   * @retval None
   */
-void RCC_AHB2PeriphClockCmd(RCU_AHB2PERIPH_ENUM RCU_AHB2Periph, ControlStatus NewState)
+void RCU_AHB2PeriphClockCmd(RCU_AHB2PERIPH_ENUM RCU_AHB2Periph, ControlStatus NewState)
 {
   if (NewState != DISABLE)
   {
@@ -207,7 +207,7 @@ void RCC_AHB2PeriphClockCmd(RCU_AHB2PERIPH_ENUM RCU_AHB2Periph, ControlStatus Ne
   *          This parameter can be: ENABLE or DISABLE.
   * @retval None
   */
-void RCC_AHB3PeriphClockCmd(uint32_t RCU_AHB3Periph, ControlStatus NewState)
+void RCU_AHB3PeriphClockCmd(uint32_t RCU_AHB3Periph, ControlStatus NewState)
 {
   if (NewState != DISABLE)
   {
@@ -255,7 +255,7 @@ void RCC_AHB3PeriphClockCmd(uint32_t RCU_AHB3Periph, ControlStatus NewState)
   *          This parameter can be: ENABLE or DISABLE.
   * @retval None
   */
-void RCC_APB1PeriphClockCmd(uint32_t RCU_APB1Periph, ControlStatus NewState)
+void RCU_APB1PeriphClockCmd(RCU_APB1PERIPH_ENUM RCU_APB1Periph, ControlStatus NewState)
 {
   if (NewState != DISABLE)
   {
@@ -296,7 +296,7 @@ void RCC_APB1PeriphClockCmd(uint32_t RCU_APB1Periph, ControlStatus NewState)
   *          This parameter can be: ENABLE or DISABLE.
   * @retval None
   */
-void RCC_APB2PeriphClockCmd(RCU_APB2PERIPH_ENUM RCU_APB2Periph, ControlStatus NewState)
+void RCU_APB2PeriphClockCmd(RCU_APB2PERIPH_ENUM RCU_APB2Periph, ControlStatus NewState)
 {
   /* Check the parameters */
 

@@ -7,6 +7,8 @@ __align(4) u8 g_DataTmpBuffer[4096] = {0};
 #define FLASH_CS_0()			{W25QXX_CS=0;delay_ms(10);}
 #define FLASH_CS_1() 			{W25QXX_CS=1;delay_ms(10);}
 
+#define W25QXX_BASE SPI1_BASE
+
 __align(4) u16 g_WriteReadcnt = 0;
 __align(4) u8 g_WriteData[0x100] = {0};
 __align(4) u16 g_Count = 0;
@@ -69,10 +71,10 @@ u8 spi_master_send_recv_byte(u8 spi_byte)
 	u8 ByteSend,ByteRecv;
 	ByteSend=spi_byte;
 
- while(RESET == spi_i2s_flag_get(SPI2_BASE, SPI_FLAG_TBE));
-	spi_i2s_data_transmit(SPI2_BASE,ByteSend);
-	while(RESET == spi_i2s_flag_get(SPI2_BASE, SPI_FLAG_RBNE));
-  ByteRecv=spi_i2s_data_receive(SPI2_BASE);
+ while(RESET == spi_i2s_flag_get(W25QXX_BASE, SPI_FLAG_TBE));
+	spi_i2s_data_transmit(W25QXX_BASE,ByteSend);
+	while(RESET == spi_i2s_flag_get(W25QXX_BASE, SPI_FLAG_RBNE));
+  ByteRecv=spi_i2s_data_receive(W25QXX_BASE);
 	return ByteRecv;
 
 }
