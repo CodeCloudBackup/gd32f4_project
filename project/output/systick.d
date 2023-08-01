@@ -1,0 +1,14 @@
+.\output\systick.o: ..\User\systick.c
+.\output\systick.o: ..\User\systick.h
+.\output\systick.o: ..\CMSIS\gd32f4xx.h
+.\output\systick.o: ..\CMSIS\core_cm4.h
+.\output\systick.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\systick.o: ..\CMSIS\core_cmInstr.h
+.\output\systick.o: ..\CMSIS\core_cmFunc.h
+.\output\systick.o: ..\CMSIS\core_cm4_simd.h
+.\output\systick.o: ..\CMSIS\system_gd32f4xx.h
+.\output\systick.o: ..\User\gd32f4xx_libopt.h
+.\output\systick.o: ..\Library\Include\gd32f4xx_rcu.h
+.\output\systick.o: ..\CMSIS\gd32f4xx.h
+.\output\systick.o: ..\Library\Include\gd32f4xx_gpio.h
+.\output\systick.o: ..\Library\Include\gd32f4xx_pmu.h

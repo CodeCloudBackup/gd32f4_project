@@ -1,0 +1,14 @@
+--cpu=Cortex-M4.fp.sp
+".\output\system_gd32f4xx.o"
+".\output\startup_gd32f407_427.o"
+".\output\gd32f4xx_rcu.o"
+".\output\gd32f4xx_gpio.o"
+".\output\gd32f4xx_pmu.o"
+".\output\gd32f4xx_it.o"
+".\output\main.o"
+".\output\systick.o"
+".\output\led.o"
+--library_type=microlib --strict --scatter ".\output\Project.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\list\Project.map" -o .\output\Project.axf

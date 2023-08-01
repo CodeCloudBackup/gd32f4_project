@@ -1,454 +1,346 @@
-/* Includes ------------------------------------------------------------------*/
+/*!
+    \file    gd32f4xx_dci.c
+    \brief   DCI driver
+
+    \version 2016-08-15, V1.0.0, firmware for GD32F4xx
+    \version 2018-12-12, V2.0.0, firmware for GD32F4xx
+    \version 2020-09-30, V2.1.0, firmware for GD32F4xx
+    \version 2022-03-09, V3.0.0, firmware for GD32F4xx
+*/
+
+/*
+    Copyright (c) 2022, GigaDevice Semiconductor Inc.
+
+    Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+    1. Redistributions of source code must retain the above copyright notice, this
+       list of conditions and the following disclaimer.
+    2. Redistributions in binary form must reproduce the above copyright notice,
+       this list of conditions and the following disclaimer in the documentation
+       and/or other materials provided with the distribution.
+    3. Neither the name of the copyright holder nor the names of its contributors
+       may be used to endorse or promote products derived from this software without
+       specific prior written permission.
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
+OF SUCH DAMAGE.
+*/
+
 #include "gd32f4xx_dci.h"
-#include "gd32f4xx_rcu.h"
 
-/** @addtogroup STM32F4xx_StdPeriph_Driver
-  * @{
-  */
-
-/** @defgroup DCMI 
-  * @brief DCMI driver modules
-  * @{
-  */ 
-
-/* Private typedef -----------------------------------------------------------*/
-/* Private define ------------------------------------------------------------*/
-/* Private macro -------------------------------------------------------------*/
-/* Private variables ---------------------------------------------------------*/
-/* Private function prototypes -----------------------------------------------*/
-/* Private functions ---------------------------------------------------------*/
-
-/** @defgroup DCMI_Private_Functions
-  * @{
-  */ 
-
-/** @defgroup DCMI_Group1 Initialization and Configuration functions
- *  @brief   Initialization and Configuration functions 
- *
-@verbatim   
- ===============================================================================
-              ##### Initialization and Configuration functions #####
- ===============================================================================  
-
-@endverbatim
-  * @{
-  */
-
-/**
-  * @brief  Deinitializes the DCMI registers to their default reset values.
-  * @param  None
-  * @retval None
-  */
-void DCMI_DeInit(void)
+/*!
+    \brief    DCI deinit
+    \param[in]  none
+    \param[out] none
+    \retval     none
+*/
+void dci_deinit(void)
 {
-  DCMI->CR = 0x0;
-  DCMI->IER = 0x0;
-  DCMI->ICR = 0x1F;
-  DCMI->ESCR = 0x0;
-  DCMI->ESUR = 0x0;
-  DCMI->CWSTRTR = 0x0;
-  DCMI->CWSIZER = 0x0;
+    rcu_periph_reset_enable(RCU_DCIRST);
+    rcu_periph_reset_disable(RCU_DCIRST);
 }
 
-/**
-  * @brief  Initializes the DCMI according to the specified parameters in the DCMI_InitStruct.
-  * @param  DCMI_InitStruct: pointer to a DCMI_InitTypeDef structure that contains 
-  *         the configuration information for the DCMI.
-  * @retval None
-  */
-void DCMI_Init(DCMI_InitTypeDef* DCMI_InitStruct)
+/*!
+    \brief    initialize DCI registers
+    \param[in]  dci_struct: DCI parameter initialization structure
+                members of the structure and the member values are shown as below:
+                capture_mode    : DCI_CAPTURE_MODE_CONTINUOUS, DCI_CAPTURE_MODE_SNAPSHOT
+                colck_polarity  : DCI_CK_POLARITY_FALLING, DCI_CK_POLARITY_RISING
+                hsync_polarity  : DCI_HSYNC_POLARITY_LOW, DCI_HSYNC_POLARITY_HIGH
+                vsync_polarity  : DCI_VSYNC_POLARITY_LOW, DCI_VSYNC_POLARITY_HIGH
+                frame_rate      : DCI_FRAME_RATE_ALL, DCI_FRAME_RATE_1_2, DCI_FRAME_RATE_1_4
+                interface_format: DCI_INTERFACE_FORMAT_8BITS, DCI_INTERFACE_FORMAT_10BITS,
+                                      DCI_INTERFACE_FORMAT_12BITS, DCI_INTERFACE_FORMAT_14BITS
+    \param[out] none
+    \retval     none
+*/
+void dci_init(dci_parameter_struct *dci_struct)
 {
-  uint32_t temp = 0x0;
-  
-  /* Check the parameters */
-  assert_param(IS_DCMI_CAPTURE_MODE(DCMI_InitStruct->DCMI_CaptureMode));
-  assert_param(IS_DCMI_SYNCHRO(DCMI_InitStruct->DCMI_SynchroMode));
-  assert_param(IS_DCMI_PCKPOLARITY(DCMI_InitStruct->DCMI_PCKPolarity));
-  assert_param(IS_DCMI_VSPOLARITY(DCMI_InitStruct->DCMI_VSPolarity));
-  assert_param(IS_DCMI_HSPOLARITY(DCMI_InitStruct->DCMI_HSPolarity));
-  assert_param(IS_DCMI_CAPTURE_RATE(DCMI_InitStruct->DCMI_CaptureRate));
-  assert_param(IS_DCMI_EXTENDED_DATA(DCMI_InitStruct->DCMI_ExtendedDataMode));
+    uint32_t reg = 0U;
+    /* disable capture function and DCI */
+    DCI_CTL &= ~(DCI_CTL_CAP | DCI_CTL_DCIEN);
+    /* configure DCI parameter */
+    reg |= dci_struct->capture_mode;
+    reg |= dci_struct->clock_polarity;
+    reg |= dci_struct->hsync_polarity;
+    reg |= dci_struct->vsync_polarity;
+    reg |= dci_struct->frame_rate;
+    reg |= dci_struct->interface_format;
 
-  /* The DCMI configuration registers should be programmed correctly before 
-  enabling the CR_ENABLE Bit and the CR_CAPTURE Bit */
-  DCMI->CR &= ~(DCMI_CR_ENABLE | DCMI_CR_CAPTURE);
-   
-  /* Reset the old DCMI configuration */
-  temp = DCMI->CR;
-  
-  temp &= ~((uint32_t)DCMI_CR_CM     | DCMI_CR_ESS   | DCMI_CR_PCKPOL |
-                      DCMI_CR_HSPOL  | DCMI_CR_VSPOL | DCMI_CR_FCRC_0 | 
-                      DCMI_CR_FCRC_1 | DCMI_CR_EDM_0 | DCMI_CR_EDM_1); 
-                  
-  /* Sets the new configuration of the DCMI peripheral */
-  temp |= ((uint32_t)DCMI_InitStruct->DCMI_CaptureMode |
-                     DCMI_InitStruct->DCMI_SynchroMode |
-                     DCMI_InitStruct->DCMI_PCKPolarity |
-                     DCMI_InitStruct->DCMI_VSPolarity |
-                     DCMI_InitStruct->DCMI_HSPolarity |
-                     DCMI_InitStruct->DCMI_CaptureRate |
-                     DCMI_InitStruct->DCMI_ExtendedDataMode);
-
-  DCMI->CR = temp;                              
+    DCI_CTL = reg;
 }
 
-/**
-  * @brief  Fills each DCMI_InitStruct member with its default value.
-  * @param  DCMI_InitStruct : pointer to a DCMI_InitTypeDef structure which will
-  *         be initialized.
-  * @retval None
-  */
-void DCMI_StructInit(DCMI_InitTypeDef* DCMI_InitStruct)
+/*!
+    \brief    enable DCI function
+    \param[in]  none
+    \param[out] none
+    \retval     none
+*/
+void dci_enable(void)
 {
-  /* Set the default configuration */
-  DCMI_InitStruct->DCMI_CaptureMode = DCMI_CaptureMode_Continuous;
-  DCMI_InitStruct->DCMI_SynchroMode = DCMI_SynchroMode_Hardware;
-  DCMI_InitStruct->DCMI_PCKPolarity = DCMI_PCKPolarity_Falling;
-  DCMI_InitStruct->DCMI_VSPolarity = DCMI_VSPolarity_Low;
-  DCMI_InitStruct->DCMI_HSPolarity = DCMI_HSPolarity_Low;
-  DCMI_InitStruct->DCMI_CaptureRate = DCMI_CaptureRate_All_Frame;
-  DCMI_InitStruct->DCMI_ExtendedDataMode = DCMI_ExtendedDataMode_8b;
+    DCI_CTL |= DCI_CTL_DCIEN;
 }
 
-/**
-  * @brief  Initializes the DCMI peripheral CROP mode according to the specified
-  *         parameters in the DCMI_CROPInitStruct.
-  * @note   This function should be called before to enable and start the DCMI interface.   
-  * @param  DCMI_CROPInitStruct:  pointer to a DCMI_CROPInitTypeDef structure that 
-  *         contains the configuration information for the DCMI peripheral CROP mode.
-  * @retval None
-  */
-void DCMI_CROPConfig(DCMI_CROPInitTypeDef* DCMI_CROPInitStruct)
-{  
-  /* Sets the CROP window coordinates */
-  DCMI->CWSTRTR = (uint32_t)((uint32_t)DCMI_CROPInitStruct->DCMI_HorizontalOffsetCount |
-                  ((uint32_t)DCMI_CROPInitStruct->DCMI_VerticalStartLine << 16));
-
-  /* Sets the CROP window size */
-  DCMI->CWSIZER = (uint32_t)(DCMI_CROPInitStruct->DCMI_CaptureCount |
-                  ((uint32_t)DCMI_CROPInitStruct->DCMI_VerticalLineCount << 16));
-}
-
-/**
-  * @brief  Enables or disables the DCMI Crop feature.
-  * @note   This function should be called before to enable and start the DCMI interface.
-  * @param  NewState: new state of the DCMI Crop feature. 
-  *          This parameter can be: ENABLE or DISABLE.
-  * @retval None
-  */
-void DCMI_CROPCmd(EventStatus NewState)
+/*!
+    \brief    disable DCI function
+    \param[in]  none
+    \param[out] none
+    \retval     none
+*/
+void dci_disable(void)
 {
-  /* Check the parameters */
-  assert_param(IS_FUNCTIONAL_STATE(NewState));
-    
-  if (NewState != DISABLE)
-  {
-    /* Enable the DCMI Crop feature */
-    DCMI->CR |= (uint32_t)DCMI_CR_CROP;
-  }
-  else
-  {
-    /* Disable the DCMI Crop feature */
-    DCMI->CR &= ~(uint32_t)DCMI_CR_CROP;
-  }
+    DCI_CTL &= ~DCI_CTL_DCIEN;
 }
 
-/**
-  * @brief  Sets the embedded synchronization codes
-  * @param  DCMI_CodesInitTypeDef: pointer to a DCMI_CodesInitTypeDef structure that
-  *         contains the embedded synchronization codes for the DCMI peripheral.
-  * @retval None
-  */
-void DCMI_SetEmbeddedSynchroCodes(DCMI_CodesInitTypeDef* DCMI_CodesInitStruct)
+/*!
+    \brief    enable DCI capture
+    \param[in]  none
+    \param[out] none
+    \retval     none
+*/
+void dci_capture_enable(void)
 {
-  DCMI->ESCR = (uint32_t)(DCMI_CodesInitStruct->DCMI_FrameStartCode |
-                          ((uint32_t)DCMI_CodesInitStruct->DCMI_LineStartCode << 8)|
-                          ((uint32_t)DCMI_CodesInitStruct->DCMI_LineEndCode << 16)|
-                          ((uint32_t)DCMI_CodesInitStruct->DCMI_FrameEndCode << 24));
+    DCI_CTL |= DCI_CTL_CAP;
 }
 
-/**
-  * @brief  Enables or disables the DCMI JPEG format.
-  * @note   The Crop and Embedded Synchronization features cannot be used in this mode.  
-  * @param  NewState: new state of the DCMI JPEG format. 
-  *          This parameter can be: ENABLE or DISABLE.
-  * @retval None
-  */
-void DCMI_JPEGCmd(EventStatus NewState)
+/*!
+    \brief    disable DCI capture
+    \param[in]  none
+    \param[out] none
+    \retval     none
+*/
+void dci_capture_disable(void)
 {
-  /* Check the parameters */
-  assert_param(IS_FUNCTIONAL_STATE(NewState));
- 
-  if (NewState != DISABLE)
-  {
-    /* Enable the DCMI JPEG format */
-    DCMI->CR |= (uint32_t)DCMI_CR_JPEG;
-  }
-  else
-  {
-    /* Disable the DCMI JPEG format */
-    DCMI->CR &= ~(uint32_t)DCMI_CR_JPEG;
-  }
+    DCI_CTL &= ~DCI_CTL_CAP;
 }
-/**
-  * @}
-  */
 
-/** @defgroup DCMI_Group2 Image capture functions
- *  @brief   Image capture functions
- *
-@verbatim   
- ===============================================================================
-                    ##### Image capture functions #####
- ===============================================================================  
-
-@endverbatim
-  * @{
-  */
-  
-/**
-  * @brief  Enables or disables the DCMI interface.
-  * @param  NewState: new state of the DCMI interface. 
-  *          This parameter can be: ENABLE or DISABLE.
-  * @retval None
-  */
-void DCMI_Cmd(EventStatus NewState)
+/*!
+    \brief    enable DCI jpeg mode
+    \param[in]  none
+    \param[out] none
+    \retval     none
+*/
+void dci_jpeg_enable(void)
 {
-  /* Check the parameters */
-  assert_param(IS_FUNCTIONAL_STATE(NewState));
-  
-  if (NewState != DISABLE)
-  {
-    /* Enable the DCMI by setting ENABLE bit */
-    DCMI->CR |= (uint32_t)DCMI_CR_ENABLE;
-  }
-  else
-  {
-    /* Disable the DCMI by clearing ENABLE bit */
-    DCMI->CR &= ~(uint32_t)DCMI_CR_ENABLE;
-  }
+    DCI_CTL |= DCI_CTL_JM;
 }
 
-/**
-  * @brief  Enables or disables the DCMI Capture.
-  * @param  NewState: new state of the DCMI capture. 
-  *          This parameter can be: ENABLE or DISABLE.
-  * @retval None
-  */
-void DCMI_CaptureCmd(EventStatus NewState)
+/*!
+    \brief    disable DCI jpeg mode
+    \param[in]  none
+    \param[out] none
+    \retval     none
+*/
+void dci_jpeg_disable(void)
 {
-  /* Check the parameters */
-  assert_param(IS_FUNCTIONAL_STATE(NewState));
-    
-  if (NewState != DISABLE)
-  {
-    /* Enable the DCMI Capture */
-    DCMI->CR |= (uint32_t)DCMI_CR_CAPTURE;
-  }
-  else
-  {
-    /* Disable the DCMI Capture */
-    DCMI->CR &= ~(uint32_t)DCMI_CR_CAPTURE;
-  }
+    DCI_CTL &= ~DCI_CTL_JM;
 }
 
-/**
-  * @brief  Reads the data stored in the DR register.
-  * @param  None 
-  * @retval Data register value
-  */
-uint32_t DCMI_ReadData(void)
+/*!
+    \brief    enable cropping window function
+    \param[in]  none
+    \param[out] none
+    \retval     none
+*/
+void dci_crop_window_enable(void)
 {
-  return DCMI->DR;
+    DCI_CTL |= DCI_CTL_WDEN;
 }
-/**
-  * @}
-  */
 
-/** @defgroup DCMI_Group3 Interrupts and flags management functions
- *  @brief   Interrupts and flags management functions
- *
-@verbatim   
- ===============================================================================
-             ##### Interrupts and flags management functions #####
- ===============================================================================  
-
-@endverbatim
-  * @{
-  */
-
-/**
-  * @brief  Enables or disables the DCMI interface interrupts.
-  * @param  DCMI_IT: specifies the DCMI interrupt sources to be enabled or disabled. 
-  *          This parameter can be any combination of the following values:
-  *            @arg DCMI_IT_FRAME: Frame capture complete interrupt mask
-  *            @arg DCMI_IT_OVF: Overflow interrupt mask
-  *            @arg DCMI_IT_ERR: Synchronization error interrupt mask
-  *            @arg DCMI_IT_VSYNC: VSYNC interrupt mask
-  *            @arg DCMI_IT_LINE: Line interrupt mask
-  * @param  NewState: new state of the specified DCMI interrupts.
-  *          This parameter can be: ENABLE or DISABLE.
-  * @retval None
-  */
-void DCMI_ITConfig(uint16_t DCMI_IT, EventStatus NewState)
+/*!
+    \brief    disable cropping window function
+    \param[in]  none
+    \param[out] none
+    \retval     none
+*/
+void dci_crop_window_disable(void)
 {
-  /* Check the parameters */
-  assert_param(IS_DCMI_CONFIG_IT(DCMI_IT));
-  assert_param(IS_FUNCTIONAL_STATE(NewState));
-  
-  if (NewState != DISABLE)
-  {
-    /* Enable the Interrupt sources */
-    DCMI->IER |= DCMI_IT;
-  }
-  else
-  {
-    /* Disable the Interrupt sources */
-    DCMI->IER &= (uint16_t)(~DCMI_IT);
-  }  
+    DCI_CTL &= ~DCI_CTL_WDEN;
 }
 
-/**
-  * @brief  Checks whether the  DCMI interface flag is set or not.
-  * @param  DCMI_FLAG: specifies the flag to check.
-  *          This parameter can be one of the following values:
-  *            @arg DCMI_FLAG_FRAMERI: Frame capture complete Raw flag mask
-  *            @arg DCMI_FLAG_OVFRI: Overflow Raw flag mask
-  *            @arg DCMI_FLAG_ERRRI: Synchronization error Raw flag mask
-  *            @arg DCMI_FLAG_VSYNCRI: VSYNC Raw flag mask
-  *            @arg DCMI_FLAG_LINERI: Line Raw flag mask
-  *            @arg DCMI_FLAG_FRAMEMI: Frame capture complete Masked flag mask
-  *            @arg DCMI_FLAG_OVFMI: Overflow Masked flag mask
-  *            @arg DCMI_FLAG_ERRMI: Synchronization error Masked flag mask
-  *            @arg DCMI_FLAG_VSYNCMI: VSYNC Masked flag mask
-  *            @arg DCMI_FLAG_LINEMI: Line Masked flag mask
-  *            @arg DCMI_FLAG_HSYNC: HSYNC flag mask
-  *            @arg DCMI_FLAG_VSYNC: VSYNC flag mask
-  *            @arg DCMI_FLAG_FNE: Fifo not empty flag mask
-  * @retval The new state of DCMI_FLAG (SET or RESET).
-  */
-FlagStatus DCMI_GetFlagStatus(uint16_t DCMI_FLAG)
+/*!
+    \brief    configure DCI cropping window
+    \param[in]  start_x: window horizontal start position
+    \param[in]  start_y: window vertical start position
+    \param[in]  size_width: window horizontal size
+    \param[in]  size_height: window vertical size
+    \param[out] none
+    \retval     none
+*/
+void dci_crop_window_config(uint16_t start_x, uint16_t start_y, uint16_t size_width, uint16_t size_height)
 {
-  FlagStatus bitstatus = RESET;
-  uint32_t dcmireg, tempreg = 0;
-
-  /* Check the parameters */
-  assert_param(IS_DCMI_GET_FLAG(DCMI_FLAG));
-  
-  /* Get the DCMI register index */
-  dcmireg = (((uint16_t)DCMI_FLAG) >> 12);
-  
-  if (dcmireg == 0x00) /* The FLAG is in RISR register */
-  {
-    tempreg= DCMI->RISR;
-  }
-  else if (dcmireg == 0x02) /* The FLAG is in SR register */
-  {
-    tempreg = DCMI->SR;
-  }
-  else /* The FLAG is in MISR register */
-  {
-    tempreg = DCMI->MISR;
-  }
-  
-  if ((tempreg & DCMI_FLAG) != (uint16_t)RESET )
-  {
-    bitstatus = SET;
-  }
-  else
-  {
-    bitstatus = RESET;
-  }
-  /* Return the DCMI_FLAG status */
-  return  bitstatus;
+    DCI_CWSPOS = ((uint32_t)start_x | ((uint32_t)start_y << 16));
+    DCI_CWSZ = ((uint32_t)size_width | ((uint32_t)size_height << 16));
 }
 
-/**
-  * @brief  Clears the DCMI's pending flags.
-  * @param  DCMI_FLAG: specifies the flag to clear.
-  *          This parameter can be any combination of the following values:
-  *            @arg DCMI_FLAG_FRAMERI: Frame capture complete Raw flag mask
-  *            @arg DCMI_FLAG_OVFRI: Overflow Raw flag mask
-  *            @arg DCMI_FLAG_ERRRI: Synchronization error Raw flag mask
-  *            @arg DCMI_FLAG_VSYNCRI: VSYNC Raw flag mask
-  *            @arg DCMI_FLAG_LINERI: Line Raw flag mask
-  * @retval None
-  */
-void DCMI_ClearFlag(uint16_t DCMI_FLAG)
+/*!
+    \brief    enable embedded synchronous mode
+    \param[in]  none
+    \param[out] none
+    \retval     none
+*/
+void dci_embedded_sync_enable(void)
 {
-  /* Check the parameters */
-  assert_param(IS_DCMI_CLEAR_FLAG(DCMI_FLAG));
-  
-  /* Clear the flag by writing in the ICR register 1 in the corresponding 
-  Flag position*/
-  
-  DCMI->ICR = DCMI_FLAG;
+    DCI_CTL |= DCI_CTL_ESM;
 }
 
-/**
-  * @brief  Checks whether the DCMI interrupt has occurred or not.
-  * @param  DCMI_IT: specifies the DCMI interrupt source to check.
-  *          This parameter can be one of the following values:
-  *            @arg DCMI_IT_FRAME: Frame capture complete interrupt mask
-  *            @arg DCMI_IT_OVF: Overflow interrupt mask
-  *            @arg DCMI_IT_ERR: Synchronization error interrupt mask
-  *            @arg DCMI_IT_VSYNC: VSYNC interrupt mask
-  *            @arg DCMI_IT_LINE: Line interrupt mask
-  * @retval The new state of DCMI_IT (SET or RESET).
-  */
-FlagStatus DCMI_GetITStatus(uint16_t DCMI_IT)
+/*!
+    \brief    disble embedded synchronous mode
+    \param[in]  none
+    \param[out] none
+    \retval     none
+*/
+void dci_embedded_sync_disable(void)
 {
-  FlagStatus bitstatus = RESET;
-  uint32_t itstatus = 0;
-  
-  /* Check the parameters */
-  assert_param(IS_DCMI_GET_IT(DCMI_IT));
-  
-  itstatus = DCMI->MISR & DCMI_IT; /* Only masked interrupts are checked */
-  
-  if ((itstatus != (uint16_t)RESET))
-  {
-    bitstatus = SET;
-  }
-  else
-  {
-    bitstatus = RESET;
-  }
-  return bitstatus;
+    DCI_CTL &= ~DCI_CTL_ESM;
 }
-
-/**
-  * @brief  Clears the DCMI's interrupt pending bits.
-  * @param  DCMI_IT: specifies the DCMI interrupt pending bit to clear.
-  *          This parameter can be any combination of the following values:
-  *            @arg DCMI_IT_FRAME: Frame capture complete interrupt mask
-  *            @arg DCMI_IT_OVF: Overflow interrupt mask
-  *            @arg DCMI_IT_ERR: Synchronization error interrupt mask
-  *            @arg DCMI_IT_VSYNC: VSYNC interrupt mask
-  *            @arg DCMI_IT_LINE: Line interrupt mask
-  * @retval None
-  */
-void DCMI_ClearITPendingBit(uint16_t DCMI_IT)
+/*!
+    \brief    config synchronous codes in embedded synchronous mode
+    \param[in]  frame_start: frame start code in embedded synchronous mode
+    \param[in]  line_start: line start code in embedded synchronous mode
+    \param[in]  line_end: line end code in embedded synchronous mode
+    \param[in]  frame_end: frame end code in embedded synchronous mode
+    \param[out] none
+    \retval     none
+*/
+void dci_sync_codes_config(uint8_t frame_start, uint8_t line_start, uint8_t line_end, uint8_t frame_end)
 {
-  /* Clear the interrupt pending Bit by writing in the ICR register 1 in the 
-  corresponding pending Bit position*/
-  
-  DCMI->ICR = DCMI_IT;
+    DCI_SC = ((uint32_t)frame_start | ((uint32_t)line_start << 8) | ((uint32_t)line_end << 16) | ((uint32_t)frame_end << 24));
 }
-/**
-  * @}
-  */ 
 
-/**
-  * @}
-  */ 
+/*!
+    \brief    config synchronous codes unmask in embedded synchronous mode
+    \param[in]  frame_start: frame start code unmask bits in embedded synchronous mode
+    \param[in]  line_start: line start code unmask bits in embedded synchronous mode
+    \param[in]  line_end: line end code unmask bits in embedded synchronous mode
+    \param[in]  frame_end: frame end code unmask bits in embedded synchronous mode
+    \param[out] none
+    \retval     none
+*/
+void dci_sync_codes_unmask_config(uint8_t frame_start, uint8_t line_start, uint8_t line_end, uint8_t frame_end)
+{
+    DCI_SCUMSK = ((uint32_t)frame_start | ((uint32_t)line_start << 8) | ((uint32_t)line_end << 16) | ((uint32_t)frame_end << 24));
+}
 
-/**
-  * @}
-  */ 
+/*!
+    \brief    read DCI data register
+    \param[in]  none
+    \param[out] none
+    \retval     data
+*/
+uint32_t dci_data_read(void)
+{
+    return DCI_DATA;
+}
 
-/**
-  * @}
-  */ 
+/*!
+    \brief    get specified flag
+    \param[in]  flag:
+      \arg         DCI_FLAG_HS: HS line status
+      \arg         DCI_FLAG_VS: VS line status
+      \arg         DCI_FLAG_FV:FIFO valid
+      \arg         DCI_FLAG_EF: end of frame flag
+      \arg         DCI_FLAG_OVR: FIFO overrun flag
+      \arg         DCI_FLAG_ESE: embedded synchronous error flag
+      \arg         DCI_FLAG_VSYNC: vsync flag
+      \arg         DCI_FLAG_EL: end of line flag
+    \param[out] none
+    \retval     FlagStatus: SET or RESET
+*/
+FlagStatus dci_flag_get(uint32_t flag)
+{
+    uint32_t stat = 0U;
 
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+    if(flag >> 31) {
+        /* get flag status from DCI_STAT1 register */
+        stat = DCI_STAT1;
+    } else {
+        /* get flag status from DCI_STAT0 register */
+        stat = DCI_STAT0;
+    }
+
+    if(flag & stat) {
+        return SET;
+    } else {
+        return RESET;
+    }
+}
+
+/*!
+    \brief    enable specified DCI interrupt
+    \param[in]  interrupt:
+      \arg         DCI_INT_EF: end of frame interrupt
+      \arg         DCI_INT_OVR: FIFO overrun interrupt
+      \arg         DCI_INT_ESE: embedded synchronous error interrupt
+      \arg         DCI_INT_VSYNC: vsync interrupt
+      \arg         DCI_INT_EL: end of line interrupt
+    \param[out] none
+    \retval     none
+*/
+void dci_interrupt_enable(uint32_t interrupt)
+{
+    DCI_INTEN |= interrupt;
+}
+
+/*!
+    \brief    disable specified DCI interrupt
+    \param[in]  interrupt:
+      \arg         DCI_INT_EF: end of frame interrupt
+      \arg         DCI_INT_OVR: FIFO overrun interrupt
+      \arg         DCI_INT_ESE: embedded synchronous error interrupt
+      \arg         DCI_INT_VSYNC: vsync interrupt
+      \arg         DCI_INT_EL: end of line interrupt
+    \param[out] none
+    \retval     none
+*/
+void dci_interrupt_disable(uint32_t interrupt)
+{
+    DCI_INTEN &= ~interrupt;
+}
+
+/*!
+    \brief    clear specified interrupt flag
+    \param[in]  int_flag:
+      \arg         DCI_INT_EF: end of frame interrupt
+      \arg         DCI_INT_OVR: FIFO overrun interrupt
+      \arg         DCI_INT_ESE: embedded synchronous error interrupt
+      \arg         DCI_INT_VSYNC: vsync interrupt
+      \arg         DCI_INT_EL: end of line interrupt
+    \param[out] none
+    \retval     none
+*/
+void dci_interrupt_flag_clear(uint32_t int_flag)
+{
+    DCI_INTC |= int_flag;
+}
+
+/*!
+    \brief    get specified interrupt flag
+    \param[in]  int_flag:
+      \arg         DCI_INT_FLAG_EF: end of frame interrupt flag
+      \arg         DCI_INT_FLAG_OVR: FIFO overrun interrupt flag
+      \arg         DCI_INT_FLAG_ESE: embedded synchronous error interrupt flag
+      \arg         DCI_INT_FLAG_VSYNC: vsync interrupt flag
+      \arg         DCI_INT_FLAG_EL: end of line interrupt flag
+    \param[out] none
+    \retval     FlagStatus: SET or RESET
+*/
+FlagStatus dci_interrupt_flag_get(uint32_t int_flag)
+{
+    if(RESET == (DCI_INTF & int_flag)) {
+        return RESET;
+    } else {
+        return SET;
+    }
+}
+
+

@@ -5,10 +5,11 @@
     \version 2016-08-15, V1.0.0, firmware for GD32F4xx
     \version 2018-12-12, V2.0.0, firmware for GD32F4xx
     \version 2020-09-30, V2.1.0, firmware for GD32F4xx
+    \version 2022-03-09, V3.0.0, firmware for GD32F4xx
 */
 
 /*
-    Copyright (c) 2020, GigaDevice Semiconductor Inc.
+    Copyright (c) 2022, GigaDevice Semiconductor Inc.
 
     Redistribution and use in source and binary forms, with or without modification, 
 are permitted provided that the following conditions are met:
@@ -123,7 +124,7 @@ OF SUCH DAMAGE.
 #define ENET_MAC_HLH                     REG32((ENET) + 0x0008U)                  /*!< ethernet MAC hash list high register */
 #define ENET_MAC_HLL                     REG32((ENET) + 0x000CU)                  /*!< ethernet MAC hash list low register */
 #define ENET_MAC_PHY_CTL                 REG32((ENET) + 0x0010U)                  /*!< ethernet MAC PHY control register */
-#define ENET_MAC_PHY_DATA                REG32((ENET) + 0x0014U)                  /*!< ethernet MAC MII data register */
+#define ENET_MAC_PHY_DATA                REG32((ENET) + 0x0014U)                  /*!< ethernet MAC PHY data register */
 #define ENET_MAC_FCTL                    REG32((ENET) + 0x0018U)                  /*!< ethernet MAC flow control register */
 #define ENET_MAC_VLT                     REG32((ENET) + 0x001CU)                  /*!< ethernet MAC VLAN tag register */
 #define ENET_MAC_RWFF                    REG32((ENET) + 0x0028U)                  /*!< ethernet MAC remote wakeup frame filter register */
@@ -1024,10 +1025,10 @@ typedef struct
 #define ENET_INTERFRAMEGAP_88BIT                  MAC_CFG_IGBS(1)                               /*!< minimum 88 bit times */
 #define ENET_INTERFRAMEGAP_80BIT                  MAC_CFG_IGBS(2)                               /*!< minimum 80 bit times */
 #define ENET_INTERFRAMEGAP_72BIT                  MAC_CFG_IGBS(3)                               /*!< minimum 72 bit times */
-#define ENET_INTERFRAMEGAP_64BIT                  MAC_CFG_IGBS(4)                               /*!< minimum 64 bit times */        
+#define ENET_INTERFRAMEGAP_64BIT                  MAC_CFG_IGBS(4)                               /*!< minimum 64 bit times */
 #define ENET_INTERFRAMEGAP_56BIT                  MAC_CFG_IGBS(5)                               /*!< minimum 56 bit times */
 #define ENET_INTERFRAMEGAP_48BIT                  MAC_CFG_IGBS(6)                               /*!< minimum 48 bit times */
-#define ENET_INTERFRAMEGAP_40BIT                  MAC_CFG_IGBS(7)                               /*!< minimum 40 bit times */  
+#define ENET_INTERFRAMEGAP_40BIT                  MAC_CFG_IGBS(7)                               /*!< minimum 40 bit times */
 
 #define ENET_TYPEFRAME_CRC_DROP_ENABLE            ENET_MAC_CFG_TFCD                             /*!< FCS field(last 4 bytes) of frame will be dropped before forwarding */
 #define ENET_TYPEFRAME_CRC_DROP_DISABLE           ((uint32_t)0x00000000U)                       /*!< FCS field(last 4 bytes) of frame will not be dropped before forwarding */
@@ -1112,7 +1113,7 @@ typedef struct
 #define ENET_MDC_HCLK_DIV62                       MAC_PHY_CTL_CLR(1)                            /*!< HCLK:100-150 MHz; MDC clock= HCLK/62 */
 #define ENET_MDC_HCLK_DIV16                       MAC_PHY_CTL_CLR(2)                            /*!< HCLK:20-35 MHz; MDC clock= HCLK/16 */
 #define ENET_MDC_HCLK_DIV26                       MAC_PHY_CTL_CLR(3)                            /*!< HCLK:35-60 MHz; MDC clock= HCLK/26 */
-#define ENET_MDC_HCLK_DIV102                      MAC_PHY_CTL_CLR(4)                            /*!< HCLK:150-200 MHz; MDC clock= HCLK/102 */
+#define ENET_MDC_HCLK_DIV102                      MAC_PHY_CTL_CLR(4)                            /*!< HCLK:150-240 MHz; MDC clock= HCLK/102 */
 
 #define MAC_PHY_CTL_PR(regval)                    (BITS(6,10) & ((uint32_t)(regval) << 6))      /*!< write value to ENET_MAC_PHY_CTL_PR bit field */
 
@@ -1204,7 +1205,7 @@ typedef struct
 #define ENET_ADDRESS_FILTER_DA                    ((uint32_t)0x00000000)                        /*!< use MAC address[47:0] is to compare with the DA fields of the received frame */
  
 /* mac_fcth register value */
-#define MAC_FCTH_RFA(regval)                      ((BITS(0,2) & ((uint32_t)(regval) << 0))<<8)  /*!< write value to ENET_MAC_FCTH_RFA bit field */
+#define MAC_FCTH_RFA(regval)                      ((BITS(0,2) & ((uint32_t)(regval) << 0)) << 8)  /*!< write value to ENET_MAC_FCTH_RFA bit field */
 #define ENET_ACTIVE_THRESHOLD_256BYTES            MAC_FCTH_RFA(0)                               /*!< threshold level is 256 bytes */
 #define ENET_ACTIVE_THRESHOLD_512BYTES            MAC_FCTH_RFA(1)                               /*!< threshold level is 512 bytes */
 #define ENET_ACTIVE_THRESHOLD_768BYTES            MAC_FCTH_RFA(2)                               /*!< threshold level is 768 bytes */
@@ -1213,7 +1214,7 @@ typedef struct
 #define ENET_ACTIVE_THRESHOLD_1536BYTES           MAC_FCTH_RFA(5)                               /*!< threshold level is 1536 bytes */
 #define ENET_ACTIVE_THRESHOLD_1792BYTES           MAC_FCTH_RFA(6)                               /*!< threshold level is 1792 bytes */
 
-#define MAC_FCTH_RFD(regval)                      ((BITS(4,6) & ((uint32_t)(regval) << 4))<<8)  /*!< write value to ENET_MAC_FCTH_RFD bit field */
+#define MAC_FCTH_RFD(regval)                      ((BITS(4,6) & ((uint32_t)(regval) << 4)) << 8)  /*!< write value to ENET_MAC_FCTH_RFD bit field */
 #define ENET_DEACTIVE_THRESHOLD_256BYTES          MAC_FCTH_RFD(0)                               /*!< threshold level is 256 bytes */
 #define ENET_DEACTIVE_THRESHOLD_512BYTES          MAC_FCTH_RFD(1)                               /*!< threshold level is 512 bytes */
 #define ENET_DEACTIVE_THRESHOLD_768BYTES          MAC_FCTH_RFD(2)                               /*!< threshold level is 768 bytes */
@@ -1378,13 +1379,13 @@ typedef struct
 #define ENET_TX_MODE_STOREFORWARD                 ENET_DMA_CTL_TSFD                             /*!< TxFIFO operates in store-and-forward mode */
 #define ENET_TX_MODE_CUTTHROUGH                   ((uint32_t)0x00000000)                        /*!< TxFIFO operates in cut-through mode */
 
-#define ENET_FORWARD_ERRFRAMES_ENABLE             (ENET_DMA_CTL_FERF<<2)                        /*!< all frame received with error except runt error are forwarded to memory */
+#define ENET_FORWARD_ERRFRAMES_ENABLE             (ENET_DMA_CTL_FERF << 2)                      /*!< all frame received with error except runt error are forwarded to memory */
 #define ENET_FORWARD_ERRFRAMES_DISABLE            ((uint32_t)0x00000000)                        /*!< RxFIFO drop error frame */
-#define ENET_FORWARD_ERRFRAMES                    (ENET_DMA_CTL_FERF<<2)                             /*!< the function that all frame received with error except runt error are forwarded to memory */
+#define ENET_FORWARD_ERRFRAMES                    (ENET_DMA_CTL_FERF << 2)                      /*!< the function that all frame received with error except runt error are forwarded to memory */
 
-#define ENET_FORWARD_UNDERSZ_GOODFRAMES_ENABLE    (ENET_DMA_CTL_FUF<<2)                         /*!< forward undersized good frames */
+#define ENET_FORWARD_UNDERSZ_GOODFRAMES_ENABLE    (ENET_DMA_CTL_FUF << 2)                       /*!< forward undersized good frames */
 #define ENET_FORWARD_UNDERSZ_GOODFRAMES_DISABLE   ((uint32_t)0x00000000)                        /*!< RxFIFO drops all frames whose length is less than 64 bytes */  
-#define ENET_FORWARD_UNDERSZ_GOODFRAMES           (ENET_DMA_CTL_FUF<<2)                            /*!< the function that forwarding undersized good frames */
+#define ENET_FORWARD_UNDERSZ_GOODFRAMES           (ENET_DMA_CTL_FUF << 2)                       /*!< the function that forwarding undersized good frames */
 
 #define ENET_SECONDFRAME_OPT_ENABLE               ENET_DMA_CTL_OSF                              /*!< TxDMA controller operate on second frame mode enable*/
 #define ENET_SECONDFRAME_OPT_DISABLE              ((uint32_t)0x00000000)                        /*!< TxDMA controller operate on second frame mode disable */

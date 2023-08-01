@@ -1,65 +1,61 @@
-/***************************************************************************//**
-  文件: main.c
-  作者: Zhengyu https://gzwelink.taobao.com
-  版本: V1.0.0
-  时间: 20220401
-	平台:MINI-F407VET6
+/*!
+    \file    main.c
+    \brief   GPIO running led demo
 
-*******************************************************************************/
-#include "program.h"
+    \version 2022-04-26, V2.0.0, demo for GD32F4xx
+*/
 
-long GyroData[3] = {0,0,0};//单位mdps
-long AccelData[3] = {0,0,0};
-u8 IntFlag;//MPU6050中断标志
-u8 LedFlag=0;
+/*
+    Copyright (c) 2022, GigaDevice Semiconductor Inc.
 
+    Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
 
+    1. Redistributions of source code must retain the above copyright notice, this
+       list of conditions and the following disclaimer.
+    2. Redistributions in binary form must reproduce the above copyright notice,
+       this list of conditions and the following disclaimer in the documentation
+       and/or other materials provided with the distribution.
+    3. Neither the name of the copyright holder nor the names of its contributors
+       may be used to endorse or promote products derived from this software without
+       specific prior written permission.
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
+OF SUCH DAMAGE.
+*/
+
+#include "gd32f4xx.h"
+#include "systick.h"
+#include <stdio.h>
+
+#include "led.h"
+/*!
+    \brief      main function
+    \param[in]  none
+    \param[out] none
+    \retval     none
+*/
 int main(void)
 {
-		static u8 led_flag = 0;
-		U8_U32 flash_version;
-		U8_U32 flash_size;
-		Program_Init();
-		while(1)
-		{
-			
-			TCP_Program();
-			
-			if(TIMER1_50ms())
-			{
-			}
-			
-			if(TIMER1_100ms()) 
-			{
-				led_flag ^= 1;
-				if(led_flag)
-					LED=1;
-				else
-					LED=0;
-			}
-			if(TIMER1_200ms()) 
-			{
-				
-			}
-			if(TIMER1_1000ms())
-			{
-				MPU6050ReadAcc2Real(AccelData);//读取加速度数据	
-				MPU6050ReadGyro2Real(GyroData);//读取陀螺仪数据	
-				printf("x:%ld, y:%ld, z:%ld\n",GyroData[0],GyroData[1],GyroData[2]);
-				printf("curVersion:0x%x\n",g_appInfo.App_Version.u32_data);
-				printf("curSize:0x%x\r\n",g_appInfo.App_Size.u32_data);
-				Flash_ReadSomeBytes(flash_version.u8_data,0,4);//从FLASH 0地址读取8字节内容放入ReadBuff数组
-				Flash_ReadSomeBytes(flash_size.u8_data,4,4);//从FLASH 0地址读取8字节内容放入ReadBuff数组
-				printf("flashAppVersion:0x%x\r\n",flash_version.u32_data);
-				printf("flashAppSize:0x%x\r\n",flash_size.u32_data);
-				
-				if (esp8266_conn_flag)
-				{
-						Http_Program();
-				}
-					
-			}
-				 
-		}		
- 
+    /* configure systick */
+    systick_config();
+
+		LED_Init();
+    while(1) {
+        /* turn on LED2 */
+        LED_B =0;
+        delay_1ms(1000);
+
+        /* turn off LED2 */
+        LED_B = 1;
+        delay_1ms(1000);
+    }
 }

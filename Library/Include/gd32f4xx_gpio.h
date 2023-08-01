@@ -1,43 +1,45 @@
-/*!
-    \file    gd32f4xx_gpio.h
-    \brief   definitions for the GPIO
-    
-    \version 2016-08-15, V1.0.0, firmware for GD32F4xx
-    \version 2018-12-12, V2.0.0, firmware for GD32F4xx
-    \version 2020-09-30, V2.1.0, firmware for GD32F4xx
-*/
+/**
+  ******************************************************************************
+  * @file    stm32f4xx_gpio.h
+  * @author  MCD Application Team
+  * @version V1.4.0
+  * @date    04-August-2014
+  * @brief   This file contains all the functions prototypes for the GPIO firmware
+  *          library.  
+  ******************************************************************************
+  * @attention
+  *
+  * <h2><center>&copy; COPYRIGHT 2014 STMicroelectronics</center></h2>
+  *
+  * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
+  * You may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at:
+  *
+  *        http://www.st.com/software_license_agreement_liberty_v2
+  *
+  * Unless required by applicable law or agreed to in writing, software 
+  * distributed under the License is distributed on an "AS IS" BASIS, 
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  *
+  ******************************************************************************
+  */
 
-/*
-    Copyright (c) 2020, GigaDevice Semiconductor Inc.
+/* Define to prevent recursive inclusion -------------------------------------*/
+#ifndef __STM32F4xx_GPIO_H
+#define __STM32F4xx_GPIO_H
 
-    Redistribution and use in source and binary forms, with or without modification, 
-are permitted provided that the following conditions are met:
+#ifdef __cplusplus
+ extern "C" {
+#endif
 
-    1. Redistributions of source code must retain the above copyright notice, this 
-       list of conditions and the following disclaimer.
-    2. Redistributions in binary form must reproduce the above copyright notice, 
-       this list of conditions and the following disclaimer in the documentation 
-       and/or other materials provided with the distribution.
-    3. Neither the name of the copyright holder nor the names of its contributors 
-       may be used to endorse or promote products derived from this software without 
-       specific prior written permission.
-
-    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
-IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
-INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
-NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR 
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
-WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
-ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
-OF SUCH DAMAGE.
-*/
-
-#ifndef GD32F4XX_GPIO_H
-#define GD32F4XX_GPIO_H
-
+/* Includes ------------------------------------------------------------------*/
 #include "gd32f4xx.h"
+
+/** @addtogroup STM32F4xx_StdPeriph_Driver
+  * @{
+  */
 
 /** @addtogroup GPIO
   * @{
@@ -53,7 +55,9 @@ OF SUCH DAMAGE.
                                     ((PERIPH) == GPIOF) || \
                                     ((PERIPH) == GPIOG) || \
                                     ((PERIPH) == GPIOH) || \
-                                    ((PERIPH) == GPIOI) 
+                                    ((PERIPH) == GPIOI) || \
+                                    ((PERIPH) == GPIOJ) || \
+                                    ((PERIPH) == GPIOK))
 
 /** 
   * @brief  GPIO Configuration Mode enumeration 
@@ -77,17 +81,6 @@ typedef enum
   GPIO_OType_OD = 0x01
 }GPIOOType_TypeDef;
 #define IS_GPIO_OTYPE(OTYPE) (((OTYPE) == GPIO_OType_PP) || ((OTYPE) == GPIO_OType_OD))
-/** 
-  * @brief  GPIO Configuration PullUp PullDown enumeration 
-  */ 
-typedef enum
-{ 
-  GPIO_PuPd_NOPULL = 0x00,
-  GPIO_PuPd_UP     = 0x01,
-  GPIO_PuPd_DOWN   = 0x02
-}GPIOPuPd_TypeDef;
-#define IS_GPIO_PUPD(PUPD) (((PUPD) == GPIO_PuPd_NOPULL) || ((PUPD) == GPIO_PuPd_UP) || \
-                            ((PUPD) == GPIO_PuPd_DOWN))
 
 
 /** 
@@ -111,6 +104,18 @@ typedef enum
                               ((SPEED) == GPIO_Fast_Speed)||  ((SPEED) == GPIO_High_Speed)) 
 
 /** 
+  * @brief  GPIO Configuration PullUp PullDown enumeration 
+  */ 
+typedef enum
+{ 
+  GPIO_PuPd_NOPULL = 0x00,
+  GPIO_PuPd_UP     = 0x01,
+  GPIO_PuPd_DOWN   = 0x02
+}GPIOPuPd_TypeDef;
+#define IS_GPIO_PUPD(PUPD) (((PUPD) == GPIO_PuPd_NOPULL) || ((PUPD) == GPIO_PuPd_UP) || \
+                            ((PUPD) == GPIO_PuPd_DOWN))
+
+/** 
   * @brief  GPIO Bit SET and Bit RESET enumeration 
   */ 
 typedef enum
@@ -119,6 +124,7 @@ typedef enum
   Bit_SET
 }BitAction;
 #define IS_GPIO_BIT_ACTION(ACTION) (((ACTION) == Bit_RESET) || ((ACTION) == Bit_SET))
+
 
 /** 
   * @brief   GPIO Init structure definition  
@@ -140,6 +146,12 @@ typedef struct
   GPIOPuPd_TypeDef GPIO_PuPd;     /*!< Specifies the operating Pull-up/Pull down for the selected pins.
                                        This parameter can be a value of @ref GPIOPuPd_TypeDef */
 }GPIO_InitTypeDef;
+
+/* Exported constants --------------------------------------------------------*/
+
+/** @defgroup GPIO_Exported_Constants
+  * @{
+  */ 
 
 /** @defgroup GPIO_pins_define 
   * @{
@@ -183,6 +195,8 @@ typedef struct
 /**
   * @}
   */ 
+
+
 /** @defgroup GPIO_Pin_sources 
   * @{
   */ 
@@ -259,9 +273,9 @@ typedef struct
 /** 
   * @brief   AF 4 selection  
   */ 
-#define GPIO_AF_I2C0          ((uint8_t)0x04)  /* I2C1 Alternate Function mapping */
-#define GPIO_AF_I2C1          ((uint8_t)0x04)  /* I2C2 Alternate Function mapping */
-#define GPIO_AF_I2C2          ((uint8_t)0x04)  /* I2C3 Alternate Function mapping */
+#define GPIO_AF_I2C1          ((uint8_t)0x04)  /* I2C1 Alternate Function mapping */
+#define GPIO_AF_I2C2          ((uint8_t)0x04)  /* I2C2 Alternate Function mapping */
+#define GPIO_AF_I2C3          ((uint8_t)0x04)  /* I2C3 Alternate Function mapping */
 
 /** 
   * @brief   AF 5 selection  
@@ -330,13 +344,13 @@ typedef struct
 /** 
   * @brief   AF 12 selection  
   */ 
-#if defined (GD32F407)
+#if defined (GD32F40_41xxx)
 #define GPIO_AF_FSMC             ((uint8_t)0xC)  /* FSMC Alternate Function mapping                     */
 #endif /* STM32F40_41xxx */
 
-#if defined (STM32F427_437xx) || defined (STM32F429_439xx)
+#if defined (GD32F427) || defined (GD32F429_439xx)
 #define GPIO_AF_FMC              ((uint8_t)0xC)  /* FMC Alternate Function mapping                      */
-#endif /* STM32F427_437xx ||  STM32F429_439xx */
+#endif /* GD32F427 ||  STM32F429_439xx */
 
 #define GPIO_AF_OTG_HS_FS        ((uint8_t)0xC)  /* OTG HS configured in FS, Alternate Function mapping */
 #define GPIO_AF_SDIO             ((uint8_t)0xC)  /* SDIO Alternate Function mapping                     */
@@ -357,7 +371,7 @@ typedef struct
   */ 
 #define GPIO_AF_EVENTOUT      ((uint8_t)0x0F)  /* EVENTOUT Alternate Function mapping */
 
-#if defined (GD32F407)
+#if defined (GD32F40_41xxx)
 #define IS_GPIO_AF(AF)   (((AF) == GPIO_AF_RTC_50Hz)  || ((AF) == GPIO_AF_TIM14)     || \
                           ((AF) == GPIO_AF_MCO)       || ((AF) == GPIO_AF_TAMPER)    || \
                           ((AF) == GPIO_AF_SWJ)       || ((AF) == GPIO_AF_TRACE)     || \
@@ -376,254 +390,113 @@ typedef struct
                           ((AF) == GPIO_AF_ETH)       || ((AF) == GPIO_AF_OTG_HS_FS) || \
                           ((AF) == GPIO_AF_SDIO)      || ((AF) == GPIO_AF_DCMI)      || \
                           ((AF) == GPIO_AF_EVENTOUT)  || ((AF) == GPIO_AF_FSMC))
-#endif /* STM32F401xx */													
-/* registers definitions */
-#define GPIO_CTL(gpiox)            REG32((gpiox) + 0x00U)    /*!< GPIO port control register */
-#define GPIO_OMODE(gpiox)          REG32((gpiox) + 0x04U)    /*!< GPIO port output mode register */
-#define GPIO_OSPD(gpiox)           REG32((gpiox) + 0x08U)    /*!< GPIO port output speed register */
-#define GPIO_PUD(gpiox)            REG32((gpiox) + 0x0CU)    /*!< GPIO port pull-up/pull-down register */
-#define GPIO_ISTAT(gpiox)          REG32((gpiox) + 0x10U)    /*!< GPIO port input status register */
-#define GPIO_OCTL(gpiox)           REG32((gpiox) + 0x14U)    /*!< GPIO port output control register */
-#define GPIO_BOP(gpiox)            REG32((gpiox) + 0x18U)    /*!< GPIO port bit operation register */
-#define GPIO_LOCK(gpiox)           REG32((gpiox) + 0x1CU)    /*!< GPIO port configuration lock register */
-#define GPIO_AFSEL0(gpiox)         REG32((gpiox) + 0x20U)    /*!< GPIO alternate function selected register 0 */
-#define GPIO_AFSEL1(gpiox)         REG32((gpiox) + 0x24U)    /*!< GPIO alternate function selected register 1 */
-#define GPIO_BC(gpiox)             REG32((gpiox) + 0x28U)    /*!< GPIO bit clear register */
-#define GPIO_TG(gpiox)             REG32((gpiox) + 0x2CU)    /*!< GPIO port bit toggle register */
+#endif /* STM32F40_41xxx */
 
-/* bits definitions */
-/* GPIO_CTL */
-#define GPIO_CTL_CTL0              BITS(0,1)                 /*!< pin 0 configuration bits */ 
-#define GPIO_CTL_CTL1              BITS(2,3)                 /*!< pin 1 configuration bits */
-#define GPIO_CTL_CTL2              BITS(4,5)                 /*!< pin 2 configuration bits */
-#define GPIO_CTL_CTL3              BITS(6,7)                 /*!< pin 3 configuration bits */
-#define GPIO_CTL_CTL4              BITS(8,9)                 /*!< pin 4 configuration bits */
-#define GPIO_CTL_CTL5              BITS(10,11)               /*!< pin 5 configuration bits */
-#define GPIO_CTL_CTL6              BITS(12,13)               /*!< pin 6 configuration bits */
-#define GPIO_CTL_CTL7              BITS(14,15)               /*!< pin 7 configuration bits */
-#define GPIO_CTL_CTL8              BITS(16,17)               /*!< pin 8 configuration bits */
-#define GPIO_CTL_CTL9              BITS(18,19)               /*!< pin 9 configuration bits */
-#define GPIO_CTL_CTL10             BITS(20,21)               /*!< pin 10 configuration bits */
-#define GPIO_CTL_CTL11             BITS(22,23)               /*!< pin 11 configuration bits */
-#define GPIO_CTL_CTL12             BITS(24,25)               /*!< pin 12 configuration bits */
-#define GPIO_CTL_CTL13             BITS(26,27)               /*!< pin 13 configuration bits */
-#define GPIO_CTL_CTL14             BITS(28,29)               /*!< pin 14 configuration bits */
-#define GPIO_CTL_CTL15             BITS(30,31)               /*!< pin 15 configuration bits */
+#if defined (GD32F401xx)
+#define IS_GPIO_AF(AF)   (((AF) == GPIO_AF_RTC_50Hz)  || ((AF) == GPIO_AF_TIM14)     || \
+                          ((AF) == GPIO_AF_MCO)       || ((AF) == GPIO_AF_TAMPER)    || \
+                          ((AF) == GPIO_AF_SWJ)       || ((AF) == GPIO_AF_TRACE)     || \
+                          ((AF) == GPIO_AF_TIM1)      || ((AF) == GPIO_AF_TIM2)      || \
+                          ((AF) == GPIO_AF_TIM3)      || ((AF) == GPIO_AF_TIM4)      || \
+                          ((AF) == GPIO_AF_TIM5)      || ((AF) == GPIO_AF_TIM8)      || \
+                          ((AF) == GPIO_AF_I2C1)      || ((AF) == GPIO_AF_I2C2)      || \
+                          ((AF) == GPIO_AF_I2C3)      || ((AF) == GPIO_AF_SPI1)      || \
+                          ((AF) == GPIO_AF_SPI2)      || ((AF) == GPIO_AF_TIM13)     || \
+                          ((AF) == GPIO_AF_SPI3)      || ((AF) == GPIO_AF_TIM14)     || \
+                          ((AF) == GPIO_AF_USART1)    || ((AF) == GPIO_AF_USART2)    || \
+                          ((AF) == GPIO_AF_SDIO)      || ((AF) == GPIO_AF_USART6)    || \
+                          ((AF) == GPIO_AF_OTG_FS)    || ((AF) == GPIO_AF_OTG_HS)    || \
+                          ((AF) == GPIO_AF_EVENTOUT)  || ((AF) == GPIO_AF_SPI4))
+#endif /* STM32F401xx */
 
-/* GPIO_OMODE */
-#define GPIO_OMODE_OM0             BIT(0)                    /*!< pin 0 output mode bit */
-#define GPIO_OMODE_OM1             BIT(1)                    /*!< pin 1 output mode bit */
-#define GPIO_OMODE_OM2             BIT(2)                    /*!< pin 2 output mode bit */
-#define GPIO_OMODE_OM3             BIT(3)                    /*!< pin 3 output mode bit */
-#define GPIO_OMODE_OM4             BIT(4)                    /*!< pin 4 output mode bit */
-#define GPIO_OMODE_OM5             BIT(5)                    /*!< pin 5 output mode bit */
-#define GPIO_OMODE_OM6             BIT(6)                    /*!< pin 6 output mode bit */
-#define GPIO_OMODE_OM7             BIT(7)                    /*!< pin 7 output mode bit */
-#define GPIO_OMODE_OM8             BIT(8)                    /*!< pin 8 output mode bit */
-#define GPIO_OMODE_OM9             BIT(9)                    /*!< pin 9 output mode bit */
-#define GPIO_OMODE_OM10            BIT(10)                   /*!< pin 10 output mode bit */
-#define GPIO_OMODE_OM11            BIT(11)                   /*!< pin 11 output mode bit */
-#define GPIO_OMODE_OM12            BIT(12)                   /*!< pin 12 output mode bit */
-#define GPIO_OMODE_OM13            BIT(13)                   /*!< pin 13 output mode bit */
-#define GPIO_OMODE_OM14            BIT(14)                   /*!< pin 14 output mode bit */
-#define GPIO_OMODE_OM15            BIT(15)                   /*!< pin 15 output mode bit */
+#if defined (GD32F411xE)
+#define IS_GPIO_AF(AF)   (((AF) < 16) && ((AF) != 11) && ((AF) != 13) && ((AF) != 14))
+#endif /* STM32F411xE */
 
-/* GPIO_OSPD */
-#define GPIO_OSPD_OSPD0            BITS(0,1)                 /*!< pin 0 output max speed bits */
-#define GPIO_OSPD_OSPD1            BITS(2,3)                 /*!< pin 1 output max speed bits */
-#define GPIO_OSPD_OSPD2            BITS(4,5)                 /*!< pin 2 output max speed bits */
-#define GPIO_OSPD_OSPD3            BITS(6,7)                 /*!< pin 3 output max speed bits */
-#define GPIO_OSPD_OSPD4            BITS(8,9)                 /*!< pin 4 output max speed bits */
-#define GPIO_OSPD_OSPD5            BITS(10,11)               /*!< pin 5 output max speed bits */
-#define GPIO_OSPD_OSPD6            BITS(12,13)               /*!< pin 6 output max speed bits */
-#define GPIO_OSPD_OSPD7            BITS(14,15)               /*!< pin 7 output max speed bits */
-#define GPIO_OSPD_OSPD8            BITS(16,17)               /*!< pin 8 output max speed bits */
-#define GPIO_OSPD_OSPD9            BITS(18,19)               /*!< pin 9 output max speed bits */
-#define GPIO_OSPD_OSPD10           BITS(20,21)               /*!< pin 10 output max speed bits */
-#define GPIO_OSPD_OSPD11           BITS(22,23)               /*!< pin 11 output max speed bits */
-#define GPIO_OSPD_OSPD12           BITS(24,25)               /*!< pin 12 output max speed bits */
-#define GPIO_OSPD_OSPD13           BITS(26,27)               /*!< pin 13 output max speed bits */
-#define GPIO_OSPD_OSPD14           BITS(28,29)               /*!< pin 14 output max speed bits */
-#define GPIO_OSPD_OSPD15           BITS(30,31)               /*!< pin 15 output max speed bits */
+#if defined (GD32F427) || defined (GD32F429_439xx)
+#define IS_GPIO_AF(AF)   (((AF) == GPIO_AF_RTC_50Hz)  || ((AF) == GPIO_AF_TIM14)     || \
+                          ((AF) == GPIO_AF_MCO)       || ((AF) == GPIO_AF_TAMPER)    || \
+                          ((AF) == GPIO_AF_SWJ)       || ((AF) == GPIO_AF_TRACE)     || \
+                          ((AF) == GPIO_AF_TIM1)      || ((AF) == GPIO_AF_TIM2)      || \
+                          ((AF) == GPIO_AF_TIM3)      || ((AF) == GPIO_AF_TIM4)      || \
+                          ((AF) == GPIO_AF_TIM5)      || ((AF) == GPIO_AF_TIM8)      || \
+                          ((AF) == GPIO_AF_I2C1)      || ((AF) == GPIO_AF_I2C2)      || \
+                          ((AF) == GPIO_AF_I2C3)      || ((AF) == GPIO_AF_SPI1)      || \
+                          ((AF) == GPIO_AF_SPI2)      || ((AF) == GPIO_AF_TIM13)     || \
+                          ((AF) == GPIO_AF_SPI3)      || ((AF) == GPIO_AF_TIM14)     || \
+                          ((AF) == GPIO_AF_USART1)    || ((AF) == GPIO_AF_USART2)    || \
+                          ((AF) == GPIO_AF_USART3)    || ((AF) == GPIO_AF_UART4)     || \
+                          ((AF) == GPIO_AF_UART5)     || ((AF) == GPIO_AF_USART6)    || \
+                          ((AF) == GPIO_AF_CAN1)      || ((AF) == GPIO_AF_CAN2)      || \
+                          ((AF) == GPIO_AF_OTG_FS)    || ((AF) == GPIO_AF_OTG_HS)    || \
+                          ((AF) == GPIO_AF_ETH)       || ((AF) == GPIO_AF_OTG_HS_FS) || \
+                          ((AF) == GPIO_AF_SDIO)      || ((AF) == GPIO_AF_DCMI)      || \
+                          ((AF) == GPIO_AF_EVENTOUT)  || ((AF) == GPIO_AF_SPI4)      || \
+                          ((AF) == GPIO_AF_SPI5)      || ((AF) == GPIO_AF_SPI6)      || \
+                          ((AF) == GPIO_AF_UART7)     || ((AF) == GPIO_AF_UART8)     || \
+                          ((AF) == GPIO_AF_FMC)       ||  ((AF) == GPIO_AF_SAI1)     || \
+                          ((AF) == GPIO_AF_LTDC))
+#endif /* GD32F427 ||  STM32F429_439xx */
+                          
+/**
+  * @}
+  */ 
 
-/* GPIO_PUD */
-#define GPIO_PUD_PUD0              BITS(0,1)                 /*!< pin 0 pull-up or pull-down bits */
-#define GPIO_PUD_PUD1              BITS(2,3)                 /*!< pin 1 pull-up or pull-down bits */
-#define GPIO_PUD_PUD2              BITS(4,5)                 /*!< pin 2 pull-up or pull-down bits */
-#define GPIO_PUD_PUD3              BITS(6,7)                 /*!< pin 3 pull-up or pull-down bits */
-#define GPIO_PUD_PUD4              BITS(8,9)                 /*!< pin 4 pull-up or pull-down bits */
-#define GPIO_PUD_PUD5              BITS(10,11)               /*!< pin 5 pull-up or pull-down bits */
-#define GPIO_PUD_PUD6              BITS(12,13)               /*!< pin 6 pull-up or pull-down bits */
-#define GPIO_PUD_PUD7              BITS(14,15)               /*!< pin 7 pull-up or pull-down bits */
-#define GPIO_PUD_PUD8              BITS(16,17)               /*!< pin 8 pull-up or pull-down bits */
-#define GPIO_PUD_PUD9              BITS(18,19)               /*!< pin 9 pull-up or pull-down bits */
-#define GPIO_PUD_PUD10             BITS(20,21)               /*!< pin 10 pull-up or pull-down bits */
-#define GPIO_PUD_PUD11             BITS(22,23)               /*!< pin 11 pull-up or pull-down bits */
-#define GPIO_PUD_PUD12             BITS(24,25)               /*!< pin 12 pull-up or pull-down bits */
-#define GPIO_PUD_PUD13             BITS(26,27)               /*!< pin 13 pull-up or pull-down bits */
-#define GPIO_PUD_PUD14             BITS(28,29)               /*!< pin 14 pull-up or pull-down bits */
-#define GPIO_PUD_PUD15             BITS(30,31)               /*!< pin 15 pull-up or pull-down bits */
+/** @defgroup GPIO_Legacy 
+  * @{
+  */
+    
+#define GPIO_Mode_AIN           GPIO_Mode_AN
 
-/* GPIO_ISTAT */
-#define GPIO_ISTAT_ISTAT0          BIT(0)                    /*!< pin 0 input status */
-#define GPIO_ISTAT_ISTAT1          BIT(1)                    /*!< pin 1 input status */
-#define GPIO_ISTAT_ISTAT2          BIT(2)                    /*!< pin 2 input status */
-#define GPIO_ISTAT_ISTAT3          BIT(3)                    /*!< pin 3 input status */
-#define GPIO_ISTAT_ISTAT4          BIT(4)                    /*!< pin 4 input status */
-#define GPIO_ISTAT_ISTAT5          BIT(5)                    /*!< pin 5 input status */
-#define GPIO_ISTAT_ISTAT6          BIT(6)                    /*!< pin 6 input status */
-#define GPIO_ISTAT_ISTAT7          BIT(7)                    /*!< pin 7 input status */
-#define GPIO_ISTAT_ISTAT8          BIT(8)                    /*!< pin 8 input status */
-#define GPIO_ISTAT_ISTAT9          BIT(9)                    /*!< pin 9 input status */
-#define GPIO_ISTAT_ISTAT10         BIT(10)                   /*!< pin 10 input status */
-#define GPIO_ISTAT_ISTAT11         BIT(11)                   /*!< pin 11 input status */
-#define GPIO_ISTAT_ISTAT12         BIT(12)                   /*!< pin 12 input status */
-#define GPIO_ISTAT_ISTAT13         BIT(13)                   /*!< pin 13 input status */
-#define GPIO_ISTAT_ISTAT14         BIT(14)                   /*!< pin 14 input status */
-#define GPIO_ISTAT_ISTAT15         BIT(15)                   /*!< pin 15 input status */
+#define GPIO_AF_OTG1_FS         GPIO_AF_OTG_FS
+#define GPIO_AF_OTG2_HS         GPIO_AF_OTG_HS
+#define GPIO_AF_OTG2_FS         GPIO_AF_OTG_HS_FS
 
-/* GPIO_OCTL */
-#define GPIO_OCTL_OCTL0            BIT(0)                    /*!< pin 0 output bit */
-#define GPIO_OCTL_OCTL1            BIT(1)                    /*!< pin 1 output bit */
-#define GPIO_OCTL_OCTL2            BIT(2)                    /*!< pin 2 output bit */
-#define GPIO_OCTL_OCTL3            BIT(3)                    /*!< pin 3 output bit */
-#define GPIO_OCTL_OCTL4            BIT(4)                    /*!< pin 4 output bit */
-#define GPIO_OCTL_OCTL5            BIT(5)                    /*!< pin 5 output bit */
-#define GPIO_OCTL_OCTL6            BIT(6)                    /*!< pin 6 output bit */
-#define GPIO_OCTL_OCTL7            BIT(7)                    /*!< pin 7 output bit */
-#define GPIO_OCTL_OCTL8            BIT(8)                    /*!< pin 8 output bit */
-#define GPIO_OCTL_OCTL9            BIT(9)                    /*!< pin 9 output bit */
-#define GPIO_OCTL_OCTL10           BIT(10)                   /*!< pin 10 output bit */
-#define GPIO_OCTL_OCTL11           BIT(11)                   /*!< pin 11 output bit */
-#define GPIO_OCTL_OCTL12           BIT(12)                   /*!< pin 12 output bit */
-#define GPIO_OCTL_OCTL13           BIT(13)                   /*!< pin 13 output bit */
-#define GPIO_OCTL_OCTL14           BIT(14)                   /*!< pin 14 output bit */
-#define GPIO_OCTL_OCTL15           BIT(15)                   /*!< pin 15 output bit */
+/**
+  * @}
+  */
 
-/* GPIO_BOP */
-#define GPIO_BOP_BOP0              BIT(0)                    /*!< pin 0 set bit */
-#define GPIO_BOP_BOP1              BIT(1)                    /*!< pin 1 set bit */
-#define GPIO_BOP_BOP2              BIT(2)                    /*!< pin 2 set bit */
-#define GPIO_BOP_BOP3              BIT(3)                    /*!< pin 3 set bit */
-#define GPIO_BOP_BOP4              BIT(4)                    /*!< pin 4 set bit */
-#define GPIO_BOP_BOP5              BIT(5)                    /*!< pin 5 set bit */
-#define GPIO_BOP_BOP6              BIT(6)                    /*!< pin 6 set bit */
-#define GPIO_BOP_BOP7              BIT(7)                    /*!< pin 7 set bit */
-#define GPIO_BOP_BOP8              BIT(8)                    /*!< pin 8 set bit */
-#define GPIO_BOP_BOP9              BIT(9)                    /*!< pin 9 set bit */
-#define GPIO_BOP_BOP10             BIT(10)                   /*!< pin 10 set bit */
-#define GPIO_BOP_BOP11             BIT(11)                   /*!< pin 11 set bit */
-#define GPIO_BOP_BOP12             BIT(12)                   /*!< pin 12 set bit */
-#define GPIO_BOP_BOP13             BIT(13)                   /*!< pin 13 set bit */
-#define GPIO_BOP_BOP14             BIT(14)                   /*!< pin 14 set bit */
-#define GPIO_BOP_BOP15             BIT(15)                   /*!< pin 15 set bit */
-#define GPIO_BOP_CR0               BIT(16)                   /*!< pin 0 clear bit */
-#define GPIO_BOP_CR1               BIT(17)                   /*!< pin 1 clear bit */
-#define GPIO_BOP_CR2               BIT(18)                   /*!< pin 2 clear bit */
-#define GPIO_BOP_CR3               BIT(19)                   /*!< pin 3 clear bit */
-#define GPIO_BOP_CR4               BIT(20)                   /*!< pin 4 clear bit */
-#define GPIO_BOP_CR5               BIT(21)                   /*!< pin 5 clear bit */
-#define GPIO_BOP_CR6               BIT(22)                   /*!< pin 6 clear bit */
-#define GPIO_BOP_CR7               BIT(23)                   /*!< pin 7 clear bit */
-#define GPIO_BOP_CR8               BIT(24)                   /*!< pin 8 clear bit */
-#define GPIO_BOP_CR9               BIT(25)                   /*!< pin 9 clear bit */
-#define GPIO_BOP_CR10              BIT(26)                   /*!< pin 10 clear bit */
-#define GPIO_BOP_CR11              BIT(27)                   /*!< pin 11 clear bit */
-#define GPIO_BOP_CR12              BIT(28)                   /*!< pin 12 clear bit */
-#define GPIO_BOP_CR13              BIT(29)                   /*!< pin 13 clear bit */
-#define GPIO_BOP_CR14              BIT(30)                   /*!< pin 14 clear bit */
-#define GPIO_BOP_CR15              BIT(31)                   /*!< pin 15 clear bit */
+/**
+  * @}
+  */
 
-/* GPIO_LOCK */
-#define GPIO_LOCK_LK0              BIT(0)                    /*!< pin 0 lock bit */
-#define GPIO_LOCK_LK1              BIT(1)                    /*!< pin 1 lock bit */
-#define GPIO_LOCK_LK2              BIT(2)                    /*!< pin 2 lock bit */
-#define GPIO_LOCK_LK3              BIT(3)                    /*!< pin 3 lock bit */
-#define GPIO_LOCK_LK4              BIT(4)                    /*!< pin 4 lock bit */
-#define GPIO_LOCK_LK5              BIT(5)                    /*!< pin 5 lock bit */
-#define GPIO_LOCK_LK6              BIT(6)                    /*!< pin 6 lock bit */
-#define GPIO_LOCK_LK7              BIT(7)                    /*!< pin 7 lock bit */
-#define GPIO_LOCK_LK8              BIT(8)                    /*!< pin 8 lock bit */
-#define GPIO_LOCK_LK9              BIT(9)                    /*!< pin 9 lock bit */
-#define GPIO_LOCK_LK10             BIT(10)                   /*!< pin 10 lock bit */
-#define GPIO_LOCK_LK11             BIT(11)                   /*!< pin 11 lock bit */
-#define GPIO_LOCK_LK12             BIT(12)                   /*!< pin 12 lock bit */
-#define GPIO_LOCK_LK13             BIT(13)                   /*!< pin 13 lock bit */
-#define GPIO_LOCK_LK14             BIT(14)                   /*!< pin 14 lock bit */
-#define GPIO_LOCK_LK15             BIT(15)                   /*!< pin 15 lock bit */
-#define GPIO_LOCK_LKK              BIT(16)                   /*!< pin sequence lock key */
+/* Exported macro ------------------------------------------------------------*/
+/* Exported functions --------------------------------------------------------*/
 
-/* GPIO_AFSEL0 */
-#define GPIO_AFSEL0_SEL0           BITS(0,3)                 /*!< pin 0 alternate function selected */
-#define GPIO_AFSEL0_SEL1           BITS(4,7)                 /*!< pin 1 alternate function selected */
-#define GPIO_AFSEL0_SEL2           BITS(8,11)                /*!< pin 2 alternate function selected */
-#define GPIO_AFSEL0_SEL3           BITS(12,15)               /*!< pin 3 alternate function selected */
-#define GPIO_AFSEL0_SEL4           BITS(16,19)               /*!< pin 4 alternate function selected */
-#define GPIO_AFSEL0_SEL5           BITS(20,23)               /*!< pin 5 alternate function selected */
-#define GPIO_AFSEL0_SEL6           BITS(24,27)               /*!< pin 6 alternate function selected */
-#define GPIO_AFSEL0_SEL7           BITS(28,31)               /*!< pin 7 alternate function selected */
-
-/* GPIO_AFSEL1 */
-#define GPIO_AFSEL1_SEL8           BITS(0,3)                 /*!< pin 8 alternate function selected */
-#define GPIO_AFSEL1_SEL9           BITS(4,7)                 /*!< pin 9 alternate function selected */
-#define GPIO_AFSEL1_SEL10          BITS(8,11)                /*!< pin 10 alternate function selected */
-#define GPIO_AFSEL1_SEL11          BITS(12,15)               /*!< pin 11 alternate function selected */
-#define GPIO_AFSEL1_SEL12          BITS(16,19)               /*!< pin 12 alternate function selected */
-#define GPIO_AFSEL1_SEL13          BITS(20,23)               /*!< pin 13 alternate function selected */
-#define GPIO_AFSEL1_SEL14          BITS(24,27)               /*!< pin 14 alternate function selected */
-#define GPIO_AFSEL1_SEL15          BITS(28,31)               /*!< pin 15 alternate function selected */
-
-/* GPIO_BC */
-#define GPIO_BC_CR0                BIT(0)                    /*!< pin 0 clear bit */
-#define GPIO_BC_CR1                BIT(1)                    /*!< pin 1 clear bit */
-#define GPIO_BC_CR2                BIT(2)                    /*!< pin 2 clear bit */
-#define GPIO_BC_CR3                BIT(3)                    /*!< pin 3 clear bit */
-#define GPIO_BC_CR4                BIT(4)                    /*!< pin 4 clear bit */
-#define GPIO_BC_CR5                BIT(5)                    /*!< pin 5 clear bit */
-#define GPIO_BC_CR6                BIT(6)                    /*!< pin 6 clear bit */
-#define GPIO_BC_CR7                BIT(7)                    /*!< pin 7 clear bit */
-#define GPIO_BC_CR8                BIT(8)                    /*!< pin 8 clear bit */
-#define GPIO_BC_CR9                BIT(9)                    /*!< pin 9 clear bit */
-#define GPIO_BC_CR10               BIT(10)                   /*!< pin 10 clear bit */
-#define GPIO_BC_CR11               BIT(11)                   /*!< pin 11 clear bit */
-#define GPIO_BC_CR12               BIT(12)                   /*!< pin 12 clear bit */
-#define GPIO_BC_CR13               BIT(13)                   /*!< pin 13 clear bit */
-#define GPIO_BC_CR14               BIT(14)                   /*!< pin 14 clear bit */
-#define GPIO_BC_CR15               BIT(15)                   /*!< pin 15 clear bit */
-
-/* GPIO_TG */
-#define GPIO_TG_TG0                BIT(0)                    /*!< pin 0 toggle bit */
-#define GPIO_TG_TG1                BIT(1)                    /*!< pin 1 toggle bit */
-#define GPIO_TG_TG2                BIT(2)                    /*!< pin 2 toggle bit */
-#define GPIO_TG_TG3                BIT(3)                    /*!< pin 3 toggle bit */
-#define GPIO_TG_TG4                BIT(4)                    /*!< pin 4 toggle bit */
-#define GPIO_TG_TG5                BIT(5)                    /*!< pin 5 toggle bit */
-#define GPIO_TG_TG6                BIT(6)                    /*!< pin 6 toggle bit */
-#define GPIO_TG_TG7                BIT(7)                    /*!< pin 7 toggle bit */
-#define GPIO_TG_TG8                BIT(8)                    /*!< pin 8 toggle bit */
-#define GPIO_TG_TG9                BIT(9)                    /*!< pin 9 toggle bit */
-#define GPIO_TG_TG10               BIT(10)                   /*!< pin 10 toggle bit */
-#define GPIO_TG_TG11               BIT(11)                   /*!< pin 11 toggle bit */
-#define GPIO_TG_TG12               BIT(12)                   /*!< pin 12 toggle bit */
-#define GPIO_TG_TG13               BIT(13)                   /*!< pin 13 toggle bit */
-#define GPIO_TG_TG14               BIT(14)                   /*!< pin 14 toggle bit */
-#define GPIO_TG_TG15               BIT(15)                   /*!< pin 15 toggle bit */
-
-/* function declarations */
-/* reset GPIO port */
+/*  Function used to set the GPIO configuration to the default reset state ****/
 void GPIO_DeInit(GPIO_TypeDef* GPIOx);
+
 /* Initialization and Configuration functions *********************************/
 void GPIO_Init(GPIO_TypeDef* GPIOx, GPIO_InitTypeDef* GPIO_InitStruct);
 void GPIO_StructInit(GPIO_InitTypeDef* GPIO_InitStruct);
 void GPIO_PinLockConfig(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
 
+/* GPIO Read and Write functions **********************************************/
+uint8_t GPIO_ReadInputDataBit(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
+uint16_t GPIO_ReadInputData(GPIO_TypeDef* GPIOx);
+uint8_t GPIO_ReadOutputDataBit(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
+uint16_t GPIO_ReadOutputData(GPIO_TypeDef* GPIOx);
 void GPIO_SetBits(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
 void GPIO_ResetBits(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
 void GPIO_WriteBit(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin, BitAction BitVal);
 void GPIO_Write(GPIO_TypeDef* GPIOx, uint16_t PortVal);
 void GPIO_ToggleBits(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
+
 /* GPIO Alternate functions configuration function ****************************/
 void GPIO_PinAFConfig(GPIO_TypeDef* GPIOx, uint16_t GPIO_PinSource, uint8_t GPIO_AF);
 
+#ifdef __cplusplus
+}
+#endif
 
-#endif /* GD32F4XX_GPIO_H */
+#endif /*__STM32F4xx_GPIO_H */
+
+/**
+  * @}
+  */ 
+
+/**
+  * @}
+  */ 
+
+/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
