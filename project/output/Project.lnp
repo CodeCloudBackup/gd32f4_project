@@ -4,10 +4,16 @@
 ".\output\gd32f4xx_rcu.o"
 ".\output\gd32f4xx_gpio.o"
 ".\output\gd32f4xx_pmu.o"
+".\output\gd32f4xx_tim.o"
+".\output\misc.o"
+".\output\gd32f4xx_usart.o"
 ".\output\gd32f4xx_it.o"
 ".\output\main.o"
 ".\output\systick.o"
+".\output\delay.o"
 ".\output\led.o"
+".\output\timer.o"
+".\output\usart.o"
 --library_type=microlib --strict --scatter ".\output\Project.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

@@ -11,6 +11,14 @@
 .\output\main.o: ..\CMSIS\gd32f4xx.h
 .\output\main.o: ..\Library\Include\gd32f4xx_gpio.h
 .\output\main.o: ..\Library\Include\gd32f4xx_pmu.h
+.\output\main.o: ..\Library\Include\gd32f4xx_tim.h
+.\output\main.o: ..\Library\Include\gd32f4xx_usart.h
 .\output\main.o: ..\User\systick.h
 .\output\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\output\main.o: ..\Hardware\led.h
+.\output\main.o: ..\Hardware\timer.h
+.\output\main.o: ..\Library\Include\misc.h
+.\output\main.o: ..\User\delay.h
+.\output\main.o: ..\Hardware\usart.h
+.\output\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\output\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h

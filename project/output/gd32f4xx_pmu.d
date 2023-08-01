@@ -12,4 +12,6 @@
 .\output\gd32f4xx_pmu.o: ..\CMSIS\gd32f4xx.h
 .\output\gd32f4xx_pmu.o: ..\Library\Include\gd32f4xx_gpio.h
 .\output\gd32f4xx_pmu.o: ..\Library\Include\gd32f4xx_pmu.h
+.\output\gd32f4xx_pmu.o: ..\Library\Include\gd32f4xx_tim.h
+.\output\gd32f4xx_pmu.o: ..\Library\Include\gd32f4xx_usart.h
 .\output\gd32f4xx_pmu.o: ..\CMSIS\core_cm4.h

@@ -1,5 +1,12 @@
 #include "led.h" 
 
+static u8 ledState = 0;
+void LED_Tim_1000ms()
+{
+		ledState = !ledState;
+		LED_B = ledState;
+}
+
 //LED IO≥ı ºªØ
 void LED_Init(void)
 {    	 

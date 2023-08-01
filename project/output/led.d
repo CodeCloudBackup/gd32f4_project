@@ -13,3 +13,5 @@
 .\output\led.o: ..\CMSIS\gd32f4xx.h
 .\output\led.o: ..\Library\Include\gd32f4xx_gpio.h
 .\output\led.o: ..\Library\Include\gd32f4xx_pmu.h
+.\output\led.o: ..\Library\Include\gd32f4xx_tim.h
+.\output\led.o: ..\Library\Include\gd32f4xx_usart.h

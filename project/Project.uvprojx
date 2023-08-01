@@ -10,7 +10,7 @@
       <TargetName>GD32427V_START</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>5060960::V5.06 update 7 (build 960)::ARMCC</pCCUsed>
+      <pCCUsed>5060960::V5.06 update 7 (build 960)::.\ARMCC</pCCUsed>
       <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
@@ -428,6 +428,21 @@
               <FileType>1</FileType>
               <FilePath>..\Library\Source\gd32f4xx_pmu.c</FilePath>
             </File>
+            <File>
+              <FileName>gd32f4xx_tim.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Library\Source\gd32f4xx_tim.c</FilePath>
+            </File>
+            <File>
+              <FileName>misc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Library\Source\misc.c</FilePath>
+            </File>
+            <File>
+              <FileName>gd32f4xx_usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Library\Source\gd32f4xx_usart.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -448,6 +463,16 @@
               <FileType>1</FileType>
               <FilePath>..\User\systick.c</FilePath>
             </File>
+            <File>
+              <FileName>delay.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\User\delay.h</FilePath>
+            </File>
+            <File>
+              <FileName>delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\delay.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -462,6 +487,26 @@
               <FileName>led.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Hardware\led.c</FilePath>
+            </File>
+            <File>
+              <FileName>timer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\timer.h</FilePath>
+            </File>
+            <File>
+              <FileName>timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\timer.c</FilePath>
+            </File>
+            <File>
+              <FileName>usart.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\usart.h</FilePath>
+            </File>
+            <File>
+              <FileName>usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\usart.c</FilePath>
             </File>
           </Files>
         </Group>

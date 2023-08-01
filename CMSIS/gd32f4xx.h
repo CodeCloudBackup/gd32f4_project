@@ -141,13 +141,13 @@ typedef enum IRQn
     CAN0_RX1_IRQn                = 21,     /*!< CAN0 RX1 interrupt                                       */
     CAN0_EWMC_IRQn               = 22,     /*!< CAN0 EWMC interrupt                                      */
     EXTI5_9_IRQn                 = 23,     /*!< EXTI[9:5] interrupts                                     */
-    TIMER0_BRK_TIMER8_IRQn       = 24,     /*!< TIMER0 break and TIMER8 interrupts                       */
-    TIMER0_UP_TIMER9_IRQn        = 25,     /*!< TIMER0 update and TIMER9 interrupts                      */
-    TIMER0_TRG_CMT_TIMER10_IRQn  = 26,     /*!< TIMER0 trigger and commutation  and TIMER10 interrupts   */
-    TIMER0_Channel_IRQn          = 27,     /*!< TIMER0 channel capture compare interrupt                 */
-    TIMER1_IRQn                  = 28,     /*!< TIMER1 interrupt                                         */
-    TIMER2_IRQn                  = 29,     /*!< TIMER2 interrupt                                         */
-    TIMER3_IRQn                  = 30,     /*!< TIMER3 interrupts                                        */
+    TIM0_BRK_TIM8_IRQn       = 24,     /*!< TIM0 break and TIM8 interrupts                       */
+    TIM0_UP_TIM9_IRQn        = 25,     /*!< TIM0 update and TIM9 interrupts                      */
+    TIM0_TRG_CMT_TIM10_IRQn  = 26,     /*!< TIM0 trigger and commutation  and TIM10 interrupts   */
+    TIM0_Channel_IRQn          = 27,     /*!< TIM0 channel capture compare interrupt                 */
+    TIM1_IRQn                  = 28,     /*!< TIM1 interrupt                                         */
+    TIM2_IRQn                  = 29,     /*!< TIM2 interrupt                                         */
+    TIM3_IRQn                  = 30,     /*!< TIM3 interrupts                                        */
     I2C0_EV_IRQn                 = 31,     /*!< I2C0 event interrupt                                     */
     I2C0_ER_IRQn                 = 32,     /*!< I2C0 error interrupt                                     */
     I2C1_EV_IRQn                 = 33,     /*!< I2C1 event interrupt                                     */
@@ -160,21 +160,21 @@ typedef enum IRQn
     EXTI10_15_IRQn               = 40,     /*!< EXTI[15:10] interrupts                                   */
     RTC_Alarm_IRQn               = 41,     /*!< RTC alarm interrupt                                      */
     USBFS_WKUP_IRQn              = 42,     /*!< USBFS wakeup interrupt                                   */
-    TIMER7_BRK_TIMER11_IRQn      = 43,     /*!< TIMER7 break and TIMER11 interrupts                      */
-    TIMER7_UP_TIMER12_IRQn       = 44,     /*!< TIMER7 update and TIMER12 interrupts                     */
-    TIMER7_TRG_CMT_TIMER13_IRQn  = 45,     /*!< TIMER7 trigger and commutation and TIMER13 interrupts    */
-    TIMER7_Channel_IRQn          = 46,     /*!< TIMER7 channel capture compare interrupt                 */
+    TIM7_BRK_TIM11_IRQn      = 43,     /*!< TIM7 break and TIM11 interrupts                      */
+    TIM7_UP_TIM12_IRQn       = 44,     /*!< TIM7 update and TIM12 interrupts                     */
+    TIM7_TRG_CMT_TIM13_IRQn  = 45,     /*!< TIM7 trigger and commutation and TIM13 interrupts    */
+    TIM7_Channel_IRQn          = 46,     /*!< TIM7 channel capture compare interrupt                 */
     DMA0_Channel7_IRQn           = 47,     /*!< DMA0 channel7 interrupt                                  */
     
 #if defined (GD32F450) || defined (GD32F470)
     EXMC_IRQn                    = 48,     /*!< EXMC interrupt                                           */
     SDIO_IRQn                    = 49,     /*!< SDIO interrupt                                           */
-    TIMER4_IRQn                  = 50,     /*!< TIMER4 interrupt                                         */
+    TIM4_IRQn                  = 50,     /*!< TIM4 interrupt                                         */
     SPI2_IRQn                    = 51,     /*!< SPI2 interrupt                                           */
     UART3_IRQn                   = 52,     /*!< UART3 interrupt                                          */
     UART4_IRQn                   = 53,     /*!< UART4 interrupt                                          */
-    TIMER5_DAC_IRQn              = 54,     /*!< TIMER5 and DAC0 DAC1 underrun error interrupts           */
-    TIMER6_IRQn                  = 55,     /*!< TIMER6 interrupt                                         */
+    TIM5_DAC_IRQn              = 54,     /*!< TIM5 and DAC0 DAC1 underrun error interrupts           */
+    TIM6_IRQn                  = 55,     /*!< TIM6 interrupt                                         */
     DMA1_Channel0_IRQn           = 56,     /*!< DMA1 channel0 interrupt                                  */
     DMA1_Channel1_IRQn           = 57,     /*!< DMA1 channel1 interrupt                                  */
     DMA1_Channel2_IRQn           = 58,     /*!< DMA1 channel2 interrupt                                  */
@@ -212,12 +212,12 @@ typedef enum IRQn
 
 #if defined (GD32F405) || defined (GD32F425)
     SDIO_IRQn                    = 49,     /*!< SDIO interrupt                                           */
-    TIMER4_IRQn                  = 50,     /*!< TIMER4 interrupt                                         */
+    TIM4_IRQn                  = 50,     /*!< TIM4 interrupt                                         */
     SPI2_IRQn                    = 51,     /*!< SPI2 interrupt                                           */
     UART3_IRQn                   = 52,     /*!< UART3 interrupt                                          */
     UART4_IRQn                   = 53,     /*!< UART4 interrupt                                          */
-    TIMER5_DAC_IRQn              = 54,     /*!< TIMER5 and DAC0 DAC1 underrun error interrupts           */
-    TIMER6_IRQn                  = 55,     /*!< TIMER6 interrupt                                         */
+    TIM5_DAC_IRQn              = 54,     /*!< TIM5 and DAC0 DAC1 underrun error interrupts           */
+    TIM6_IRQn                  = 55,     /*!< TIM6 interrupt                                         */
     DMA1_Channel0_IRQn           = 56,     /*!< DMA1 channel0 interrupt                                  */
     DMA1_Channel1_IRQn           = 57,     /*!< DMA1 channel1 interrupt                                  */
     DMA1_Channel2_IRQn           = 58,     /*!< DMA1 channel2 interrupt                                  */
@@ -246,12 +246,12 @@ typedef enum IRQn
 #if defined (GD32F407) || defined (GD32F427)
     EXMC_IRQn                    = 48,     /*!< EXMC interrupt                                           */
     SDIO_IRQn                    = 49,     /*!< SDIO interrupt                                           */
-    TIMER4_IRQn                  = 50,     /*!< TIMER4 interrupt                                         */
+    TIM4_IRQn                  = 50,     /*!< TIM4 interrupt                                         */
     SPI2_IRQn                    = 51,     /*!< SPI2 interrupt                                           */
     UART3_IRQn                   = 52,     /*!< UART3 interrupt                                          */
     UART4_IRQn                   = 53,     /*!< UART4 interrupt                                          */
-    TIMER5_DAC_IRQn              = 54,     /*!< TIMER5 and DAC0 DAC1 underrun error interrupts           */
-    TIMER6_IRQn                  = 55,     /*!< TIMER6 interrupt                                         */
+    TIM5_DAC_IRQn              = 54,     /*!< TIM5 and DAC0 DAC1 underrun error interrupts           */
+    TIM6_IRQn                  = 55,     /*!< TIM6 interrupt                                         */
     DMA1_Channel0_IRQn           = 56,     /*!< DMA1 channel0 interrupt                                  */
     DMA1_Channel1_IRQn           = 57,     /*!< DMA1 channel1 interrupt                                  */
     DMA1_Channel2_IRQn           = 58,     /*!< DMA1 channel2 interrupt                                  */
@@ -542,7 +542,7 @@ typedef struct
   __IO uint32_t OOR;           /*!< DMA2D Output Offset Register,                   Address offset: 0x40 */
   __IO uint32_t NLR;           /*!< DMA2D Number of Line Register,                  Address offset: 0x44 */
   __IO uint32_t LWR;           /*!< DMA2D Line Watermark Register,                  Address offset: 0x48 */
-  __IO uint32_t AMTCR;         /*!< DMA2D AHB Master Timer Configuration Register,  Address offset: 0x4C */
+  __IO uint32_t AMTCR;         /*!< DMA2D AHB Master TIM Configuration Register,  Address offset: 0x4C */
   uint32_t      RESERVED[236]; /*!< Reserved, 0x50-0x3FF */
   __IO uint32_t FGCLUT[256];   /*!< DMA2D Foreground CLUT,                          Address offset:400-7FF */
   __IO uint32_t BGCLUT[256];   /*!< DMA2D Background CLUT,                          Address offset:800-BFF */
@@ -781,7 +781,7 @@ typedef struct
   __IO uint32_t SDCR[2];        /*!< SDRAM Control registers ,      Address offset: 0x140-0x144  */
   __IO uint32_t SDTR[2];        /*!< SDRAM Timing registers ,       Address offset: 0x148-0x14C  */
   __IO uint32_t SDCMR;       /*!< SDRAM Command Mode register,    Address offset: 0x150  */
-  __IO uint32_t SDRTR;       /*!< SDRAM Refresh Timer register,   Address offset: 0x154  */
+  __IO uint32_t SDRTR;       /*!< SDRAM Refresh TIM register,   Address offset: 0x154  */
   __IO uint32_t SDSR;        /*!< SDRAM Status register,          Address offset: 0x158  */
 } FMC_Bank5_6_TypeDef; 
 #endif /* GD32F427 ||  STM32F429_439xx */
@@ -967,7 +967,7 @@ typedef struct
   __IO uint32_t CR;      /*!< RTC control register,                                     Address offset: 0x08 */
   __IO uint32_t ISR;     /*!< RTC initialization and status register,                   Address offset: 0x0C */
   __IO uint32_t PRER;    /*!< RTC prescaler register,                                   Address offset: 0x10 */
-  __IO uint32_t WUTR;    /*!< RTC wakeup timer register,                                Address offset: 0x14 */
+  __IO uint32_t WUTR;    /*!< RTC wakeup TIM register,                                Address offset: 0x14 */
   __IO uint32_t CALIBR;  /*!< RTC calibration register,                                 Address offset: 0x18 */
   __IO uint32_t ALRMAR;  /*!< RTC alarm A register,                                     Address offset: 0x1C */
   __IO uint32_t ALRMBR;  /*!< RTC alarm B register,                                     Address offset: 0x20 */
@@ -1291,55 +1291,55 @@ typedef struct
 #define SRAM_BB_BASE          SRAM1_BB_BASE
 
 /*!< APB1 peripherals */
-#define TIM2_BASE             (APB1_BUS_BASE + 0x00000000U)
-#define TIM3_BASE             (APB1_BUS_BASE + 0x00000400U)
-#define TIM4_BASE             (APB1_BUS_BASE + 0x00000800U)
-#define TIM5_BASE             (APB1_BUS_BASE + 0x00000C00U)
-#define TIM6_BASE             (APB1_BUS_BASE + 0x00001000U)
-#define TIM7_BASE             (APB1_BUS_BASE + 0x00001400U)
-#define TIM12_BASE            (APB1_BUS_BASE + 0x00001800U)
-#define TIM13_BASE            (APB1_BUS_BASE + 0x00001C00U)
-#define TIM14_BASE            (APB1_BUS_BASE + 0x00002000U)
+#define TIM1_BASE             (APB1_BUS_BASE + 0x00000000U)
+#define TIM2_BASE             (APB1_BUS_BASE + 0x00000400U)
+#define TIM3_BASE             (APB1_BUS_BASE + 0x00000800U)
+#define TIM4_BASE             (APB1_BUS_BASE + 0x00000C00U)
+#define TIM5_BASE             (APB1_BUS_BASE + 0x00001000U)
+#define TIM6_BASE             (APB1_BUS_BASE + 0x00001400U)
+#define TIM11_BASE            (APB1_BUS_BASE + 0x00001800U)
+#define TIM12_BASE            (APB1_BUS_BASE + 0x00001C00U)
+#define TIM13_BASE            (APB1_BUS_BASE + 0x00002000U)
 #define RTC_BASE              (APB1_BUS_BASE + 0x00002800U)
 #define WWDG_BASE             (APB1_BUS_BASE + 0x00002C00U)
 #define IWDG_BASE             (APB1_BUS_BASE + 0x00003000U)
 #define I2S2ext_BASE          (APB1_BUS_BASE + 0x00003400U)
-#define SPI2_BASE             (APB1_BUS_BASE + 0x00003800U)
-#define SPI3_BASE             (APB1_BUS_BASE + 0x00003C00U)
+#define SPI1_BASE             (APB1_BUS_BASE + 0x00003800U)
+#define SPI2_BASE             (APB1_BUS_BASE + 0x00003C00U)
 #define I2S3ext_BASE          (APB1_BUS_BASE + 0x00004000U)
-#define USART2_BASE           (APB1_BUS_BASE + 0x00004400U)
-#define USART3_BASE           (APB1_BUS_BASE + 0x00004800U)
-#define UART4_BASE            (APB1_BUS_BASE + 0x00004C00U)
-#define UART5_BASE            (APB1_BUS_BASE + 0x00005000U)
-#define I2C1_BASE             (APB1_BUS_BASE + 0x00005400U)
-#define I2C2_BASE             (APB1_BUS_BASE + 0x00005800U)
-#define I2C3_BASE             (APB1_BUS_BASE + 0x00005C00U)
-#define CAN1_BASE             (APB1_BUS_BASE + 0x00006400U)
-#define CAN2_BASE             (APB1_BUS_BASE + 0x00006800U)
+#define USART1_BASE           (APB1_BUS_BASE + 0x00004400U)
+#define USART2_BASE           (APB1_BUS_BASE + 0x00004800U)
+#define UART3_BASE            (APB1_BUS_BASE + 0x00004C00U)
+#define UART4_BASE            (APB1_BUS_BASE + 0x00005000U)
+#define I2C0_BASE             (APB1_BUS_BASE + 0x00005400U)
+#define I2C1_BASE             (APB1_BUS_BASE + 0x00005800U)
+#define I2C2_BASE             (APB1_BUS_BASE + 0x00005C00U)
+#define CAN0_BASE             (APB1_BUS_BASE + 0x00006400U)
+#define CAN1_BASE             (APB1_BUS_BASE + 0x00006800U)
 #define PWR_BASE              (APB1_BUS_BASE + 0x00007000U)
 #define DAC_BASE              (APB1_BUS_BASE + 0x00007400U)
-#define UART7_BASE            (APB1_BUS_BASE + 0x00007800U)
-#define UART8_BASE            (APB1_BUS_BASE + 0x00007C00U)
+#define UART6_BASE            (APB1_BUS_BASE + 0x00007800U)
+#define UART7_BASE            (APB1_BUS_BASE + 0x00007C00U)
 
 /*!< APB2 peripherals */
-#define TIM1_BASE             (APB2_BUS_BASE + 0x00000000U)
-#define TIM8_BASE             (APB2_BUS_BASE + 0x00000400U)
-#define USART1_BASE           (APB2_BUS_BASE + 0x00001000U)
-#define USART6_BASE           (APB2_BUS_BASE + 0x00001400U)
-#define ADC1_BASE             (APB2_BUS_BASE + 0x00002000U)
-#define ADC2_BASE             (APB2_BUS_BASE + 0x00002100U)
-#define ADC3_BASE             (APB2_BUS_BASE + 0x00002200U)
+#define TIM0_BASE             (APB2_BUS_BASE + 0x00000000U)
+#define TIM7_BASE             (APB2_BUS_BASE + 0x00000400U)
+#define USART0_BASE           (APB2_BUS_BASE + 0x00001000U)
+#define USART5_BASE           (APB2_BUS_BASE + 0x00001400U)
+#define ADC0_BASE             (APB2_BUS_BASE + 0x00002000U)
+#define ADC1_BASE             (APB2_BUS_BASE + 0x00002100U)
+#define ADC2_BASE             (APB2_BUS_BASE + 0x00002200U)
 #define ADC_BASE              (APB2_BUS_BASE + 0x00002300U)
 #define SDIO_BASE             (APB2_BUS_BASE + 0x00002C00U)
-#define SPI1_BASE             (APB2_BUS_BASE + 0x00003000U)
-#define SPI4_BASE             (APB2_BUS_BASE + 0x00003400U)
+#define SPI0_BASE             (APB2_BUS_BASE + 0x00003000U)
+#define SPI3_BASE             (APB2_BUS_BASE + 0x00003400U)
 #define SYSCFG_BASE           (APB2_BUS_BASE + 0x00003800U)
 #define EXTI_BASE             (APB2_BUS_BASE + 0x00003C00U)
-#define TIM9_BASE             (APB2_BUS_BASE + 0x00004000U)
-#define TIM10_BASE            (APB2_BUS_BASE + 0x00004400U)
-#define TIM11_BASE            (APB2_BUS_BASE + 0x00004800U)
-#define SPI5_BASE             (APB2_BUS_BASE + 0x00005000U)
-#define SPI6_BASE             (APB2_BUS_BASE + 0x00005400U)
+#define TIM8_BASE             (APB2_BUS_BASE + 0x00004000U)
+#define TIM9_BASE            (APB2_BUS_BASE + 0x00004400U)
+#define TIM10_BASE            (APB2_BUS_BASE + 0x00004800U)
+#define SPI4_BASE             (APB2_BUS_BASE + 0x00005000U)
+#define SPI5_BASE             (APB2_BUS_BASE + 0x00005400U)
 #define SAI1_BASE             (APB2_BUS_BASE + 0x00005800U)
 #define SAI1_Block_A_BASE     (SAI1_BASE + 0x00000004U)
 #define SAI1_Block_B_BASE     (SAI1_BASE + 0x00000024U)
@@ -1360,24 +1360,24 @@ typedef struct
 #define CRC_BASE              (AHB1_BUS_BASE + 0x00003000U)
 #define RCU_BASE              (AHB1_BUS_BASE + 0x00003800U)
 #define FLASH_R_BASE          (AHB1_BUS_BASE + 0x00003C00U)
-#define DMA1_BASE             (AHB1_BUS_BASE + 0x00006000U)
-#define DMA1_Stream0_BASE     (DMA1_BASE + 0x00000010U)
-#define DMA1_Stream1_BASE     (DMA1_BASE + 0x00000028U)
-#define DMA1_Stream2_BASE     (DMA1_BASE + 0x00000040U)
-#define DMA1_Stream3_BASE     (DMA1_BASE + 0x00000058U)
-#define DMA1_Stream4_BASE     (DMA1_BASE + 0x00000070U)
-#define DMA1_Stream5_BASE     (DMA1_BASE + 0x00000088U)
-#define DMA1_Stream6_BASE     (DMA1_BASE + 0x000000A0)
-#define DMA1_Stream7_BASE     (DMA1_BASE + 0x000000B8)
-#define DMA2_BASE             (AHB1_BUS_BASE + 0x00006400)
-#define DMA2_Stream0_BASE     (DMA2_BASE + 0x00000010U)
-#define DMA2_Stream1_BASE     (DMA2_BASE + 0x00000028U)
-#define DMA2_Stream2_BASE     (DMA2_BASE + 0x00000040U)
-#define DMA2_Stream3_BASE     (DMA2_BASE + 0x00000058U)
-#define DMA2_Stream4_BASE     (DMA2_BASE + 0x00000070U)
-#define DMA2_Stream5_BASE     (DMA2_BASE + 0x00000088U)
-#define DMA2_Stream6_BASE     (DMA2_BASE + 0x000000A0U)
-#define DMA2_Stream7_BASE     (DMA2_BASE + 0x000000B8U)
+#define DMA0_BASE             (AHB1_BUS_BASE + 0x00006000U)
+#define DMA0_Stream0_BASE     (DMA1_BASE + 0x00000010U)
+#define DMA0_Stream1_BASE     (DMA1_BASE + 0x00000028U)
+#define DMA0_Stream2_BASE     (DMA1_BASE + 0x00000040U)
+#define DMA0_Stream3_BASE     (DMA1_BASE + 0x00000058U)
+#define DMA0_Stream4_BASE     (DMA1_BASE + 0x00000070U)
+#define DMA0_Stream5_BASE     (DMA1_BASE + 0x00000088U)
+#define DMA0_Stream6_BASE     (DMA1_BASE + 0x000000A0)
+#define DMA0_Stream7_BASE     (DMA1_BASE + 0x000000B8)
+#define DMA1_BASE             (AHB1_BUS_BASE + 0x00006400)
+#define DMA1_Stream0_BASE     (DMA2_BASE + 0x00000010U)
+#define DMA1_Stream1_BASE     (DMA2_BASE + 0x00000028U)
+#define DMA1_Stream2_BASE     (DMA2_BASE + 0x00000040U)
+#define DMA1_Stream3_BASE     (DMA2_BASE + 0x00000058U)
+#define DMA1_Stream4_BASE     (DMA2_BASE + 0x00000070U)
+#define DMA1_Stream5_BASE     (DMA2_BASE + 0x00000088U)
+#define DMA1_Stream6_BASE     (DMA2_BASE + 0x000000A0U)
+#define DMA1_Stream7_BASE     (DMA2_BASE + 0x000000B8U)
 #define ETH_BASE              (AHB1_BUS_BASE + 0x00008000U)
 #define ETH_MAC_BASE          (ETH_BASEU)
 #define ETH_MMC_BASE          (ETH_BASE + 0x00000100U)
@@ -1421,53 +1421,53 @@ typedef struct
 /** @addtogroup Peripheral_declaration
   * @{
   */  
+#define TIM1                ((TIM_TypeDef *) TIM1_BASE)
 #define TIM2                ((TIM_TypeDef *) TIM2_BASE)
 #define TIM3                ((TIM_TypeDef *) TIM3_BASE)
 #define TIM4                ((TIM_TypeDef *) TIM4_BASE)
 #define TIM5                ((TIM_TypeDef *) TIM5_BASE)
 #define TIM6                ((TIM_TypeDef *) TIM6_BASE)
-#define TIM7                ((TIM_TypeDef *) TIM7_BASE)
+#define TIM11               ((TIM_TypeDef *) TIM11_BASE)
 #define TIM12               ((TIM_TypeDef *) TIM12_BASE)
 #define TIM13               ((TIM_TypeDef *) TIM13_BASE)
-#define TIM14               ((TIM_TypeDef *) TIM14_BASE)
 #define RTC                 ((RTC_TypeDef *) RTC_BASE)
 #define WWDG                ((WWDG_TypeDef *) WWDG_BASE)
 #define IWDG                ((IWDG_TypeDef *) IWDG_BASE)
 #define I2S2ext             ((SPI_TypeDef *) I2S2ext_BASE)
+#define SPI1                ((SPI_TypeDef *) SPI1_BASE)
 #define SPI2                ((SPI_TypeDef *) SPI2_BASE)
-#define SPI3                ((SPI_TypeDef *) SPI3_BASE)
 #define I2S3ext             ((SPI_TypeDef *) I2S3ext_BASE)
+#define USART1              ((USART_TypeDef *) USART1_BASE)
 #define USART2              ((USART_TypeDef *) USART2_BASE)
-#define USART3              ((USART_TypeDef *) USART3_BASE)
+#define UART3               ((USART_TypeDef *) UART3_BASE)
 #define UART4               ((USART_TypeDef *) UART4_BASE)
-#define UART5               ((USART_TypeDef *) UART5_BASE)
+#define I2C0                ((I2C_TypeDef *) I2C0_BASE)
 #define I2C1                ((I2C_TypeDef *) I2C1_BASE)
 #define I2C2                ((I2C_TypeDef *) I2C2_BASE)
-#define I2C3                ((I2C_TypeDef *) I2C3_BASE)
+#define CAN0                ((CAN_TypeDef *) CAN0_BASE)
 #define CAN1                ((CAN_TypeDef *) CAN1_BASE)
-#define CAN2                ((CAN_TypeDef *) CAN2_BASE)
 #define PWR                 ((PWR_TypeDef *) PWR_BASE)
 #define DAC                 ((DAC_TypeDef *) DAC_BASE)
+#define UART6               ((USART_TypeDef *) UART6_BASE)
 #define UART7               ((USART_TypeDef *) UART7_BASE)
-#define UART8               ((USART_TypeDef *) UART8_BASE)
-#define TIM1                ((TIM_TypeDef *) TIM1_BASE)
-#define TIM8                ((TIM_TypeDef *) TIM8_BASE)
-#define USART1              ((USART_TypeDef *) USART1_BASE)
-#define USART6              ((USART_TypeDef *) USART6_BASE)
+#define TIM0                ((TIM_TypeDef *) TIM0_BASE)
+#define TIM7                ((TIM_TypeDef *) TIM7_BASE)
+#define USART0              ((USART_TypeDef *) USART0_BASE)
+#define USART5              ((USART_TypeDef *) USART5_BASE)
 #define ADC                 ((ADC_Common_TypeDef *) ADC_BASE)
+#define ADC0                ((ADC_TypeDef *) ADC0_BASE)
 #define ADC1                ((ADC_TypeDef *) ADC1_BASE)
 #define ADC2                ((ADC_TypeDef *) ADC2_BASE)
-#define ADC3                ((ADC_TypeDef *) ADC3_BASE)
 #define SDIO                ((SDIO_TypeDef *) SDIO_BASE)
-#define SPI1                ((SPI_TypeDef *) SPI1_BASE) 
-#define SPI4                ((SPI_TypeDef *) SPI4_BASE)
+#define SPI0                ((SPI_TypeDef *) SPI0_BASE) 
+#define SPI3                ((SPI_TypeDef *) SPI3_BASE)
 #define SYSCFG              ((SYSCFG_TypeDef *) SYSCFG_BASE)
 #define EXTI                ((EXTI_TypeDef *) EXTI_BASE)
-#define TIM9                ((TIM_TypeDef *) TIM9_BASE)
+#define TIM8                ((TIM_TypeDef *) TIM8_BASE)
+#define TIM9               ((TIM_TypeDef *) TIM9_BASE)
 #define TIM10               ((TIM_TypeDef *) TIM10_BASE)
-#define TIM11               ((TIM_TypeDef *) TIM11_BASE)
+#define SPI4                ((SPI_TypeDef *) SPI4_BASE)
 #define SPI5                ((SPI_TypeDef *) SPI5_BASE)
-#define SPI6                ((SPI_TypeDef *) SPI6_BASE)
 #define SAI1                ((SAI_TypeDef *) SAI1_BASE)
 #define SAI1_Block_A        ((SAI_Block_TypeDef *)SAI1_Block_A_BASE)
 #define SAI1_Block_B        ((SAI_Block_TypeDef *)SAI1_Block_B_BASE)
@@ -1486,6 +1486,15 @@ typedef struct
 #define CRC                 ((CRC_TypeDef *) CRC_BASE)
 #define RCU                 ((RCU_TypeDef *) RCU_BASE)
 #define FLASH               ((FLASH_TypeDef *) FLASH_R_BASE)
+#define DMA0                ((DMA_TypeDef *) DMA0_BASE)
+#define DMA0_Stream0        ((DMA_Stream_TypeDef *) DMA0_Stream0_BASE)
+#define DMA0_Stream1        ((DMA_Stream_TypeDef *) DMA0_Stream1_BASE)
+#define DMA0_Stream2        ((DMA_Stream_TypeDef *) DMA0_Stream2_BASE)
+#define DMA0_Stream3        ((DMA_Stream_TypeDef *) DMA0_Stream3_BASE)
+#define DMA0_Stream4        ((DMA_Stream_TypeDef *) DMA0_Stream4_BASE)
+#define DMA0_Stream5        ((DMA_Stream_TypeDef *) DMA0_Stream5_BASE)
+#define DMA0_Stream6        ((DMA_Stream_TypeDef *) DMA0_Stream6_BASE)
+#define DMA0_Stream7        ((DMA_Stream_TypeDef *) DMA0_Stream7_BASE)
 #define DMA1                ((DMA_TypeDef *) DMA1_BASE)
 #define DMA1_Stream0        ((DMA_Stream_TypeDef *) DMA1_Stream0_BASE)
 #define DMA1_Stream1        ((DMA_Stream_TypeDef *) DMA1_Stream1_BASE)
@@ -1495,15 +1504,6 @@ typedef struct
 #define DMA1_Stream5        ((DMA_Stream_TypeDef *) DMA1_Stream5_BASE)
 #define DMA1_Stream6        ((DMA_Stream_TypeDef *) DMA1_Stream6_BASE)
 #define DMA1_Stream7        ((DMA_Stream_TypeDef *) DMA1_Stream7_BASE)
-#define DMA2                ((DMA_TypeDef *) DMA2_BASE)
-#define DMA2_Stream0        ((DMA_Stream_TypeDef *) DMA2_Stream0_BASE)
-#define DMA2_Stream1        ((DMA_Stream_TypeDef *) DMA2_Stream1_BASE)
-#define DMA2_Stream2        ((DMA_Stream_TypeDef *) DMA2_Stream2_BASE)
-#define DMA2_Stream3        ((DMA_Stream_TypeDef *) DMA2_Stream3_BASE)
-#define DMA2_Stream4        ((DMA_Stream_TypeDef *) DMA2_Stream4_BASE)
-#define DMA2_Stream5        ((DMA_Stream_TypeDef *) DMA2_Stream5_BASE)
-#define DMA2_Stream6        ((DMA_Stream_TypeDef *) DMA2_Stream6_BASE)
-#define DMA2_Stream7        ((DMA_Stream_TypeDef *) DMA2_Stream7_BASE)
 #define ETH                 ((ETH_TypeDef *) ETH_BASE)  
 #define DMA2D               ((DMA2D_TypeDef *)DMA2D_BASE)
 #define DCMI                ((DCMI_TypeDef *) DCMI_BASE)

@@ -11,3 +11,5 @@
 .\output\system_gd32f4xx.o: ..\CMSIS\gd32f4xx.h
 .\output\system_gd32f4xx.o: ..\Library\Include\gd32f4xx_gpio.h
 .\output\system_gd32f4xx.o: ..\Library\Include\gd32f4xx_pmu.h
+.\output\system_gd32f4xx.o: ..\Library\Include\gd32f4xx_tim.h
+.\output\system_gd32f4xx.o: ..\Library\Include\gd32f4xx_usart.h

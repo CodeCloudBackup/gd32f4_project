@@ -37,6 +37,9 @@ OF SUCH DAMAGE.
 #include <stdio.h>
 
 #include "led.h"
+#include "timer.h"
+#include "delay.h"
+#include "usart.h"
 /*!
     \brief      main function
     \param[in]  none
@@ -49,13 +52,10 @@ int main(void)
     systick_config();
 
 		LED_Init();
+		TIM1_Init(99,9999); //定时器时钟100M，分频系数1000，所以100M/1000=100Khz的计数频率，计数100次为1ms  
+		usart1_init(115200);
+		usart2_init(115200);
     while(1) {
-        /* turn on LED2 */
-        LED_B =0;
-        delay_1ms(1000);
-
-        /* turn off LED2 */
-        LED_B = 1;
-        delay_1ms(1000);
+       usart2_test();
     }
 }
