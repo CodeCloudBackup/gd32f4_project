@@ -12,7 +12,9 @@
 .\output\timer.o: ..\Library\Include\gd32f4xx_rcu.h
 .\output\timer.o: ..\CMSIS\gd32f4xx.h
 .\output\timer.o: ..\Library\Include\gd32f4xx_gpio.h
+.\output\timer.o: ..\Library\Include\gd32f4xx_i2c.h
 .\output\timer.o: ..\Library\Include\gd32f4xx_pmu.h
+.\output\timer.o: ..\Library\Include\gd32f4xx_spi.h
 .\output\timer.o: ..\Library\Include\gd32f4xx_tim.h
 .\output\timer.o: ..\Library\Include\gd32f4xx_usart.h
 .\output\timer.o: ..\Library\Include\misc.h

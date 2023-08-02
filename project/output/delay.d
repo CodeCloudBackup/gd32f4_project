@@ -12,7 +12,9 @@
 .\output\delay.o: ..\Library\Include\gd32f4xx_rcu.h
 .\output\delay.o: ..\CMSIS\gd32f4xx.h
 .\output\delay.o: ..\Library\Include\gd32f4xx_gpio.h
+.\output\delay.o: ..\Library\Include\gd32f4xx_i2c.h
 .\output\delay.o: ..\Library\Include\gd32f4xx_pmu.h
+.\output\delay.o: ..\Library\Include\gd32f4xx_spi.h
 .\output\delay.o: ..\Library\Include\gd32f4xx_tim.h
 .\output\delay.o: ..\Library\Include\gd32f4xx_usart.h
 .\output\delay.o: ..\Library\Include\misc.h

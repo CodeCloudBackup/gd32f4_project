@@ -40,6 +40,7 @@ OF SUCH DAMAGE.
 #include "timer.h"
 #include "delay.h"
 #include "usart.h"
+
 /*!
     \brief      main function
     \param[in]  none
@@ -49,10 +50,11 @@ OF SUCH DAMAGE.
 int main(void)
 {
     /* configure systick */
+		NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);//设置系统中断优先级分组2
     systick_config();
-
+		delay_init(200);
 		LED_Init();
-		TIM1_Init(99,9999); //定时器时钟100M，分频系数1000，所以100M/1000=100Khz的计数频率，计数100次为1ms  
+		TIM1_Init(99,999); //定时器时钟100M，分频系数1000，所以100M/1000=100Khz的计数频率，计数100次为1ms  
 		usart1_init(115200);
 		usart2_init(115200);
     while(1) {

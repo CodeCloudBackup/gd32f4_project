@@ -11,7 +11,9 @@
 .\output\gd32f4xx_it.o: ..\Library\Include\gd32f4xx_rcu.h
 .\output\gd32f4xx_it.o: ..\CMSIS\gd32f4xx.h
 .\output\gd32f4xx_it.o: ..\Library\Include\gd32f4xx_gpio.h
+.\output\gd32f4xx_it.o: ..\Library\Include\gd32f4xx_i2c.h
 .\output\gd32f4xx_it.o: ..\Library\Include\gd32f4xx_pmu.h
+.\output\gd32f4xx_it.o: ..\Library\Include\gd32f4xx_spi.h
 .\output\gd32f4xx_it.o: ..\Library\Include\gd32f4xx_tim.h
 .\output\gd32f4xx_it.o: ..\Library\Include\gd32f4xx_usart.h
 .\output\gd32f4xx_it.o: ..\User\systick.h

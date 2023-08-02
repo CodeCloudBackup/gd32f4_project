@@ -105,6 +105,10 @@ uint32_t SystemCoreClock = __SYSTEM_CLOCK_200M_PLL_8M_HXTAL;
 static void system_clock_200m_8m_hxtal(void);
 #elif defined (__SYSTEM_CLOCK_200M_PLL_25M_HXTAL)
 uint32_t SystemCoreClock = __SYSTEM_CLOCK_200M_PLL_25M_HXTAL;
+#define PLL_M 24
+#define PLL_N 400
+#define PLL_P 2
+#define PLL_Q 9
 static void system_clock_200m_25m_hxtal(void);
 #elif defined (__SYSTEM_CLOCK_240M_PLL_IRC16M)
 uint32_t SystemCoreClock = __SYSTEM_CLOCK_240M_PLL_IRC16M;
@@ -869,8 +873,8 @@ static void system_clock_200m_25m_hxtal(void)
     RCU->CFG0 |= RCU_CFGR_PPRE1_DIV4;
 
     /* Configure the main PLL, PSC = 25, PLL_N = 400, PLL_P = 2, PLL_Q = 9 */ 
-    RCU->PLL = (25U | (400U << 6U) | (((2U >> 1U) - 1U) << 16U) |
-                   (RCU_PLLSource_HSE) | (9U << 24U));
+    RCU->PLL = (PLL_M | (PLL_N << 6U) | (((PLL_P >> 1U) - 1U) << 16U) |
+                   (RCU_PLLSource_HSE) | (PLL_Q << 24U));
 
     /* enable PLL */
     RCU->CTL |= RCU_CTL_PLLEN;

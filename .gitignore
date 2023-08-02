@@ -1,2 +1,2 @@
-/project/Objects/*
-/project/*.bin
+./project/Objects/*
+./project/*.bin

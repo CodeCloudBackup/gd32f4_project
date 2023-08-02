@@ -443,6 +443,21 @@
               <FileType>1</FileType>
               <FilePath>..\Library\Source\gd32f4xx_usart.c</FilePath>
             </File>
+            <File>
+              <FileName>gd32f4xx_i2c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Library\Source\gd32f4xx_i2c.c</FilePath>
+            </File>
+            <File>
+              <FileName>gd32f4xx_spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Library\Source\gd32f4xx_spi.c</FilePath>
+            </File>
+            <File>
+              <FileName>gd32f4xx_exti.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Library\Source\gd32f4xx_exti.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -507,6 +522,16 @@
               <FileName>usart.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Hardware\usart.c</FilePath>
+            </File>
+            <File>
+              <FileName>iic.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\iic.h</FilePath>
+            </File>
+            <File>
+              <FileName>iic.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\iic.c</FilePath>
             </File>
           </Files>
         </Group>
