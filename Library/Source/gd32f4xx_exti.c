@@ -64,7 +64,7 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f4xx_exti.h"
+#include "gd32f4xx_exti.h"
 
 /** @addtogroup STM32F4xx_StdPeriph_Driver
   * @{
@@ -260,7 +260,7 @@ void EXTI_ClearFlag(uint32_t EXTI_Line)
   *          This parameter can be EXTI_Linex where x can be(0..22)
   * @retval The new state of EXTI_Line (SET or RESET).
   */
-ITStatus EXTI_GetITStatus(uint32_t EXTI_Line)
+FlagStatus EXTI_GetITStatus(uint32_t EXTI_Line)
 {
   FlagStatus bitstatus = RESET;
   /* Check the parameters */

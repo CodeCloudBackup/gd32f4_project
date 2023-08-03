@@ -10,6 +10,9 @@
 .\output\misc.o: ..\User\gd32f4xx_libopt.h
 .\output\misc.o: ..\Library\Include\gd32f4xx_rcu.h
 .\output\misc.o: ..\CMSIS\gd32f4xx.h
+.\output\misc.o: ..\Library\Include\gd32f4xx_adc.h
+.\output\misc.o: ..\Library\Include\gd32f4xx_dac.h
+.\output\misc.o: ..\Library\Include\gd32f4xx_exti.h
 .\output\misc.o: ..\Library\Include\gd32f4xx_gpio.h
 .\output\misc.o: ..\Library\Include\gd32f4xx_i2c.h
 .\output\misc.o: ..\Library\Include\gd32f4xx_pmu.h

@@ -1,0 +1,15 @@
+..\obj\lt738_lib.o: ..\HARDWARE\LT738_Lib\LT738_Lib.c
+..\obj\lt738_lib.o: ..\HARDWARE\LT738_Lib\LT738_Lib.h
+..\obj\lt738_lib.o: ..\HARDWARE\LT738\LT738.h
+..\obj\lt738_lib.o: ..\HARDWARE\LT738\LT738.h
+..\obj\lt738_lib.o: ..\HARDWARE\IF_PORT\if_port.h
+..\obj\lt738_lib.o: ..\SYSTEM\sys\sys.h
+..\obj\lt738_lib.o: ..\SYSTEM\sys\gd32f4xx.h
+..\obj\lt738_lib.o: ..\SYSTEM\sys\core_cm4.h
+..\obj\lt738_lib.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\lt738_lib.o: ..\SYSTEM\sys\core_cmInstr.h
+..\obj\lt738_lib.o: ..\SYSTEM\sys\core_cmFunc.h
+..\obj\lt738_lib.o: ..\SYSTEM\sys\core_cm4_simd.h
+..\obj\lt738_lib.o: ..\SYSTEM\sys\system_gd32f4xx.h
+..\obj\lt738_lib.o: ..\SYSTEM\usart\usart.h
+..\obj\lt738_lib.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h

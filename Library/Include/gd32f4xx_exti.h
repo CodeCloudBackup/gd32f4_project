@@ -35,7 +35,7 @@
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f4xx.h"
+#include "gd32f4xx.h"
 
 /** @addtogroup STM32F4xx_StdPeriph_Driver
   * @{
@@ -163,7 +163,7 @@ void EXTI_GenerateSWInterrupt(uint32_t EXTI_Line);
 /* Interrupts and flags management functions **********************************/
 FlagStatus EXTI_GetFlagStatus(uint32_t EXTI_Line);
 void EXTI_ClearFlag(uint32_t EXTI_Line);
-ITStatus EXTI_GetITStatus(uint32_t EXTI_Line);
+FlagStatus EXTI_GetITStatus(uint32_t EXTI_Line);
 void EXTI_ClearITPendingBit(uint32_t EXTI_Line);
 
 #ifdef __cplusplus

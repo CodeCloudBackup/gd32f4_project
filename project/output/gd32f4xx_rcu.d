@@ -9,8 +9,11 @@
 .\output\gd32f4xx_rcu.o: ..\CMSIS\system_gd32f4xx.h
 .\output\gd32f4xx_rcu.o: ..\User\gd32f4xx_libopt.h
 .\output\gd32f4xx_rcu.o: ..\Library\Include\gd32f4xx_rcu.h
-.\output\gd32f4xx_rcu.o: ..\Library\Include\gd32f4xx_gpio.h
+.\output\gd32f4xx_rcu.o: ..\Library\Include\gd32f4xx_adc.h
 .\output\gd32f4xx_rcu.o: ..\CMSIS\gd32f4xx.h
+.\output\gd32f4xx_rcu.o: ..\Library\Include\gd32f4xx_dac.h
+.\output\gd32f4xx_rcu.o: ..\Library\Include\gd32f4xx_exti.h
+.\output\gd32f4xx_rcu.o: ..\Library\Include\gd32f4xx_gpio.h
 .\output\gd32f4xx_rcu.o: ..\Library\Include\gd32f4xx_i2c.h
 .\output\gd32f4xx_rcu.o: ..\Library\Include\gd32f4xx_pmu.h
 .\output\gd32f4xx_rcu.o: ..\Library\Include\gd32f4xx_spi.h

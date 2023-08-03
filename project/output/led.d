@@ -11,6 +11,9 @@
 .\output\led.o: ..\User\gd32f4xx_libopt.h
 .\output\led.o: ..\Library\Include\gd32f4xx_rcu.h
 .\output\led.o: ..\CMSIS\gd32f4xx.h
+.\output\led.o: ..\Library\Include\gd32f4xx_adc.h
+.\output\led.o: ..\Library\Include\gd32f4xx_dac.h
+.\output\led.o: ..\Library\Include\gd32f4xx_exti.h
 .\output\led.o: ..\Library\Include\gd32f4xx_gpio.h
 .\output\led.o: ..\Library\Include\gd32f4xx_i2c.h
 .\output\led.o: ..\Library\Include\gd32f4xx_pmu.h

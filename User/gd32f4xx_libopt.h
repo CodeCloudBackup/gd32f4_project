@@ -37,11 +37,11 @@ OF SUCH DAMAGE.
 
 #if defined (GD32F450) || defined (GD32F405) || defined (GD32F407) || defined (GD32F470) || defined (GD32F425) || defined (GD32F427)
     #include "gd32f4xx_rcu.h"
-//    #include "gd32f4xx_adc.h"
+    #include "gd32f4xx_adc.h"
 //    #include "gd32f4xx_can.h"
 //    #include "gd32f4xx_crc.h"
 //    #include "gd32f4xx_ctc.h"
-//    #include "gd32f4xx_dac.h"
+    #include "gd32f4xx_dac.h"
 //    #include "gd32f4xx_dbg.h"
 //    #include "gd32f4xx_dci.h"
 //    #include "gd32f4xx_dma.h"
@@ -60,7 +60,6 @@ OF SUCH DAMAGE.
 //    #include "gd32f4xx_trng.h"
     #include "gd32f4xx_usart.h"
 //    #include "gd32f4xx_wwdgt.h"
-//    #include "gd32f4xx_misc.h"
 #endif
 
 #if defined (GD32F450) || defined (GD32F470)

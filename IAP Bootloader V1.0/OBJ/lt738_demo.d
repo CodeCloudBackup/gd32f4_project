@@ -1,0 +1,17 @@
+..\obj\lt738_demo.o: ..\HARDWARE\LT738_Demo\LT738_Demo.c
+..\obj\lt738_demo.o: ..\SYSTEM\usart\usart.h
+..\obj\lt738_demo.o: ..\SYSTEM\sys\sys.h
+..\obj\lt738_demo.o: ..\SYSTEM\sys\gd32f4xx.h
+..\obj\lt738_demo.o: ..\SYSTEM\sys\core_cm4.h
+..\obj\lt738_demo.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\lt738_demo.o: ..\SYSTEM\sys\core_cmInstr.h
+..\obj\lt738_demo.o: ..\SYSTEM\sys\core_cmFunc.h
+..\obj\lt738_demo.o: ..\SYSTEM\sys\core_cm4_simd.h
+..\obj\lt738_demo.o: ..\SYSTEM\sys\system_gd32f4xx.h
+..\obj\lt738_demo.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\lt738_demo.o: ..\HARDWARE\LT738_Demo\LT738_Demo.h
+..\obj\lt738_demo.o: ..\SYSTEM\delay\delay.h
+..\obj\lt738_demo.o: ..\HARDWARE\LT738_Lib\LT738_Lib.h
+..\obj\lt738_demo.o: ..\HARDWARE\LT738\LT738.h
+..\obj\lt738_demo.o: ..\HARDWARE\LT738\LT738.h
+..\obj\lt738_demo.o: ..\HARDWARE\IF_PORT\if_port.h

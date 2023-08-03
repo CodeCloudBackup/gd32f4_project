@@ -11,6 +11,9 @@
 .\output\delay.o: ..\User\gd32f4xx_libopt.h
 .\output\delay.o: ..\Library\Include\gd32f4xx_rcu.h
 .\output\delay.o: ..\CMSIS\gd32f4xx.h
+.\output\delay.o: ..\Library\Include\gd32f4xx_adc.h
+.\output\delay.o: ..\Library\Include\gd32f4xx_dac.h
+.\output\delay.o: ..\Library\Include\gd32f4xx_exti.h
 .\output\delay.o: ..\Library\Include\gd32f4xx_gpio.h
 .\output\delay.o: ..\Library\Include\gd32f4xx_i2c.h
 .\output\delay.o: ..\Library\Include\gd32f4xx_pmu.h

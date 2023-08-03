@@ -14,6 +14,9 @@
 .\output\usart.o: ..\User\gd32f4xx_libopt.h
 .\output\usart.o: ..\Library\Include\gd32f4xx_rcu.h
 .\output\usart.o: ..\CMSIS\gd32f4xx.h
+.\output\usart.o: ..\Library\Include\gd32f4xx_adc.h
+.\output\usart.o: ..\Library\Include\gd32f4xx_dac.h
+.\output\usart.o: ..\Library\Include\gd32f4xx_exti.h
 .\output\usart.o: ..\Library\Include\gd32f4xx_gpio.h
 .\output\usart.o: ..\Library\Include\gd32f4xx_i2c.h
 .\output\usart.o: ..\Library\Include\gd32f4xx_pmu.h

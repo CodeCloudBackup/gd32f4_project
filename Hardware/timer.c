@@ -1,9 +1,7 @@
 #include "timer.h"
-
+#include "led.h"
 static u32 g_timCnt = 0;
 u8 g_timFlag = 0;
-
-extern void LED_Tim_1000ms(void);
 
 void TIM_1msProgram(void)
 {
@@ -22,7 +20,7 @@ void TIM_100msProgram(void)
 
 void TIM_1000msProgram(void)
 {
-	LED_Tim_1000ms();
+	LED_R=!LED_R;
 }
 //定时器3中断服务程序	 
 void TIM1_IRQHandler(void)

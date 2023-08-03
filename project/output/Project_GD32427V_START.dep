@@ -8,10 +8,13 @@ I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
 I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
 I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
 I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64CA1C82)
+I (..\User\gd32f4xx_libopt.h)(0x64CB58A8)
 I (..\Library\Include\gd32f4xx_rcu.h)(0x64C874BB)
+I (..\Library\Include\gd32f4xx_adc.h)(0x64CB58B5)
+I (..\Library\Include\gd32f4xx_dac.h)(0x64CB58BC)
+I (..\Library\Include\gd32f4xx_exti.h)(0x64CB0350)
 I (..\Library\Include\gd32f4xx_gpio.h)(0x64CA1E1A)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA1856)
+I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA21F8)
 I (..\Library\Include\gd32f4xx_pmu.h)(0x64C85E8B)
 I (..\Library\Include\gd32f4xx_spi.h)(0x64CA1B42)
 I (..\Library\Include\gd32f4xx_tim.h)(0x64C878CB)
@@ -27,9 +30,12 @@ I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
 I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
 I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
 I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64CA1C82)
+I (..\User\gd32f4xx_libopt.h)(0x64CB58A8)
+I (..\Library\Include\gd32f4xx_adc.h)(0x64CB58B5)
+I (..\Library\Include\gd32f4xx_dac.h)(0x64CB58BC)
+I (..\Library\Include\gd32f4xx_exti.h)(0x64CB0350)
 I (..\Library\Include\gd32f4xx_gpio.h)(0x64CA1E1A)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA1856)
+I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA21F8)
 I (..\Library\Include\gd32f4xx_pmu.h)(0x64C85E8B)
 I (..\Library\Include\gd32f4xx_spi.h)(0x64CA1B42)
 I (..\Library\Include\gd32f4xx_tim.h)(0x64C878CB)
@@ -43,9 +49,12 @@ I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
 I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
 I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
 I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64CA1C82)
+I (..\User\gd32f4xx_libopt.h)(0x64CB58A8)
 I (..\Library\Include\gd32f4xx_rcu.h)(0x64C874BB)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA1856)
+I (..\Library\Include\gd32f4xx_adc.h)(0x64CB58B5)
+I (..\Library\Include\gd32f4xx_dac.h)(0x64CB58BC)
+I (..\Library\Include\gd32f4xx_exti.h)(0x64CB0350)
+I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA21F8)
 I (..\Library\Include\gd32f4xx_pmu.h)(0x64C85E8B)
 I (..\Library\Include\gd32f4xx_spi.h)(0x64CA1B42)
 I (..\Library\Include\gd32f4xx_tim.h)(0x64C878CB)
@@ -59,10 +68,13 @@ I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
 I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
 I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
 I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64CA1C82)
+I (..\User\gd32f4xx_libopt.h)(0x64CB58A8)
 I (..\Library\Include\gd32f4xx_rcu.h)(0x64C874BB)
+I (..\Library\Include\gd32f4xx_adc.h)(0x64CB58B5)
+I (..\Library\Include\gd32f4xx_dac.h)(0x64CB58BC)
+I (..\Library\Include\gd32f4xx_exti.h)(0x64CB0350)
 I (..\Library\Include\gd32f4xx_gpio.h)(0x64CA1E1A)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA1856)
+I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA21F8)
 I (..\Library\Include\gd32f4xx_spi.h)(0x64CA1B42)
 I (..\Library\Include\gd32f4xx_tim.h)(0x64C878CB)
 I (..\Library\Include\gd32f4xx_usart.h)(0x64C8BC5F)
@@ -75,10 +87,13 @@ I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
 I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
 I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
 I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64CA1C82)
+I (..\User\gd32f4xx_libopt.h)(0x64CB58A8)
 I (..\Library\Include\gd32f4xx_rcu.h)(0x64C874BB)
+I (..\Library\Include\gd32f4xx_adc.h)(0x64CB58B5)
+I (..\Library\Include\gd32f4xx_dac.h)(0x64CB58BC)
+I (..\Library\Include\gd32f4xx_exti.h)(0x64CB0350)
 I (..\Library\Include\gd32f4xx_gpio.h)(0x64CA1E1A)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA1856)
+I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA21F8)
 I (..\Library\Include\gd32f4xx_pmu.h)(0x64C85E8B)
 I (..\Library\Include\gd32f4xx_spi.h)(0x64CA1B42)
 I (..\Library\Include\gd32f4xx_usart.h)(0x64C8BC5F)
@@ -91,10 +106,13 @@ I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
 I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
 I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
 I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64CA1C82)
+I (..\User\gd32f4xx_libopt.h)(0x64CB58A8)
 I (..\Library\Include\gd32f4xx_rcu.h)(0x64C874BB)
+I (..\Library\Include\gd32f4xx_adc.h)(0x64CB58B5)
+I (..\Library\Include\gd32f4xx_dac.h)(0x64CB58BC)
+I (..\Library\Include\gd32f4xx_exti.h)(0x64CB0350)
 I (..\Library\Include\gd32f4xx_gpio.h)(0x64CA1E1A)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA1856)
+I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA21F8)
 I (..\Library\Include\gd32f4xx_pmu.h)(0x64C85E8B)
 I (..\Library\Include\gd32f4xx_spi.h)(0x64CA1B42)
 I (..\Library\Include\gd32f4xx_tim.h)(0x64C878CB)
@@ -108,15 +126,18 @@ I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
 I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
 I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
 I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64CA1C82)
+I (..\User\gd32f4xx_libopt.h)(0x64CB58A8)
 I (..\Library\Include\gd32f4xx_rcu.h)(0x64C874BB)
+I (..\Library\Include\gd32f4xx_adc.h)(0x64CB58B5)
+I (..\Library\Include\gd32f4xx_dac.h)(0x64CB58BC)
+I (..\Library\Include\gd32f4xx_exti.h)(0x64CB0350)
 I (..\Library\Include\gd32f4xx_gpio.h)(0x64CA1E1A)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA1856)
+I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA21F8)
 I (..\Library\Include\gd32f4xx_pmu.h)(0x64C85E8B)
 I (..\Library\Include\gd32f4xx_spi.h)(0x64CA1B42)
 I (..\Library\Include\gd32f4xx_tim.h)(0x64C878CB)
 F (..\Library\Source\gd32f4xx_i2c.c)(0x64CA189C)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Hardware -I ..\Library\Include -I ..\User-ID:\Keil_v5\Packs\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F427 -DGD32F427-o .\output\gd32f4xx_i2c.o --omf_browse .\output\gd32f4xx_i2c.crf --depend .\output\gd32f4xx_i2c.d)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA1856)
+I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA21F8)
 I (..\CMSIS\gd32f4xx.h)(0x64CA1E2F)
 I (..\CMSIS\core_cm4.h)(0x649CFA2E)
 I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
@@ -124,8 +145,11 @@ I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
 I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
 I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
 I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64CA1C82)
+I (..\User\gd32f4xx_libopt.h)(0x64CB58A8)
 I (..\Library\Include\gd32f4xx_rcu.h)(0x64C874BB)
+I (..\Library\Include\gd32f4xx_adc.h)(0x64CB58B5)
+I (..\Library\Include\gd32f4xx_dac.h)(0x64CB58BC)
+I (..\Library\Include\gd32f4xx_exti.h)(0x64CB0350)
 I (..\Library\Include\gd32f4xx_gpio.h)(0x64CA1E1A)
 I (..\Library\Include\gd32f4xx_pmu.h)(0x64C85E8B)
 I (..\Library\Include\gd32f4xx_spi.h)(0x64CA1B42)
@@ -140,11 +164,71 @@ I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
 I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
 I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
 I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64CA1C82)
+I (..\User\gd32f4xx_libopt.h)(0x64CB58A8)
 I (..\Library\Include\gd32f4xx_rcu.h)(0x64C874BB)
+I (..\Library\Include\gd32f4xx_adc.h)(0x64CB58B5)
+I (..\Library\Include\gd32f4xx_dac.h)(0x64CB58BC)
+I (..\Library\Include\gd32f4xx_exti.h)(0x64CB0350)
 I (..\Library\Include\gd32f4xx_gpio.h)(0x64CA1E1A)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA1856)
+I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA21F8)
 I (..\Library\Include\gd32f4xx_pmu.h)(0x64C85E8B)
+I (..\Library\Include\gd32f4xx_tim.h)(0x64C878CB)
+I (..\Library\Include\gd32f4xx_usart.h)(0x64C8BC5F)
+F (..\Library\Source\gd32f4xx_exti.c)(0x64CB035D)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Hardware -I ..\Library\Include -I ..\User-ID:\Keil_v5\Packs\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F427 -DGD32F427-o .\output\gd32f4xx_exti.o --omf_browse .\output\gd32f4xx_exti.crf --depend .\output\gd32f4xx_exti.d)
+I (..\Library\Include\gd32f4xx_exti.h)(0x64CB0350)
+I (..\CMSIS\gd32f4xx.h)(0x64CA1E2F)
+I (..\CMSIS\core_cm4.h)(0x649CFA2E)
+I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
+I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
+I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
+I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
+I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
+I (..\User\gd32f4xx_libopt.h)(0x64CB58A8)
+I (..\Library\Include\gd32f4xx_rcu.h)(0x64C874BB)
+I (..\Library\Include\gd32f4xx_adc.h)(0x64CB58B5)
+I (..\Library\Include\gd32f4xx_dac.h)(0x64CB58BC)
+I (..\Library\Include\gd32f4xx_gpio.h)(0x64CA1E1A)
+I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA21F8)
+I (..\Library\Include\gd32f4xx_pmu.h)(0x64C85E8B)
+I (..\Library\Include\gd32f4xx_spi.h)(0x64CA1B42)
+I (..\Library\Include\gd32f4xx_tim.h)(0x64C878CB)
+I (..\Library\Include\gd32f4xx_usart.h)(0x64C8BC5F)
+F (..\Library\Source\gd32f4xx_adc.c)(0x64CB58E3)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Hardware -I ..\Library\Include -I ..\User-ID:\Keil_v5\Packs\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F427 -DGD32F427-o .\output\gd32f4xx_adc.o --omf_browse .\output\gd32f4xx_adc.crf --depend .\output\gd32f4xx_adc.d)
+I (..\Library\Include\gd32f4xx_adc.h)(0x64CB58B5)
+I (..\CMSIS\gd32f4xx.h)(0x64CA1E2F)
+I (..\CMSIS\core_cm4.h)(0x649CFA2E)
+I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
+I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
+I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
+I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
+I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
+I (..\User\gd32f4xx_libopt.h)(0x64CB58A8)
+I (..\Library\Include\gd32f4xx_rcu.h)(0x64C874BB)
+I (..\Library\Include\gd32f4xx_dac.h)(0x64CB58BC)
+I (..\Library\Include\gd32f4xx_exti.h)(0x64CB0350)
+I (..\Library\Include\gd32f4xx_gpio.h)(0x64CA1E1A)
+I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA21F8)
+I (..\Library\Include\gd32f4xx_pmu.h)(0x64C85E8B)
+I (..\Library\Include\gd32f4xx_spi.h)(0x64CA1B42)
+I (..\Library\Include\gd32f4xx_tim.h)(0x64C878CB)
+I (..\Library\Include\gd32f4xx_usart.h)(0x64C8BC5F)
+F (..\Library\Source\gd32f4xx_dac.c)(0x64CB58D2)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Hardware -I ..\Library\Include -I ..\User-ID:\Keil_v5\Packs\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F427 -DGD32F427-o .\output\gd32f4xx_dac.o --omf_browse .\output\gd32f4xx_dac.crf --depend .\output\gd32f4xx_dac.d)
+I (..\Library\Include\gd32f4xx_dac.h)(0x64CB58BC)
+I (..\CMSIS\gd32f4xx.h)(0x64CA1E2F)
+I (..\CMSIS\core_cm4.h)(0x649CFA2E)
+I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
+I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
+I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
+I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
+I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
+I (..\User\gd32f4xx_libopt.h)(0x64CB58A8)
+I (..\Library\Include\gd32f4xx_rcu.h)(0x64C874BB)
+I (..\Library\Include\gd32f4xx_adc.h)(0x64CB58B5)
+I (..\Library\Include\gd32f4xx_exti.h)(0x64CB0350)
+I (..\Library\Include\gd32f4xx_gpio.h)(0x64CA1E1A)
+I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA21F8)
+I (..\Library\Include\gd32f4xx_pmu.h)(0x64C85E8B)
+I (..\Library\Include\gd32f4xx_spi.h)(0x64CA1B42)
 I (..\Library\Include\gd32f4xx_tim.h)(0x64C878CB)
 I (..\Library\Include\gd32f4xx_usart.h)(0x64C8BC5F)
 F (..\User\gd32f4xx_it.c)(0x64C85E8B)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Hardware -I ..\Library\Include -I ..\User-ID:\Keil_v5\Packs\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F427 -DGD32F427-o .\output\gd32f4xx_it.o --omf_browse .\output\gd32f4xx_it.crf --depend .\output\gd32f4xx_it.d)
@@ -156,10 +240,13 @@ I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
 I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
 I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
 I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64CA1C82)
+I (..\User\gd32f4xx_libopt.h)(0x64CB58A8)
 I (..\Library\Include\gd32f4xx_rcu.h)(0x64C874BB)
+I (..\Library\Include\gd32f4xx_adc.h)(0x64CB58B5)
+I (..\Library\Include\gd32f4xx_dac.h)(0x64CB58BC)
+I (..\Library\Include\gd32f4xx_exti.h)(0x64CB0350)
 I (..\Library\Include\gd32f4xx_gpio.h)(0x64CA1E1A)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA1856)
+I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA21F8)
 I (..\Library\Include\gd32f4xx_pmu.h)(0x64C85E8B)
 I (..\Library\Include\gd32f4xx_spi.h)(0x64CA1B42)
 I (..\Library\Include\gd32f4xx_tim.h)(0x64C878CB)
@@ -173,10 +260,13 @@ I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
 I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
 I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
 I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64CA1C82)
+I (..\User\gd32f4xx_libopt.h)(0x64CB58A8)
 I (..\Library\Include\gd32f4xx_rcu.h)(0x64C874BB)
+I (..\Library\Include\gd32f4xx_adc.h)(0x64CB58B5)
+I (..\Library\Include\gd32f4xx_dac.h)(0x64CB58BC)
+I (..\Library\Include\gd32f4xx_exti.h)(0x64CB0350)
 I (..\Library\Include\gd32f4xx_gpio.h)(0x64CA1E1A)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA1856)
+I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA21F8)
 I (..\Library\Include\gd32f4xx_pmu.h)(0x64C85E8B)
 I (..\Library\Include\gd32f4xx_spi.h)(0x64CA1B42)
 I (..\Library\Include\gd32f4xx_tim.h)(0x64C878CB)
@@ -199,10 +289,13 @@ I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
 I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
 I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
 I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64CA1C82)
+I (..\User\gd32f4xx_libopt.h)(0x64CB58A8)
 I (..\Library\Include\gd32f4xx_rcu.h)(0x64C874BB)
+I (..\Library\Include\gd32f4xx_adc.h)(0x64CB58B5)
+I (..\Library\Include\gd32f4xx_dac.h)(0x64CB58BC)
+I (..\Library\Include\gd32f4xx_exti.h)(0x64CB0350)
 I (..\Library\Include\gd32f4xx_gpio.h)(0x64CA1E1A)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA1856)
+I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA21F8)
 I (..\Library\Include\gd32f4xx_pmu.h)(0x64C85E8B)
 I (..\Library\Include\gd32f4xx_spi.h)(0x64CA1B42)
 I (..\Library\Include\gd32f4xx_tim.h)(0x64C878CB)
@@ -218,17 +311,20 @@ I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
 I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
 I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
 I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64CA1C82)
+I (..\User\gd32f4xx_libopt.h)(0x64CB58A8)
 I (..\Library\Include\gd32f4xx_rcu.h)(0x64C874BB)
+I (..\Library\Include\gd32f4xx_adc.h)(0x64CB58B5)
+I (..\Library\Include\gd32f4xx_dac.h)(0x64CB58BC)
+I (..\Library\Include\gd32f4xx_exti.h)(0x64CB0350)
 I (..\Library\Include\gd32f4xx_gpio.h)(0x64CA1E1A)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA1856)
+I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA21F8)
 I (..\Library\Include\gd32f4xx_pmu.h)(0x64C85E8B)
 I (..\Library\Include\gd32f4xx_spi.h)(0x64CA1B42)
 I (..\Library\Include\gd32f4xx_tim.h)(0x64C878CB)
 I (..\Library\Include\gd32f4xx_usart.h)(0x64C8BC5F)
 I (..\Library\Include\misc.h)(0x64C87F8E)
 F (..\Hardware\led.h)(0x64C85E8B)()
-F (..\Hardware\led.c)(0x64C8C6D5)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Hardware -I ..\Library\Include -I ..\User-ID:\Keil_v5\Packs\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F427 -DGD32F427-o .\output\led.o --omf_browse .\output\led.crf --depend .\output\led.d)
+F (..\Hardware\led.c)(0x64CB0320)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Hardware -I ..\Library\Include -I ..\User-ID:\Keil_v5\Packs\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F427 -DGD32F427-o .\output\led.o --omf_browse .\output\led.crf --depend .\output\led.d)
 I (..\Hardware\led.h)(0x64C85E8B)
 I (..\User\systick.h)(0x64C85E8B)
 I (..\CMSIS\gd32f4xx.h)(0x64CA1E2F)
@@ -238,16 +334,19 @@ I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
 I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
 I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
 I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64CA1C82)
+I (..\User\gd32f4xx_libopt.h)(0x64CB58A8)
 I (..\Library\Include\gd32f4xx_rcu.h)(0x64C874BB)
+I (..\Library\Include\gd32f4xx_adc.h)(0x64CB58B5)
+I (..\Library\Include\gd32f4xx_dac.h)(0x64CB58BC)
+I (..\Library\Include\gd32f4xx_exti.h)(0x64CB0350)
 I (..\Library\Include\gd32f4xx_gpio.h)(0x64CA1E1A)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA1856)
+I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA21F8)
 I (..\Library\Include\gd32f4xx_pmu.h)(0x64C85E8B)
 I (..\Library\Include\gd32f4xx_spi.h)(0x64CA1B42)
 I (..\Library\Include\gd32f4xx_tim.h)(0x64C878CB)
 I (..\Library\Include\gd32f4xx_usart.h)(0x64C8BC5F)
 F (..\Hardware\timer.h)(0x64C87EE3)()
-F (..\Hardware\timer.c)(0x64C8C81B)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Hardware -I ..\Library\Include -I ..\User-ID:\Keil_v5\Packs\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F427 -DGD32F427-o .\output\timer.o --omf_browse .\output\timer.crf --depend .\output\timer.d)
+F (..\Hardware\timer.c)(0x64CB0309)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Hardware -I ..\Library\Include -I ..\User-ID:\Keil_v5\Packs\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F427 -DGD32F427-o .\output\timer.o --omf_browse .\output\timer.crf --depend .\output\timer.d)
 I (..\Hardware\timer.h)(0x64C87EE3)
 I (..\Library\Include\gd32f4xx_tim.h)(0x64C878CB)
 I (..\CMSIS\gd32f4xx.h)(0x64CA1E2F)
@@ -257,14 +356,19 @@ I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
 I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
 I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
 I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64CA1C82)
+I (..\User\gd32f4xx_libopt.h)(0x64CB58A8)
 I (..\Library\Include\gd32f4xx_rcu.h)(0x64C874BB)
+I (..\Library\Include\gd32f4xx_adc.h)(0x64CB58B5)
+I (..\Library\Include\gd32f4xx_dac.h)(0x64CB58BC)
+I (..\Library\Include\gd32f4xx_exti.h)(0x64CB0350)
 I (..\Library\Include\gd32f4xx_gpio.h)(0x64CA1E1A)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA1856)
+I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA21F8)
 I (..\Library\Include\gd32f4xx_pmu.h)(0x64C85E8B)
 I (..\Library\Include\gd32f4xx_spi.h)(0x64CA1B42)
 I (..\Library\Include\gd32f4xx_usart.h)(0x64C8BC5F)
 I (..\Library\Include\misc.h)(0x64C87F8E)
+I (..\Hardware\led.h)(0x64C85E8B)
+I (..\User\systick.h)(0x64C85E8B)
 F (..\Hardware\usart.h)(0x64C8C7F2)()
 F (..\Hardware\usart.c)(0x64C8C812)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Hardware -I ..\Library\Include -I ..\User-ID:\Keil_v5\Packs\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F427 -DGD32F427-o .\output\usart.o --omf_browse .\output\usart.crf --depend .\output\usart.d)
 I (..\Hardware\usart.h)(0x64C8C7F2)
@@ -279,18 +383,21 @@ I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
 I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
 I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
 I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64CA1C82)
+I (..\User\gd32f4xx_libopt.h)(0x64CB58A8)
 I (..\Library\Include\gd32f4xx_rcu.h)(0x64C874BB)
+I (..\Library\Include\gd32f4xx_adc.h)(0x64CB58B5)
+I (..\Library\Include\gd32f4xx_dac.h)(0x64CB58BC)
+I (..\Library\Include\gd32f4xx_exti.h)(0x64CB0350)
 I (..\Library\Include\gd32f4xx_gpio.h)(0x64CA1E1A)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA1856)
+I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA21F8)
 I (..\Library\Include\gd32f4xx_pmu.h)(0x64C85E8B)
 I (..\Library\Include\gd32f4xx_spi.h)(0x64CA1B42)
 I (..\Library\Include\gd32f4xx_tim.h)(0x64C878CB)
 I (..\Library\Include\gd32f4xx_usart.h)(0x64C8BC5F)
 F (..\Hardware\iic.h)(0x64CA1D2B)()
-F (..\Hardware\iic.c)(0x64CA1F5E)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Hardware -I ..\Library\Include -I ..\User-ID:\Keil_v5\Packs\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F427 -DGD32F427-o .\output\iic.o --omf_browse .\output\iic.crf --depend .\output\iic.d)
+F (..\Hardware\iic.c)(0x64CB0366)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Hardware -I ..\Library\Include -I ..\User-ID:\Keil_v5\Packs\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F427 -DGD32F427-o .\output\iic.o --omf_browse .\output\iic.crf --depend .\output\iic.d)
 I (..\Hardware\iic.h)(0x64CA1D2B)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA1856)
+I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA21F8)
 I (..\CMSIS\gd32f4xx.h)(0x64CA1E2F)
 I (..\CMSIS\core_cm4.h)(0x649CFA2E)
 I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
@@ -298,8 +405,11 @@ I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
 I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
 I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
 I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64CA1C82)
+I (..\User\gd32f4xx_libopt.h)(0x64CB58A8)
 I (..\Library\Include\gd32f4xx_rcu.h)(0x64C874BB)
+I (..\Library\Include\gd32f4xx_adc.h)(0x64CB58B5)
+I (..\Library\Include\gd32f4xx_dac.h)(0x64CB58BC)
+I (..\Library\Include\gd32f4xx_exti.h)(0x64CB0350)
 I (..\Library\Include\gd32f4xx_gpio.h)(0x64CA1E1A)
 I (..\Library\Include\gd32f4xx_pmu.h)(0x64C85E8B)
 I (..\Library\Include\gd32f4xx_spi.h)(0x64CA1B42)
@@ -307,4 +417,110 @@ I (..\Library\Include\gd32f4xx_tim.h)(0x64C878CB)
 I (..\Library\Include\gd32f4xx_usart.h)(0x64C8BC5F)
 I (..\User\delay.h)(0x64C8BA27)
 I (..\User\systick.h)(0x64C85E8B)
+I (..\Library\Include\misc.h)(0x64C87F8E)
+F (..\Hardware\spi.h)(0x64CB04B8)()
+F (..\Hardware\spi.c)(0x64CB0A5D)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Hardware -I ..\Library\Include -I ..\User-ID:\Keil_v5\Packs\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F427 -DGD32F427-o .\output\spi.o --omf_browse .\output\spi.crf --depend .\output\spi.d)
+I (..\Hardware\spi.h)(0x64CB04B8)
+I (..\CMSIS\gd32f4xx.h)(0x64CA1E2F)
+I (..\CMSIS\core_cm4.h)(0x649CFA2E)
+I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
+I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
+I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
+I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
+I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
+I (..\User\gd32f4xx_libopt.h)(0x64CB58A8)
+I (..\Library\Include\gd32f4xx_rcu.h)(0x64C874BB)
+I (..\Library\Include\gd32f4xx_adc.h)(0x64CB58B5)
+I (..\Library\Include\gd32f4xx_dac.h)(0x64CB58BC)
+I (..\Library\Include\gd32f4xx_exti.h)(0x64CB0350)
+I (..\Library\Include\gd32f4xx_gpio.h)(0x64CA1E1A)
+I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA21F8)
+I (..\Library\Include\gd32f4xx_pmu.h)(0x64C85E8B)
+I (..\Library\Include\gd32f4xx_spi.h)(0x64CA1B42)
+I (..\Library\Include\gd32f4xx_tim.h)(0x64C878CB)
+I (..\Library\Include\gd32f4xx_usart.h)(0x64C8BC5F)
+I (..\User\delay.h)(0x64C8BA27)
+I (..\User\systick.h)(0x64C85E8B)
+I (..\Library\Include\misc.h)(0x64C87F8E)
+F (..\Hardware\w25qxx.h)(0x64CB0A74)()
+F (..\Hardware\w25qxx.c)(0x64CB0A56)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Hardware -I ..\Library\Include -I ..\User-ID:\Keil_v5\Packs\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F427 -DGD32F427-o .\output\w25qxx.o --omf_browse .\output\w25qxx.crf --depend .\output\w25qxx.d)
+I (..\Hardware\w25qxx.h)(0x64CB0A74)
+I (..\User\systick.h)(0x64C85E8B)
+I (..\CMSIS\gd32f4xx.h)(0x64CA1E2F)
+I (..\CMSIS\core_cm4.h)(0x649CFA2E)
+I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
+I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
+I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
+I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
+I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
+I (..\User\gd32f4xx_libopt.h)(0x64CB58A8)
+I (..\Library\Include\gd32f4xx_rcu.h)(0x64C874BB)
+I (..\Library\Include\gd32f4xx_adc.h)(0x64CB58B5)
+I (..\Library\Include\gd32f4xx_dac.h)(0x64CB58BC)
+I (..\Library\Include\gd32f4xx_exti.h)(0x64CB0350)
+I (..\Library\Include\gd32f4xx_gpio.h)(0x64CA1E1A)
+I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA21F8)
+I (..\Library\Include\gd32f4xx_pmu.h)(0x64C85E8B)
+I (..\Library\Include\gd32f4xx_spi.h)(0x64CA1B42)
+I (..\Library\Include\gd32f4xx_tim.h)(0x64C878CB)
+I (..\Library\Include\gd32f4xx_usart.h)(0x64C8BC5F)
+I (..\Hardware\spi.h)(0x64CB04B8)
+I (..\User\delay.h)(0x64C8BA27)
+I (..\Library\Include\misc.h)(0x64C87F8E)
+I (..\Hardware\usart.h)(0x64C8C7F2)
+I (D:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E8E2EB2)
+I (D:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E8E2EB2)
+I (D:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x5E8E2EB2)
+F (..\Hardware\mpu6050.h)(0x64CB0E93)()
+F (..\Hardware\mpu6050.c)(0x64CB0EB4)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Hardware -I ..\Library\Include -I ..\User-ID:\Keil_v5\Packs\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F427 -DGD32F427-o .\output\mpu6050.o --omf_browse .\output\mpu6050.crf --depend .\output\mpu6050.d)
+I (..\Hardware\mpu6050.h)(0x64CB0E93)
+I (..\Hardware\myiic.h)(0x64CB0E4D)
+I (..\User\systick.h)(0x64C85E8B)
+I (..\CMSIS\gd32f4xx.h)(0x64CA1E2F)
+I (..\CMSIS\core_cm4.h)(0x649CFA2E)
+I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
+I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
+I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
+I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
+I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
+I (..\User\gd32f4xx_libopt.h)(0x64CB58A8)
+I (..\Library\Include\gd32f4xx_rcu.h)(0x64C874BB)
+I (..\Library\Include\gd32f4xx_adc.h)(0x64CB58B5)
+I (..\Library\Include\gd32f4xx_dac.h)(0x64CB58BC)
+I (..\Library\Include\gd32f4xx_exti.h)(0x64CB0350)
+I (..\Library\Include\gd32f4xx_gpio.h)(0x64CA1E1A)
+I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA21F8)
+I (..\Library\Include\gd32f4xx_pmu.h)(0x64C85E8B)
+I (..\Library\Include\gd32f4xx_spi.h)(0x64CA1B42)
+I (..\Library\Include\gd32f4xx_tim.h)(0x64C878CB)
+I (..\Library\Include\gd32f4xx_usart.h)(0x64C8BC5F)
+I (..\User\delay.h)(0x64C8BA27)
+I (..\Library\Include\misc.h)(0x64C87F8E)
+I (..\Hardware\usart.h)(0x64C8C7F2)
+I (D:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E8E2EB2)
+I (D:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E8E2EB2)
+I (D:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x5E8E2EB2)
+F (..\Hardware\myiic.h)(0x64CB0E4D)()
+F (..\Hardware\myiic.c)(0x64CB0E68)(--c99 -c --cpu Cortex-M4.fp.sp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Hardware -I ..\Library\Include -I ..\User-ID:\Keil_v5\Packs\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F427 -DGD32F427-o .\output\myiic.o --omf_browse .\output\myiic.crf --depend .\output\myiic.d)
+I (..\Hardware\myiic.h)(0x64CB0E4D)
+I (..\User\systick.h)(0x64C85E8B)
+I (..\CMSIS\gd32f4xx.h)(0x64CA1E2F)
+I (..\CMSIS\core_cm4.h)(0x649CFA2E)
+I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
+I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
+I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
+I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
+I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
+I (..\User\gd32f4xx_libopt.h)(0x64CB58A8)
+I (..\Library\Include\gd32f4xx_rcu.h)(0x64C874BB)
+I (..\Library\Include\gd32f4xx_adc.h)(0x64CB58B5)
+I (..\Library\Include\gd32f4xx_dac.h)(0x64CB58BC)
+I (..\Library\Include\gd32f4xx_exti.h)(0x64CB0350)
+I (..\Library\Include\gd32f4xx_gpio.h)(0x64CA1E1A)
+I (..\Library\Include\gd32f4xx_i2c.h)(0x64CA21F8)
+I (..\Library\Include\gd32f4xx_pmu.h)(0x64C85E8B)
+I (..\Library\Include\gd32f4xx_spi.h)(0x64CA1B42)
+I (..\Library\Include\gd32f4xx_tim.h)(0x64C878CB)
+I (..\Library\Include\gd32f4xx_usart.h)(0x64C8BC5F)
+I (..\User\delay.h)(0x64C8BA27)
 I (..\Library\Include\misc.h)(0x64C87F8E)

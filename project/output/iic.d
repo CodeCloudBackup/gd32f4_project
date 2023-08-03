@@ -11,6 +11,9 @@
 .\output\iic.o: ..\User\gd32f4xx_libopt.h
 .\output\iic.o: ..\Library\Include\gd32f4xx_rcu.h
 .\output\iic.o: ..\CMSIS\gd32f4xx.h
+.\output\iic.o: ..\Library\Include\gd32f4xx_adc.h
+.\output\iic.o: ..\Library\Include\gd32f4xx_dac.h
+.\output\iic.o: ..\Library\Include\gd32f4xx_exti.h
 .\output\iic.o: ..\Library\Include\gd32f4xx_gpio.h
 .\output\iic.o: ..\Library\Include\gd32f4xx_i2c.h
 .\output\iic.o: ..\Library\Include\gd32f4xx_pmu.h
