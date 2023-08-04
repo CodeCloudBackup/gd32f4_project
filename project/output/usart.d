@@ -3,7 +3,7 @@
 .\output\usart.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\output\usart.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\output\usart.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
-.\output\usart.o: ..\Library\Include\misc.h
+.\output\usart.o: ..\User\systick.h
 .\output\usart.o: ..\CMSIS\gd32f4xx.h
 .\output\usart.o: ..\CMSIS\core_cm4.h
 .\output\usart.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -12,10 +12,13 @@
 .\output\usart.o: ..\CMSIS\core_cm4_simd.h
 .\output\usart.o: ..\CMSIS\system_gd32f4xx.h
 .\output\usart.o: ..\User\gd32f4xx_libopt.h
-.\output\usart.o: ..\Library\Include\gd32f4xx_rcu.h
+.\output\usart.o: ..\Library\Include\misc.h
 .\output\usart.o: ..\CMSIS\gd32f4xx.h
+.\output\usart.o: ..\Library\Include\gd32f4xx_rcu.h
 .\output\usart.o: ..\Library\Include\gd32f4xx_adc.h
 .\output\usart.o: ..\Library\Include\gd32f4xx_dac.h
+.\output\usart.o: ..\Library\Include\gd32f4xx_dcmi.h
+.\output\usart.o: ..\Library\Include\gd32f4xx_dma.h
 .\output\usart.o: ..\Library\Include\gd32f4xx_exti.h
 .\output\usart.o: ..\Library\Include\gd32f4xx_gpio.h
 .\output\usart.o: ..\Library\Include\gd32f4xx_i2c.h

@@ -40,6 +40,8 @@ OF SUCH DAMAGE.
 #include "timer.h"
 #include "delay.h"
 #include "usart.h"
+#include "malloc.h"
+#include "dac.h"
 
 /*!
     \brief      main function
@@ -57,7 +59,9 @@ int main(void)
 		TIM1_Init(99,999); //定时器时钟100M，分频系数1000，所以100M/1000=100Khz的计数频率，计数100次为1ms  
 		usart1_init(115200);
 		usart2_init(115200);
+		DAC1_Init();
     while(1) {
        usart2_test();
+				DAC1_Init();
     }
 }

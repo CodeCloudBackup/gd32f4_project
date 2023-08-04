@@ -12,6 +12,8 @@
 ".\output\gd32f4xx_exti.o"
 ".\output\gd32f4xx_adc.o"
 ".\output\gd32f4xx_dac.o"
+".\output\gd32f4xx_dcmi.o"
+".\output\gd32f4xx_dma.o"
 ".\output\gd32f4xx_it.o"
 ".\output\main.o"
 ".\output\systick.o"
@@ -24,6 +26,12 @@
 ".\output\w25qxx.o"
 ".\output\mpu6050.o"
 ".\output\myiic.o"
+".\output\dac.o"
+".\output\wavplay.o"
+".\output\ov2640.o"
+".\output\sccb.o"
+".\output\dcmi.o"
+".\output\malloc.o"
 --library_type=microlib --strict --scatter ".\output\Project.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

@@ -8,10 +8,13 @@
 .\output\systick.o: ..\CMSIS\core_cm4_simd.h
 .\output\systick.o: ..\CMSIS\system_gd32f4xx.h
 .\output\systick.o: ..\User\gd32f4xx_libopt.h
-.\output\systick.o: ..\Library\Include\gd32f4xx_rcu.h
+.\output\systick.o: ..\Library\Include\misc.h
 .\output\systick.o: ..\CMSIS\gd32f4xx.h
+.\output\systick.o: ..\Library\Include\gd32f4xx_rcu.h
 .\output\systick.o: ..\Library\Include\gd32f4xx_adc.h
 .\output\systick.o: ..\Library\Include\gd32f4xx_dac.h
+.\output\systick.o: ..\Library\Include\gd32f4xx_dcmi.h
+.\output\systick.o: ..\Library\Include\gd32f4xx_dma.h
 .\output\systick.o: ..\Library\Include\gd32f4xx_exti.h
 .\output\systick.o: ..\Library\Include\gd32f4xx_gpio.h
 .\output\systick.o: ..\Library\Include\gd32f4xx_i2c.h

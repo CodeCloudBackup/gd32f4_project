@@ -4,8 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
-#include "misc.h"
-#include "gd32f4xx_usart.h"
+#include "systick.h"
 
 //NSS 
 #define USART1_MAX_RECV_LEN		400					//最大接收缓存字节数

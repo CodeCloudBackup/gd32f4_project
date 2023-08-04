@@ -1,7 +1,6 @@
 #ifndef __LCD_H
 #define __LCD_H		
 #include "systick.h"
-#include "gd32f4xx.h"
 //LED¶Ë¿Ú¶¨Òå
 #define LED_R PFout(2)	// DS0
 #define LED_G PFout(3)	// DS1	 

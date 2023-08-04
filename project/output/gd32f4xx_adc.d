@@ -8,10 +8,13 @@
 .\output\gd32f4xx_adc.o: ..\CMSIS\core_cm4_simd.h
 .\output\gd32f4xx_adc.o: ..\CMSIS\system_gd32f4xx.h
 .\output\gd32f4xx_adc.o: ..\User\gd32f4xx_libopt.h
-.\output\gd32f4xx_adc.o: ..\Library\Include\gd32f4xx_rcu.h
+.\output\gd32f4xx_adc.o: ..\Library\Include\misc.h
 .\output\gd32f4xx_adc.o: ..\CMSIS\gd32f4xx.h
+.\output\gd32f4xx_adc.o: ..\Library\Include\gd32f4xx_rcu.h
 .\output\gd32f4xx_adc.o: ..\Library\Include\gd32f4xx_adc.h
 .\output\gd32f4xx_adc.o: ..\Library\Include\gd32f4xx_dac.h
+.\output\gd32f4xx_adc.o: ..\Library\Include\gd32f4xx_dcmi.h
+.\output\gd32f4xx_adc.o: ..\Library\Include\gd32f4xx_dma.h
 .\output\gd32f4xx_adc.o: ..\Library\Include\gd32f4xx_exti.h
 .\output\gd32f4xx_adc.o: ..\Library\Include\gd32f4xx_gpio.h
 .\output\gd32f4xx_adc.o: ..\Library\Include\gd32f4xx_i2c.h

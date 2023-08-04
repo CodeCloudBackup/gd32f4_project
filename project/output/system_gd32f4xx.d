@@ -7,10 +7,13 @@
 .\output\system_gd32f4xx.o: ..\CMSIS\core_cm4_simd.h
 .\output\system_gd32f4xx.o: ..\CMSIS\system_gd32f4xx.h
 .\output\system_gd32f4xx.o: ..\User\gd32f4xx_libopt.h
-.\output\system_gd32f4xx.o: ..\Library\Include\gd32f4xx_rcu.h
+.\output\system_gd32f4xx.o: ..\Library\Include\misc.h
 .\output\system_gd32f4xx.o: ..\CMSIS\gd32f4xx.h
+.\output\system_gd32f4xx.o: ..\Library\Include\gd32f4xx_rcu.h
 .\output\system_gd32f4xx.o: ..\Library\Include\gd32f4xx_adc.h
 .\output\system_gd32f4xx.o: ..\Library\Include\gd32f4xx_dac.h
+.\output\system_gd32f4xx.o: ..\Library\Include\gd32f4xx_dcmi.h
+.\output\system_gd32f4xx.o: ..\Library\Include\gd32f4xx_dma.h
 .\output\system_gd32f4xx.o: ..\Library\Include\gd32f4xx_exti.h
 .\output\system_gd32f4xx.o: ..\Library\Include\gd32f4xx_gpio.h
 .\output\system_gd32f4xx.o: ..\Library\Include\gd32f4xx_i2c.h

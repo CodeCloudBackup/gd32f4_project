@@ -1,5 +1,5 @@
 #include "led.h" 
-
+#include "delay.h"
 //LED IO≥ı ºªØ
 void LED_Init(void)
 {    	 
@@ -19,3 +19,10 @@ void LED_Init(void)
 
 }
 
+void LED_Test(void)
+{
+		LED_B = !LED_B;
+		delay_ms(100);
+		LED_G = !LED_G;
+		delay_ms(100);
+}

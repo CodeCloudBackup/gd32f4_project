@@ -1,428 +1,609 @@
-/*!
-    \file    gd32f4xx_dma.h
-    \brief   definitions for the DMA
-    \version 2016-08-15, V1.0.0, firmware for GD32F4xx
-    \version 2018-12-12, V2.0.0, firmware for GD32F4xx
-    \version 2020-09-30, V2.1.0, firmware for GD32F4xx
-    \version 2022-03-09, V3.0.0, firmware for GD32F4xx
-*/
+/**
+  ******************************************************************************
+  * @file    stm32f4xx_dma.h
+  * @author  MCD Application Team
+  * @version V1.8.0
+  * @date    04-November-2016
+  * @brief   This file contains all the functions prototypes for the DMA firmware 
+  *          library.
+  ******************************************************************************
+  * @attention
+  *
+  * <h2><center>&copy; COPYRIGHT 2016 STMicroelectronics</center></h2>
+  *
+  * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
+  * You may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at:
+  *
+  *        http://www.st.com/software_license_agreement_liberty_v2
+  *
+  * Unless required by applicable law or agreed to in writing, software 
+  * distributed under the License is distributed on an "AS IS" BASIS, 
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  *
+  ******************************************************************************  
+  */ 
 
-/*
-    Copyright (c) 2022, GigaDevice Semiconductor Inc.
+/* Define to prevent recursive inclusion -------------------------------------*/
+#ifndef __STM32F4xx_DMA_H
+#define __STM32F4xx_DMA_H
 
-    Redistribution and use in source and binary forms, with or without modification, 
-are permitted provided that the following conditions are met:
+#ifdef __cplusplus
+ extern "C" {
+#endif
 
-    1. Redistributions of source code must retain the above copyright notice, this 
-       list of conditions and the following disclaimer.
-    2. Redistributions in binary form must reproduce the above copyright notice, 
-       this list of conditions and the following disclaimer in the documentation 
-       and/or other materials provided with the distribution.
-    3. Neither the name of the copyright holder nor the names of its contributors 
-       may be used to endorse or promote products derived from this software without 
-       specific prior written permission.
-
-    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
-IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
-INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
-NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR 
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
-WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
-ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
-OF SUCH DAMAGE.
-*/
-
-#ifndef GD32F4XX_DMA_H
-#define GD32F4XX_DMA_H
-
+/* Includes ------------------------------------------------------------------*/
 #include "gd32f4xx.h"
 
-/* DMA definitions */
-#define DMA0                              (DMA_BASE)                          /*!< DMA0 base address */
-#define DMA1                              (DMA_BASE + 0x00000400U)            /*!< DMA1 base address */
+/** @addtogroup STM32F4xx_StdPeriph_Driver
+  * @{
+  */
 
-/* registers definitions */
-#define DMA_INTF0(dmax)                    REG32((dmax) + 0x00000000U)        /*!< DMA interrupt flag register 0 */
-#define DMA_INTF1(dmax)                    REG32((dmax) + 0x00000004U)        /*!< DMA interrupt flag register 1 */
-#define DMA_INTC0(dmax)                    REG32((dmax) + 0x00000008U)        /*!< DMA interrupt flag clear register 0 */
-#define DMA_INTC1(dmax)                    REG32((dmax) + 0x0000000CU)        /*!< DMA interrupt flag clear register 1 */
+/** @addtogroup DMA
+  * @{
+  */
 
-#define DMA_CH0CTL(dmax)                   REG32((dmax) + 0x00000010U)        /*!< DMA channel 0 control register */
-#define DMA_CH0CNT(dmax)                   REG32((dmax) + 0x00000014U)        /*!< DMA channel 0 counter register */
-#define DMA_CH0PADDR(dmax)                 REG32((dmax) + 0x00000018U)        /*!< DMA channel 0 peripheral base address register */
-#define DMA_CH0M0ADDR(dmax)                REG32((dmax) + 0x0000001CU)        /*!< DMA channel 0 memory 0 base address register */
-#define DMA_CH0M1ADDR(dmax)                REG32((dmax) + 0x00000020U)        /*!< DMA channel 0 memory 1 base address register */
-#define DMA_CH0FCTL(dmax)                  REG32((dmax) + 0x00000024U)        /*!< DMA channel 0 FIFO control register */
+/* Exported types ------------------------------------------------------------*/
 
-#define DMA_CH1CTL(dmax)                   REG32((dmax) + 0x00000028U)        /*!< DMA channel 1 control register */
-#define DMA_CH1CNT(dmax)                   REG32((dmax) + 0x0000002CU)        /*!< DMA channel 1 counter register */
-#define DMA_CH1PADDR(dmax)                 REG32((dmax) + 0x00000030U)        /*!< DMA channel 1 peripheral base address register */
-#define DMA_CH1M0ADDR(dmax)                REG32((dmax) + 0x00000034U)        /*!< DMA channel 1 memory 0 base address register */
-#define DMA_CH1M1ADDR(dmax)                REG32((dmax) + 0x00000038U)        /*!< DMA channel 1 memory 1 base address register */
-#define DMA_CH1FCTL(dmax)                  REG32((dmax) + 0x0000003CU)        /*!< DMA channel 1 FIFO control register */
+/** 
+  * @brief  DMA Init structure definition
+  */
 
-#define DMA_CH2CTL(dmax)                   REG32((dmax) + 0x00000040U)        /*!< DMA channel 2 control register */
-#define DMA_CH2CNT(dmax)                   REG32((dmax) + 0x00000044U)        /*!< DMA channel 2 counter register */
-#define DMA_CH2PADDR(dmax)                 REG32((dmax) + 0x00000048U)        /*!< DMA channel 2 peripheral base address register */
-#define DMA_CH2M0ADDR(dmax)                REG32((dmax) + 0x0000004CU)        /*!< DMA channel 2 memory 0 base address register */
-#define DMA_CH2M1ADDR(dmax)                REG32((dmax) + 0x00000050U)        /*!< DMA channel 2 memory 1 base address register */
-#define DMA_CH2FCTL(dmax)                  REG32((dmax) + 0x00000054U)        /*!< DMA channel 2 FIFO control register */
-
-#define DMA_CH3CTL(dmax)                   REG32((dmax) + 0x00000058U)        /*!< DMA channel 3 control register */
-#define DMA_CH3CNT(dmax)                   REG32((dmax) + 0x0000005CU)        /*!< DMA channel 3 counter register */
-#define DMA_CH3PADDR(dmax)                 REG32((dmax) + 0x00000060U)        /*!< DMA channel 3 peripheral base address register */
-#define DMA_CH3M0ADDR(dmax)                REG32((dmax) + 0x00000064U)        /*!< DMA channel 3 memory 0 base address register */
-#define DMA_CH3M1ADDR(dmax)                REG32((dmax) + 0x00000068U)        /*!< DMA channel 3 memory 1 base address register */
-#define DMA_CH3FCTL(dmax)                  REG32((dmax) + 0x0000006CU)        /*!< DMA channel 3 FIFO control register */
-
-#define DMA_CH4CTL(dmax)                   REG32((dmax) + 0x00000070U)        /*!< DMA channel 4 control register */
-#define DMA_CH4CNT(dmax)                   REG32((dmax) + 0x00000074U)        /*!< DMA channel 4 counter register */
-#define DMA_CH4PADDR(dmax)                 REG32((dmax) + 0x00000078U)        /*!< DMA channel 4 peripheral base address register */
-#define DMA_CH4M0ADDR(dmax)                REG32((dmax) + 0x0000007CU)        /*!< DMA channel 4 memory 0 base address register */
-#define DMA_CH4M1ADDR(dmax)                REG32((dmax) + 0x00000080U)        /*!< DMA channel 4 memory 1 base address register */
-#define DMA_CH4FCTL(dmax)                  REG32((dmax) + 0x00000084U)        /*!< DMA channel 4 FIFO control register */
-
-#define DMA_CH5CTL(dmax)                   REG32((dmax) + 0x00000088U)        /*!< DMA channel 5 control register */
-#define DMA_CH5CNT(dmax)                   REG32((dmax) + 0x0000008CU)        /*!< DMA channel 5 counter register */
-#define DMA_CH5PADDR(dmax)                 REG32((dmax) + 0x00000090U)        /*!< DMA channel 5 peripheral base address register */
-#define DMA_CH5M0ADDR(dmax)                REG32((dmax) + 0x00000094U)        /*!< DMA channel 5 memory 0 base address register */
-#define DMA_CH5M1ADDR(dmax)                REG32((dmax) + 0x00000098U)        /*!< DMA channel 5 memory 1 base address register */
-#define DMA_CH5FCTL(dmax)                  REG32((dmax) + 0x0000009CU)        /*!< DMA channel 5 FIFO control register */
-
-#define DMA_CH6CTL(dmax)                   REG32((dmax) + 0x000000A0U)        /*!< DMA channel 6 control register */
-#define DMA_CH6CNT(dmax)                   REG32((dmax) + 0x000000A4U)        /*!< DMA channel 6 counter register */
-#define DMA_CH6PADDR(dmax)                 REG32((dmax) + 0x000000A8U)        /*!< DMA channel 6 peripheral base address register */
-#define DMA_CH6M0ADDR(dmax)                REG32((dmax) + 0x000000ACU)        /*!< DMA channel 6 memory 0 base address register */
-#define DMA_CH6M1ADDR(dmax)                REG32((dmax) + 0x000000B0U)        /*!< DMA channel 6 memory 1 base address register */
-#define DMA_CH6FCTL(dmax)                  REG32((dmax) + 0x000000B4U)        /*!< DMA channel 6 FIFO control register */
-
-#define DMA_CH7CTL(dmax)                   REG32((dmax) + 0x000000B8U)        /*!< DMA channel 7 control register */
-#define DMA_CH7CNT(dmax)                   REG32((dmax) + 0x000000BCU)        /*!< DMA channel 7 counter register */
-#define DMA_CH7PADDR(dmax)                 REG32((dmax) + 0x000000C0U)        /*!< DMA channel 7 peripheral base address register */
-#define DMA_CH7M0ADDR(dmax)                REG32((dmax) + 0x000000C4U)        /*!< DMA channel 7 memory 0 base address register */
-#define DMA_CH7M1ADDR(dmax)                REG32((dmax) + 0x000000C8U)        /*!< DMA channel 7 memory 1 base address register */
-#define DMA_CH7FCTL(dmax)                  REG32((dmax) + 0x000000CCU)        /*!< DMA channel 7 FIFO control register */
-
-/* bits definitions */
-/* DMA_INTF */
-#define DMA_INTF_FEEIF                    BIT(0)                        /*!< FIFO error and exception flag */
-#define DMA_INTF_SDEIF                    BIT(2)                        /*!< single data mode exception flag */
-#define DMA_INTF_TAEIF                    BIT(3)                        /*!< transfer access error flag */
-#define DMA_INTF_HTFIF                    BIT(4)                        /*!< half transfer finish flag */
-#define DMA_INTF_FTFIF                    BIT(5)                        /*!< full transger finish flag */
-
-/* DMA_INTC */
-#define DMA_INTC_FEEIFC                   BIT(0)                        /*!< clear FIFO error and exception flag */
-#define DMA_INTC_SDEIFC                   BIT(2)                        /*!< clear single data mode exception flag */
-#define DMA_INTC_TAEIFC                   BIT(3)                        /*!< clear single data mode exception flag */
-#define DMA_INTC_HTFIFC                   BIT(4)                        /*!< clear half transfer finish flag */
-#define DMA_INTC_FTFIFC                   BIT(5)                        /*!< clear full transger finish flag */
-
-/* DMA_CHxCTL,x=0..7 */
-#define DMA_CHXCTL_CHEN                   BIT(0)                        /*!< channel x enable */
-#define DMA_CHXCTL_SDEIE                  BIT(1)                        /*!< enable bit for channel x single data mode exception interrupt */
-#define DMA_CHXCTL_TAEIE                  BIT(2)                        /*!< enable bit for channel x tranfer access error interrupt */
-#define DMA_CHXCTL_HTFIE                  BIT(3)                        /*!< enable bit for channel x half transfer finish interrupt */
-#define DMA_CHXCTL_FTFIE                  BIT(4)                        /*!< enable bit for channel x full transfer finish interrupt */
-#define DMA_CHXCTL_TFCS                   BIT(5)                        /*!< transfer flow controller select */
-#define DMA_CHXCTL_TM                     BITS(6,7)                     /*!< transfer mode */
-#define DMA_CHXCTL_CMEN                   BIT(8)                        /*!< circulation mode */
-#define DMA_CHXCTL_PNAGA                  BIT(9)                        /*!< next address generation algorithm of peripheral */
-#define DMA_CHXCTL_MNAGA                  BIT(10)                       /*!< next address generation algorithm of memory */
-#define DMA_CHXCTL_PWIDTH                 BITS(11,12)                   /*!< transfer width of peipheral */
-#define DMA_CHXCTL_MWIDTH                 BITS(13,14)                   /*!< transfer width of memory */
-#define DMA_CHXCTL_PAIF                   BIT(15)                       /*!< peripheral address increment fixed */
-#define DMA_CHXCTL_PRIO                   BITS(16,17)                   /*!< priority level */
-#define DMA_CHXCTL_SBMEN                  BIT(18)                       /*!< switch-buffer mode enable */
-#define DMA_CHXCTL_MBS                    BIT(19)                       /*!< memory buffer select */
-#define DMA_CHXCTL_PBURST                 BITS(21,22)                   /*!< transfer burst type of peripheral */
-#define DMA_CHXCTL_MBURST                 BITS(23,24)                   /*!< transfer burst type of memory */
-#define DMA_CHXCTL_PERIEN                 BITS(25,27)                   /*!< peripheral enable */
-
-/* DMA_CHxCNT,x=0..7 */
-#define DMA_CHXCNT_CNT                    BITS(0,15)                    /*!< transfer counter */
-
-/* DMA_CHxPADDR,x=0..7 */
-#define DMA_CHXPADDR_PADDR                BITS(0,31)                    /*!< peripheral base address */
-
-/* DMA_CHxM0ADDR,x=0..7 */
-#define DMA_CHXM0ADDR_M0ADDR              BITS(0,31)                    /*!< memory 0 base address */
-
-/* DMA_CHxM1ADDR,x=0..7 */
-#define DMA_CHXM1ADDR_M0ADDR              BITS(0,31)                    /*!< memory 1 base address */
-
-/* DMA_CHxFCTL,x=0..7 */
-#define DMA_CHXFCTL_FCCV                  BITS(0,1)                     /*!< FIFO counter critical value */
-#define DMA_CHXFCTL_MDMEN                 BIT(2)                        /*!< multi-data mode enable */
-#define DMA_CHXFCTL_FCNT                  BITS(3,5)                     /*!< FIFO counter */
-#define DMA_CHXFCTL_FEEIE                 BIT(7)                        /*!< FIFO exception interrupt enable */
-
-/* constants definitions */
-/* DMA channel select */
-typedef enum 
-{
-    DMA_CH0 = 0,                                    /*!< DMA Channel 0 */
-    DMA_CH1,                                        /*!< DMA Channel 1 */
-    DMA_CH2,                                        /*!< DMA Channel 2 */
-    DMA_CH3,                                        /*!< DMA Channel 3 */
-    DMA_CH4,                                        /*!< DMA Channel 4 */
-    DMA_CH5,                                        /*!< DMA Channel 5 */
-    DMA_CH6,                                        /*!< DMA Channel 6 */
-    DMA_CH7                                         /*!< DMA Channel 7 */
-} dma_channel_enum;
-
-/* DMA peripheral select */
-typedef enum 
-{
-    DMA_SUBPERI0 = 0,                               /*!< DMA Peripheral 0 */
-    DMA_SUBPERI1,                                   /*!< DMA Peripheral 1 */
-    DMA_SUBPERI2,                                   /*!< DMA Peripheral 2 */
-    DMA_SUBPERI3,                                   /*!< DMA Peripheral 3 */
-    DMA_SUBPERI4,                                   /*!< DMA Peripheral 4 */
-    DMA_SUBPERI5,                                   /*!< DMA Peripheral 5 */
-    DMA_SUBPERI6,                                   /*!< DMA Peripheral 6 */
-    DMA_SUBPERI7                                    /*!< DMA Peripheral 7 */
-} dma_subperipheral_enum;
-
-/* DMA multidata mode initialize struct */
 typedef struct
 {
-    uint32_t periph_addr;                           /*!< peripheral base address */
-    uint32_t periph_width;                          /*!< transfer data size of peripheral */
-    uint32_t periph_inc;                            /*!< peripheral increasing mode */  
+  uint32_t DMA_Channel;            /*!< Specifies the channel used for the specified stream. 
+                                        This parameter can be a value of @ref DMA_channel */
+ 
+  uint32_t DMA_PeripheralBaseAddr; /*!< Specifies the peripheral base address for DMAy Streamx. */
 
-    uint32_t memory0_addr;                          /*!< memory 0 base address */
-    uint32_t memory_width;                          /*!< transfer data size of memory */
-    uint32_t memory_inc;                            /*!< memory increasing mode */
+  uint32_t DMA_Memory0BaseAddr;    /*!< Specifies the memory 0 base address for DMAy Streamx. 
+                                        This memory is the default memory used when double buffer mode is
+                                        not enabled. */
 
-    uint32_t memory_burst_width;                    /*!< multi data mode enable */
-    uint32_t periph_burst_width;                    /*!< multi data mode enable */
-    uint32_t critical_value;                        /*!< FIFO critical */
+  uint32_t DMA_DIR;                /*!< Specifies if the data will be transferred from memory to peripheral, 
+                                        from memory to memory or from peripheral to memory.
+                                        This parameter can be a value of @ref DMA_data_transfer_direction */
 
-    uint32_t circular_mode;                         /*!< DMA circular mode */
-    uint32_t direction;                             /*!< channel data transfer direction */
-    uint32_t number;                                /*!< channel transfer number */
-    uint32_t priority;                              /*!< channel priority level */
-}dma_multi_data_parameter_struct;
+  uint32_t DMA_BufferSize;         /*!< Specifies the buffer size, in data unit, of the specified Stream. 
+                                        The data unit is equal to the configuration set in DMA_PeripheralDataSize
+                                        or DMA_MemoryDataSize members depending in the transfer direction. */
 
-/* DMA singledata mode initialize struct */
-typedef struct
-{
-    uint32_t periph_addr;                           /*!< peripheral base address */
-    uint32_t periph_inc;                            /*!< peripheral increasing mode */  
+  uint32_t DMA_PeripheralInc;      /*!< Specifies whether the Peripheral address register should be incremented or not.
+                                        This parameter can be a value of @ref DMA_peripheral_incremented_mode */
 
-    uint32_t memory0_addr;                          /*!< memory 0 base address */
-    uint32_t memory_inc;                            /*!< memory increasing mode */
+  uint32_t DMA_MemoryInc;          /*!< Specifies whether the memory address register should be incremented or not.
+                                        This parameter can be a value of @ref DMA_memory_incremented_mode */
 
-    uint32_t periph_memory_width;                   /*!< transfer data size of peripheral */
+  uint32_t DMA_PeripheralDataSize; /*!< Specifies the Peripheral data width.
+                                        This parameter can be a value of @ref DMA_peripheral_data_size */
 
-    uint32_t circular_mode;                         /*!< DMA circular mode */
-    uint32_t direction;                             /*!< channel data transfer direction */
-    uint32_t number;                                /*!< channel transfer number */
-    uint32_t priority;                              /*!< channel priority level */
-} dma_single_data_parameter_struct;
+  uint32_t DMA_MemoryDataSize;     /*!< Specifies the Memory data width.
+                                        This parameter can be a value of @ref DMA_memory_data_size */
 
-#define DMA_FLAG_ADD(flag,channel)        ((uint32_t)((flag)<<((((uint32_t)(channel)*6U))+((uint32_t)(((uint32_t)(channel)) >> 1U)&0x01U)*4U)))   /*!< DMA channel flag shift */
+  uint32_t DMA_Mode;               /*!< Specifies the operation mode of the DMAy Streamx.
+                                        This parameter can be a value of @ref DMA_circular_normal_mode
+                                        @note The circular buffer mode cannot be used if the memory-to-memory
+                                              data transfer is configured on the selected Stream */
 
-/* DMA_register address */
-#define DMA_CHCTL(dma,channel)            REG32(((dma) + 0x10U) + 0x18U*(channel))  /*!< the address of DMA channel CHXCTL register  */
-#define DMA_CHCNT(dma,channel)            REG32(((dma) + 0x14U) + 0x18U*(channel))  /*!< the address of DMA channel CHXCNT register */
-#define DMA_CHPADDR(dma,channel)          REG32(((dma) + 0x18U) + 0x18U*(channel))  /*!< the address of DMA channel CHXPADDR register */
-#define DMA_CHM0ADDR(dma,channel)         REG32(((dma) + 0x1CU) + 0x18U*(channel))  /*!< the address of DMA channel CHXM0ADDR register */
-#define DMA_CHM1ADDR(dma,channel)         REG32(((dma) + 0x20U) + 0x18U*(channel))  /*!< the address of DMA channel CHXM1ADDR register */
-#define DMA_CHFCTL(dma,channel)           REG32(((dma) + 0x24U) + 0x18U*(channel))  /*!< the address of DMA channel CHXMADDR register */
+  uint32_t DMA_Priority;           /*!< Specifies the software priority for the DMAy Streamx.
+                                        This parameter can be a value of @ref DMA_priority_level */
 
-/* peripheral select */
-#define CHCTL_PERIEN(regval)              (BITS(25,27) & ((uint32_t)(regval) << 25))
-#define DMA_PERIPH_0_SELECT               CHCTL_PERIEN(0)                           /*!< peripheral 0 select */
-#define DMA_PERIPH_1_SELECT               CHCTL_PERIEN(1)                           /*!< peripheral 1 select */
-#define DMA_PERIPH_2_SELECT               CHCTL_PERIEN(2)                           /*!< peripheral 2 select */
-#define DMA_PERIPH_3_SELECT               CHCTL_PERIEN(3)                           /*!< peripheral 3 select */
-#define DMA_PERIPH_4_SELECT               CHCTL_PERIEN(4)                           /*!< peripheral 4 select */
-#define DMA_PERIPH_5_SELECT               CHCTL_PERIEN(5)                           /*!< peripheral 5 select */
-#define DMA_PERIPH_6_SELECT               CHCTL_PERIEN(6)                           /*!< peripheral 6 select */
-#define DMA_PERIPH_7_SELECT               CHCTL_PERIEN(7)                           /*!< peripheral 7 select */
+  uint32_t DMA_FIFOMode;          /*!< Specifies if the FIFO mode or Direct mode will be used for the specified Stream.
+                                        This parameter can be a value of @ref DMA_fifo_direct_mode
+                                        @note The Direct mode (FIFO mode disabled) cannot be used if the 
+                                               memory-to-memory data transfer is configured on the selected Stream */
 
-/* burst type of memory */
-#define CHCTL_MBURST(regval)              (BITS(23,24) & ((uint32_t)(regval) << 23))
-#define DMA_MEMORY_BURST_SINGLE           CHCTL_MBURST(0)                           /*!< single burst */
-#define DMA_MEMORY_BURST_4_BEAT           CHCTL_MBURST(1)                           /*!< 4-beat burst */
-#define DMA_MEMORY_BURST_8_BEAT           CHCTL_MBURST(2)                           /*!< 8-beat burst */
-#define DMA_MEMORY_BURST_16_BEAT          CHCTL_MBURST(3)                           /*!< 16-beat burst */
+  uint32_t DMA_FIFOThreshold;      /*!< Specifies the FIFO threshold level.
+                                        This parameter can be a value of @ref DMA_fifo_threshold_level */
 
-/* burst type of peripheral */
-#define CHCTL_PBURST(regval)              (BITS(21,22) & ((uint32_t)(regval) << 21))
-#define DMA_PERIPH_BURST_SINGLE           CHCTL_PBURST(0)                           /*!< single burst */
-#define DMA_PERIPH_BURST_4_BEAT           CHCTL_PBURST(1)                           /*!< 4-beat burst */
-#define DMA_PERIPH_BURST_8_BEAT           CHCTL_PBURST(2)                           /*!< 8-beat burst */
-#define DMA_PERIPH_BURST_16_BEAT          CHCTL_PBURST(3)                           /*!< 16-beat burst */
+  uint32_t DMA_MemoryBurst;        /*!< Specifies the Burst transfer configuration for the memory transfers. 
+                                        It specifies the amount of data to be transferred in a single non interruptable 
+                                        transaction. This parameter can be a value of @ref DMA_memory_burst 
+                                        @note The burst mode is possible only if the address Increment mode is enabled. */
 
-/* channel priority level */
-#define CHCTL_PRIO(regval)                (BITS(16,17) & ((uint32_t)(regval) << 16))
-#define DMA_PRIORITY_LOW                  CHCTL_PRIO(0)                             /*!< low priority */
-#define DMA_PRIORITY_MEDIUM               CHCTL_PRIO(1)                             /*!< medium priority */
-#define DMA_PRIORITY_HIGH                 CHCTL_PRIO(2)                             /*!< high priority */
-#define DMA_PRIORITY_ULTRA_HIGH           CHCTL_PRIO(3)                             /*!< ultra high priority */
+  uint32_t DMA_PeripheralBurst;    /*!< Specifies the Burst transfer configuration for the peripheral transfers. 
+                                        It specifies the amount of data to be transferred in a single non interruptable 
+                                        transaction. This parameter can be a value of @ref DMA_peripheral_burst
+                                        @note The burst mode is possible only if the address Increment mode is enabled. */  
+}DMA_InitTypeDef;
 
-/* transfer data width of memory */
-#define CHCTL_MWIDTH(regval)              (BITS(13,14) & ((uint32_t)(regval) << 13))
-#define DMA_MEMORY_WIDTH_8BIT             CHCTL_MWIDTH(0)                           /*!< transfer data width of memory is 8-bit */
-#define DMA_MEMORY_WIDTH_16BIT            CHCTL_MWIDTH(1)                           /*!< transfer data width of memory is 16-bit */
-#define DMA_MEMORY_WIDTH_32BIT            CHCTL_MWIDTH(2)                           /*!< transfer data width of memory is 32-bit */
+/* Exported constants --------------------------------------------------------*/
 
-/* transfer data width of peripheral */
-#define CHCTL_PWIDTH(regval)              (BITS(11,12) & ((uint32_t)(regval) << 11))
-#define DMA_PERIPH_WIDTH_8BIT             CHCTL_PWIDTH(0)                           /*!< transfer data width of peripheral is 8-bit */
-#define DMA_PERIPH_WIDTH_16BIT            CHCTL_PWIDTH(1)                           /*!< transfer data width of peripheral is 16-bit */
-#define DMA_PERIPH_WIDTH_32BIT            CHCTL_PWIDTH(2)                           /*!< transfer data width of peripheral is 32-bit */
+/** @defgroup DMA_Exported_Constants
+  * @{
+  */
 
-/* channel transfer mode */
-#define CHCTL_TM(regval)                  (BITS(6,7) & ((uint32_t)(regval) << 6))
-#define DMA_PERIPH_TO_MEMORY              CHCTL_TM(0)                               /*!< read from peripheral and write to memory */
-#define DMA_MEMORY_TO_PERIPH              CHCTL_TM(1)                               /*!< read from memory and write to peripheral */
-#define DMA_MEMORY_TO_MEMORY              CHCTL_TM(2)                               /*!< read from memory and write to memory */
+#define IS_DMA_ALL_PERIPH(PERIPH) (((PERIPH) == DMA1_Stream0) || \
+                                   ((PERIPH) == DMA1_Stream1) || \
+                                   ((PERIPH) == DMA1_Stream2) || \
+                                   ((PERIPH) == DMA1_Stream3) || \
+                                   ((PERIPH) == DMA1_Stream4) || \
+                                   ((PERIPH) == DMA1_Stream5) || \
+                                   ((PERIPH) == DMA1_Stream6) || \
+                                   ((PERIPH) == DMA1_Stream7) || \
+                                   ((PERIPH) == DMA2_Stream0) || \
+                                   ((PERIPH) == DMA2_Stream1) || \
+                                   ((PERIPH) == DMA2_Stream2) || \
+                                   ((PERIPH) == DMA2_Stream3) || \
+                                   ((PERIPH) == DMA2_Stream4) || \
+                                   ((PERIPH) == DMA2_Stream5) || \
+                                   ((PERIPH) == DMA2_Stream6) || \
+                                   ((PERIPH) == DMA2_Stream7))
 
-/* FIFO counter critical value */
-#define CHFCTL_FCCV(regval)               (BITS(0,1) & ((uint32_t)(regval) << 0))
-#define DMA_FIFO_1_WORD                   CHFCTL_FCCV(0)                            /*!< critical value 1 word */
-#define DMA_FIFO_2_WORD                   CHFCTL_FCCV(1)                            /*!< critical value 2 word */
-#define DMA_FIFO_3_WORD                   CHFCTL_FCCV(2)                            /*!< critical value 3 word */
-#define DMA_FIFO_4_WORD                   CHFCTL_FCCV(3)                            /*!< critical value 4 word */
+#define IS_DMA_ALL_CONTROLLER(CONTROLLER) (((CONTROLLER) == DMA1) || \
+                                           ((CONTROLLER) == DMA2))
 
-/* memory select */
-#define DMA_MEMORY_0                      ((uint32_t)0x00000000U)                   /*!< select memory 0 */
-#define DMA_MEMORY_1                      ((uint32_t)0x00000001U)                   /*!< select memory 1 */
+/** @defgroup DMA_channel 
+  * @{
+  */ 
+#define DMA_Channel_0                     ((uint32_t)0x00000000)
+#define DMA_Channel_1                     ((uint32_t)0x02000000)
+#define DMA_Channel_2                     ((uint32_t)0x04000000)
+#define DMA_Channel_3                     ((uint32_t)0x06000000)
+#define DMA_Channel_4                     ((uint32_t)0x08000000)
+#define DMA_Channel_5                     ((uint32_t)0x0A000000)
+#define DMA_Channel_6                     ((uint32_t)0x0C000000)
+#define DMA_Channel_7                     ((uint32_t)0x0E000000)
 
-/* DMA circular mode */
-#define DMA_CIRCULAR_MODE_ENABLE          ((uint32_t)0x00000000U)                   /*!< circular mode enable */
-#define DMA_CIRCULAR_MODE_DISABLE         ((uint32_t)0x00000001U)                   /*!< circular mode disable */
-
-/* DMA flow controller select */
-#define DMA_FLOW_CONTROLLER_DMA           ((uint32_t)0x00000000U)                   /*!< DMA is the flow controler */
-#define DMA_FLOW_CONTROLLER_PERI          ((uint32_t)0x00000001U)                   /*!< peripheral is the flow controler */
-
-/* peripheral increasing mode */
-#define DMA_PERIPH_INCREASE_ENABLE        ((uint32_t)0x00000000U)                   /*!< next address of peripheral is increasing address mode */
-#define DMA_PERIPH_INCREASE_DISABLE       ((uint32_t)0x00000001U)                   /*!< next address of peripheral is fixed address mode */
-#define DMA_PERIPH_INCREASE_FIX           ((uint32_t)0x00000002U)                   /*!< next address of peripheral is increasing fixed */
-
-/* memory increasing mode */
-#define DMA_MEMORY_INCREASE_ENABLE        ((uint32_t)0x00000000U)                   /*!< next address of memory is increasing address mode */
-#define DMA_MEMORY_INCREASE_DISABLE       ((uint32_t)0x00000001U)                   /*!< next address of memory is fixed address mode */
-
-/* FIFO status */
-#define DMA_FIFO_STATUS_NODATA            ((uint32_t)0x00000000U)                   /*!< the data in the FIFO less than 1 word */
-#define DMA_FIFO_STATUS_1_WORD            ((uint32_t)0x00000001U)                   /*!< the data in the FIFO more than 1 word, less than 2 words */
-#define DMA_FIFO_STATUS_2_WORD            ((uint32_t)0x00000002U)                   /*!< the data in the FIFO more than 2 word, less than 3 words */
-#define DMA_FIFO_STATUS_3_WORD            ((uint32_t)0x00000003U)                   /*!< the data in the FIFO more than 3 word, less than 4 words */
-#define DMA_FIFO_STATUS_EMPTY             ((uint32_t)0x00000004U)                   /*!< the data in the FIFO is empty */
-#define DMA_FIFO_STATUS_FULL              ((uint32_t)0x00000005U)                   /*!< the data in the FIFO is full */
-
-/* DMA reset value */
-#define DMA_CHCTL_RESET_VALUE             ((uint32_t)0x00000000U)                   /*!< the reset value of DMA channel CHXCTL register */
-#define DMA_CHCNT_RESET_VALUE             ((uint32_t)0x00000000U)                   /*!< the reset value of DMA channel CHXCNT register */
-#define DMA_CHPADDR_RESET_VALUE           ((uint32_t)0x00000000U)                   /*!< the reset value of DMA channel CHXPADDR register */
-#define DMA_CHMADDR_RESET_VALUE           ((uint32_t)0x00000000U)                   /*!< the reset value of DMA channel CHXMADDR register */
-#define DMA_CHINTF_RESET_VALUE            ((uint32_t)0x0000003DU)                   /*!< clear DMA channel CHXINTFS register */
-#define DMA_CHFCTL_RESET_VALUE            ((uint32_t)0x00000000U)                   /*!< the reset value of DMA channel CHXFCTL register */
-
-/* DMA_INTF register */
-/* interrupt flag bits */
-#define DMA_INT_FLAG_FEE                  DMA_INTF_FEEIF                            /*!< FIFO error and exception flag */
-#define DMA_INT_FLAG_SDE                  DMA_INTF_SDEIF                            /*!< single data mode exception flag */
-#define DMA_INT_FLAG_TAE                  DMA_INTF_TAEIF                            /*!< transfer access error flag */
-#define DMA_INT_FLAG_HTF                  DMA_INTF_HTFIF                            /*!< half transfer finish flag */
-#define DMA_INT_FLAG_FTF                  DMA_INTF_FTFIF                            /*!< full transfer finish flag */
-
-/* flag bits */
-#define DMA_FLAG_FEE                      DMA_INTF_FEEIF                            /*!< FIFO error and exception flag */
-#define DMA_FLAG_SDE                      DMA_INTF_SDEIF                            /*!< single data mode exception flag */
-#define DMA_FLAG_TAE                      DMA_INTF_TAEIF                            /*!< transfer access error flag */
-#define DMA_FLAG_HTF                      DMA_INTF_HTFIF                            /*!< half transfer finish flag */
-#define DMA_FLAG_FTF                      DMA_INTF_FTFIF                            /*!< full transfer finish flag */
+#define IS_DMA_CHANNEL(CHANNEL) (((CHANNEL) == DMA_Channel_0) || \
+                                 ((CHANNEL) == DMA_Channel_1) || \
+                                 ((CHANNEL) == DMA_Channel_2) || \
+                                 ((CHANNEL) == DMA_Channel_3) || \
+                                 ((CHANNEL) == DMA_Channel_4) || \
+                                 ((CHANNEL) == DMA_Channel_5) || \
+                                 ((CHANNEL) == DMA_Channel_6) || \
+                                 ((CHANNEL) == DMA_Channel_7))
+/**
+  * @}
+  */ 
 
 
-/* function declarations */
-/* DMA deinitialization and initialization functions */
-/* deinitialize DMA a channel registers */
-void dma_deinit(uint32_t dma_periph, dma_channel_enum channelx);
-/* initialize the DMA single data mode parameters struct with the default values */
-void dma_single_data_para_struct_init(dma_single_data_parameter_struct* init_struct);
-/* initialize the DMA multi data mode parameters struct with the default values */
-void dma_multi_data_para_struct_init(dma_multi_data_parameter_struct* init_struct);
-/* DMA single data mode initialize */
-void dma_single_data_mode_init(uint32_t dma_periph, dma_channel_enum channelx, dma_single_data_parameter_struct* init_struct);
-/* DMA multi data mode initialize */
-void dma_multi_data_mode_init(uint32_t dma_periph, dma_channel_enum channelx, dma_multi_data_parameter_struct* init_struct);
+/** @defgroup DMA_data_transfer_direction 
+  * @{
+  */ 
+#define DMA_DIR_PeripheralToMemory        ((uint32_t)0x00000000)
+#define DMA_DIR_MemoryToPeripheral        ((uint32_t)0x00000040) 
+#define DMA_DIR_MemoryToMemory            ((uint32_t)0x00000080)
 
-/* DMA configuration functions */
-/* set DMA peripheral base address */
-void dma_periph_address_config(uint32_t dma_periph, dma_channel_enum channelx, uint32_t address);
-/* set DMA Memory base address */
-void dma_memory_address_config(uint32_t dma_periph, dma_channel_enum channelx, uint8_t memory_flag, uint32_t address);
+#define IS_DMA_DIRECTION(DIRECTION) (((DIRECTION) == DMA_DIR_PeripheralToMemory ) || \
+                                     ((DIRECTION) == DMA_DIR_MemoryToPeripheral)  || \
+                                     ((DIRECTION) == DMA_DIR_MemoryToMemory)) 
+/**
+  * @}
+  */ 
 
-/* set the number of remaining data to be transferred by the DMA */
-void dma_transfer_number_config(uint32_t dma_periph,dma_channel_enum channelx, uint32_t number);
-/* get the number of remaining data to be transferred by the DMA */
-uint32_t dma_transfer_number_get(uint32_t dma_periph, dma_channel_enum channelx);
 
-/* configure priority level of DMA channel */
-void dma_priority_config(uint32_t dma_periph, dma_channel_enum channelx, uint32_t priority);
+/** @defgroup DMA_data_buffer_size 
+  * @{
+  */ 
+#define IS_DMA_BUFFER_SIZE(SIZE) (((SIZE) >= 0x1) && ((SIZE) < 0x10000))
+/**
+  * @}
+  */ 
 
-/* configure transfer burst beats of memory */
-void dma_memory_burst_beats_config (uint32_t dma_periph, dma_channel_enum channelx, uint32_t mbeat);
-/* configure transfer burst beats of peripheral */
-void dma_periph_burst_beats_config (uint32_t dma_periph, dma_channel_enum channelx, uint32_t pbeat);
-/* configure transfer data size of memory */
-void dma_memory_width_config (uint32_t dma_periph, dma_channel_enum channelx, uint32_t msize);
-/* configure transfer data size of peripheral */
-void dma_periph_width_config (uint32_t dma_periph, dma_channel_enum channelx, uint32_t psize);
 
-/* configure next address increasement algorithm of memory */
-void dma_memory_address_generation_config(uint32_t dma_periph, dma_channel_enum channelx, uint8_t generation_algorithm);
-/* configure next address increasement algorithm of peripheral */
-void dma_peripheral_address_generation_config(uint32_t dma_periph, dma_channel_enum channelx, uint8_t generation_algorithm);
+/** @defgroup DMA_peripheral_incremented_mode 
+  * @{
+  */ 
+#define DMA_PeripheralInc_Enable          ((uint32_t)0x00000200)
+#define DMA_PeripheralInc_Disable         ((uint32_t)0x00000000)
 
-/* enable DMA circulation mode */
-void dma_circulation_enable(uint32_t dma_periph, dma_channel_enum channelx);
-/* disable DMA circulation mode */
-void dma_circulation_disable(uint32_t dma_periph, dma_channel_enum channelx);
-/* enable DMA channel */
-void dma_channel_enable(uint32_t dma_periph, dma_channel_enum channelx);
-/* disable DMA channel */
-void dma_channel_disable(uint32_t dma_periph, dma_channel_enum channelx);
+#define IS_DMA_PERIPHERAL_INC_STATE(STATE) (((STATE) == DMA_PeripheralInc_Enable) || \
+                                            ((STATE) == DMA_PeripheralInc_Disable))
+/**
+  * @}
+  */ 
 
-/* configure the direction of data transfer on the channel */
-void dma_transfer_direction_config(uint32_t dma_periph, dma_channel_enum channelx, uint8_t direction);
 
-/* DMA switch buffer mode config */
-void dma_switch_buffer_mode_config(uint32_t dma_periph, dma_channel_enum channelx, uint32_t memory1_addr, uint32_t memory_select);
-/* DMA using memory get */
-uint32_t dma_using_memory_get(uint32_t dma_periph, dma_channel_enum channelx);
+/** @defgroup DMA_memory_incremented_mode 
+  * @{
+  */ 
+#define DMA_MemoryInc_Enable              ((uint32_t)0x00000400)
+#define DMA_MemoryInc_Disable             ((uint32_t)0x00000000)
 
-/* DMA channel peripheral select */
-void dma_channel_subperipheral_select(uint32_t dma_periph, dma_channel_enum channelx, dma_subperipheral_enum sub_periph);
-/* DMA flow controller configure */
-void dma_flow_controller_config(uint32_t dma_periph, dma_channel_enum channelx, uint32_t controller);
-/* DMA flow controller enable */
-void dma_switch_buffer_mode_enable(uint32_t dma_periph, dma_channel_enum channelx, ControlStatus newvalue);
-/* DMA FIFO status get */
-uint32_t dma_fifo_status_get(uint32_t dma_periph, dma_channel_enum channelx);
+#define IS_DMA_MEMORY_INC_STATE(STATE) (((STATE) == DMA_MemoryInc_Enable) || \
+                                        ((STATE) == DMA_MemoryInc_Disable))
+/**
+  * @}
+  */ 
 
-/* flag and interrupt functions */
-/* check DMA flag is set or not */
-FlagStatus dma_flag_get(uint32_t dma_periph, dma_channel_enum channelx, uint32_t flag);
-/* clear DMA a channel flag */
-void dma_flag_clear(uint32_t dma_periph, dma_channel_enum channelx, uint32_t flag);
-/* enable DMA interrupt */
-void dma_interrupt_enable(uint32_t dma_periph, dma_channel_enum channelx, uint32_t source);
-/* disable DMA interrupt */
-void dma_interrupt_disable(uint32_t dma_periph, dma_channel_enum channelx, uint32_t source);
-/* check DMA flag is set or not */
-FlagStatus dma_interrupt_flag_get(uint32_t dma_periph, dma_channel_enum channelx, uint32_t interrupt);
-/* clear DMA a channel flag */
-void dma_interrupt_flag_clear(uint32_t dma_periph, dma_channel_enum channelx, uint32_t interrupt);
 
-#endif /* GD32F4XX_DMA_H */
+/** @defgroup DMA_peripheral_data_size 
+  * @{
+  */ 
+#define DMA_PeripheralDataSize_Byte       ((uint32_t)0x00000000) 
+#define DMA_PeripheralDataSize_HalfWord   ((uint32_t)0x00000800) 
+#define DMA_PeripheralDataSize_Word       ((uint32_t)0x00001000)
+
+#define IS_DMA_PERIPHERAL_DATA_SIZE(SIZE) (((SIZE) == DMA_PeripheralDataSize_Byte)  || \
+                                           ((SIZE) == DMA_PeripheralDataSize_HalfWord) || \
+                                           ((SIZE) == DMA_PeripheralDataSize_Word))
+/**
+  * @}
+  */ 
+
+
+/** @defgroup DMA_memory_data_size 
+  * @{
+  */ 
+#define DMA_MemoryDataSize_Byte           ((uint32_t)0x00000000) 
+#define DMA_MemoryDataSize_HalfWord       ((uint32_t)0x00002000) 
+#define DMA_MemoryDataSize_Word           ((uint32_t)0x00004000)
+
+#define IS_DMA_MEMORY_DATA_SIZE(SIZE) (((SIZE) == DMA_MemoryDataSize_Byte)  || \
+                                       ((SIZE) == DMA_MemoryDataSize_HalfWord) || \
+                                       ((SIZE) == DMA_MemoryDataSize_Word ))
+/**
+  * @}
+  */ 
+
+
+/** @defgroup DMA_circular_normal_mode 
+  * @{
+  */ 
+#define DMA_Mode_Normal                   ((uint32_t)0x00000000) 
+#define DMA_Mode_Circular                 ((uint32_t)0x00000100)
+
+#define IS_DMA_MODE(MODE) (((MODE) == DMA_Mode_Normal ) || \
+                           ((MODE) == DMA_Mode_Circular)) 
+/**
+  * @}
+  */ 
+
+
+/** @defgroup DMA_priority_level 
+  * @{
+  */ 
+#define DMA_Priority_Low                  ((uint32_t)0x00000000)
+#define DMA_Priority_Medium               ((uint32_t)0x00010000) 
+#define DMA_Priority_High                 ((uint32_t)0x00020000)
+#define DMA_Priority_VeryHigh             ((uint32_t)0x00030000)
+
+#define IS_DMA_PRIORITY(PRIORITY) (((PRIORITY) == DMA_Priority_Low )   || \
+                                   ((PRIORITY) == DMA_Priority_Medium) || \
+                                   ((PRIORITY) == DMA_Priority_High)   || \
+                                   ((PRIORITY) == DMA_Priority_VeryHigh)) 
+/**
+  * @}
+  */ 
+
+
+/** @defgroup DMA_fifo_direct_mode 
+  * @{
+  */ 
+#define DMA_FIFOMode_Disable              ((uint32_t)0x00000000) 
+#define DMA_FIFOMode_Enable               ((uint32_t)0x00000004)
+
+#define IS_DMA_FIFO_MODE_STATE(STATE) (((STATE) == DMA_FIFOMode_Disable ) || \
+                                       ((STATE) == DMA_FIFOMode_Enable)) 
+/**
+  * @}
+  */ 
+
+
+/** @defgroup DMA_fifo_threshold_level 
+  * @{
+  */ 
+#define DMA_FIFOThreshold_1QuarterFull    ((uint32_t)0x00000000)
+#define DMA_FIFOThreshold_HalfFull        ((uint32_t)0x00000001) 
+#define DMA_FIFOThreshold_3QuartersFull   ((uint32_t)0x00000002)
+#define DMA_FIFOThreshold_Full            ((uint32_t)0x00000003)
+
+#define IS_DMA_FIFO_THRESHOLD(THRESHOLD) (((THRESHOLD) == DMA_FIFOThreshold_1QuarterFull ) || \
+                                          ((THRESHOLD) == DMA_FIFOThreshold_HalfFull)      || \
+                                          ((THRESHOLD) == DMA_FIFOThreshold_3QuartersFull) || \
+                                          ((THRESHOLD) == DMA_FIFOThreshold_Full)) 
+/**
+  * @}
+  */ 
+
+
+/** @defgroup DMA_memory_burst 
+  * @{
+  */ 
+#define DMA_MemoryBurst_Single            ((uint32_t)0x00000000)
+#define DMA_MemoryBurst_INC4              ((uint32_t)0x00800000)  
+#define DMA_MemoryBurst_INC8              ((uint32_t)0x01000000)
+#define DMA_MemoryBurst_INC16             ((uint32_t)0x01800000)
+
+#define IS_DMA_MEMORY_BURST(BURST) (((BURST) == DMA_MemoryBurst_Single) || \
+                                    ((BURST) == DMA_MemoryBurst_INC4)  || \
+                                    ((BURST) == DMA_MemoryBurst_INC8)  || \
+                                    ((BURST) == DMA_MemoryBurst_INC16))
+/**
+  * @}
+  */ 
+
+
+/** @defgroup DMA_peripheral_burst 
+  * @{
+  */ 
+#define DMA_PeripheralBurst_Single        ((uint32_t)0x00000000)
+#define DMA_PeripheralBurst_INC4          ((uint32_t)0x00200000)  
+#define DMA_PeripheralBurst_INC8          ((uint32_t)0x00400000)
+#define DMA_PeripheralBurst_INC16         ((uint32_t)0x00600000)
+
+#define IS_DMA_PERIPHERAL_BURST(BURST) (((BURST) == DMA_PeripheralBurst_Single) || \
+                                        ((BURST) == DMA_PeripheralBurst_INC4)  || \
+                                        ((BURST) == DMA_PeripheralBurst_INC8)  || \
+                                        ((BURST) == DMA_PeripheralBurst_INC16))
+/**
+  * @}
+  */ 
+
+
+/** @defgroup DMA_fifo_status_level 
+  * @{
+  */
+#define DMA_FIFOStatus_Less1QuarterFull   ((uint32_t)0x00000000 << 3)
+#define DMA_FIFOStatus_1QuarterFull       ((uint32_t)0x00000001 << 3)
+#define DMA_FIFOStatus_HalfFull           ((uint32_t)0x00000002 << 3) 
+#define DMA_FIFOStatus_3QuartersFull      ((uint32_t)0x00000003 << 3)
+#define DMA_FIFOStatus_Empty              ((uint32_t)0x00000004 << 3)
+#define DMA_FIFOStatus_Full               ((uint32_t)0x00000005 << 3)
+
+#define IS_DMA_FIFO_STATUS(STATUS) (((STATUS) == DMA_FIFOStatus_Less1QuarterFull ) || \
+                                    ((STATUS) == DMA_FIFOStatus_HalfFull)          || \
+                                    ((STATUS) == DMA_FIFOStatus_1QuarterFull)      || \
+                                    ((STATUS) == DMA_FIFOStatus_3QuartersFull)     || \
+                                    ((STATUS) == DMA_FIFOStatus_Full)              || \
+                                    ((STATUS) == DMA_FIFOStatus_Empty)) 
+/**
+  * @}
+  */ 
+
+/** @defgroup DMA_flags_definition 
+  * @{
+  */
+#define DMA_FLAG_FEIF0                    ((uint32_t)0x10800001)
+#define DMA_FLAG_DMEIF0                   ((uint32_t)0x10800004)
+#define DMA_FLAG_TEIF0                    ((uint32_t)0x10000008)
+#define DMA_FLAG_HTIF0                    ((uint32_t)0x10000010)
+#define DMA_FLAG_TCIF0                    ((uint32_t)0x10000020)
+#define DMA_FLAG_FEIF1                    ((uint32_t)0x10000040)
+#define DMA_FLAG_DMEIF1                   ((uint32_t)0x10000100)
+#define DMA_FLAG_TEIF1                    ((uint32_t)0x10000200)
+#define DMA_FLAG_HTIF1                    ((uint32_t)0x10000400)
+#define DMA_FLAG_TCIF1                    ((uint32_t)0x10000800)
+#define DMA_FLAG_FEIF2                    ((uint32_t)0x10010000)
+#define DMA_FLAG_DMEIF2                   ((uint32_t)0x10040000)
+#define DMA_FLAG_TEIF2                    ((uint32_t)0x10080000)
+#define DMA_FLAG_HTIF2                    ((uint32_t)0x10100000)
+#define DMA_FLAG_TCIF2                    ((uint32_t)0x10200000)
+#define DMA_FLAG_FEIF3                    ((uint32_t)0x10400000)
+#define DMA_FLAG_DMEIF3                   ((uint32_t)0x11000000)
+#define DMA_FLAG_TEIF3                    ((uint32_t)0x12000000)
+#define DMA_FLAG_HTIF3                    ((uint32_t)0x14000000)
+#define DMA_FLAG_TCIF3                    ((uint32_t)0x18000000)
+#define DMA_FLAG_FEIF4                    ((uint32_t)0x20000001)
+#define DMA_FLAG_DMEIF4                   ((uint32_t)0x20000004)
+#define DMA_FLAG_TEIF4                    ((uint32_t)0x20000008)
+#define DMA_FLAG_HTIF4                    ((uint32_t)0x20000010)
+#define DMA_FLAG_TCIF4                    ((uint32_t)0x20000020)
+#define DMA_FLAG_FEIF5                    ((uint32_t)0x20000040)
+#define DMA_FLAG_DMEIF5                   ((uint32_t)0x20000100)
+#define DMA_FLAG_TEIF5                    ((uint32_t)0x20000200)
+#define DMA_FLAG_HTIF5                    ((uint32_t)0x20000400)
+#define DMA_FLAG_TCIF5                    ((uint32_t)0x20000800)
+#define DMA_FLAG_FEIF6                    ((uint32_t)0x20010000)
+#define DMA_FLAG_DMEIF6                   ((uint32_t)0x20040000)
+#define DMA_FLAG_TEIF6                    ((uint32_t)0x20080000)
+#define DMA_FLAG_HTIF6                    ((uint32_t)0x20100000)
+#define DMA_FLAG_TCIF6                    ((uint32_t)0x20200000)
+#define DMA_FLAG_FEIF7                    ((uint32_t)0x20400000)
+#define DMA_FLAG_DMEIF7                   ((uint32_t)0x21000000)
+#define DMA_FLAG_TEIF7                    ((uint32_t)0x22000000)
+#define DMA_FLAG_HTIF7                    ((uint32_t)0x24000000)
+#define DMA_FLAG_TCIF7                    ((uint32_t)0x28000000)
+
+#define IS_DMA_CLEAR_FLAG(FLAG) ((((FLAG) & 0x30000000) != 0x30000000) && (((FLAG) & 0x30000000) != 0) && \
+                                 (((FLAG) & 0xC002F082) == 0x00) && ((FLAG) != 0x00))
+
+#define IS_DMA_GET_FLAG(FLAG) (((FLAG) == DMA_FLAG_TCIF0)  || ((FLAG) == DMA_FLAG_HTIF0)  || \
+                               ((FLAG) == DMA_FLAG_TEIF0)  || ((FLAG) == DMA_FLAG_DMEIF0) || \
+                               ((FLAG) == DMA_FLAG_FEIF0)  || ((FLAG) == DMA_FLAG_TCIF1)  || \
+                               ((FLAG) == DMA_FLAG_HTIF1)  || ((FLAG) == DMA_FLAG_TEIF1)  || \
+                               ((FLAG) == DMA_FLAG_DMEIF1) || ((FLAG) == DMA_FLAG_FEIF1)  || \
+                               ((FLAG) == DMA_FLAG_TCIF2)  || ((FLAG) == DMA_FLAG_HTIF2)  || \
+                               ((FLAG) == DMA_FLAG_TEIF2)  || ((FLAG) == DMA_FLAG_DMEIF2) || \
+                               ((FLAG) == DMA_FLAG_FEIF2)  || ((FLAG) == DMA_FLAG_TCIF3)  || \
+                               ((FLAG) == DMA_FLAG_HTIF3)  || ((FLAG) == DMA_FLAG_TEIF3)  || \
+                               ((FLAG) == DMA_FLAG_DMEIF3) || ((FLAG) == DMA_FLAG_FEIF3)  || \
+                               ((FLAG) == DMA_FLAG_TCIF4)  || ((FLAG) == DMA_FLAG_HTIF4)  || \
+                               ((FLAG) == DMA_FLAG_TEIF4)  || ((FLAG) == DMA_FLAG_DMEIF4) || \
+                               ((FLAG) == DMA_FLAG_FEIF4)  || ((FLAG) == DMA_FLAG_TCIF5)  || \
+                               ((FLAG) == DMA_FLAG_HTIF5)  || ((FLAG) == DMA_FLAG_TEIF5)  || \
+                               ((FLAG) == DMA_FLAG_DMEIF5) || ((FLAG) == DMA_FLAG_FEIF5)  || \
+                               ((FLAG) == DMA_FLAG_TCIF6)  || ((FLAG) == DMA_FLAG_HTIF6)  || \
+                               ((FLAG) == DMA_FLAG_TEIF6)  || ((FLAG) == DMA_FLAG_DMEIF6) || \
+                               ((FLAG) == DMA_FLAG_FEIF6)  || ((FLAG) == DMA_FLAG_TCIF7)  || \
+                               ((FLAG) == DMA_FLAG_HTIF7)  || ((FLAG) == DMA_FLAG_TEIF7)  || \
+                               ((FLAG) == DMA_FLAG_DMEIF7) || ((FLAG) == DMA_FLAG_FEIF7))
+/**
+  * @}
+  */ 
+
+
+/** @defgroup DMA_interrupt_enable_definitions 
+  * @{
+  */ 
+#define DMA_IT_TC                         ((uint32_t)0x00000010)
+#define DMA_IT_HT                         ((uint32_t)0x00000008)
+#define DMA_IT_TE                         ((uint32_t)0x00000004)
+#define DMA_IT_DME                        ((uint32_t)0x00000002)
+#define DMA_IT_FE                         ((uint32_t)0x00000080)
+
+#define IS_DMA_CONFIG_IT(IT) ((((IT) & 0xFFFFFF61) == 0x00) && ((IT) != 0x00))
+/**
+  * @}
+  */ 
+
+
+/** @defgroup DMA_interrupts_definitions 
+  * @{
+  */ 
+#define DMA_IT_FEIF0                      ((uint32_t)0x90000001)
+#define DMA_IT_DMEIF0                     ((uint32_t)0x10001004)
+#define DMA_IT_TEIF0                      ((uint32_t)0x10002008)
+#define DMA_IT_HTIF0                      ((uint32_t)0x10004010)
+#define DMA_IT_TCIF0                      ((uint32_t)0x10008020)
+#define DMA_IT_FEIF1                      ((uint32_t)0x90000040)
+#define DMA_IT_DMEIF1                     ((uint32_t)0x10001100)
+#define DMA_IT_TEIF1                      ((uint32_t)0x10002200)
+#define DMA_IT_HTIF1                      ((uint32_t)0x10004400)
+#define DMA_IT_TCIF1                      ((uint32_t)0x10008800)
+#define DMA_IT_FEIF2                      ((uint32_t)0x90010000)
+#define DMA_IT_DMEIF2                     ((uint32_t)0x10041000)
+#define DMA_IT_TEIF2                      ((uint32_t)0x10082000)
+#define DMA_IT_HTIF2                      ((uint32_t)0x10104000)
+#define DMA_IT_TCIF2                      ((uint32_t)0x10208000)
+#define DMA_IT_FEIF3                      ((uint32_t)0x90400000)
+#define DMA_IT_DMEIF3                     ((uint32_t)0x11001000)
+#define DMA_IT_TEIF3                      ((uint32_t)0x12002000)
+#define DMA_IT_HTIF3                      ((uint32_t)0x14004000)
+#define DMA_IT_TCIF3                      ((uint32_t)0x18008000)
+#define DMA_IT_FEIF4                      ((uint32_t)0xA0000001)
+#define DMA_IT_DMEIF4                     ((uint32_t)0x20001004)
+#define DMA_IT_TEIF4                      ((uint32_t)0x20002008)
+#define DMA_IT_HTIF4                      ((uint32_t)0x20004010)
+#define DMA_IT_TCIF4                      ((uint32_t)0x20008020)
+#define DMA_IT_FEIF5                      ((uint32_t)0xA0000040)
+#define DMA_IT_DMEIF5                     ((uint32_t)0x20001100)
+#define DMA_IT_TEIF5                      ((uint32_t)0x20002200)
+#define DMA_IT_HTIF5                      ((uint32_t)0x20004400)
+#define DMA_IT_TCIF5                      ((uint32_t)0x20008800)
+#define DMA_IT_FEIF6                      ((uint32_t)0xA0010000)
+#define DMA_IT_DMEIF6                     ((uint32_t)0x20041000)
+#define DMA_IT_TEIF6                      ((uint32_t)0x20082000)
+#define DMA_IT_HTIF6                      ((uint32_t)0x20104000)
+#define DMA_IT_TCIF6                      ((uint32_t)0x20208000)
+#define DMA_IT_FEIF7                      ((uint32_t)0xA0400000)
+#define DMA_IT_DMEIF7                     ((uint32_t)0x21001000)
+#define DMA_IT_TEIF7                      ((uint32_t)0x22002000)
+#define DMA_IT_HTIF7                      ((uint32_t)0x24004000)
+#define DMA_IT_TCIF7                      ((uint32_t)0x28008000)
+
+#define IS_DMA_CLEAR_IT(IT) ((((IT) & 0x30000000) != 0x30000000) && \
+                             (((IT) & 0x30000000) != 0) && ((IT) != 0x00) && \
+                             (((IT) & 0x40820082) == 0x00))
+
+#define IS_DMA_GET_IT(IT) (((IT) == DMA_IT_TCIF0) || ((IT) == DMA_IT_HTIF0)  || \
+                           ((IT) == DMA_IT_TEIF0) || ((IT) == DMA_IT_DMEIF0) || \
+                           ((IT) == DMA_IT_FEIF0) || ((IT) == DMA_IT_TCIF1)  || \
+                           ((IT) == DMA_IT_HTIF1) || ((IT) == DMA_IT_TEIF1)  || \
+                           ((IT) == DMA_IT_DMEIF1)|| ((IT) == DMA_IT_FEIF1)  || \
+                           ((IT) == DMA_IT_TCIF2) || ((IT) == DMA_IT_HTIF2)  || \
+                           ((IT) == DMA_IT_TEIF2) || ((IT) == DMA_IT_DMEIF2) || \
+                           ((IT) == DMA_IT_FEIF2) || ((IT) == DMA_IT_TCIF3)  || \
+                           ((IT) == DMA_IT_HTIF3) || ((IT) == DMA_IT_TEIF3)  || \
+                           ((IT) == DMA_IT_DMEIF3)|| ((IT) == DMA_IT_FEIF3)  || \
+                           ((IT) == DMA_IT_TCIF4) || ((IT) == DMA_IT_HTIF4)  || \
+                           ((IT) == DMA_IT_TEIF4) || ((IT) == DMA_IT_DMEIF4) || \
+                           ((IT) == DMA_IT_FEIF4) || ((IT) == DMA_IT_TCIF5)  || \
+                           ((IT) == DMA_IT_HTIF5) || ((IT) == DMA_IT_TEIF5)  || \
+                           ((IT) == DMA_IT_DMEIF5)|| ((IT) == DMA_IT_FEIF5)  || \
+                           ((IT) == DMA_IT_TCIF6) || ((IT) == DMA_IT_HTIF6)  || \
+                           ((IT) == DMA_IT_TEIF6) || ((IT) == DMA_IT_DMEIF6) || \
+                           ((IT) == DMA_IT_FEIF6) || ((IT) == DMA_IT_TCIF7)  || \
+                           ((IT) == DMA_IT_HTIF7) || ((IT) == DMA_IT_TEIF7)  || \
+                           ((IT) == DMA_IT_DMEIF7)|| ((IT) == DMA_IT_FEIF7))
+/**
+  * @}
+  */ 
+
+
+/** @defgroup DMA_peripheral_increment_offset 
+  * @{
+  */ 
+#define DMA_PINCOS_Psize                  ((uint32_t)0x00000000)
+#define DMA_PINCOS_WordAligned            ((uint32_t)0x00008000)
+
+#define IS_DMA_PINCOS_SIZE(SIZE) (((SIZE) == DMA_PINCOS_Psize) || \
+                                  ((SIZE) == DMA_PINCOS_WordAligned))
+/**
+  * @}
+  */ 
+
+
+/** @defgroup DMA_flow_controller_definitions 
+  * @{
+  */ 
+#define DMA_FlowCtrl_Memory               ((uint32_t)0x00000000)
+#define DMA_FlowCtrl_Peripheral           ((uint32_t)0x00000020)
+
+#define IS_DMA_FLOW_CTRL(CTRL) (((CTRL) == DMA_FlowCtrl_Memory) || \
+                                ((CTRL) == DMA_FlowCtrl_Peripheral))
+/**
+  * @}
+  */ 
+
+
+/** @defgroup DMA_memory_targets_definitions 
+  * @{
+  */ 
+#define DMA_Memory_0                      ((uint32_t)0x00000000)
+#define DMA_Memory_1                      ((uint32_t)0x00080000)
+
+#define IS_DMA_CURRENT_MEM(MEM) (((MEM) == DMA_Memory_0) || ((MEM) == DMA_Memory_1))
+/**
+  * @}
+  */ 
+
+/**
+  * @}
+  */ 
+
+/* Exported macro ------------------------------------------------------------*/
+/* Exported functions --------------------------------------------------------*/ 
+
+/*  Function used to set the DMA configuration to the default reset state *****/ 
+void DMA_DeInit(DMA_Stream_TypeDef* DMAy_Streamx);
+
+/* Initialization and Configuration functions *********************************/
+void DMA_Init(DMA_Stream_TypeDef* DMAy_Streamx, DMA_InitTypeDef* DMA_InitStruct);
+void DMA_StructInit(DMA_InitTypeDef* DMA_InitStruct);
+void DMA_Cmd(DMA_Stream_TypeDef* DMAy_Streamx, FunctionalState NewState);
+
+/* Optional Configuration functions *******************************************/
+void DMA_PeriphIncOffsetSizeConfig(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t DMA_Pincos);
+void DMA_FlowControllerConfig(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t DMA_FlowCtrl);
+
+/* Data Counter functions *****************************************************/
+void DMA_SetCurrDataCounter(DMA_Stream_TypeDef* DMAy_Streamx, uint16_t Counter);
+uint16_t DMA_GetCurrDataCounter(DMA_Stream_TypeDef* DMAy_Streamx);
+
+/* Double Buffer mode functions ***********************************************/
+void DMA_DoubleBufferModeConfig(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t Memory1BaseAddr,
+                                uint32_t DMA_CurrentMemory);
+void DMA_DoubleBufferModeCmd(DMA_Stream_TypeDef* DMAy_Streamx, FunctionalState NewState);
+void DMA_MemoryTargetConfig(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t MemoryBaseAddr,
+                            uint32_t DMA_MemoryTarget);
+uint32_t DMA_GetCurrentMemoryTarget(DMA_Stream_TypeDef* DMAy_Streamx);
+
+/* Interrupts and flags management functions **********************************/
+FunctionalState DMA_GetCmdStatus(DMA_Stream_TypeDef* DMAy_Streamx);
+uint32_t DMA_GetFIFOStatus(DMA_Stream_TypeDef* DMAy_Streamx);
+FlagStatus DMA_GetFlagStatus(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t DMA_FLAG);
+void DMA_ClearFlag(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t DMA_FLAG);
+void DMA_ITConfig(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t DMA_IT, FunctionalState NewState);
+FlagStatus DMA_GetITStatus(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t DMA_IT);
+void DMA_ClearITPendingBit(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t DMA_IT);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /*__STM32F4xx_DMA_H */
+
+/**
+  * @}
+  */
+
+/**
+  * @}
+  */
+
+
+/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>GD32F427</Define>
               <Undefine></Undefine>
-              <IncludePath>..\CMSIS;..\Hardware;..\Library\Include;..\User</IncludePath>
+              <IncludePath>..\CMSIS;..\Hardware;..\Library\Include;..\User;..\Malloc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -468,6 +468,16 @@
               <FileType>1</FileType>
               <FilePath>..\Library\Source\gd32f4xx_dac.c</FilePath>
             </File>
+            <File>
+              <FileName>gd32f4xx_dcmi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Library\Source\gd32f4xx_dcmi.c</FilePath>
+            </File>
+            <File>
+              <FileName>gd32f4xx_dma.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Library\Source\gd32f4xx_dma.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -582,6 +592,71 @@
               <FileName>myiic.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Hardware\myiic.c</FilePath>
+            </File>
+            <File>
+              <FileName>dac.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\dac.h</FilePath>
+            </File>
+            <File>
+              <FileName>dac.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\dac.c</FilePath>
+            </File>
+            <File>
+              <FileName>wavplay.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\wavplay.h</FilePath>
+            </File>
+            <File>
+              <FileName>wavplay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\wavplay.c</FilePath>
+            </File>
+            <File>
+              <FileName>ov2640cfg.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\ov2640cfg.h</FilePath>
+            </File>
+            <File>
+              <FileName>ov2640.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\ov2640.h</FilePath>
+            </File>
+            <File>
+              <FileName>ov2640.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\ov2640.c</FilePath>
+            </File>
+            <File>
+              <FileName>sccb.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\sccb.h</FilePath>
+            </File>
+            <File>
+              <FileName>sccb.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\sccb.c</FilePath>
+            </File>
+            <File>
+              <FileName>dcmi.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\dcmi.h</FilePath>
+            </File>
+            <File>
+              <FileName>dcmi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\dcmi.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Malloc</GroupName>
+          <Files>
+            <File>
+              <FileName>malloc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Malloc\malloc.c</FilePath>
             </File>
           </Files>
         </Group>

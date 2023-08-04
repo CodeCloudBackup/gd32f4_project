@@ -34,7 +34,7 @@
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f4xx.h"
+#include "gd32f4xx.h"
 
 /** @addtogroup STM32F4xx_StdPeriph_Driver
   * @{
@@ -292,7 +292,7 @@ uint32_t DCMI_ReadData(void);
 void DCMI_ITConfig(uint16_t DCMI_IT, FunctionalState NewState);
 FlagStatus DCMI_GetFlagStatus(uint16_t DCMI_FLAG);
 void DCMI_ClearFlag(uint16_t DCMI_FLAG);
-ITStatus DCMI_GetITStatus(uint16_t DCMI_IT);
+FlagStatus DCMI_GetITStatus(uint16_t DCMI_IT);
 void DCMI_ClearITPendingBit(uint16_t DCMI_IT);
 
 #ifdef __cplusplus

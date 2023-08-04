@@ -83,8 +83,8 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f4xx_dcmi.h"
-#include "stm32f4xx_rcc.h"
+#include "gd32f4xx_dcmi.h"
+#include "gd32f4xx_rcu.h"
 
 /** @addtogroup STM32F4xx_StdPeriph_Driver
   * @{
@@ -480,9 +480,9 @@ void DCMI_ClearFlag(uint16_t DCMI_FLAG)
   *            @arg DCMI_IT_LINE: Line interrupt mask
   * @retval The new state of DCMI_IT (SET or RESET).
   */
-ITStatus DCMI_GetITStatus(uint16_t DCMI_IT)
+FlagStatus DCMI_GetITStatus(uint16_t DCMI_IT)
 {
-  ITStatus bitstatus = RESET;
+  FlagStatus bitstatus = RESET;
   uint32_t itstatus = 0;
   
   /* Check the parameters */
