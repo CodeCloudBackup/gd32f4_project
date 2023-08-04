@@ -1,1511 +1,0 @@
-Dependencies for Project 'template', Target 'Target 1': (DO NOT MODIFY !)
-CompilerVersion: 5060960::V5.06 update 7 (build 960)::.\ARMCC
-F (..\CMSIS\system_gd32f4xx.c)(0x64C75E8B)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\system_gd32f4xx.o --omf_browse .\objects\system_gd32f4xx.crf --depend .\objects\system_gd32f4xx.d)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-F (..\Startup\startup_gd32f407.s)(0x649CFA2E)(--cpu Cortex-M4.fp.sp -g --apcs=interwork -IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 533" --pd "GD32F407 SETA 1"--list .\listings\startup_gd32f407.lst --xref -o .\objects\startup_gd32f407.o --depend .\objects\startup_gd32f407.d)
-F (..\Library\Source\gd32f4xx_adc.c)(0x64C75E8B)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\gd32f4xx_adc.o --omf_browse .\objects\gd32f4xx_adc.crf --depend .\objects\gd32f4xx_adc.d)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-F (..\Library\Source\gd32f4xx_crc.c)(0x649CFA2E)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\gd32f4xx_crc.o --omf_browse .\objects\gd32f4xx_crc.crf --depend .\objects\gd32f4xx_crc.d)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-F (..\Library\Source\gd32f4xx_dac.c)(0x64C75E8B)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\gd32f4xx_dac.o --omf_browse .\objects\gd32f4xx_dac.crf --depend .\objects\gd32f4xx_dac.d)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-F (..\Library\Source\gd32f4xx_dbg.c)(0x649CFA2E)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\gd32f4xx_dbg.o --omf_browse .\objects\gd32f4xx_dbg.crf --depend .\objects\gd32f4xx_dbg.d)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-F (..\Library\Source\gd32f4xx_dci.c)(0x64C75E8B)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\gd32f4xx_dci.o --omf_browse .\objects\gd32f4xx_dci.crf --depend .\objects\gd32f4xx_dci.d)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-F (..\Library\Source\gd32f4xx_dma.c)(0x64C75E8B)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\gd32f4xx_dma.o --omf_browse .\objects\gd32f4xx_dma.crf --depend .\objects\gd32f4xx_dma.d)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-F (..\Library\Source\gd32f4xx_exmc.c)(0x649CFA2E)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\gd32f4xx_exmc.o --omf_browse .\objects\gd32f4xx_exmc.crf --depend .\objects\gd32f4xx_exmc.d)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-F (..\Library\Source\gd32f4xx_exti.c)(0x649CFA2E)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\gd32f4xx_exti.o --omf_browse .\objects\gd32f4xx_exti.crf --depend .\objects\gd32f4xx_exti.d)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-F (..\Library\Source\gd32f4xx_fmc.c)(0x649CFA2E)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\gd32f4xx_fmc.o --omf_browse .\objects\gd32f4xx_fmc.crf --depend .\objects\gd32f4xx_fmc.d)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-F (..\Library\Source\gd32f4xx_fwdgt.c)(0x649CFA2E)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\gd32f4xx_fwdgt.o --omf_browse .\objects\gd32f4xx_fwdgt.crf --depend .\objects\gd32f4xx_fwdgt.d)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-F (..\Library\Source\gd32f4xx_gpio.c)(0x64C772FD)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\gd32f4xx_gpio.o --omf_browse .\objects\gd32f4xx_gpio.crf --depend .\objects\gd32f4xx_gpio.d)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-F (..\Library\Source\gd32f4xx_i2c.c)(0x64C75E8B)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\gd32f4xx_i2c.o --omf_browse .\objects\gd32f4xx_i2c.crf --depend .\objects\gd32f4xx_i2c.d)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-F (..\Library\Source\gd32f4xx_misc.c)(0x649CFA2E)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\gd32f4xx_misc.o --omf_browse .\objects\gd32f4xx_misc.crf --depend .\objects\gd32f4xx_misc.d)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-F (..\Library\Source\gd32f4xx_rcu.c)(0x64C77426)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\gd32f4xx_rcu.o --omf_browse .\objects\gd32f4xx_rcu.crf --depend .\objects\gd32f4xx_rcu.d)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-F (..\Library\Source\gd32f4xx_rtc.c)(0x649CFA2E)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\gd32f4xx_rtc.o --omf_browse .\objects\gd32f4xx_rtc.crf --depend .\objects\gd32f4xx_rtc.d)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-F (..\Library\Source\gd32f4xx_sdio.c)(0x64C75E8B)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\gd32f4xx_sdio.o --omf_browse .\objects\gd32f4xx_sdio.crf --depend .\objects\gd32f4xx_sdio.d)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-F (..\Library\Source\gd32f4xx_spi.c)(0x64C75E8B)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\gd32f4xx_spi.o --omf_browse .\objects\gd32f4xx_spi.crf --depend .\objects\gd32f4xx_spi.d)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-F (..\Library\Source\gd32f4xx_syscfg.c)(0x64C75E8B)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\gd32f4xx_syscfg.o --omf_browse .\objects\gd32f4xx_syscfg.crf --depend .\objects\gd32f4xx_syscfg.d)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-F (..\Library\Source\gd32f4xx_timer.c)(0x64C75E8B)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\gd32f4xx_timer.o --omf_browse .\objects\gd32f4xx_timer.crf --depend .\objects\gd32f4xx_timer.d)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-F (..\Library\Source\gd32f4xx_usart.c)(0x64C75E8B)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\gd32f4xx_usart.o --omf_browse .\objects\gd32f4xx_usart.crf --depend .\objects\gd32f4xx_usart.d)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-F (..\Library\Source\gd32f4xx_pmu.c)(0x64C75E8B)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\gd32f4xx_pmu.o --omf_browse .\objects\gd32f4xx_pmu.crf --depend .\objects\gd32f4xx_pmu.d)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-F (..\User\systick.c)(0x64C75E8B)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\systick.o --omf_browse .\objects\systick.crf --depend .\objects\systick.d)
-I (..\User\systick.h)(0x64C75E8B)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-F (..\User\main.c)(0x64C75E8B)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
-I (..\User\program.h)(0x64C75E8B)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-I (..\User\systick.h)(0x64C75E8B)
-I (..\User\oled.h)(0x64A22356)
-I (..\Hardware\led.h)(0x64C75E8B)
-I (..\Hardware\timer.h)(0x649CFA2E)
-I (..\Hardware\usart.h)(0x64C75E8B)
-I (D:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E8E2EB2)
-I (D:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E8E2EB2)
-I (D:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x5E8E2EB2)
-I (..\Hardware\iic.h)(0x64C75E8B)
-I (..\User\delay.h)(0x64B73982)
-I (..\Hardware\mpu6050.h)(0x64A22356)
-I (..\Hardware\esp8266.h)(0x64C75E8B)
-I (D:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5E8E2EB2)
-I (..\Hardware\tcp.h)(0x64B49607)
-I (..\Hardware\http.h)(0x64C75E8B)
-I (..\Hardware\malloc.h)(0x64B49607)
-I (..\Hardware\w25qxx.h)(0x64C75E8B)
-I (..\Hardware\gdflash.h)(0x64AFC891)
-I (..\Hardware\spi.h)(0x64C7775D)
-I (..\Hardware\sccb.h)(0x64C75E8B)
-I (..\Hardware\ov2640.h)(0x64C75E8B)
-F (..\User\gd32f4xx_it.c)(0x649CFA2E)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\gd32f4xx_it.o --omf_browse .\objects\gd32f4xx_it.crf --depend .\objects\gd32f4xx_it.d)
-I (..\User\gd32f4xx_it.h)(0x649CFA2E)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-I (..\User\main.h)(0x649CFA2E)
-I (..\User\systick.h)(0x64C75E8B)
-F (..\User\program.c)(0x64C75E8B)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\program.o --omf_browse .\objects\program.crf --depend .\objects\program.d)
-I (..\User\program.h)(0x64C75E8B)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-I (..\User\systick.h)(0x64C75E8B)
-I (..\User\oled.h)(0x64A22356)
-I (..\Hardware\led.h)(0x64C75E8B)
-I (..\Hardware\timer.h)(0x649CFA2E)
-I (..\Hardware\usart.h)(0x64C75E8B)
-I (D:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E8E2EB2)
-I (D:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E8E2EB2)
-I (D:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x5E8E2EB2)
-I (..\Hardware\iic.h)(0x64C75E8B)
-I (..\User\delay.h)(0x64B73982)
-I (..\Hardware\mpu6050.h)(0x64A22356)
-I (..\Hardware\esp8266.h)(0x64C75E8B)
-I (D:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5E8E2EB2)
-I (..\Hardware\tcp.h)(0x64B49607)
-I (..\Hardware\http.h)(0x64C75E8B)
-I (..\Hardware\malloc.h)(0x64B49607)
-I (..\Hardware\w25qxx.h)(0x64C75E8B)
-I (..\Hardware\gdflash.h)(0x64AFC891)
-I (..\Hardware\spi.h)(0x64C7775D)
-I (..\Hardware\sccb.h)(0x64C75E8B)
-I (..\Hardware\ov2640.h)(0x64C75E8B)
-F (..\User\delay.c)(0x64B73982)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\delay.o --omf_browse .\objects\delay.crf --depend .\objects\delay.d)
-I (..\User\delay.h)(0x64B73982)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-F (..\Hardware\esp8266.c)(0x64C75E8B)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\esp8266.o --omf_browse .\objects\esp8266.crf --depend .\objects\esp8266.d)
-I (..\Hardware\esp8266.h)(0x64C75E8B)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E8E2EB2)
-I (D:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E8E2EB2)
-I (D:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5E8E2EB2)
-I (..\User\systick.h)(0x64C75E8B)
-I (..\User\delay.h)(0x64B73982)
-I (..\Hardware\usart.h)(0x64C75E8B)
-I (D:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x5E8E2EB2)
-F (..\Hardware\iic.c)(0x64C75E8B)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\iic.o --omf_browse .\objects\iic.crf --depend .\objects\iic.d)
-I (..\Hardware\iic.h)(0x64C75E8B)
-I (..\User\systick.h)(0x64C75E8B)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-I (..\User\delay.h)(0x64B73982)
-F (..\Hardware\led.c)(0x64C75E8B)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\led.o --omf_browse .\objects\led.crf --depend .\objects\led.d)
-I (..\Hardware\led.h)(0x64C75E8B)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-I (..\User\systick.h)(0x64C75E8B)
-F (..\Hardware\mpu6050.c)(0x64A22356)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\mpu6050.o --omf_browse .\objects\mpu6050.crf --depend .\objects\mpu6050.d)
-I (..\Hardware\mpu6050.h)(0x64A22356)
-I (..\Hardware\iic.h)(0x64C75E8B)
-I (..\User\systick.h)(0x64C75E8B)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-I (..\User\delay.h)(0x64B73982)
-I (..\User\main.h)(0x649CFA2E)
-F (..\Hardware\tcp.c)(0x64C75E8B)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\tcp.o --omf_browse .\objects\tcp.crf --depend .\objects\tcp.d)
-I (..\Hardware\tcp.h)(0x64B49607)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-I (..\User\systick.h)(0x64C75E8B)
-I (..\Hardware\esp8266.h)(0x64C75E8B)
-I (D:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E8E2EB2)
-I (D:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E8E2EB2)
-I (D:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5E8E2EB2)
-I (..\User\delay.h)(0x64B73982)
-I (..\Hardware\usart.h)(0x64C75E8B)
-I (D:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x5E8E2EB2)
-F (..\Hardware\timer.c)(0x64C75E8B)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\timer.o --omf_browse .\objects\timer.crf --depend .\objects\timer.d)
-I (..\Hardware\timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-F (..\Hardware\usart.c)(0x64C75E8B)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\usart.o --omf_browse .\objects\usart.crf --depend .\objects\usart.d)
-I (..\Hardware\usart.h)(0x64C75E8B)
-I (D:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E8E2EB2)
-I (D:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E8E2EB2)
-I (D:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x5E8E2EB2)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-I (..\Hardware\malloc.h)(0x64B49607)
-F (..\Hardware\gdflash.c)(0x64A22356)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\gdflash.o --omf_browse .\objects\gdflash.crf --depend .\objects\gdflash.d)
-I (..\Hardware\gdflash.h)(0x64AFC891)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-I (..\User\systick.h)(0x64C75E8B)
-F (..\Hardware\http.c)(0x64C75E8B)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\http.o --omf_browse .\objects\http.crf --depend .\objects\http.d)
-I (..\Hardware\http.h)(0x64C75E8B)
-I (..\Hardware\tcp.h)(0x64B49607)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-I (..\User\systick.h)(0x64C75E8B)
-I (..\Hardware\usart.h)(0x64C75E8B)
-I (D:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E8E2EB2)
-I (D:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E8E2EB2)
-I (D:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x5E8E2EB2)
-I (..\Hardware\malloc.h)(0x64B49607)
-I (..\Hardware\w25qxx.h)(0x64C75E8B)
-I (..\User\delay.h)(0x64B73982)
-I (..\Hardware\gdflash.h)(0x64AFC891)
-I (D:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5E8E2EB2)
-F (..\Hardware\malloc.c)(0x64B49607)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\malloc.o --omf_browse .\objects\malloc.crf --depend .\objects\malloc.d)
-I (..\Hardware\malloc.h)(0x64B49607)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-F (..\Hardware\adc.c)(0x64C75E8B)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\adc.o --omf_browse .\objects\adc.crf --depend .\objects\adc.d)
-I (..\Hardware\adc.h)(0x64AE6BE8)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-I (..\User\systick.h)(0x64C75E8B)
-I (..\User\delay.h)(0x64B73982)
-F (..\Hardware\BH170.c)(0x64AF4B30)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\bh170.o --omf_browse .\objects\bh170.crf --depend .\objects\bh170.d)
-I (..\Hardware\bh170.h)(0x64AE7471)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-I (..\Hardware\iic.h)(0x64C75E8B)
-I (..\User\systick.h)(0x64C75E8B)
-I (..\User\delay.h)(0x64B73982)
-F (..\Hardware\dac.c)(0x64C75E8B)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\dac.o --omf_browse .\objects\dac.crf --depend .\objects\dac.d)
-I (..\Hardware\dac.h)(0x64AE779D)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-F (..\Hardware\sccb.c)(0x64C75E8B)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\sccb.o --omf_browse .\objects\sccb.crf --depend .\objects\sccb.d)
-I (..\Hardware\sccb.h)(0x64C75E8B)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-I (..\User\systick.h)(0x64C75E8B)
-I (..\User\delay.h)(0x64B73982)
-F (..\Hardware\ov2640.c)(0x64C75E8B)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\ov2640.o --omf_browse .\objects\ov2640.crf --depend .\objects\ov2640.d)
-I (..\Hardware\ov2640.h)(0x64C75E8B)
-I (..\Hardware\sccb.h)(0x64C75E8B)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-I (..\User\systick.h)(0x64C75E8B)
-I (..\Hardware\ov2640cfg.h)(0x64B49607)
-I (..\Hardware\usart.h)(0x64C75E8B)
-I (D:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E8E2EB2)
-I (D:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E8E2EB2)
-I (D:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x5E8E2EB2)
-I (..\User\delay.h)(0x64B73982)
-F (..\Hardware\dcmi.c)(0x64C75E8B)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\dcmi.o --omf_browse .\objects\dcmi.crf --depend .\objects\dcmi.d)
-I (..\Hardware\dcmi.h)(0x64C75E8B)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-F (..\Hardware\myiic.h)(0x64C75E8B)()
-F (..\Hardware\spi.c)(0x64C77749)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\spi.o --omf_browse .\objects\spi.crf --depend .\objects\spi.d)
-I (..\Hardware\spi.h)(0x64C7775D)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-F (..\Hardware\w25qxx.c)(0x64C767C8)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\w25qxx.o --omf_browse .\objects\w25qxx.crf --depend .\objects\w25qxx.d)
-I (..\Hardware\w25qxx.h)(0x64C75E8B)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-I (..\User\systick.h)(0x64C75E8B)
-I (..\User\delay.h)(0x64B73982)
-F (..\Hardware\flash_f35sqa512m.h)(0x64C781A5)()
-F (..\Hardware\flash_f35sqa512m.c)(0x64C78185)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\CMSIS -I ..\Library\Include -I ..\User -I ..\Hardware-IC:\Users\lenovo\AppData\Local\Arm\Packs\GigaDevice\GD32F4xx_DFP\2.0.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F407 -DGD32F407 -D__FPU_PRESENT-o .\objects\flash_f35sqa512m.o --omf_browse .\objects\flash_f35sqa512m.crf --depend .\objects\flash_f35sqa512m.d)
-I (..\Hardware\flash_f35sqa512m.h)(0x64C781A5)
-I (..\CMSIS\gd32f4xx.h)(0x64C75E8B)
-I (..\CMSIS\core_cm4.h)(0x649CFA2E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\CMSIS\core_cmInstr.h)(0x649CFA2E)
-I (..\CMSIS\core_cmFunc.h)(0x649CFA2E)
-I (..\CMSIS\core_cm4_simd.h)(0x649CFA2E)
-I (..\CMSIS\system_gd32f4xx.h)(0x649CFA2E)
-I (..\User\gd32f4xx_libopt.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_rcu.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_adc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_crc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dac.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dbg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_dci.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_dma.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_exti.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_fmc.h)(0x64A22356)
-I (..\Library\Include\gd32f4xx_fwdgt.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_gpio.h)(0x64C772D3)
-I (..\Library\Include\gd32f4xx_syscfg.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_i2c.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_pmu.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_rtc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_sdio.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_spi.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_timer.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_usart.h)(0x64C75E8B)
-I (..\Library\Include\gd32f4xx_misc.h)(0x649CFA2E)
-I (..\Library\Include\gd32f4xx_exmc.h)(0x649CFA2E)
-I (..\User\delay.h)(0x64B73982)
-I (..\Hardware\spi.h)(0x64C7775D)
-I (..\User\systick.h)(0x64C75E8B)
