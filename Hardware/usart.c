@@ -246,4 +246,5 @@ void usart2_test(void)
 			printf("\r\n\r\n");//????
 			USART2_RX_STA=0;
 	}
+	printf("usart test\n");
 }

@@ -59,10 +59,10 @@
 #define RCU_MODIFY(__delay)     do{                                     \
                                     volatile uint32_t i;                \
                                     if(0 != __delay){                   \
-                                        RCU->CFG0 |= RCU_CFGR_HPRE_DIV1; \
+                                        RCU->CFG0 |= RCU_SYSCLK_Div2; \
                                         for(i=0; i<__delay; i++){       \
                                         }                               \
-                                        RCU->CFG0 |= RCU_CFGR_HPRE_DIV4; \
+                                        RCU->CFG0 |= RCU_SYSCLK_Div4; \
                                         for(i=0; i<__delay; i++){       \
                                         }                               \
                                     }                                   \
@@ -105,10 +105,6 @@ uint32_t SystemCoreClock = __SYSTEM_CLOCK_200M_PLL_8M_HXTAL;
 static void system_clock_200m_8m_hxtal(void);
 #elif defined (__SYSTEM_CLOCK_200M_PLL_25M_HXTAL)
 uint32_t SystemCoreClock = __SYSTEM_CLOCK_200M_PLL_25M_HXTAL;
-#define PLL_M 24
-#define PLL_N 400
-#define PLL_P 2
-#define PLL_Q 9
 static void system_clock_200m_25m_hxtal(void);
 #elif defined (__SYSTEM_CLOCK_240M_PLL_IRC16M)
 uint32_t SystemCoreClock = __SYSTEM_CLOCK_240M_PLL_IRC16M;
@@ -156,7 +152,7 @@ void SystemInit (void)
     RCU->CFG0 = 0x00000000U;
 
     /* wait until IRC16M is selected as system clock */
-    while(0 != (RCU->CFG0 & RCU_CFGR_SWS_HSI)){
+    while(0 != (RCU->CFG0 & RCC_CFGR_SWS_HSI)){
     }
 
     /* Reset PLLCFGR register */
@@ -236,18 +232,18 @@ static void system_clock_16m_irc16m(void)
     }
     
     /* AHB = SYSCLK */
-    RCU->CFG0 |= RCU_SYSCLK_Div1;
+    RCU->CFG0 |= RCU_AHB_CKSYS_DIV1;
     /* APB2 = AHB */
-    RCU->CFG0 |= RCU_CFGR_PPRE2_DIV1;
+    RCU->CFG0 |= RCU_APB2_CKAHB_DIV1;
     /* APB1 = AHB */
-    RCU->CFG0 |= RCU_CFGR_PPRE1_DIV1;
+    RCU->CFG0 |= RCU_APB1_CKAHB_DIV1;
     
     /* select IRC16M as system clock */
     RCU->CFG0 &= ~RCU_CFG0_SCS;
     RCU->CFG0 |= RCU_CKSYSSRC_IRC16M;
     
     /* wait until IRC16M is selected as system clock */
-    while(0 != (RCU->CFG0 & RCU_CFGR_SWS_HSI)){
+    while(0 != (RCU->CFG0 & RCU_SCSS_IRC16M)){
     }
 }
 
@@ -279,11 +275,11 @@ static void system_clock_hxtal(void)
     }
     
     /* AHB = SYSCLK */
-    RCU->CFG0 |= RCU_SYSCLK_Div1;
+    RCU->CFG0 |= RCU_AHB_CKSYS_DIV1;
     /* APB2 = AHB */
-    RCU->CFG0 |= RCU_CFGR_PPRE2_DIV1;
+    RCU->CFG0 |= RCU_APB2_CKAHB_DIV1;
     /* APB1 = AHB */
-    RCU->CFG0 |= RCU_CFGR_PPRE1_DIV1;
+    RCU->CFG0 |= RCU_APB1_CKAHB_DIV1;
     
     /* select HXTAL as system clock */
     RCU->CFG0 &= ~RCU_CFG0_SCS;
@@ -321,19 +317,19 @@ static void system_clock_120m_irc16m(void)
         }
     }
          
-    RCU->APB1EN |= RCU_APB1Periph_PWR;
+    RCU->APB1EN|= RCU_APB1EN_PMUEN;
     PMU_CTL |= PMU_CTL_LDOVS;
 
     /* IRC16M is stable */
     /* AHB = SYSCLK */
-    RCU->CFG0 |= RCU_SYSCLK_Div1;
+    RCU->CFG0 |= RCU_AHB_CKSYS_DIV1;
     /* APB2 = AHB/2 */
-    RCU->CFG0 |= RCU_CFGR_PPRE2_DIV2;
+    RCU->CFG0 |= RCU_APB2_CKAHB_DIV2;
     /* APB1 = AHB/4 */
-    RCU->CFG0 |= RCU_CFGR_PPRE1_DIV4;
+    RCU->CFG0 |= RCU_APB1_CKAHB_DIV4;
 
     /* Configure the main PLL, PSC = 16, PLL_N = 240, PLL_P = 2, PLL_Q = 5 */ 
-    RCU_PLL = (16U | (240U << 6U) | (((2U >> 1U) - 1U) << 16U) |
+    RCU->PLL = (16U | (240U << 6U) | (((2U >> 1U) - 1U) << 16U) |
                    (RCU_PLLSRC_IRC16M) | (5U << 24U));
 
     /* enable PLL */
@@ -355,10 +351,10 @@ static void system_clock_120m_irc16m(void)
     
     /* select PLL as system clock */
     RCU->CFG0 &= ~RCU_CFG0_SCS;
-    RCU->CFG0 |= RCU_SYSCLKSource_PLLCLK;
+    RCU->CFG0 |= RCU_CKSYSSRC_PLLP;
 
     /* wait until PLL is selected as system clock */
-    while(0U == (RCU->CFG0 & RCU_CFGR_SWS_PLL)){
+    while(0U == (RCU->CFG0 & RCU_SCSS_PLLP)){
     }
 }
 
@@ -389,20 +385,20 @@ static void system_clock_120m_8m_hxtal(void)
         }
     }
          
-    RCU->APB1EN |= RCU_APB1Periph_PWR;
+    RCU->APB1EN|= RCU_APB1EN_PMUEN;
     PMU_CTL |= PMU_CTL_LDOVS;
 
     /* HXTAL is stable */
     /* AHB = SYSCLK */
-    RCU->CFG0 |= RCU_SYSCLK_Div1;
+    RCU->CFG0 |= RCU_AHB_CKSYS_DIV1;
     /* APB2 = AHB/2 */
-    RCU->CFG0 |= RCU_CFGR_PPRE2_DIV2;
+    RCU->CFG0 |= RCU_APB2_CKAHB_DIV2;
     /* APB1 = AHB/4 */
-    RCU->CFG0 |= RCU_CFGR_PPRE1_DIV4;
+    RCU->CFG0 |= RCU_APB1_CKAHB_DIV4;
 
     /* Configure the main PLL, PSC = 8, PLL_N = 240, PLL_P = 2, PLL_Q = 5 */ 
-    RCU_PLL = (8U | (240U << 6U) | (((2U >> 1U) - 1U) << 16U) |
-                   (RCU_PLLSource_HSE) | (5U << 24U));
+    RCU->PLL = (8U | (240U << 6U) | (((2U >> 1U) - 1U) << 16U) |
+                   (RCU_PLLSRC_HXTAL) | (5U << 24U));
 
     /* enable PLL */
     RCU->CTL |= RCU_CTL_PLLEN;
@@ -423,10 +419,10 @@ static void system_clock_120m_8m_hxtal(void)
     
     /* select PLL as system clock */
     RCU->CFG0 &= ~RCU_CFG0_SCS;
-    RCU->CFG0 |= RCU_SYSCLKSource_PLLCLK;
+    RCU->CFG0 |= RCU_CKSYSSRC_PLLP;
 
     /* wait until PLL is selected as system clock */
-    while(0U == (RCU->CFG0 & RCU_CFGR_SWS_PLL)){
+    while(0U == (RCU->CFG0 & RCU_SCSS_PLLP)){
     }
 }
 
@@ -457,20 +453,20 @@ static void system_clock_120m_25m_hxtal(void)
         }
     }
          
-    RCU->APB1EN |= RCU_APB1Periph_PWR;
+    RCU->APB1EN|= RCU_APB1EN_PMUEN;
     PMU_CTL |= PMU_CTL_LDOVS;
 
     /* HXTAL is stable */
     /* AHB = SYSCLK */
-    RCU->CFG0 |= RCU_SYSCLK_Div1;
+    RCU->CFG0 |= RCU_AHB_CKSYS_DIV1;
     /* APB2 = AHB/2 */
-    RCU->CFG0 |= RCU_CFGR_PPRE2_DIV2;
+    RCU->CFG0 |= RCU_APB2_CKAHB_DIV2;
     /* APB1 = AHB/4 */
-    RCU->CFG0 |= RCU_CFGR_PPRE1_DIV4;
+    RCU->CFG0 |= RCU_APB1_CKAHB_DIV4;
 
     /* Configure the main PLL, PSC = 25, PLL_N = 240, PLL_P = 2, PLL_Q = 5 */ 
-    RCU_PLL = (25U | (240U << 6U) | (((2U >> 1U) - 1U) << 16U) |
-                   (RCU_PLLSource_HSE) | (5U << 24U));
+    RCU->PLL = (25U | (240U << 6U) | (((2U >> 1U) - 1U) << 16U) |
+                   (RCU_PLLSRC_HXTAL) | (5U << 24U));
 
     /* enable PLL */
     RCU->CTL |= RCU_CTL_PLLEN;
@@ -491,10 +487,10 @@ static void system_clock_120m_25m_hxtal(void)
     
     /* select PLL as system clock */
     RCU->CFG0 &= ~RCU_CFG0_SCS;
-    RCU->CFG0 |= RCU_SYSCLKSource_PLLCLK;
+    RCU->CFG0 |= RCU_CKSYSSRC_PLLP;
 
     /* wait until PLL is selected as system clock */
-    while(0U == (RCU->CFG0 & RCU_CFGR_SWS_PLL)){
+    while(0U == (RCU->CFG0 & RCU_SCSS_PLLP)){
     }
 }
 
@@ -525,19 +521,19 @@ static void system_clock_168m_irc16m(void)
         }
     }
          
-    RCU->APB1EN |= RCU_APB1Periph_PWR;
+    RCU->APB1EN|= RCU_APB1EN_PMUEN;
     PMU_CTL |= PMU_CTL_LDOVS;
 
     /* IRC16M is stable */
     /* AHB = SYSCLK */
-    RCU->CFG0 |= RCU_SYSCLK_Div1;
+    RCU->CFG0 |= RCU_AHB_CKSYS_DIV1;
     /* APB2 = AHB/2 */
-    RCU->CFG0 |= RCU_CFGR_PPRE2_DIV2;
+    RCU->CFG0 |= RCU_APB2_CKAHB_DIV2;
     /* APB1 = AHB/4 */
-    RCU->CFG0 |= RCU_CFGR_PPRE1_DIV4;
+    RCU->CFG0 |= RCU_APB1_CKAHB_DIV4;
 
     /* Configure the main PLL, PSC = 16, PLL_N = 336, PLL_P = 2, PLL_Q = 7 */ 
-    RCU_PLL = (16U | (336U << 6U) | (((2U >> 1U) - 1U) << 16U) |
+    RCU->PLL = (16U | (336U << 6U) | (((2U >> 1U) - 1U) << 16U) |
                    (RCU_PLLSRC_IRC16M) | (7U << 24U));
 
     /* enable PLL */
@@ -559,10 +555,10 @@ static void system_clock_168m_irc16m(void)
     
     /* select PLL as system clock */
     RCU->CFG0 &= ~RCU_CFG0_SCS;
-    RCU->CFG0 |= RCU_SYSCLKSource_PLLCLK;
+    RCU->CFG0 |= RCU_CKSYSSRC_PLLP;
 
     /* wait until PLL is selected as system clock */
-    while(0U == (RCU->CFG0 & RCU_CFGR_SWS_PLL)){
+    while(0U == (RCU->CFG0 & RCU_SCSS_PLLP)){
     }
 }
 
@@ -590,19 +586,19 @@ static void system_clock_168m_8m_hxtal(void)
         }
     }
 
-    RCU->APB1EN |= RCU_APB1Periph_PWR;
+    RCU->APB1EN|= RCU_APB1EN_PMUEN;
     PMU_CTL |= PMU_CTL_LDOVS;
     /* HXTAL is stable */
     /* AHB = SYSCLK */
-    RCU->CFG0 |= RCU_SYSCLK_Div1;
+    RCU->CFG0 |= RCU_AHB_CKSYS_DIV1;
     /* APB2 = AHB/2 */
-    RCU->CFG0 |= RCU_CFGR_PPRE2_DIV2;
+    RCU->CFG0 |= RCU_APB2_CKAHB_DIV2;
     /* APB1 = AHB/4 */
-    RCU->CFG0 |= RCU_CFGR_PPRE1_DIV4;
+    RCU->CFG0 |= RCU_APB1_CKAHB_DIV4;
 
     /* Configure the main PLL, PSC = 8, PLL_N = 336, PLL_P = 2, PLL_Q = 7 */ 
-    RCU_PLL = (8U | (336 << 6U) | (((2 >> 1U) -1U) << 16U) |
-                   (RCU_PLLSource_HSE) | (7 << 24U));
+    RCU->PLL = (8U | (336 << 6U) | (((2 >> 1U) -1U) << 16U) |
+                   (RCU_PLLSRC_HXTAL) | (7 << 24U));
 
     /* enable PLL */
     RCU->CTL |= RCU_CTL_PLLEN;
@@ -623,10 +619,10 @@ static void system_clock_168m_8m_hxtal(void)
 
     /* select PLL as system clock */
     RCU->CFG0 &= ~RCU_CFG0_SCS;
-    RCU->CFG0 |= RCU_SYSCLKSource_PLLCLK;
+    RCU->CFG0 |= RCU_CKSYSSRC_PLLP;
 
     /* wait until PLL is selected as system clock */
-    while(0U == (RCU->CFG0 & RCU_CFGR_SWS_PLL)){
+    while(0U == (RCU->CFG0 & RCU_SCSS_PLLP)){
     }
 }
 
@@ -657,20 +653,20 @@ static void system_clock_168m_25m_hxtal(void)
         }
     }
          
-    RCU->APB1EN |= RCU_APB1Periph_PWR;
+    RCU->APB1EN|= RCU_APB1EN_PMUEN;
     PMU_CTL |= PMU_CTL_LDOVS;
 
     /* HXTAL is stable */
     /* AHB = SYSCLK */
-    RCU->CFG0 |= RCU_SYSCLK_Div1;
+    RCU->CFG0 |= RCU_AHB_CKSYS_DIV1;
     /* APB2 = AHB */
-    RCU->CFG0 |= RCU_CFGR_PPRE2_DIV2;
+    RCU->CFG0 |= RCU_APB2_CKAHB_DIV2;
     /* APB1 = AHB */
-    RCU->CFG0 |= RCU_CFGR_PPRE1_DIV4;
+    RCU->CFG0 |= RCU_APB1_CKAHB_DIV4;
 
     /* Configure the main PLL, PSC = 25, PLL_N = 336, PLL_P = 2, PLL_Q = 7 */ 
-    RCU_PLL = (25U | (336U << 6U) | (((2U >> 1U) - 1U) << 16U) |
-                   (RCU_PLLSource_HSE) | (7U << 24U));
+    RCU->PLL = (25U | (336U << 6U) | (((2U >> 1U) - 1U) << 16U) |
+                   (RCU_PLLSRC_HXTAL) | (7U << 24U));
 
     /* enable PLL */
     RCU->CTL |= RCU_CTL_PLLEN;
@@ -691,10 +687,10 @@ static void system_clock_168m_25m_hxtal(void)
     
     /* select PLL as system clock */
     RCU->CFG0 &= ~RCU_CFG0_SCS;
-    RCU->CFG0 |= RCU_SYSCLKSource_PLLCLK;
+    RCU->CFG0 |= RCU_CKSYSSRC_PLLP;
 
     /* wait until PLL is selected as system clock */
-    while(0U == (RCU->CFG0 & RCU_CFGR_SWS_PLL)){
+    while(0U == (RCU->CFG0 & RCU_SCSS_PLLP)){
     }
 }
 
@@ -725,19 +721,19 @@ static void system_clock_200m_irc16m(void)
         }
     }
          
-    RCU->APB1EN |= RCU_APB1Periph_PWR;
+    RCU->APB1EN|= RCU_APB1EN_PMUEN;
     PMU_CTL |= PMU_CTL_LDOVS;
 
     /* IRC16M is stable */
     /* AHB = SYSCLK */
-    RCU->CFG0 |= RCU_SYSCLK_Div1;
+    RCU->CFG0 |= RCU_AHB_CKSYS_DIV1;
     /* APB2 = AHB/2 */
-    RCU->CFG0 |= RCU_CFGR_PPRE2_DIV2;
+    RCU->CFG0 |= RCU_APB2_CKAHB_DIV2;
     /* APB1 = AHB/4 */
-    RCU->CFG0 |= RCU_CFGR_PPRE1_DIV4;
+    RCU->CFG0 |= RCU_APB1_CKAHB_DIV4;
 
     /* Configure the main PLL, PSC = 16, PLL_N = 400, PLL_P = 2, PLL_Q = 9 */ 
-    RCU_PLL = (16U | (400U << 6U) | (((2U >> 1U) - 1U) << 16U) |
+    RCU->PLL = (16U | (400U << 6U) | (((2U >> 1U) - 1U) << 16U) |
                    (RCU_PLLSRC_IRC16M) | (9U << 24U));
 
     /* enable PLL */
@@ -759,10 +755,10 @@ static void system_clock_200m_irc16m(void)
     
     /* select PLL as system clock */
     RCU->CFG0 &= ~RCU_CFG0_SCS;
-    RCU->CFG0 |= RCU_SYSCLKSource_PLLCLK;
+    RCU->CFG0 |= RCU_CKSYSSRC_PLLP;
 
     /* wait until PLL is selected as system clock */
-    while(0U == (RCU->CFG0 & RCU_CFGR_SWS_PLL)){
+    while(0U == (RCU->CFG0 & RCU_SCSS_PLLP)){
     }
 }
 
@@ -793,20 +789,20 @@ static void system_clock_200m_8m_hxtal(void)
         }
     }
          
-    RCU->APB1EN |= RCU_APB1Periph_PWR;
+    RCU->APB1EN|= RCU_APB1EN_PMUEN;
     PMU_CTL |= PMU_CTL_LDOVS;
 
     /* HXTAL is stable */
     /* AHB = SYSCLK */
-    RCU->CFG0 |= RCU_SYSCLK_Div1;
+    RCU->CFG0 |= RCU_AHB_CKSYS_DIV1;
     /* APB2 = AHB/2 */
-    RCU->CFG0 |= RCU_CFGR_PPRE2_DIV2;
+    RCU->CFG0 |= RCU_APB2_CKAHB_DIV2;
     /* APB1 = AHB/4 */
-    RCU->CFG0 |= RCU_CFGR_PPRE1_DIV4;
+    RCU->CFG0 |= RCU_APB1_CKAHB_DIV4;
 
     /* Configure the main PLL, PSC = 8, PLL_N = 400, PLL_P = 2, PLL_Q = 9 */ 
-    RCU_PLL = (8U | (400U << 6U) | (((2U >> 1U) - 1U) << 16U) |
-                   (RCU_PLLSource_HSE) | (9U << 24U));
+    RCU->PLL = (8U | (400U << 6U) | (((2U >> 1U) - 1U) << 16U) |
+                   (RCU_PLLSRC_HXTAL) | (9U << 24U));
 
     /* enable PLL */
     RCU->CTL |= RCU_CTL_PLLEN;
@@ -827,10 +823,10 @@ static void system_clock_200m_8m_hxtal(void)
     
     /* select PLL as system clock */
     RCU->CFG0 &= ~RCU_CFG0_SCS;
-    RCU->CFG0 |= RCU_SYSCLKSource_PLLCLK;
+    RCU->CFG0 |= RCU_CKSYSSRC_PLLP;
 
     /* wait until PLL is selected as system clock */
-    while(0U == (RCU->CFG0 & RCU_CFGR_SWS_PLL)){
+    while(0U == (RCU->CFG0 & RCU_SCSS_PLLP)){
     }
 }
 
@@ -861,20 +857,20 @@ static void system_clock_200m_25m_hxtal(void)
         }
     }
          
-    RCU->APB1EN |= RCU_APB1Periph_PWR;
+    RCU->APB1EN|= RCC_APB1ENR_PWREN;
     PMU_CTL |= PMU_CTL_LDOVS;
 
     /* HXTAL is stable */
     /* AHB = SYSCLK */
-    RCU->CFG0 |= RCU_SYSCLK_Div1;
+    RCU->CFG0 |= RCC_CFGR_HPRE_DIV1;
     /* APB2 = AHB/2 */
-    RCU->CFG0 |= RCU_CFGR_PPRE2_DIV2;
+    RCU->CFG0 |= RCC_CFGR_PPRE2_DIV2;
     /* APB1 = AHB/4 */
-    RCU->CFG0 |= RCU_CFGR_PPRE1_DIV4;
+    RCU->CFG0 |= RCC_CFGR_PPRE1_DIV4;
 
     /* Configure the main PLL, PSC = 25, PLL_N = 400, PLL_P = 2, PLL_Q = 9 */ 
-    RCU->PLL = (PLL_M | (PLL_N << 6U) | (((PLL_P >> 1U) - 1U) << 16U) |
-                   (RCU_PLLSource_HSE) | (PLL_Q << 24U));
+    RCU->PLL = (25U | (400U << 6U) | (((2U >> 1U) - 1U) << 16U) |
+                   (RCC_PLLCFGR_PLLSRC_HSE) | (9U << 24U));
 
     /* enable PLL */
     RCU->CTL |= RCU_CTL_PLLEN;
@@ -895,10 +891,10 @@ static void system_clock_200m_25m_hxtal(void)
     
     /* select PLL as system clock */
     RCU->CFG0 &= ~RCU_CFG0_SCS;
-    RCU->CFG0 |= RCU_SYSCLKSource_PLLCLK;
+    RCU->CFG0 |= RCC_CFGR_SW_PLL;
 
     /* wait until PLL is selected as system clock */
-    while(0U == (RCU->CFG0 & RCU_CFGR_SWS_PLL)){
+    while(0U == (RCU->CFG0 & RCC_CFGR_SWS_PLL)){
     }
 }
 
@@ -929,19 +925,19 @@ static void system_clock_240m_irc16m(void)
         }
     }
          
-    RCU->APB1EN |= RCU_APB1Periph_PWR;
+    RCU->APB1EN|= RCU_APB1EN_PMUEN;
     PMU_CTL |= PMU_CTL_LDOVS;
 
     /* IRC16M is stable */
     /* AHB = SYSCLK */
-    RCU->CFG0 |= RCU_SYSCLK_Div1;
+    RCU->CFG0 |= RCU_AHB_CKSYS_DIV1;
     /* APB2 = AHB/2 */
-    RCU->CFG0 |= RCU_CFGR_PPRE2_DIV2;
+    RCU->CFG0 |= RCU_APB2_CKAHB_DIV2;
     /* APB1 = AHB/4 */
-    RCU->CFG0 |= RCU_CFGR_PPRE1_DIV4;
+    RCU->CFG0 |= RCU_APB1_CKAHB_DIV4;
 
     /* Configure the main PLL, PSC = 16, PLL_N = 480, PLL_P = 2, PLL_Q = 10 */ 
-    RCU_PLL = (16U | (480U << 6U) | (((2U >> 1U) - 1U) << 16U) |
+    RCU->PLL = (16U | (480U << 6U) | (((2U >> 1U) - 1U) << 16U) |
                    (RCU_PLLSRC_IRC16M) | (10U << 24U));
 
     /* enable PLL */
@@ -963,10 +959,10 @@ static void system_clock_240m_irc16m(void)
     
     /* select PLL as system clock */
     RCU->CFG0 &= ~RCU_CFG0_SCS;
-    RCU->CFG0 |= RCU_SYSCLKSource_PLLCLK;
+    RCU->CFG0 |= RCU_CKSYSSRC_PLLP;
 
     /* wait until PLL is selected as system clock */
-    while(0U == (RCU->CFG0 & RCU_CFGR_SWS_PLL)){
+    while(0U == (RCU->CFG0 & RCU_SCSS_PLLP)){
     }
 }
 
@@ -997,20 +993,20 @@ static void system_clock_240m_8m_hxtal(void)
         }
     }
          
-    RCU->APB1EN |= RCU_APB1Periph_PWR;
+    RCU->APB1EN|= RCU_APB1EN_PMUEN;
     PMU_CTL |= PMU_CTL_LDOVS;
 
     /* HXTAL is stable */
     /* AHB = SYSCLK */
-    RCU->CFG0 |= RCU_SYSCLK_Div1;
+    RCU->CFG0 |= RCU_AHB_CKSYS_DIV1;
     /* APB2 = AHB/2 */
-    RCU->CFG0 |= RCU_CFGR_PPRE2_DIV2;
+    RCU->CFG0 |= RCU_APB2_CKAHB_DIV2;
     /* APB1 = AHB/4 */
-    RCU->CFG0 |= RCU_CFGR_PPRE1_DIV4;
+    RCU->CFG0 |= RCU_APB1_CKAHB_DIV4;
 
     /* Configure the main PLL, PSC = 8, PLL_N = 480, PLL_P = 2, PLL_Q = 10 */ 
-    RCU_PLL = (8U | (480U << 6U) | (((2U >> 1U) - 1U) << 16U) |
-                   (RCU_PLLSource_HSE) | (10U << 24U));
+    RCU->PLL = (8U | (480U << 6U) | (((2U >> 1U) - 1U) << 16U) |
+                   (RCU_PLLSRC_HXTAL) | (10U << 24U));
 
     /* enable PLL */
     RCU->CTL |= RCU_CTL_PLLEN;
@@ -1031,10 +1027,10 @@ static void system_clock_240m_8m_hxtal(void)
     
     /* select PLL as system clock */
     RCU->CFG0 &= ~RCU_CFG0_SCS;
-    RCU->CFG0 |= RCU_SYSCLKSource_PLLCLK;
+    RCU->CFG0 |= RCU_CKSYSSRC_PLLP;
 
     /* wait until PLL is selected as system clock */
-    while(0U == (RCU->CFG0 & RCU_CFGR_SWS_PLL)){
+    while(0U == (RCU->CFG0 & RCU_SCSS_PLLP)){
     }
 }
 
@@ -1065,20 +1061,20 @@ static void system_clock_240m_25m_hxtal(void)
         }
     }
          
-    RCU->APB1EN |= RCU_APB1Periph_PWR;
+    RCU->APB1EN|= RCU_APB1EN_PMUEN;
     PMU_CTL |= PMU_CTL_LDOVS;
 
     /* HXTAL is stable */
     /* AHB = SYSCLK */
-    RCU->CFG0 |= RCU_SYSCLK_Div1;
+    RCU->CFG0 |= RCU_AHB_CKSYS_DIV1;
     /* APB2 = AHB/2 */
-    RCU->CFG0 |= RCU_CFGR_PPRE2_DIV2;
+    RCU->CFG0 |= RCU_APB2_CKAHB_DIV2;
     /* APB1 = AHB/4 */
-    RCU->CFG0 |= RCU_CFGR_PPRE1_DIV4;
+    RCU->CFG0 |= RCU_APB1_CKAHB_DIV4;
 
     /* Configure the main PLL, PSC = 25, PLL_N = 480, PLL_P = 2, PLL_Q = 10 */ 
-    RCU_PLL = (25U | (480U << 6U) | (((2U >> 1U) - 1U) << 16U) |
-                   (RCU_PLLSource_HSE) | (10U << 24U));
+    RCU->PLL = (25U | (480U << 6U) | (((2U >> 1U) - 1U) << 16U) |
+                   (RCU_PLLSRC_HXTAL) | (10U << 24U));
 
     /* enable PLL */
     RCU->CTL |= RCU_CTL_PLLEN;
@@ -1099,10 +1095,10 @@ static void system_clock_240m_25m_hxtal(void)
     
     /* select PLL as system clock */
     RCU->CFG0 &= ~RCU_CFG0_SCS;
-    RCU->CFG0 |= RCU_SYSCLKSource_PLLCLK;
+    RCU->CFG0 |= RCU_CKSYSSRC_PLLP;
 
     /* wait until PLL is selected as system clock */
-    while(0U == (RCU->CFG0 & RCU_CFGR_SWS_PLL)){
+    while(0U == (RCU->CFG0 & RCU_SCSS_PLLP)){
     }
 }
 #endif /* __SYSTEM_CLOCK_IRC16M */
@@ -1120,7 +1116,7 @@ void SystemCoreClockUpdate(void)
     /* exponent of AHB, APB1 and APB2 clock divider */
     const uint8_t ahb_exp[16] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6, 7, 8, 9};
 
-    sws = GET_BITS(RCU->CFG0, 2, 3);
+    sws = GET_BITS(RCU->CFG0 , 2, 3);
     switch(sws){
     /* IRC16M is selected as CK_SYS */
     case SEL_IRC16M:
@@ -1133,8 +1129,8 @@ void SystemCoreClockUpdate(void)
     /* PLLP is selected as CK_SYS */
     case SEL_PLLP:
         /* get the value of PLLPSC[5:0] */
-        pllpsc =  GET_BITS(RCU->PLL, 0U, 5U);
-        plln = GET_BITS(RCU->PLL , 6U, 14U);
+        pllpsc = GET_BITS(RCU->PLL, 0U, 5U);
+        plln = GET_BITS(RCU->PLL, 6U, 14U);
         pllp = (GET_BITS(RCU->PLL, 16U, 17U) + 1U) * 2U;
         /* PLL clock source selection, HXTAL or IRC8M/2 */
         pllsel = (RCU->PLL & RCU_PLL_PLLSEL);
@@ -1151,7 +1147,7 @@ void SystemCoreClockUpdate(void)
         break;
     }
     /* calculate AHB clock frequency */
-    idx = GET_BITS(RCU->CFG0, 4, 7);
+    idx = GET_BITS(RCU->CFG0 , 4, 7);
     clk_exp = ahb_exp[idx];
     SystemCoreClock = SystemCoreClock >> clk_exp;
 }

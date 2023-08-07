@@ -20,10 +20,10 @@ void TIM_100msProgram(void)
 
 void TIM_1000msProgram(void)
 {
-	LED_R=!LED_R;
+	LED_R = !LED_R;
 }
 //定时器3中断服务程序	 
-void TIM1_IRQHandler(void)
+void TIMER1_IRQHandler(void)
 { 		  
 	if(TIM_GetITStatus(TIM1,TIM_IT_Update)==SET)//溢出中断 
 	{
@@ -61,7 +61,7 @@ void TIM1_IRQHandler(void)
 				g_timFlag |= 0x40;
 				g_timFlag = 0;
 		}
-		TIM_ClearITPendingBit(TIM3,TIM_IT_Update);  //清除中断标志位   	  
+		TIM_ClearITPendingBit(TIM1,TIM_IT_Update);  //清除中断标志位   	  
 	}				    		  			    
 }
 
@@ -91,7 +91,7 @@ void TIM1_Init(u16 arr,u16 psc)
 	TIM_ITConfig(TIM1,TIM_IT_Update,ENABLE); //允许定时器1更新中断
 	TIM_Cmd(TIM1,ENABLE); //使能定时器1
 	
-	NVIC_InitStructure.NVIC_IRQChannel=TIM1_IRQn; //定时器3中断
+	NVIC_InitStructure.NVIC_IRQChannel=TIMER1_IRQn; //定时器3中断
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=0x01; //抢占优先级2
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority=0x00; //子优先级0
 	NVIC_InitStructure.NVIC_IRQChannelCmd=ENABLE;

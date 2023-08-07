@@ -36,8 +36,7 @@ OF SUCH DAMAGE.
 #define GD32F4XX_LIBOPT_H
 
 #if defined (GD32F450) || defined (GD32F405) || defined (GD32F407) || defined (GD32F470) || defined (GD32F425) || defined (GD32F427)
-		#include "misc.h"
-	  #include "gd32f4xx_rcu.h"
+    #include "gd32f4xx_rcu.h"
     #include "gd32f4xx_adc.h"
 //    #include "gd32f4xx_can.h"
 //    #include "gd32f4xx_crc.h"
@@ -46,7 +45,7 @@ OF SUCH DAMAGE.
 //    #include "gd32f4xx_dbg.h"
     #include "gd32f4xx_dcmi.h"
     #include "gd32f4xx_dma.h"
-    #include "gd32f4xx_exti.h"
+//    #include "gd32f4xx_exti.h"
 //    #include "gd32f4xx_fmc.h"
 //    #include "gd32f4xx_fwdgt.h"
     #include "gd32f4xx_gpio.h"
@@ -61,6 +60,7 @@ OF SUCH DAMAGE.
 //    #include "gd32f4xx_trng.h"
     #include "gd32f4xx_usart.h"
 //    #include "gd32f4xx_wwdgt.h"
+    #include "misc.h"
 #endif
 
 #if defined (GD32F450) || defined (GD32F470)

@@ -18,9 +18,11 @@
 #define OV2640_PWDN  	PFout(10)			//POWER DOWN控制信号 
 #define OV2640_RST  	PFout(9)			//复位控制信号 
 ////////////////////////////////////////////////////////////////////////////////// 
+
 #define OV2640_MID				0X7FA2
 #define OV2640_PID				0X2642
- 
+
+#define OV2640_SW PEout(8)
 
 //当选择DSP地址(0XFF=0X00)时,OV2640的DSP寄存器地址映射表
 #define OV2640_DSP_R_BYPASS     0x05
@@ -123,7 +125,7 @@ void OV2640_Window_Set(u16 sx,u16 sy,u16 width,u16 height);
 u8 OV2640_OutSize_Set(u16 width,u16 height);
 u8 OV2640_ImageWin_Set(u16 offx,u16 offy,u16 width,u16 height);
 u8 OV2640_ImageSize_Set(u16 width,u16 height);
-
+u8 OV2640_Jpg_Photo(void);
 #endif
 
 

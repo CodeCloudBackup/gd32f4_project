@@ -16,15 +16,15 @@
 
 
 //IO方向设置
-#define SCCB_SDA_IN()  {GPIOD->MODER&=~(3<<(7*2));GPIOD->MODER|=0<<7*2;}	//PD7 输入
-#define SCCB_SDA_OUT() {GPIOD->MODER&=~(3<<(7*2));GPIOD->MODER|=1<<7*2;} 	//PD7 输出
+#define SCCB_SDA_IN()  {GPIOF->MODER&=~(3<<(0*2));GPIOF->MODER|=0<<0*2;}	//PD7 输入
+#define SCCB_SDA_OUT() {GPIOF->MODER&=~(3<<(0*2));GPIOF->MODER|=1<<0*2;} 	//PD7 输出
 
 
 //IO操作函数	 
 #define SCCB_SCL    		PFout(1)	 	//SCL
 #define SCCB_SDA    		PFout(0) 		//SDA	 
 
-#define SCCB_READ_SDA    	PDin(0)  		//输入SDA    
+#define SCCB_READ_SDA    	PFin(0)  		//输入SDA    
 #define SCCB_ID   			0X60  			//OV2640的ID
 
 ///////////////////////////////////////////

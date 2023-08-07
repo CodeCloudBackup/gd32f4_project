@@ -1,5 +1,4 @@
 #include "iic.h"
-#include "delay.h"
 
 #define I2C0_SLAVE_ADDRESS7    0x46
 
@@ -22,7 +21,7 @@ void IIC0_Init(void)
 	GPIO_InitTypeDef  GPIO_InitStructure;
 	NVIC_InitTypeDef  NVIC_InitStructure;
 	I2C_InitTypeDef   I2C_InitStructure;
-//	EXTI_InitTypeDef   EXTI_InitStructure;
+	EXTI_InitTypeDef   EXTI_InitStructure;
 	
 	RCU_AHB1PeriphClockCmd(RCU_AHB1Periph_GPIOB,ENABLE); //Ê¹ÄÜGPIOAÊ±ÖÓ
 	 //GPIOB8,B9?????

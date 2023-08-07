@@ -40,28 +40,52 @@ OF SUCH DAMAGE.
 #include "timer.h"
 #include "delay.h"
 #include "usart.h"
-#include "malloc.h"
 #include "dac.h"
-
+#include "dcmi.h"
+#include "ov2640.h"
+#include "sccb.h"
+#include "malloc.h"
 /*!
     \brief      main function
     \param[in]  none
     \param[out] none
     \retval     none
-*/
+00*/
+
+
+//jpeg数据接收回调函数
+void jpeg_dcmi_rx_callback(void)
+{ 
+	
+}
+
 int main(void)
 {
     /* configure systick */
 		NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);//设置系统中断优先级分组2
     systick_config();
-		delay_init(200);
+		delay_init(200);    //初始化延时函数
 		LED_Init();
 		TIM1_Init(99,999); //定时器时钟100M，分频系数1000，所以100M/1000=100Khz的计数频率，计数100次为1ms  
 		usart1_init(115200);
 		usart2_init(115200);
-		DAC1_Init();
+		Speaker_Init();
+		my_mem_init(SRAMIN);		//初始化内部内存池 
+		SPEAKER_SW=1;
+		while(OV2640_Init())//初始化OV2640
+		{
+			printf("ov2640_init failed\r\n");
+			delay_ms(400);
+		}
+		delay_ms(2000);
+		MyDCMI_Init();			//DCMI配置
+		
+		OV2640_Jpg_Photo();
     while(1) {
-       usart2_test();
-				DAC1_Init();
+			//printf("xxxx\r\n");
+			// LED_Test();
+			DAC1_Test( 36,4096 );
+      // usart2_test();
+			
     }
 }

@@ -384,7 +384,7 @@ void DAC_SetChannel1Data(uint32_t DAC_Align, uint16_t Data)
   assert_param(IS_DAC_DATA(Data));
   
   tmp = (uint32_t)DAC_BASE; 
-  tmp += DHR12R1_OFFSET + DAC_Align;
+  tmp += DHR12R2_OFFSET + DAC_Align;
 
   /* Set the DAC channel1 selected data holding register */
   *(__IO uint32_t *) tmp = Data;

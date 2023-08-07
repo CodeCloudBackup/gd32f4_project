@@ -407,23 +407,23 @@ void I2S_Init(SPI_TypeDef* SPIx, I2S_InitTypeDef* I2S_InitStruct)
 
   #else /* There is no define for External I2S clock source */
     /* Set PLLI2S as I2S clock source */
-    if ((RCU->CFG0 & RCU_CFGR_I2SSRC) != 0)
+    if ((RCU->CFG0 & RCC_CFGR_I2SSRC) != 0)
     {
-      RCU->CFG0 &= ~(uint32_t)RCU_CFGR_I2SSRC;
+      RCU->CFG0 &= ~(uint32_t)RCC_CFGR_I2SSRC;
     }    
     
     /* Get the PLLI2SN value */
-    plln = (uint32_t)(((RCU->PLLI2S & RCU_PLLI2SCFGR_PLLI2SN) >> 6) & \
-                      (RCU_PLLI2SCFGR_PLLI2SN >> 6));
+    plln = (uint32_t)(((RCU->PLLI2S & RCC_PLLI2SCFGR_PLLI2SN) >> 6) & \
+                      (RCC_PLLI2SCFGR_PLLI2SN >> 6));
     
     /* Get the PLLI2SR value */
-    pllr = (uint32_t)(((RCU->PLLI2S & RCU_PLLI2SCFGR_PLLI2SR) >> 28) & \
-                      (RCU_PLLI2SCFGR_PLLI2SR >> 28));
+    pllr = (uint32_t)(((RCU->PLLI2S & RCC_PLLI2SCFGR_PLLI2SR) >> 28) & \
+                      (RCC_PLLI2SCFGR_PLLI2SR >> 28));
     
     /* Get the PLLM value */
-    pllm = (uint32_t)(RCU->PLL & RCU_PLLCFGR_PLLM);
+    pllm = (uint32_t)(RCU->PLL & RCC_PLLCFGR_PLLM);
 
-    if((RCU->PLL & RCU_PLLCFGR_PLLSRC) == RCU_PLLCFGR_PLLSRC_HSE)
+    if((RCU->PLL & RCC_PLLCFGR_PLLSRC) == RCC_PLLCFGR_PLLSRC_HSE)
     {
       /* Get the I2S source clock value */
       i2sclk = (uint32_t)(((HXTAL_VALUE / pllm) * plln) / pllr);

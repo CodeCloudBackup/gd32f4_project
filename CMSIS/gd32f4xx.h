@@ -57,7 +57,7 @@ OF SUCH DAMAGE.
 
 /* define value of high speed crystal oscillator (HXTAL) in Hz */
 #if !defined  (HXTAL_VALUE)
-#define HXTAL_VALUE    ((uint32_t)24000000)
+#define HXTAL_VALUE    ((uint32_t)25000000)
 #endif /* high speed crystal oscillator value */
 
 /* define startup timeout value of high speed crystal oscillator (HXTAL) */
@@ -141,13 +141,13 @@ typedef enum IRQn
     CAN0_RX1_IRQn                = 21,     /*!< CAN0 RX1 interrupt                                       */
     CAN0_EWMC_IRQn               = 22,     /*!< CAN0 EWMC interrupt                                      */
     EXTI5_9_IRQn                 = 23,     /*!< EXTI[9:5] interrupts                                     */
-    TIM0_BRK_TIM8_IRQn       = 24,     /*!< TIM0 break and TIM8 interrupts                       */
-    TIM0_UP_TIM9_IRQn        = 25,     /*!< TIM0 update and TIM9 interrupts                      */
-    TIM0_TRG_CMT_TIM10_IRQn  = 26,     /*!< TIM0 trigger and commutation  and TIM10 interrupts   */
-    TIM0_Channel_IRQn          = 27,     /*!< TIM0 channel capture compare interrupt                 */
-    TIM1_IRQn                  = 28,     /*!< TIM1 interrupt                                         */
-    TIM2_IRQn                  = 29,     /*!< TIM2 interrupt                                         */
-    TIM3_IRQn                  = 30,     /*!< TIM3 interrupts                                        */
+    TIMER0_BRK_TIMER8_IRQn       = 24,     /*!< TIMER0 break and TIMER8 interrupts                       */
+    TIMER0_UP_TIMER9_IRQn        = 25,     /*!< TIMER0 update and TIMER9 interrupts                      */
+    TIMER0_TRG_CMT_TIMER10_IRQn  = 26,     /*!< TIMER0 trigger and commutation  and TIMER10 interrupts   */
+    TIMER0_Channel_IRQn          = 27,     /*!< TIMER0 channel capture compare interrupt                 */
+    TIMER1_IRQn                  = 28,     /*!< TIMER1 interrupt                                         */
+    TIMER2_IRQn                  = 29,     /*!< TIMER2 interrupt                                         */
+    TIMER3_IRQn                  = 30,     /*!< TIMER3 interrupts                                        */
     I2C0_EV_IRQn                 = 31,     /*!< I2C0 event interrupt                                     */
     I2C0_ER_IRQn                 = 32,     /*!< I2C0 error interrupt                                     */
     I2C1_EV_IRQn                 = 33,     /*!< I2C1 event interrupt                                     */
@@ -160,21 +160,21 @@ typedef enum IRQn
     EXTI10_15_IRQn               = 40,     /*!< EXTI[15:10] interrupts                                   */
     RTC_Alarm_IRQn               = 41,     /*!< RTC alarm interrupt                                      */
     USBFS_WKUP_IRQn              = 42,     /*!< USBFS wakeup interrupt                                   */
-    TIM7_BRK_TIM11_IRQn      = 43,     /*!< TIM7 break and TIM11 interrupts                      */
-    TIM7_UP_TIM12_IRQn       = 44,     /*!< TIM7 update and TIM12 interrupts                     */
-    TIM7_TRG_CMT_TIM13_IRQn  = 45,     /*!< TIM7 trigger and commutation and TIM13 interrupts    */
-    TIM7_Channel_IRQn          = 46,     /*!< TIM7 channel capture compare interrupt                 */
+    TIMER7_BRK_TIMER11_IRQn      = 43,     /*!< TIMER7 break and TIMER11 interrupts                      */
+    TIMER7_UP_TIMER12_IRQn       = 44,     /*!< TIMER7 update and TIMER12 interrupts                     */
+    TIMER7_TRG_CMT_TIMER13_IRQn  = 45,     /*!< TIMER7 trigger and commutation and TIMER13 interrupts    */
+    TIMER7_Channel_IRQn          = 46,     /*!< TIMER7 channel capture compare interrupt                 */
     DMA0_Channel7_IRQn           = 47,     /*!< DMA0 channel7 interrupt                                  */
     
 #if defined (GD32F450) || defined (GD32F470)
     EXMC_IRQn                    = 48,     /*!< EXMC interrupt                                           */
     SDIO_IRQn                    = 49,     /*!< SDIO interrupt                                           */
-    TIM4_IRQn                  = 50,     /*!< TIM4 interrupt                                         */
+    TIMER4_IRQn                  = 50,     /*!< TIMER4 interrupt                                         */
     SPI2_IRQn                    = 51,     /*!< SPI2 interrupt                                           */
     UART3_IRQn                   = 52,     /*!< UART3 interrupt                                          */
     UART4_IRQn                   = 53,     /*!< UART4 interrupt                                          */
-    TIM5_DAC_IRQn              = 54,     /*!< TIM5 and DAC0 DAC1 underrun error interrupts           */
-    TIM6_IRQn                  = 55,     /*!< TIM6 interrupt                                         */
+    TIMER5_DAC_IRQn              = 54,     /*!< TIMER5 and DAC0 DAC1 underrun error interrupts           */
+    TIMER6_IRQn                  = 55,     /*!< TIMER6 interrupt                                         */
     DMA1_Channel0_IRQn           = 56,     /*!< DMA1 channel0 interrupt                                  */
     DMA1_Channel1_IRQn           = 57,     /*!< DMA1 channel1 interrupt                                  */
     DMA1_Channel2_IRQn           = 58,     /*!< DMA1 channel2 interrupt                                  */
@@ -212,12 +212,12 @@ typedef enum IRQn
 
 #if defined (GD32F405) || defined (GD32F425)
     SDIO_IRQn                    = 49,     /*!< SDIO interrupt                                           */
-    TIM4_IRQn                  = 50,     /*!< TIM4 interrupt                                         */
+    TIMER4_IRQn                  = 50,     /*!< TIMER4 interrupt                                         */
     SPI2_IRQn                    = 51,     /*!< SPI2 interrupt                                           */
     UART3_IRQn                   = 52,     /*!< UART3 interrupt                                          */
     UART4_IRQn                   = 53,     /*!< UART4 interrupt                                          */
-    TIM5_DAC_IRQn              = 54,     /*!< TIM5 and DAC0 DAC1 underrun error interrupts           */
-    TIM6_IRQn                  = 55,     /*!< TIM6 interrupt                                         */
+    TIMER5_DAC_IRQn              = 54,     /*!< TIMER5 and DAC0 DAC1 underrun error interrupts           */
+    TIMER6_IRQn                  = 55,     /*!< TIMER6 interrupt                                         */
     DMA1_Channel0_IRQn           = 56,     /*!< DMA1 channel0 interrupt                                  */
     DMA1_Channel1_IRQn           = 57,     /*!< DMA1 channel1 interrupt                                  */
     DMA1_Channel2_IRQn           = 58,     /*!< DMA1 channel2 interrupt                                  */
@@ -246,12 +246,12 @@ typedef enum IRQn
 #if defined (GD32F407) || defined (GD32F427)
     EXMC_IRQn                    = 48,     /*!< EXMC interrupt                                           */
     SDIO_IRQn                    = 49,     /*!< SDIO interrupt                                           */
-    TIM4_IRQn                  = 50,     /*!< TIM4 interrupt                                         */
+    TIMER4_IRQn                  = 50,     /*!< TIMER4 interrupt                                         */
     SPI2_IRQn                    = 51,     /*!< SPI2 interrupt                                           */
     UART3_IRQn                   = 52,     /*!< UART3 interrupt                                          */
     UART4_IRQn                   = 53,     /*!< UART4 interrupt                                          */
-    TIM5_DAC_IRQn              = 54,     /*!< TIM5 and DAC0 DAC1 underrun error interrupts           */
-    TIM6_IRQn                  = 55,     /*!< TIM6 interrupt                                         */
+    TIMER5_DAC_IRQn              = 54,     /*!< TIMER5 and DAC0 DAC1 underrun error interrupts           */
+    TIMER6_IRQn                  = 55,     /*!< TIMER6 interrupt                                         */
     DMA1_Channel0_IRQn           = 56,     /*!< DMA1 channel0 interrupt                                  */
     DMA1_Channel1_IRQn           = 57,     /*!< DMA1 channel1 interrupt                                  */
     DMA1_Channel2_IRQn           = 58,     /*!< DMA1 channel2 interrupt                                  */
@@ -285,7 +285,6 @@ typedef enum IRQn
 #include "core_cm4.h"
 #include "system_gd32f4xx.h"
 #include <stdint.h>
- 
 #define assert_param(expr) ((void)0)
 /*!< STM32F10x Standard Peripheral Library old types (maintained for legacy purpose) */
 typedef int32_t  s32;
@@ -323,10 +322,6 @@ typedef __I uint8_t vuc8;   /*!< Read Only */
 typedef enum {DISABLE = 0, ENABLE = !DISABLE} EventStatus, ControlStatus,FunctionalState;
 typedef enum {RESET = 0, SET = !RESET} FlagStatus;
 typedef enum {ERROR = 0, SUCCESS = !ERROR} ErrStatus;
-
-/** @addtogroup Peripheral_registers_structures
-  * @{
-  */   
 
 /** 
   * @brief Analog to Digital Converter  
@@ -1236,11 +1231,6 @@ typedef struct
   __IO uint32_t SR;  /*!< RNG status register,  Address offset: 0x04 */
   __IO uint32_t DR;  /*!< RNG data register,    Address offset: 0x08 */
 } RNG_TypeDef;
-
-/**
-  * @}
-  */
-
 /* bit operations */
 #define REG32(addr)                  (*(volatile uint32_t *)(uint32_t)(addr))
 #define REG16(addr)                  (*(volatile uint16_t *)(uint32_t)(addr))
@@ -1249,6 +1239,8 @@ typedef struct
 #define BITS(start, end)             ((0xFFFFFFFFUL << (start)) & (0xFFFFFFFFUL >> (31U - (uint32_t)(end)))) 
 #define GET_BITS(regval, start, end) (((regval) & BITS((start),(end))) >> (start))
 
+/* main flash and SRAM memory map */
+#define TCMSRAM_BASE          ((uint32_t)0x10000000U)        /*!< TCMSRAM(64KB) base address       */
 #define OPTION_BASE           ((uint32_t)0x1FFEC000U)        /*!< Option bytes base address        */
 
 /* peripheral memory map */
@@ -1271,13 +1263,7 @@ typedef struct
 #define PERIPH_BASE           ((uint32_t)0x40000000) /*!< Peripheral base address in the alias region                                */
 #define BKPSRAM_BASE          ((uint32_t)0x40024000) /*!< Backup SRAM(4 KB) base address in the alias region                         */
 
-#if defined (STM32F40_41xxx)
-#define FSMC_R_BASE           ((uint32_t)0xA0000000) /*!< FSMC registers base address                                                */
-#endif /* STM32F40_41xxx */
-
-#if defined (GD32F427) || defined (STM32F429_439xx)
-#define FMC_R_BASE            ((uint32_t)0xA0000000) /*!< FMC registers base address                                                 */
-#endif /* GD32F427 ||  STM32F429_439xx */
+#define FMC_R_BASE            ((uint32_t)0xA0000000) /*!< FMC registers base address  */
 
 #define CCMDATARAM_BB_BASE    ((uint32_t)0x12000000) /*!< CCM(core coupled memory) data RAM(64 KB) base address in the bit-band region  */
 #define SRAM1_BB_BASE         ((uint32_t)0x22000000) /*!< SRAM1(112 KB) base address in the bit-band region                             */
@@ -1289,6 +1275,14 @@ typedef struct
 /* Legacy defines */
 #define SRAM_BASE             SRAM1_BASE
 #define SRAM_BB_BASE          SRAM1_BB_BASE
+
+/* advanced high performance bus 2 memory map */
+#define USBFS_BASE            (AHB2_BUS_BASE + 0x00000000U)  /*!< USBFS base address               */
+#define DCI_BASE              (AHB2_BUS_BASE + 0x00050000U)  /*!< DCI base address                 */
+#define TRNG_BASE             (AHB2_BUS_BASE + 0x00060800U)  /*!< TRNG base address                */
+/* option byte and debug memory map */
+#define OB_BASE               ((uint32_t)0x1FFEC000U)        /*!< OB base address                  */
+#define DBG_BASE              ((uint32_t)0xE0042000U)        /*!< DBG base address                 */
 
 /*!< APB1 peripherals */
 #define TIM1_BASE             (APB1_BUS_BASE + 0x00000000U)
@@ -1531,18 +1525,6 @@ typedef struct
 
 #define DBGMCU              ((DBGMCU_TypeDef *) DBGMCU_BASE)
 
-/**
-  * @}
-  */
-
-/** @addtogroup Exported_constants
-  * @{
-  */
-  
-  /** @addtogroup Peripheral_Registers_Bits_Definition
-  * @{
-  */
-    
 /******************************************************************************/
 /*                         Peripheral Registers_Bits_Definition               */
 /******************************************************************************/
@@ -4743,7 +4725,7 @@ typedef struct
 #define  FSMC_ECCR3_ECC3                     ((uint32_t)0xFFFFFFFF)        /*!<ECC result */
 #endif /* STM32F40_41xxx */
 
-#if defined (GD32F427) || defined (STM32F429_439xx)
+#if defined (STM32F427_437xx) || defined (STM32F429_439xx)
 /******************************************************************************/
 /*                                                                            */
 /*                          Flexible Memory Controller                        */
@@ -5760,7 +5742,7 @@ typedef struct
 
 #define  FMC_SDSR_BUSY                      ((uint32_t)0x00000020)        /*!<Busy status */
 
-#endif /* GD32F427 ||  STM32F429_439xx */
+#endif /* STM32F427_437xx ||  STM32F429_439xx */
 
 /******************************************************************************/
 /*                                                                            */
@@ -6466,507 +6448,507 @@ typedef struct
 /*                         Reset and Clock Control                            */
 /*                                                                            */
 /******************************************************************************/
-/********************  Bit definition for RCU_CR register  ********************/
-#define  RCU_CR_HSION                        ((uint32_t)0x00000001)
-#define  RCU_CR_HSIRDY                       ((uint32_t)0x00000002)
+/********************  Bit definition for RCC_CR register  ********************/
+#define  RCC_CR_HSION                        ((uint32_t)0x00000001)
+#define  RCC_CR_HSIRDY                       ((uint32_t)0x00000002)
 
-#define  RCU_CR_HSITRIM                      ((uint32_t)0x000000F8)
-#define  RCU_CR_HSITRIM_0                    ((uint32_t)0x00000008)/*!<Bit 0 */
-#define  RCU_CR_HSITRIM_1                    ((uint32_t)0x00000010)/*!<Bit 1 */
-#define  RCU_CR_HSITRIM_2                    ((uint32_t)0x00000020)/*!<Bit 2 */
-#define  RCU_CR_HSITRIM_3                    ((uint32_t)0x00000040)/*!<Bit 3 */
-#define  RCU_CR_HSITRIM_4                    ((uint32_t)0x00000080)/*!<Bit 4 */
+#define  RCC_CR_HSITRIM                      ((uint32_t)0x000000F8)
+#define  RCC_CR_HSITRIM_0                    ((uint32_t)0x00000008)/*!<Bit 0 */
+#define  RCC_CR_HSITRIM_1                    ((uint32_t)0x00000010)/*!<Bit 1 */
+#define  RCC_CR_HSITRIM_2                    ((uint32_t)0x00000020)/*!<Bit 2 */
+#define  RCC_CR_HSITRIM_3                    ((uint32_t)0x00000040)/*!<Bit 3 */
+#define  RCC_CR_HSITRIM_4                    ((uint32_t)0x00000080)/*!<Bit 4 */
 
-#define  RCU_CR_HSICAL                       ((uint32_t)0x0000FF00)
-#define  RCU_CR_HSICAL_0                     ((uint32_t)0x00000100)/*!<Bit 0 */
-#define  RCU_CR_HSICAL_1                     ((uint32_t)0x00000200)/*!<Bit 1 */
-#define  RCU_CR_HSICAL_2                     ((uint32_t)0x00000400)/*!<Bit 2 */
-#define  RCU_CR_HSICAL_3                     ((uint32_t)0x00000800)/*!<Bit 3 */
-#define  RCU_CR_HSICAL_4                     ((uint32_t)0x00001000)/*!<Bit 4 */
-#define  RCU_CR_HSICAL_5                     ((uint32_t)0x00002000)/*!<Bit 5 */
-#define  RCU_CR_HSICAL_6                     ((uint32_t)0x00004000)/*!<Bit 6 */
-#define  RCU_CR_HSICAL_7                     ((uint32_t)0x00008000)/*!<Bit 7 */
+#define  RCC_CR_HSICAL                       ((uint32_t)0x0000FF00)
+#define  RCC_CR_HSICAL_0                     ((uint32_t)0x00000100)/*!<Bit 0 */
+#define  RCC_CR_HSICAL_1                     ((uint32_t)0x00000200)/*!<Bit 1 */
+#define  RCC_CR_HSICAL_2                     ((uint32_t)0x00000400)/*!<Bit 2 */
+#define  RCC_CR_HSICAL_3                     ((uint32_t)0x00000800)/*!<Bit 3 */
+#define  RCC_CR_HSICAL_4                     ((uint32_t)0x00001000)/*!<Bit 4 */
+#define  RCC_CR_HSICAL_5                     ((uint32_t)0x00002000)/*!<Bit 5 */
+#define  RCC_CR_HSICAL_6                     ((uint32_t)0x00004000)/*!<Bit 6 */
+#define  RCC_CR_HSICAL_7                     ((uint32_t)0x00008000)/*!<Bit 7 */
 
-#define  RCU_CR_HSEON                        ((uint32_t)0x00010000)
-#define  RCU_CR_HSERDY                       ((uint32_t)0x00020000)
-#define  RCU_CR_HSEBYP                       ((uint32_t)0x00040000)
-#define  RCU_CR_CSSON                        ((uint32_t)0x00080000)
-#define  RCU_CR_PLLON                        ((uint32_t)0x01000000)
-#define  RCU_CR_PLLRDY                       ((uint32_t)0x02000000)
-#define  RCU_CR_PLLI2SON                     ((uint32_t)0x04000000)
-#define  RCU_CR_PLLI2SRDY                    ((uint32_t)0x08000000)
-#define  RCU_CR_PLLSAION                     ((uint32_t)0x10000000)
-#define  RCU_CR_PLLSAIRDY                    ((uint32_t)0x20000000)
+#define  RCC_CR_HSEON                        ((uint32_t)0x00010000)
+#define  RCC_CR_HSERDY                       ((uint32_t)0x00020000)
+#define  RCC_CR_HSEBYP                       ((uint32_t)0x00040000)
+#define  RCC_CR_CSSON                        ((uint32_t)0x00080000)
+#define  RCC_CR_PLLON                        ((uint32_t)0x01000000)
+#define  RCC_CR_PLLRDY                       ((uint32_t)0x02000000)
+#define  RCC_CR_PLLI2SON                     ((uint32_t)0x04000000)
+#define  RCC_CR_PLLI2SRDY                    ((uint32_t)0x08000000)
+#define  RCC_CR_PLLSAION                     ((uint32_t)0x10000000)
+#define  RCC_CR_PLLSAIRDY                    ((uint32_t)0x20000000)
 
-/********************  Bit definition for RCU_PLLCFGR register  ***************/
-#define  RCU_PLLCFGR_PLLM                    ((uint32_t)0x0000003F)
-#define  RCU_PLLCFGR_PLLM_0                  ((uint32_t)0x00000001)
-#define  RCU_PLLCFGR_PLLM_1                  ((uint32_t)0x00000002)
-#define  RCU_PLLCFGR_PLLM_2                  ((uint32_t)0x00000004)
-#define  RCU_PLLCFGR_PLLM_3                  ((uint32_t)0x00000008)
-#define  RCU_PLLCFGR_PLLM_4                  ((uint32_t)0x00000010)
-#define  RCU_PLLCFGR_PLLM_5                  ((uint32_t)0x00000020)
+/********************  Bit definition for RCC_PLLCFGR register  ***************/
+#define  RCC_PLLCFGR_PLLM                    ((uint32_t)0x0000003F)
+#define  RCC_PLLCFGR_PLLM_0                  ((uint32_t)0x00000001)
+#define  RCC_PLLCFGR_PLLM_1                  ((uint32_t)0x00000002)
+#define  RCC_PLLCFGR_PLLM_2                  ((uint32_t)0x00000004)
+#define  RCC_PLLCFGR_PLLM_3                  ((uint32_t)0x00000008)
+#define  RCC_PLLCFGR_PLLM_4                  ((uint32_t)0x00000010)
+#define  RCC_PLLCFGR_PLLM_5                  ((uint32_t)0x00000020)
 
-#define  RCU_PLLCFGR_PLLN                     ((uint32_t)0x00007FC0)
-#define  RCU_PLLCFGR_PLLN_0                   ((uint32_t)0x00000040)
-#define  RCU_PLLCFGR_PLLN_1                   ((uint32_t)0x00000080)
-#define  RCU_PLLCFGR_PLLN_2                   ((uint32_t)0x00000100)
-#define  RCU_PLLCFGR_PLLN_3                   ((uint32_t)0x00000200)
-#define  RCU_PLLCFGR_PLLN_4                   ((uint32_t)0x00000400)
-#define  RCU_PLLCFGR_PLLN_5                   ((uint32_t)0x00000800)
-#define  RCU_PLLCFGR_PLLN_6                   ((uint32_t)0x00001000)
-#define  RCU_PLLCFGR_PLLN_7                   ((uint32_t)0x00002000)
-#define  RCU_PLLCFGR_PLLN_8                   ((uint32_t)0x00004000)
+#define  RCC_PLLCFGR_PLLN                     ((uint32_t)0x00007FC0)
+#define  RCC_PLLCFGR_PLLN_0                   ((uint32_t)0x00000040)
+#define  RCC_PLLCFGR_PLLN_1                   ((uint32_t)0x00000080)
+#define  RCC_PLLCFGR_PLLN_2                   ((uint32_t)0x00000100)
+#define  RCC_PLLCFGR_PLLN_3                   ((uint32_t)0x00000200)
+#define  RCC_PLLCFGR_PLLN_4                   ((uint32_t)0x00000400)
+#define  RCC_PLLCFGR_PLLN_5                   ((uint32_t)0x00000800)
+#define  RCC_PLLCFGR_PLLN_6                   ((uint32_t)0x00001000)
+#define  RCC_PLLCFGR_PLLN_7                   ((uint32_t)0x00002000)
+#define  RCC_PLLCFGR_PLLN_8                   ((uint32_t)0x00004000)
 
-#define  RCU_PLLCFGR_PLLP                    ((uint32_t)0x00030000)
-#define  RCU_PLLCFGR_PLLP_0                  ((uint32_t)0x00010000)
-#define  RCU_PLLCFGR_PLLP_1                  ((uint32_t)0x00020000)
+#define  RCC_PLLCFGR_PLLP                    ((uint32_t)0x00030000)
+#define  RCC_PLLCFGR_PLLP_0                  ((uint32_t)0x00010000)
+#define  RCC_PLLCFGR_PLLP_1                  ((uint32_t)0x00020000)
 
-#define  RCU_PLLCFGR_PLLSRC                  ((uint32_t)0x00400000)
-#define  RCU_PLLCFGR_PLLSRC_HSE              ((uint32_t)0x00400000)
-#define  RCU_PLLCFGR_PLLSRC_HSI              ((uint32_t)0x00000000)
+#define  RCC_PLLCFGR_PLLSRC                  ((uint32_t)0x00400000)
+#define  RCC_PLLCFGR_PLLSRC_HSE              ((uint32_t)0x00400000)
+#define  RCC_PLLCFGR_PLLSRC_HSI              ((uint32_t)0x00000000)
 
-#define  RCU_PLLCFGR_PLLQ                    ((uint32_t)0x0F000000)
-#define  RCU_PLLCFGR_PLLQ_0                  ((uint32_t)0x01000000)
-#define  RCU_PLLCFGR_PLLQ_1                  ((uint32_t)0x02000000)
-#define  RCU_PLLCFGR_PLLQ_2                  ((uint32_t)0x04000000)
-#define  RCU_PLLCFGR_PLLQ_3                  ((uint32_t)0x08000000)
+#define  RCC_PLLCFGR_PLLQ                    ((uint32_t)0x0F000000)
+#define  RCC_PLLCFGR_PLLQ_0                  ((uint32_t)0x01000000)
+#define  RCC_PLLCFGR_PLLQ_1                  ((uint32_t)0x02000000)
+#define  RCC_PLLCFGR_PLLQ_2                  ((uint32_t)0x04000000)
+#define  RCC_PLLCFGR_PLLQ_3                  ((uint32_t)0x08000000)
 
-/********************  Bit definition for RCU_CFGR register  ******************/
+/********************  Bit definition for RCC_CFGR register  ******************/
 /*!< SW configuration */
-#define  RCU_CFGR_SW                         ((uint32_t)0x00000003)        /*!< SW[1:0] bits (System clock Switch) */
-#define  RCU_CFGR_SW_0                       ((uint32_t)0x00000001)        /*!< Bit 0 */
-#define  RCU_CFGR_SW_1                       ((uint32_t)0x00000002)        /*!< Bit 1 */
+#define  RCC_CFGR_SW                         ((uint32_t)0x00000003)        /*!< SW[1:0] bits (System clock Switch) */
+#define  RCC_CFGR_SW_0                       ((uint32_t)0x00000001)        /*!< Bit 0 */
+#define  RCC_CFGR_SW_1                       ((uint32_t)0x00000002)        /*!< Bit 1 */
 
-#define  RCU_CFGR_SW_HSI                     ((uint32_t)0x00000000)        /*!< HSI selected as system clock */
-#define  RCU_CFGR_SW_HSE                     ((uint32_t)0x00000001)        /*!< HSE selected as system clock */
-#define  RCU_CFGR_SW_PLL                     ((uint32_t)0x00000002)        /*!< PLL selected as system clock */
+#define  RCC_CFGR_SW_HSI                     ((uint32_t)0x00000000)        /*!< HSI selected as system clock */
+#define  RCC_CFGR_SW_HSE                     ((uint32_t)0x00000001)        /*!< HSE selected as system clock */
+#define  RCC_CFGR_SW_PLL                     ((uint32_t)0x00000002)        /*!< PLL selected as system clock */
 
 /*!< SWS configuration */
-#define  RCU_CFGR_SWS                        ((uint32_t)0x0000000C)        /*!< SWS[1:0] bits (System Clock Switch Status) */
-#define  RCU_CFGR_SWS_0                      ((uint32_t)0x00000004)        /*!< Bit 0 */
-#define  RCU_CFGR_SWS_1                      ((uint32_t)0x00000008)        /*!< Bit 1 */
+#define  RCC_CFGR_SWS                        ((uint32_t)0x0000000C)        /*!< SWS[1:0] bits (System Clock Switch Status) */
+#define  RCC_CFGR_SWS_0                      ((uint32_t)0x00000004)        /*!< Bit 0 */
+#define  RCC_CFGR_SWS_1                      ((uint32_t)0x00000008)        /*!< Bit 1 */
 
-#define  RCU_CFGR_SWS_HSI                    ((uint32_t)0x00000000)        /*!< HSI oscillator used as system clock */
-#define  RCU_CFGR_SWS_HSE                    ((uint32_t)0x00000004)        /*!< HSE oscillator used as system clock */
-#define  RCU_CFGR_SWS_PLL                    ((uint32_t)0x00000008)        /*!< PLL used as system clock */
+#define  RCC_CFGR_SWS_HSI                    ((uint32_t)0x00000000)        /*!< HSI oscillator used as system clock */
+#define  RCC_CFGR_SWS_HSE                    ((uint32_t)0x00000004)        /*!< HSE oscillator used as system clock */
+#define  RCC_CFGR_SWS_PLL                    ((uint32_t)0x00000008)        /*!< PLL used as system clock */
 
 /*!< HPRE configuration */
-#define  RCU_CFGR_HPRE                       ((uint32_t)0x000000F0)        /*!< HPRE[3:0] bits (AHB prescaler) */
-#define  RCU_CFGR_HPRE_0                     ((uint32_t)0x00000010)        /*!< Bit 0 */
-#define  RCU_CFGR_HPRE_1                     ((uint32_t)0x00000020)        /*!< Bit 1 */
-#define  RCU_CFGR_HPRE_2                     ((uint32_t)0x00000040)        /*!< Bit 2 */
-#define  RCU_CFGR_HPRE_3                     ((uint32_t)0x00000080)        /*!< Bit 3 */
+#define  RCC_CFGR_HPRE                       ((uint32_t)0x000000F0)        /*!< HPRE[3:0] bits (AHB prescaler) */
+#define  RCC_CFGR_HPRE_0                     ((uint32_t)0x00000010)        /*!< Bit 0 */
+#define  RCC_CFGR_HPRE_1                     ((uint32_t)0x00000020)        /*!< Bit 1 */
+#define  RCC_CFGR_HPRE_2                     ((uint32_t)0x00000040)        /*!< Bit 2 */
+#define  RCC_CFGR_HPRE_3                     ((uint32_t)0x00000080)        /*!< Bit 3 */
 
-#define  RCU_CFGR_HPRE_DIV1                  ((uint32_t)0x00000000)        /*!< SYSCLK not divided */
-#define  RCU_CFGR_HPRE_DIV2                  ((uint32_t)0x00000080)        /*!< SYSCLK divided by 2 */
-#define  RCU_CFGR_HPRE_DIV4                  ((uint32_t)0x00000090)        /*!< SYSCLK divided by 4 */
-#define  RCU_CFGR_HPRE_DIV8                  ((uint32_t)0x000000A0)        /*!< SYSCLK divided by 8 */
-#define  RCU_CFGR_HPRE_DIV16                 ((uint32_t)0x000000B0)        /*!< SYSCLK divided by 16 */
-#define  RCU_CFGR_HPRE_DIV64                 ((uint32_t)0x000000C0)        /*!< SYSCLK divided by 64 */
-#define  RCU_CFGR_HPRE_DIV128                ((uint32_t)0x000000D0)        /*!< SYSCLK divided by 128 */
-#define  RCU_CFGR_HPRE_DIV256                ((uint32_t)0x000000E0)        /*!< SYSCLK divided by 256 */
-#define  RCU_CFGR_HPRE_DIV512                ((uint32_t)0x000000F0)        /*!< SYSCLK divided by 512 */
+#define  RCC_CFGR_HPRE_DIV1                  ((uint32_t)0x00000000)        /*!< SYSCLK not divided */
+#define  RCC_CFGR_HPRE_DIV2                  ((uint32_t)0x00000080)        /*!< SYSCLK divided by 2 */
+#define  RCC_CFGR_HPRE_DIV4                  ((uint32_t)0x00000090)        /*!< SYSCLK divided by 4 */
+#define  RCC_CFGR_HPRE_DIV8                  ((uint32_t)0x000000A0)        /*!< SYSCLK divided by 8 */
+#define  RCC_CFGR_HPRE_DIV16                 ((uint32_t)0x000000B0)        /*!< SYSCLK divided by 16 */
+#define  RCC_CFGR_HPRE_DIV64                 ((uint32_t)0x000000C0)        /*!< SYSCLK divided by 64 */
+#define  RCC_CFGR_HPRE_DIV128                ((uint32_t)0x000000D0)        /*!< SYSCLK divided by 128 */
+#define  RCC_CFGR_HPRE_DIV256                ((uint32_t)0x000000E0)        /*!< SYSCLK divided by 256 */
+#define  RCC_CFGR_HPRE_DIV512                ((uint32_t)0x000000F0)        /*!< SYSCLK divided by 512 */
 
 /*!< PPRE1 configuration */
-#define  RCU_CFGR_PPRE1                      ((uint32_t)0x00001C00)        /*!< PRE1[2:0] bits (APB1 prescaler) */
-#define  RCU_CFGR_PPRE1_0                    ((uint32_t)0x00000400)        /*!< Bit 0 */
-#define  RCU_CFGR_PPRE1_1                    ((uint32_t)0x00000800)        /*!< Bit 1 */
-#define  RCU_CFGR_PPRE1_2                    ((uint32_t)0x00001000)        /*!< Bit 2 */
+#define  RCC_CFGR_PPRE1                      ((uint32_t)0x00001C00)        /*!< PRE1[2:0] bits (APB1 prescaler) */
+#define  RCC_CFGR_PPRE1_0                    ((uint32_t)0x00000400)        /*!< Bit 0 */
+#define  RCC_CFGR_PPRE1_1                    ((uint32_t)0x00000800)        /*!< Bit 1 */
+#define  RCC_CFGR_PPRE1_2                    ((uint32_t)0x00001000)        /*!< Bit 2 */
 
-#define  RCU_CFGR_PPRE1_DIV1                 ((uint32_t)0x00000000)        /*!< HCLK not divided */
-#define  RCU_CFGR_PPRE1_DIV2                 ((uint32_t)0x00001000)        /*!< HCLK divided by 2 */
-#define  RCU_CFGR_PPRE1_DIV4                 ((uint32_t)0x00001400)        /*!< HCLK divided by 4 */
-#define  RCU_CFGR_PPRE1_DIV8                 ((uint32_t)0x00001800)        /*!< HCLK divided by 8 */
-#define  RCU_CFGR_PPRE1_DIV16                ((uint32_t)0x00001C00)        /*!< HCLK divided by 16 */
+#define  RCC_CFGR_PPRE1_DIV1                 ((uint32_t)0x00000000)        /*!< HCLK not divided */
+#define  RCC_CFGR_PPRE1_DIV2                 ((uint32_t)0x00001000)        /*!< HCLK divided by 2 */
+#define  RCC_CFGR_PPRE1_DIV4                 ((uint32_t)0x00001400)        /*!< HCLK divided by 4 */
+#define  RCC_CFGR_PPRE1_DIV8                 ((uint32_t)0x00001800)        /*!< HCLK divided by 8 */
+#define  RCC_CFGR_PPRE1_DIV16                ((uint32_t)0x00001C00)        /*!< HCLK divided by 16 */
 
 /*!< PPRE2 configuration */
-#define  RCU_CFGR_PPRE2                      ((uint32_t)0x0000E000)        /*!< PRE2[2:0] bits (APB2 prescaler) */
-#define  RCU_CFGR_PPRE2_0                    ((uint32_t)0x00002000)        /*!< Bit 0 */
-#define  RCU_CFGR_PPRE2_1                    ((uint32_t)0x00004000)        /*!< Bit 1 */
-#define  RCU_CFGR_PPRE2_2                    ((uint32_t)0x00008000)        /*!< Bit 2 */
+#define  RCC_CFGR_PPRE2                      ((uint32_t)0x0000E000)        /*!< PRE2[2:0] bits (APB2 prescaler) */
+#define  RCC_CFGR_PPRE2_0                    ((uint32_t)0x00002000)        /*!< Bit 0 */
+#define  RCC_CFGR_PPRE2_1                    ((uint32_t)0x00004000)        /*!< Bit 1 */
+#define  RCC_CFGR_PPRE2_2                    ((uint32_t)0x00008000)        /*!< Bit 2 */
 
-#define  RCU_CFGR_PPRE2_DIV1                 ((uint32_t)0x00000000)        /*!< HCLK not divided */
-#define  RCU_CFGR_PPRE2_DIV2                 ((uint32_t)0x00008000)        /*!< HCLK divided by 2 */
-#define  RCU_CFGR_PPRE2_DIV4                 ((uint32_t)0x0000A000)        /*!< HCLK divided by 4 */
-#define  RCU_CFGR_PPRE2_DIV8                 ((uint32_t)0x0000C000)        /*!< HCLK divided by 8 */
-#define  RCU_CFGR_PPRE2_DIV16                ((uint32_t)0x0000E000)        /*!< HCLK divided by 16 */
+#define  RCC_CFGR_PPRE2_DIV1                 ((uint32_t)0x00000000)        /*!< HCLK not divided */
+#define  RCC_CFGR_PPRE2_DIV2                 ((uint32_t)0x00008000)        /*!< HCLK divided by 2 */
+#define  RCC_CFGR_PPRE2_DIV4                 ((uint32_t)0x0000A000)        /*!< HCLK divided by 4 */
+#define  RCC_CFGR_PPRE2_DIV8                 ((uint32_t)0x0000C000)        /*!< HCLK divided by 8 */
+#define  RCC_CFGR_PPRE2_DIV16                ((uint32_t)0x0000E000)        /*!< HCLK divided by 16 */
 
 /*!< RTCPRE configuration */
-#define  RCU_CFGR_RTCPRE                     ((uint32_t)0x001F0000)
-#define  RCU_CFGR_RTCPRE_0                   ((uint32_t)0x00010000)
-#define  RCU_CFGR_RTCPRE_1                   ((uint32_t)0x00020000)
-#define  RCU_CFGR_RTCPRE_2                   ((uint32_t)0x00040000)
-#define  RCU_CFGR_RTCPRE_3                   ((uint32_t)0x00080000)
-#define  RCU_CFGR_RTCPRE_4                   ((uint32_t)0x00100000)
+#define  RCC_CFGR_RTCPRE                     ((uint32_t)0x001F0000)
+#define  RCC_CFGR_RTCPRE_0                   ((uint32_t)0x00010000)
+#define  RCC_CFGR_RTCPRE_1                   ((uint32_t)0x00020000)
+#define  RCC_CFGR_RTCPRE_2                   ((uint32_t)0x00040000)
+#define  RCC_CFGR_RTCPRE_3                   ((uint32_t)0x00080000)
+#define  RCC_CFGR_RTCPRE_4                   ((uint32_t)0x00100000)
 
 /*!< MCO1 configuration */
-#define  RCU_CFGR_MCO1                       ((uint32_t)0x00600000)
-#define  RCU_CFGR_MCO1_0                     ((uint32_t)0x00200000)
-#define  RCU_CFGR_MCO1_1                     ((uint32_t)0x00400000)
+#define  RCC_CFGR_MCO1                       ((uint32_t)0x00600000)
+#define  RCC_CFGR_MCO1_0                     ((uint32_t)0x00200000)
+#define  RCC_CFGR_MCO1_1                     ((uint32_t)0x00400000)
 
-#define  RCU_CFGR_I2SSRC                     ((uint32_t)0x00800000)
+#define  RCC_CFGR_I2SSRC                     ((uint32_t)0x00800000)
 
-#define  RCU_CFGR_MCO1PRE                    ((uint32_t)0x07000000)
-#define  RCU_CFGR_MCO1PRE_0                  ((uint32_t)0x01000000)
-#define  RCU_CFGR_MCO1PRE_1                  ((uint32_t)0x02000000)
-#define  RCU_CFGR_MCO1PRE_2                  ((uint32_t)0x04000000)
+#define  RCC_CFGR_MCO1PRE                    ((uint32_t)0x07000000)
+#define  RCC_CFGR_MCO1PRE_0                  ((uint32_t)0x01000000)
+#define  RCC_CFGR_MCO1PRE_1                  ((uint32_t)0x02000000)
+#define  RCC_CFGR_MCO1PRE_2                  ((uint32_t)0x04000000)
 
-#define  RCU_CFGR_MCO2PRE                    ((uint32_t)0x38000000)
-#define  RCU_CFGR_MCO2PRE_0                  ((uint32_t)0x08000000)
-#define  RCU_CFGR_MCO2PRE_1                  ((uint32_t)0x10000000)
-#define  RCU_CFGR_MCO2PRE_2                  ((uint32_t)0x20000000)
+#define  RCC_CFGR_MCO2PRE                    ((uint32_t)0x38000000)
+#define  RCC_CFGR_MCO2PRE_0                  ((uint32_t)0x08000000)
+#define  RCC_CFGR_MCO2PRE_1                  ((uint32_t)0x10000000)
+#define  RCC_CFGR_MCO2PRE_2                  ((uint32_t)0x20000000)
 
-#define  RCU_CFGR_MCO2                       ((uint32_t)0xC0000000)
-#define  RCU_CFGR_MCO2_0                     ((uint32_t)0x40000000)
-#define  RCU_CFGR_MCO2_1                     ((uint32_t)0x80000000)
+#define  RCC_CFGR_MCO2                       ((uint32_t)0xC0000000)
+#define  RCC_CFGR_MCO2_0                     ((uint32_t)0x40000000)
+#define  RCC_CFGR_MCO2_1                     ((uint32_t)0x80000000)
 
-/********************  Bit definition for RCU_CIR register  *******************/
-#define  RCU_CIR_LSIRDYF                     ((uint32_t)0x00000001)
-#define  RCU_CIR_LSERDYF                     ((uint32_t)0x00000002)
-#define  RCU_CIR_HSIRDYF                     ((uint32_t)0x00000004)
-#define  RCU_CIR_HSERDYF                     ((uint32_t)0x00000008)
-#define  RCU_CIR_PLLRDYF                     ((uint32_t)0x00000010)
-#define  RCU_CIR_PLLI2SRDYF                  ((uint32_t)0x00000020)
-#define  RCU_CIR_PLLSAIRDYF                  ((uint32_t)0x00000040)
-#define  RCU_CIR_CSSF                        ((uint32_t)0x00000080)
-#define  RCU_CIR_LSIRDYIE                    ((uint32_t)0x00000100)
-#define  RCU_CIR_LSERDYIE                    ((uint32_t)0x00000200)
-#define  RCU_CIR_HSIRDYIE                    ((uint32_t)0x00000400)
-#define  RCU_CIR_HSERDYIE                    ((uint32_t)0x00000800)
-#define  RCU_CIR_PLLRDYIE                    ((uint32_t)0x00001000)
-#define  RCU_CIR_PLLI2SRDYIE                 ((uint32_t)0x00002000)
-#define  RCU_CIR_PLLSAIRDYIE                 ((uint32_t)0x00004000)
-#define  RCU_CIR_LSIRDYC                     ((uint32_t)0x00010000)
-#define  RCU_CIR_LSERDYC                     ((uint32_t)0x00020000)
-#define  RCU_CIR_HSIRDYC                     ((uint32_t)0x00040000)
-#define  RCU_CIR_HSERDYC                     ((uint32_t)0x00080000)
-#define  RCU_CIR_PLLRDYC                     ((uint32_t)0x00100000)
-#define  RCU_CIR_PLLI2SRDYC                  ((uint32_t)0x00200000)
-#define  RCU_CIR_PLLSAIRDYC                  ((uint32_t)0x00400000)
-#define  RCU_CIR_CSSC                        ((uint32_t)0x00800000)
+/********************  Bit definition for RCC_CIR register  *******************/
+#define  RCC_CIR_LSIRDYF                     ((uint32_t)0x00000001)
+#define  RCC_CIR_LSERDYF                     ((uint32_t)0x00000002)
+#define  RCC_CIR_HSIRDYF                     ((uint32_t)0x00000004)
+#define  RCC_CIR_HSERDYF                     ((uint32_t)0x00000008)
+#define  RCC_CIR_PLLRDYF                     ((uint32_t)0x00000010)
+#define  RCC_CIR_PLLI2SRDYF                  ((uint32_t)0x00000020)
+#define  RCC_CIR_PLLSAIRDYF                  ((uint32_t)0x00000040)
+#define  RCC_CIR_CSSF                        ((uint32_t)0x00000080)
+#define  RCC_CIR_LSIRDYIE                    ((uint32_t)0x00000100)
+#define  RCC_CIR_LSERDYIE                    ((uint32_t)0x00000200)
+#define  RCC_CIR_HSIRDYIE                    ((uint32_t)0x00000400)
+#define  RCC_CIR_HSERDYIE                    ((uint32_t)0x00000800)
+#define  RCC_CIR_PLLRDYIE                    ((uint32_t)0x00001000)
+#define  RCC_CIR_PLLI2SRDYIE                 ((uint32_t)0x00002000)
+#define  RCC_CIR_PLLSAIRDYIE                 ((uint32_t)0x00004000)
+#define  RCC_CIR_LSIRDYC                     ((uint32_t)0x00010000)
+#define  RCC_CIR_LSERDYC                     ((uint32_t)0x00020000)
+#define  RCC_CIR_HSIRDYC                     ((uint32_t)0x00040000)
+#define  RCC_CIR_HSERDYC                     ((uint32_t)0x00080000)
+#define  RCC_CIR_PLLRDYC                     ((uint32_t)0x00100000)
+#define  RCC_CIR_PLLI2SRDYC                  ((uint32_t)0x00200000)
+#define  RCC_CIR_PLLSAIRDYC                  ((uint32_t)0x00400000)
+#define  RCC_CIR_CSSC                        ((uint32_t)0x00800000)
 
-/********************  Bit definition for RCU_AHB1RSTR register  **************/
-#define  RCU_AHB1RSTR_GPIOARST               ((uint32_t)0x00000001)
-#define  RCU_AHB1RSTR_GPIOBRST               ((uint32_t)0x00000002)
-#define  RCU_AHB1RSTR_GPIOCRST               ((uint32_t)0x00000004)
-#define  RCU_AHB1RSTR_GPIODRST               ((uint32_t)0x00000008)
-#define  RCU_AHB1RSTR_GPIOERST               ((uint32_t)0x00000010)
-#define  RCU_AHB1RSTR_GPIOFRST               ((uint32_t)0x00000020)
-#define  RCU_AHB1RSTR_GPIOGRST               ((uint32_t)0x00000040)
-#define  RCU_AHB1RSTR_GPIOHRST               ((uint32_t)0x00000080)
-#define  RCU_AHB1RSTR_GPIOIRST               ((uint32_t)0x00000100)
-#define  RCU_AHB1RSTR_GPIOJRST               ((uint32_t)0x00000200)
-#define  RCU_AHB1RSTR_GPIOKRST               ((uint32_t)0x00000400)
-#define  RCU_AHB1RSTR_CRCRST                 ((uint32_t)0x00001000)
-#define  RCU_AHB1RSTR_DMA1RST                ((uint32_t)0x00200000)
-#define  RCU_AHB1RSTR_DMA2RST                ((uint32_t)0x00400000)
-#define  RCU_AHB1RSTR_DMA2DRST               ((uint32_t)0x00800000)
-#define  RCU_AHB1RSTR_ETHMACRST              ((uint32_t)0x02000000)
-#define  RCU_AHB1RSTR_OTGHRST                ((uint32_t)0x10000000)
+/********************  Bit definition for RCC_AHB1RSTR register  **************/
+#define  RCC_AHB1RSTR_GPIOARST               ((uint32_t)0x00000001)
+#define  RCC_AHB1RSTR_GPIOBRST               ((uint32_t)0x00000002)
+#define  RCC_AHB1RSTR_GPIOCRST               ((uint32_t)0x00000004)
+#define  RCC_AHB1RSTR_GPIODRST               ((uint32_t)0x00000008)
+#define  RCC_AHB1RSTR_GPIOERST               ((uint32_t)0x00000010)
+#define  RCC_AHB1RSTR_GPIOFRST               ((uint32_t)0x00000020)
+#define  RCC_AHB1RSTR_GPIOGRST               ((uint32_t)0x00000040)
+#define  RCC_AHB1RSTR_GPIOHRST               ((uint32_t)0x00000080)
+#define  RCC_AHB1RSTR_GPIOIRST               ((uint32_t)0x00000100)
+#define  RCC_AHB1RSTR_GPIOJRST               ((uint32_t)0x00000200)
+#define  RCC_AHB1RSTR_GPIOKRST               ((uint32_t)0x00000400)
+#define  RCC_AHB1RSTR_CRCRST                 ((uint32_t)0x00001000)
+#define  RCC_AHB1RSTR_DMA1RST                ((uint32_t)0x00200000)
+#define  RCC_AHB1RSTR_DMA2RST                ((uint32_t)0x00400000)
+#define  RCC_AHB1RSTR_DMA2DRST               ((uint32_t)0x00800000)
+#define  RCC_AHB1RSTR_ETHMACRST              ((uint32_t)0x02000000)
+#define  RCC_AHB1RSTR_OTGHRST                ((uint32_t)0x10000000)
 
-/********************  Bit definition for RCU_AHB2RSTR register  **************/
-#define  RCU_AHB2RSTR_DCMIRST                ((uint32_t)0x00000001)
-#define  RCU_AHB2RSTR_CRYPRST                ((uint32_t)0x00000010)
-#define  RCU_AHB2RSTR_HASHRST                ((uint32_t)0x00000020)
+/********************  Bit definition for RCC_AHB2RSTR register  **************/
+#define  RCC_AHB2RSTR_DCMIRST                ((uint32_t)0x00000001)
+#define  RCC_AHB2RSTR_CRYPRST                ((uint32_t)0x00000010)
+#define  RCC_AHB2RSTR_HASHRST                ((uint32_t)0x00000020)
  /* maintained for legacy purpose */
- #define  RCU_AHB2RSTR_HSAHRST                RCU_AHB2RSTR_HASHRST
-#define  RCU_AHB2RSTR_RNGRST                 ((uint32_t)0x00000040)
-#define  RCU_AHB2RSTR_OTGFSRST               ((uint32_t)0x00000080)
+ #define  RCC_AHB2RSTR_HSAHRST                RCC_AHB2RSTR_HASHRST
+#define  RCC_AHB2RSTR_RNGRST                 ((uint32_t)0x00000040)
+#define  RCC_AHB2RSTR_OTGFSRST               ((uint32_t)0x00000080)
 
-/********************  Bit definition for RCU_AHB3RSTR register  **************/
+/********************  Bit definition for RCC_AHB3RSTR register  **************/
 #if defined(STM32F40_41xxx)
-#define  RCU_AHB3RSTR_FSMCRST                ((uint32_t)0x00000001)
+#define  RCC_AHB3RSTR_FSMCRST                ((uint32_t)0x00000001)
 #endif /* STM32F40_41xxx */
 
-#if defined (GD32F427) || defined (STM32F429_439xx)
-#define  RCU_AHB3RSTR_FMCRST                ((uint32_t)0x00000001)
-#endif /* GD32F427 ||  STM32F429_439xx */
-/********************  Bit definition for RCU_APB1RSTR register  **************/
-#define  RCU_APB1RSTR_TIM2RST                ((uint32_t)0x00000001)
-#define  RCU_APB1RSTR_TIM3RST                ((uint32_t)0x00000002)
-#define  RCU_APB1RSTR_TIM4RST                ((uint32_t)0x00000004)
-#define  RCU_APB1RSTR_TIM5RST                ((uint32_t)0x00000008)
-#define  RCU_APB1RSTR_TIM6RST                ((uint32_t)0x00000010)
-#define  RCU_APB1RSTR_TIM7RST                ((uint32_t)0x00000020)
-#define  RCU_APB1RSTR_TIM12RST               ((uint32_t)0x00000040)
-#define  RCU_APB1RSTR_TIM13RST               ((uint32_t)0x00000080)
-#define  RCU_APB1RSTR_TIM14RST               ((uint32_t)0x00000100)
-#define  RCU_APB1RSTR_WWDGRST                ((uint32_t)0x00000800)
-#define  RCU_APB1RSTR_SPI2RST                ((uint32_t)0x00004000)
-#define  RCU_APB1RSTR_SPI3RST                ((uint32_t)0x00008000)
-#define  RCU_APB1RSTR_USART2RST              ((uint32_t)0x00020000)
-#define  RCU_APB1RSTR_USART3RST              ((uint32_t)0x00040000)
-#define  RCU_APB1RSTR_UART4RST               ((uint32_t)0x00080000)
-#define  RCU_APB1RSTR_UART5RST               ((uint32_t)0x00100000)
-#define  RCU_APB1RSTR_I2C1RST                ((uint32_t)0x00200000)
-#define  RCU_APB1RSTR_I2C2RST                ((uint32_t)0x00400000)
-#define  RCU_APB1RSTR_I2C3RST                ((uint32_t)0x00800000)
-#define  RCU_APB1RSTR_CAN1RST                ((uint32_t)0x02000000)
-#define  RCU_APB1RSTR_CAN2RST                ((uint32_t)0x04000000)
-#define  RCU_APB1RSTR_PWRRST                 ((uint32_t)0x10000000)
-#define  RCU_APB1RSTR_DACRST                 ((uint32_t)0x20000000)
-#define  RCU_APB1RSTR_UART7RST               ((uint32_t)0x40000000)
-#define  RCU_APB1RSTR_UART8RST               ((uint32_t)0x80000000)
+#if defined (STM32F427_437xx) || defined (STM32F429_439xx)
+#define  RCC_AHB3RSTR_FMCRST                ((uint32_t)0x00000001)
+#endif /* STM32F427_437xx ||  STM32F429_439xx */
+/********************  Bit definition for RCC_APB1RSTR register  **************/
+#define  RCC_APB1RSTR_TIM2RST                ((uint32_t)0x00000001)
+#define  RCC_APB1RSTR_TIM3RST                ((uint32_t)0x00000002)
+#define  RCC_APB1RSTR_TIM4RST                ((uint32_t)0x00000004)
+#define  RCC_APB1RSTR_TIM5RST                ((uint32_t)0x00000008)
+#define  RCC_APB1RSTR_TIM6RST                ((uint32_t)0x00000010)
+#define  RCC_APB1RSTR_TIM7RST                ((uint32_t)0x00000020)
+#define  RCC_APB1RSTR_TIM12RST               ((uint32_t)0x00000040)
+#define  RCC_APB1RSTR_TIM13RST               ((uint32_t)0x00000080)
+#define  RCC_APB1RSTR_TIM14RST               ((uint32_t)0x00000100)
+#define  RCC_APB1RSTR_WWDGRST                ((uint32_t)0x00000800)
+#define  RCC_APB1RSTR_SPI2RST                ((uint32_t)0x00004000)
+#define  RCC_APB1RSTR_SPI3RST                ((uint32_t)0x00008000)
+#define  RCC_APB1RSTR_USART2RST              ((uint32_t)0x00020000)
+#define  RCC_APB1RSTR_USART3RST              ((uint32_t)0x00040000)
+#define  RCC_APB1RSTR_UART4RST               ((uint32_t)0x00080000)
+#define  RCC_APB1RSTR_UART5RST               ((uint32_t)0x00100000)
+#define  RCC_APB1RSTR_I2C1RST                ((uint32_t)0x00200000)
+#define  RCC_APB1RSTR_I2C2RST                ((uint32_t)0x00400000)
+#define  RCC_APB1RSTR_I2C3RST                ((uint32_t)0x00800000)
+#define  RCC_APB1RSTR_CAN1RST                ((uint32_t)0x02000000)
+#define  RCC_APB1RSTR_CAN2RST                ((uint32_t)0x04000000)
+#define  RCC_APB1RSTR_PWRRST                 ((uint32_t)0x10000000)
+#define  RCC_APB1RSTR_DACRST                 ((uint32_t)0x20000000)
+#define  RCC_APB1RSTR_UART7RST               ((uint32_t)0x40000000)
+#define  RCC_APB1RSTR_UART8RST               ((uint32_t)0x80000000)
 
-/********************  Bit definition for RCU_APB2RSTR register  **************/
-#define  RCU_APB2RSTR_TIM1RST                ((uint32_t)0x00000001)
-#define  RCU_APB2RSTR_TIM8RST                ((uint32_t)0x00000002)
-#define  RCU_APB2RSTR_USART1RST              ((uint32_t)0x00000010)
-#define  RCU_APB2RSTR_USART6RST              ((uint32_t)0x00000020)
-#define  RCU_APB2RSTR_ADCRST                 ((uint32_t)0x00000100)
-#define  RCU_APB2RSTR_SDIORST                ((uint32_t)0x00000800)
-#define  RCU_APB2RSTR_SPI1RST                ((uint32_t)0x00001000)
-#define  RCU_APB2RSTR_SPI4RST                ((uint32_t)0x00002000)
-#define  RCU_APB2RSTR_SYSCFGRST              ((uint32_t)0x00004000)
-#define  RCU_APB2RSTR_TIM9RST                ((uint32_t)0x00010000)
-#define  RCU_APB2RSTR_TIM10RST               ((uint32_t)0x00020000)
-#define  RCU_APB2RSTR_TIM11RST               ((uint32_t)0x00040000)
-#define  RCU_APB2RSTR_SPI5RST                ((uint32_t)0x00100000)
-#define  RCU_APB2RSTR_SPI6RST                ((uint32_t)0x00200000)
-#define  RCU_APB2RSTR_SAI1RST                ((uint32_t)0x00400000)
-#define  RCU_APB2RSTR_LTDCRST                ((uint32_t)0x04000000)
+/********************  Bit definition for RCC_APB2RSTR register  **************/
+#define  RCC_APB2RSTR_TIM1RST                ((uint32_t)0x00000001)
+#define  RCC_APB2RSTR_TIM8RST                ((uint32_t)0x00000002)
+#define  RCC_APB2RSTR_USART1RST              ((uint32_t)0x00000010)
+#define  RCC_APB2RSTR_USART6RST              ((uint32_t)0x00000020)
+#define  RCC_APB2RSTR_ADCRST                 ((uint32_t)0x00000100)
+#define  RCC_APB2RSTR_SDIORST                ((uint32_t)0x00000800)
+#define  RCC_APB2RSTR_SPI1RST                ((uint32_t)0x00001000)
+#define  RCC_APB2RSTR_SPI4RST                ((uint32_t)0x00002000)
+#define  RCC_APB2RSTR_SYSCFGRST              ((uint32_t)0x00004000)
+#define  RCC_APB2RSTR_TIM9RST                ((uint32_t)0x00010000)
+#define  RCC_APB2RSTR_TIM10RST               ((uint32_t)0x00020000)
+#define  RCC_APB2RSTR_TIM11RST               ((uint32_t)0x00040000)
+#define  RCC_APB2RSTR_SPI5RST                ((uint32_t)0x00100000)
+#define  RCC_APB2RSTR_SPI6RST                ((uint32_t)0x00200000)
+#define  RCC_APB2RSTR_SAI1RST                ((uint32_t)0x00400000)
+#define  RCC_APB2RSTR_LTDCRST                ((uint32_t)0x04000000)
 
 /* Old SPI1RST bit definition, maintained for legacy purpose */
-#define  RCU_APB2RSTR_SPI1                   RCU_APB2RSTR_SPI1RST
+#define  RCC_APB2RSTR_SPI1                   RCC_APB2RSTR_SPI1RST
 
-/********************  Bit definition for RCU_AHB1ENR register  ***************/
-#define  RCU_AHB1ENR_GPIOAEN                 ((uint32_t)0x00000001)
-#define  RCU_AHB1ENR_GPIOBEN                 ((uint32_t)0x00000002)
-#define  RCU_AHB1ENR_GPIOCEN                 ((uint32_t)0x00000004)
-#define  RCU_AHB1ENR_GPIODEN                 ((uint32_t)0x00000008)
-#define  RCU_AHB1ENR_GPIOEEN                 ((uint32_t)0x00000010)
-#define  RCU_AHB1ENR_GPIOFEN                 ((uint32_t)0x00000020)
-#define  RCU_AHB1ENR_GPIOGEN                 ((uint32_t)0x00000040)
-#define  RCU_AHB1ENR_GPIOHEN                 ((uint32_t)0x00000080)
-#define  RCU_AHB1ENR_GPIOIEN                 ((uint32_t)0x00000100)
-#define  RCU_AHB1ENR_GPIOJEN                 ((uint32_t)0x00000200)
-#define  RCU_AHB1ENR_GPIOKEN                 ((uint32_t)0x00000400)
-#define  RCU_AHB1ENR_CRCEN                   ((uint32_t)0x00001000)
-#define  RCU_AHB1ENR_BKPSRAMEN               ((uint32_t)0x00040000)
-#define  RCU_AHB1ENR_CCMDATARAMEN            ((uint32_t)0x00100000)
-#define  RCU_AHB1ENR_DMA1EN                  ((uint32_t)0x00200000)
-#define  RCU_AHB1ENR_DMA2EN                  ((uint32_t)0x00400000)
-#define  RCU_AHB1ENR_DMA2DEN                 ((uint32_t)0x00800000)
-#define  RCU_AHB1ENR_ETHMACEN                ((uint32_t)0x02000000)
-#define  RCU_AHB1ENR_ETHMACTXEN              ((uint32_t)0x04000000)
-#define  RCU_AHB1ENR_ETHMACRXEN              ((uint32_t)0x08000000)
-#define  RCU_AHB1ENR_ETHMACPTPEN             ((uint32_t)0x10000000)
-#define  RCU_AHB1ENR_OTGHSEN                 ((uint32_t)0x20000000)
-#define  RCU_AHB1ENR_OTGHSULPIEN             ((uint32_t)0x40000000)
+/********************  Bit definition for RCC_AHB1ENR register  ***************/
+#define  RCC_AHB1ENR_GPIOAEN                 ((uint32_t)0x00000001)
+#define  RCC_AHB1ENR_GPIOBEN                 ((uint32_t)0x00000002)
+#define  RCC_AHB1ENR_GPIOCEN                 ((uint32_t)0x00000004)
+#define  RCC_AHB1ENR_GPIODEN                 ((uint32_t)0x00000008)
+#define  RCC_AHB1ENR_GPIOEEN                 ((uint32_t)0x00000010)
+#define  RCC_AHB1ENR_GPIOFEN                 ((uint32_t)0x00000020)
+#define  RCC_AHB1ENR_GPIOGEN                 ((uint32_t)0x00000040)
+#define  RCC_AHB1ENR_GPIOHEN                 ((uint32_t)0x00000080)
+#define  RCC_AHB1ENR_GPIOIEN                 ((uint32_t)0x00000100)
+#define  RCC_AHB1ENR_GPIOJEN                 ((uint32_t)0x00000200)
+#define  RCC_AHB1ENR_GPIOKEN                 ((uint32_t)0x00000400)
+#define  RCC_AHB1ENR_CRCEN                   ((uint32_t)0x00001000)
+#define  RCC_AHB1ENR_BKPSRAMEN               ((uint32_t)0x00040000)
+#define  RCC_AHB1ENR_CCMDATARAMEN            ((uint32_t)0x00100000)
+#define  RCC_AHB1ENR_DMA1EN                  ((uint32_t)0x00200000)
+#define  RCC_AHB1ENR_DMA2EN                  ((uint32_t)0x00400000)
+#define  RCC_AHB1ENR_DMA2DEN                 ((uint32_t)0x00800000)
+#define  RCC_AHB1ENR_ETHMACEN                ((uint32_t)0x02000000)
+#define  RCC_AHB1ENR_ETHMACTXEN              ((uint32_t)0x04000000)
+#define  RCC_AHB1ENR_ETHMACRXEN              ((uint32_t)0x08000000)
+#define  RCC_AHB1ENR_ETHMACPTPEN             ((uint32_t)0x10000000)
+#define  RCC_AHB1ENR_OTGHSEN                 ((uint32_t)0x20000000)
+#define  RCC_AHB1ENR_OTGHSULPIEN             ((uint32_t)0x40000000)
 
-/********************  Bit definition for RCU_AHB2ENR register  ***************/
-#define  RCU_AHB2ENR_DCMIEN                  ((uint32_t)0x00000001)
-#define  RCU_AHB2ENR_CRYPEN                  ((uint32_t)0x00000010)
-#define  RCU_AHB2ENR_HASHEN                  ((uint32_t)0x00000020)
-#define  RCU_AHB2ENR_RNGEN                   ((uint32_t)0x00000040)
-#define  RCU_AHB2ENR_OTGFSEN                 ((uint32_t)0x00000080)
+/********************  Bit definition for RCC_AHB2ENR register  ***************/
+#define  RCC_AHB2ENR_DCMIEN                  ((uint32_t)0x00000001)
+#define  RCC_AHB2ENR_CRYPEN                  ((uint32_t)0x00000010)
+#define  RCC_AHB2ENR_HASHEN                  ((uint32_t)0x00000020)
+#define  RCC_AHB2ENR_RNGEN                   ((uint32_t)0x00000040)
+#define  RCC_AHB2ENR_OTGFSEN                 ((uint32_t)0x00000080)
 
-/********************  Bit definition for RCU_AHB3ENR register  ***************/
+/********************  Bit definition for RCC_AHB3ENR register  ***************/
 
 #if defined(STM32F40_41xxx)
-#define  RCU_AHB3ENR_FSMCEN                  ((uint32_t)0x00000001)
+#define  RCC_AHB3ENR_FSMCEN                  ((uint32_t)0x00000001)
 #endif /* STM32F40_41xxx */
 
-#if defined (GD32F427) || defined (STM32F429_439xx)
-#define  RCU_AHB3ENR_FMCEN                  ((uint32_t)0x00000001)
-#endif /* GD32F427 ||  STM32F429_439xx */
+#if defined (STM32F427_437xx) || defined (STM32F429_439xx)
+#define  RCC_AHB3ENR_FMCEN                  ((uint32_t)0x00000001)
+#endif /* STM32F427_437xx ||  STM32F429_439xx */
 
-/********************  Bit definition for RCU_APB1ENR register  ***************/
-#define  RCU_APB1ENR_TIM2EN                  ((uint32_t)0x00000001)
-#define  RCU_APB1ENR_TIM3EN                  ((uint32_t)0x00000002)
-#define  RCU_APB1ENR_TIM4EN                  ((uint32_t)0x00000004)
-#define  RCU_APB1ENR_TIM5EN                  ((uint32_t)0x00000008)
-#define  RCU_APB1ENR_TIM6EN                  ((uint32_t)0x00000010)
-#define  RCU_APB1ENR_TIM7EN                  ((uint32_t)0x00000020)
-#define  RCU_APB1ENR_TIM12EN                 ((uint32_t)0x00000040)
-#define  RCU_APB1ENR_TIM13EN                 ((uint32_t)0x00000080)
-#define  RCU_APB1ENR_TIM14EN                 ((uint32_t)0x00000100)
-#define  RCU_APB1ENR_WWDGEN                  ((uint32_t)0x00000800)
-#define  RCU_APB1ENR_SPI2EN                  ((uint32_t)0x00004000)
-#define  RCU_APB1ENR_SPI3EN                  ((uint32_t)0x00008000)
-#define  RCU_APB1ENR_USART2EN                ((uint32_t)0x00020000)
-#define  RCU_APB1ENR_USART3EN                ((uint32_t)0x00040000)
-#define  RCU_APB1ENR_UART4EN                 ((uint32_t)0x00080000)
-#define  RCU_APB1ENR_UART5EN                 ((uint32_t)0x00100000)
-#define  RCU_APB1ENR_I2C1EN                  ((uint32_t)0x00200000)
-#define  RCU_APB1ENR_I2C2EN                  ((uint32_t)0x00400000)
-#define  RCU_APB1ENR_I2C3EN                  ((uint32_t)0x00800000)
-#define  RCU_APB1ENR_CAN1EN                  ((uint32_t)0x02000000)
-#define  RCU_APB1ENR_CAN2EN                  ((uint32_t)0x04000000)
-#define  RCU_APB1ENR_PWREN                   ((uint32_t)0x10000000)
-#define  RCU_APB1ENR_DACEN                   ((uint32_t)0x20000000)
-#define  RCU_APB1ENR_UART7EN                 ((uint32_t)0x40000000)
-#define  RCU_APB1ENR_UART8EN                 ((uint32_t)0x80000000)
+/********************  Bit definition for RCC_APB1ENR register  ***************/
+#define  RCC_APB1ENR_TIM2EN                  ((uint32_t)0x00000001)
+#define  RCC_APB1ENR_TIM3EN                  ((uint32_t)0x00000002)
+#define  RCC_APB1ENR_TIM4EN                  ((uint32_t)0x00000004)
+#define  RCC_APB1ENR_TIM5EN                  ((uint32_t)0x00000008)
+#define  RCC_APB1ENR_TIM6EN                  ((uint32_t)0x00000010)
+#define  RCC_APB1ENR_TIM7EN                  ((uint32_t)0x00000020)
+#define  RCC_APB1ENR_TIM12EN                 ((uint32_t)0x00000040)
+#define  RCC_APB1ENR_TIM13EN                 ((uint32_t)0x00000080)
+#define  RCC_APB1ENR_TIM14EN                 ((uint32_t)0x00000100)
+#define  RCC_APB1ENR_WWDGEN                  ((uint32_t)0x00000800)
+#define  RCC_APB1ENR_SPI2EN                  ((uint32_t)0x00004000)
+#define  RCC_APB1ENR_SPI3EN                  ((uint32_t)0x00008000)
+#define  RCC_APB1ENR_USART2EN                ((uint32_t)0x00020000)
+#define  RCC_APB1ENR_USART3EN                ((uint32_t)0x00040000)
+#define  RCC_APB1ENR_UART4EN                 ((uint32_t)0x00080000)
+#define  RCC_APB1ENR_UART5EN                 ((uint32_t)0x00100000)
+#define  RCC_APB1ENR_I2C1EN                  ((uint32_t)0x00200000)
+#define  RCC_APB1ENR_I2C2EN                  ((uint32_t)0x00400000)
+#define  RCC_APB1ENR_I2C3EN                  ((uint32_t)0x00800000)
+#define  RCC_APB1ENR_CAN1EN                  ((uint32_t)0x02000000)
+#define  RCC_APB1ENR_CAN2EN                  ((uint32_t)0x04000000)
+#define  RCC_APB1ENR_PWREN                   ((uint32_t)0x10000000)
+#define  RCC_APB1ENR_DACEN                   ((uint32_t)0x20000000)
+#define  RCC_APB1ENR_UART7EN                 ((uint32_t)0x40000000)
+#define  RCC_APB1ENR_UART8EN                 ((uint32_t)0x80000000)
 
-/********************  Bit definition for RCU_APB2ENR register  ***************/
-#define  RCU_APB2ENR_TIM1EN                  ((uint32_t)0x00000001)
-#define  RCU_APB2ENR_TIM8EN                  ((uint32_t)0x00000002)
-#define  RCU_APB2ENR_USART1EN                ((uint32_t)0x00000010)
-#define  RCU_APB2ENR_USART6EN                ((uint32_t)0x00000020)
-#define  RCU_APB2ENR_ADC1EN                  ((uint32_t)0x00000100)
-#define  RCU_APB2ENR_ADC2EN                  ((uint32_t)0x00000200)
-#define  RCU_APB2ENR_ADC3EN                  ((uint32_t)0x00000400)
-#define  RCU_APB2ENR_SDIOEN                  ((uint32_t)0x00000800)
-#define  RCU_APB2ENR_SPI1EN                  ((uint32_t)0x00001000)
-#define  RCU_APB2ENR_SPI4EN                  ((uint32_t)0x00002000)
-#define  RCU_APB2ENR_SYSCFGEN                ((uint32_t)0x00004000)
-#define  RCU_APB2ENR_TIM9EN                  ((uint32_t)0x00010000)
-#define  RCU_APB2ENR_TIM10EN                 ((uint32_t)0x00020000)
-#define  RCU_APB2ENR_TIM11EN                 ((uint32_t)0x00040000)
-#define  RCU_APB2ENR_SPI5EN                  ((uint32_t)0x00100000)
-#define  RCU_APB2ENR_SPI6EN                  ((uint32_t)0x00200000)
-#define  RCU_APB2ENR_SAI1EN                  ((uint32_t)0x00400000)
-#define  RCU_APB2ENR_LTDCEN                  ((uint32_t)0x04000000)
+/********************  Bit definition for RCC_APB2ENR register  ***************/
+#define  RCC_APB2ENR_TIM1EN                  ((uint32_t)0x00000001)
+#define  RCC_APB2ENR_TIM8EN                  ((uint32_t)0x00000002)
+#define  RCC_APB2ENR_USART1EN                ((uint32_t)0x00000010)
+#define  RCC_APB2ENR_USART6EN                ((uint32_t)0x00000020)
+#define  RCC_APB2ENR_ADC1EN                  ((uint32_t)0x00000100)
+#define  RCC_APB2ENR_ADC2EN                  ((uint32_t)0x00000200)
+#define  RCC_APB2ENR_ADC3EN                  ((uint32_t)0x00000400)
+#define  RCC_APB2ENR_SDIOEN                  ((uint32_t)0x00000800)
+#define  RCC_APB2ENR_SPI1EN                  ((uint32_t)0x00001000)
+#define  RCC_APB2ENR_SPI4EN                  ((uint32_t)0x00002000)
+#define  RCC_APB2ENR_SYSCFGEN                ((uint32_t)0x00004000)
+#define  RCC_APB2ENR_TIM9EN                  ((uint32_t)0x00010000)
+#define  RCC_APB2ENR_TIM10EN                 ((uint32_t)0x00020000)
+#define  RCC_APB2ENR_TIM11EN                 ((uint32_t)0x00040000)
+#define  RCC_APB2ENR_SPI5EN                  ((uint32_t)0x00100000)
+#define  RCC_APB2ENR_SPI6EN                  ((uint32_t)0x00200000)
+#define  RCC_APB2ENR_SAI1EN                  ((uint32_t)0x00400000)
+#define  RCC_APB2ENR_LTDCEN                  ((uint32_t)0x04000000)
 
-/********************  Bit definition for RCU_AHB1LPENR register  *************/
-#define  RCU_AHB1LPENR_GPIOALPEN             ((uint32_t)0x00000001)
-#define  RCU_AHB1LPENR_GPIOBLPEN             ((uint32_t)0x00000002)
-#define  RCU_AHB1LPENR_GPIOCLPEN             ((uint32_t)0x00000004)
-#define  RCU_AHB1LPENR_GPIODLPEN             ((uint32_t)0x00000008)
-#define  RCU_AHB1LPENR_GPIOELPEN             ((uint32_t)0x00000010)
-#define  RCU_AHB1LPENR_GPIOFLPEN             ((uint32_t)0x00000020)
-#define  RCU_AHB1LPENR_GPIOGLPEN             ((uint32_t)0x00000040)
-#define  RCU_AHB1LPENR_GPIOHLPEN             ((uint32_t)0x00000080)
-#define  RCU_AHB1LPENR_GPIOILPEN             ((uint32_t)0x00000100)
-#define  RCU_AHB1LPENR_GPIOJLPEN             ((uint32_t)0x00000200)
-#define  RCU_AHB1LPENR_GPIOKLPEN             ((uint32_t)0x00000400)
-#define  RCU_AHB1LPENR_CRCLPEN               ((uint32_t)0x00001000)
-#define  RCU_AHB1LPENR_FLITFLPEN             ((uint32_t)0x00008000)
-#define  RCU_AHB1LPENR_SRAM1LPEN             ((uint32_t)0x00010000)
-#define  RCU_AHB1LPENR_SRAM2LPEN             ((uint32_t)0x00020000)
-#define  RCU_AHB1LPENR_BKPSRAMLPEN           ((uint32_t)0x00040000)
-#define  RCU_AHB1LPENR_SRAM3LPEN             ((uint32_t)0x00080000)
-#define  RCU_AHB1LPENR_DMA1LPEN              ((uint32_t)0x00200000)
-#define  RCU_AHB1LPENR_DMA2LPEN              ((uint32_t)0x00400000)
-#define  RCU_AHB1LPENR_DMA2DLPEN             ((uint32_t)0x00800000)
-#define  RCU_AHB1LPENR_ETHMACLPEN            ((uint32_t)0x02000000)
-#define  RCU_AHB1LPENR_ETHMACTXLPEN          ((uint32_t)0x04000000)
-#define  RCU_AHB1LPENR_ETHMACRXLPEN          ((uint32_t)0x08000000)
-#define  RCU_AHB1LPENR_ETHMACPTPLPEN         ((uint32_t)0x10000000)
-#define  RCU_AHB1LPENR_OTGHSLPEN             ((uint32_t)0x20000000)
-#define  RCU_AHB1LPENR_OTGHSULPILPEN         ((uint32_t)0x40000000)
+/********************  Bit definition for RCC_AHB1LPENR register  *************/
+#define  RCC_AHB1LPENR_GPIOALPEN             ((uint32_t)0x00000001)
+#define  RCC_AHB1LPENR_GPIOBLPEN             ((uint32_t)0x00000002)
+#define  RCC_AHB1LPENR_GPIOCLPEN             ((uint32_t)0x00000004)
+#define  RCC_AHB1LPENR_GPIODLPEN             ((uint32_t)0x00000008)
+#define  RCC_AHB1LPENR_GPIOELPEN             ((uint32_t)0x00000010)
+#define  RCC_AHB1LPENR_GPIOFLPEN             ((uint32_t)0x00000020)
+#define  RCC_AHB1LPENR_GPIOGLPEN             ((uint32_t)0x00000040)
+#define  RCC_AHB1LPENR_GPIOHLPEN             ((uint32_t)0x00000080)
+#define  RCC_AHB1LPENR_GPIOILPEN             ((uint32_t)0x00000100)
+#define  RCC_AHB1LPENR_GPIOJLPEN             ((uint32_t)0x00000200)
+#define  RCC_AHB1LPENR_GPIOKLPEN             ((uint32_t)0x00000400)
+#define  RCC_AHB1LPENR_CRCLPEN               ((uint32_t)0x00001000)
+#define  RCC_AHB1LPENR_FLITFLPEN             ((uint32_t)0x00008000)
+#define  RCC_AHB1LPENR_SRAM1LPEN             ((uint32_t)0x00010000)
+#define  RCC_AHB1LPENR_SRAM2LPEN             ((uint32_t)0x00020000)
+#define  RCC_AHB1LPENR_BKPSRAMLPEN           ((uint32_t)0x00040000)
+#define  RCC_AHB1LPENR_SRAM3LPEN             ((uint32_t)0x00080000)
+#define  RCC_AHB1LPENR_DMA1LPEN              ((uint32_t)0x00200000)
+#define  RCC_AHB1LPENR_DMA2LPEN              ((uint32_t)0x00400000)
+#define  RCC_AHB1LPENR_DMA2DLPEN             ((uint32_t)0x00800000)
+#define  RCC_AHB1LPENR_ETHMACLPEN            ((uint32_t)0x02000000)
+#define  RCC_AHB1LPENR_ETHMACTXLPEN          ((uint32_t)0x04000000)
+#define  RCC_AHB1LPENR_ETHMACRXLPEN          ((uint32_t)0x08000000)
+#define  RCC_AHB1LPENR_ETHMACPTPLPEN         ((uint32_t)0x10000000)
+#define  RCC_AHB1LPENR_OTGHSLPEN             ((uint32_t)0x20000000)
+#define  RCC_AHB1LPENR_OTGHSULPILPEN         ((uint32_t)0x40000000)
 
-/********************  Bit definition for RCU_AHB2LPENR register  *************/
-#define  RCU_AHB2LPENR_DCMILPEN              ((uint32_t)0x00000001)
-#define  RCU_AHB2LPENR_CRYPLPEN              ((uint32_t)0x00000010)
-#define  RCU_AHB2LPENR_HASHLPEN              ((uint32_t)0x00000020)
-#define  RCU_AHB2LPENR_RNGLPEN               ((uint32_t)0x00000040)
-#define  RCU_AHB2LPENR_OTGFSLPEN             ((uint32_t)0x00000080)
+/********************  Bit definition for RCC_AHB2LPENR register  *************/
+#define  RCC_AHB2LPENR_DCMILPEN              ((uint32_t)0x00000001)
+#define  RCC_AHB2LPENR_CRYPLPEN              ((uint32_t)0x00000010)
+#define  RCC_AHB2LPENR_HASHLPEN              ((uint32_t)0x00000020)
+#define  RCC_AHB2LPENR_RNGLPEN               ((uint32_t)0x00000040)
+#define  RCC_AHB2LPENR_OTGFSLPEN             ((uint32_t)0x00000080)
 
-/********************  Bit definition for RCU_AHB3LPENR register  *************/
+/********************  Bit definition for RCC_AHB3LPENR register  *************/
 #if defined(STM32F40_41xxx)
-#define  RCU_AHB3LPENR_FSMCLPEN              ((uint32_t)0x00000001)
+#define  RCC_AHB3LPENR_FSMCLPEN              ((uint32_t)0x00000001)
 #endif /* STM32F40_41xxx */
 
-#if defined (GD32F427) || defined (STM32F429_439xx)
-#define  RCU_AHB3LPENR_FMCLPEN              ((uint32_t)0x00000001)
-#endif /* GD32F427 ||  STM32F429_439xx */
+#if defined (STM32F427_437xx) || defined (STM32F429_439xx)
+#define  RCC_AHB3LPENR_FMCLPEN              ((uint32_t)0x00000001)
+#endif /* STM32F427_437xx ||  STM32F429_439xx */
 
-/********************  Bit definition for RCU_APB1LPENR register  *************/
-#define  RCU_APB1LPENR_TIM2LPEN              ((uint32_t)0x00000001)
-#define  RCU_APB1LPENR_TIM3LPEN              ((uint32_t)0x00000002)
-#define  RCU_APB1LPENR_TIM4LPEN              ((uint32_t)0x00000004)
-#define  RCU_APB1LPENR_TIM5LPEN              ((uint32_t)0x00000008)
-#define  RCU_APB1LPENR_TIM6LPEN              ((uint32_t)0x00000010)
-#define  RCU_APB1LPENR_TIM7LPEN              ((uint32_t)0x00000020)
-#define  RCU_APB1LPENR_TIM12LPEN             ((uint32_t)0x00000040)
-#define  RCU_APB1LPENR_TIM13LPEN             ((uint32_t)0x00000080)
-#define  RCU_APB1LPENR_TIM14LPEN             ((uint32_t)0x00000100)
-#define  RCU_APB1LPENR_WWDGLPEN              ((uint32_t)0x00000800)
-#define  RCU_APB1LPENR_SPI2LPEN              ((uint32_t)0x00004000)
-#define  RCU_APB1LPENR_SPI3LPEN              ((uint32_t)0x00008000)
-#define  RCU_APB1LPENR_USART2LPEN            ((uint32_t)0x00020000)
-#define  RCU_APB1LPENR_USART3LPEN            ((uint32_t)0x00040000)
-#define  RCU_APB1LPENR_UART4LPEN             ((uint32_t)0x00080000)
-#define  RCU_APB1LPENR_UART5LPEN             ((uint32_t)0x00100000)
-#define  RCU_APB1LPENR_I2C1LPEN              ((uint32_t)0x00200000)
-#define  RCU_APB1LPENR_I2C2LPEN              ((uint32_t)0x00400000)
-#define  RCU_APB1LPENR_I2C3LPEN              ((uint32_t)0x00800000)
-#define  RCU_APB1LPENR_CAN1LPEN              ((uint32_t)0x02000000)
-#define  RCU_APB1LPENR_CAN2LPEN              ((uint32_t)0x04000000)
-#define  RCU_APB1LPENR_PWRLPEN               ((uint32_t)0x10000000)
-#define  RCU_APB1LPENR_DACLPEN               ((uint32_t)0x20000000)
-#define  RCU_APB1LPENR_UART7LPEN             ((uint32_t)0x40000000)
-#define  RCU_APB1LPENR_UART8LPEN             ((uint32_t)0x80000000)
+/********************  Bit definition for RCC_APB1LPENR register  *************/
+#define  RCC_APB1LPENR_TIM2LPEN              ((uint32_t)0x00000001)
+#define  RCC_APB1LPENR_TIM3LPEN              ((uint32_t)0x00000002)
+#define  RCC_APB1LPENR_TIM4LPEN              ((uint32_t)0x00000004)
+#define  RCC_APB1LPENR_TIM5LPEN              ((uint32_t)0x00000008)
+#define  RCC_APB1LPENR_TIM6LPEN              ((uint32_t)0x00000010)
+#define  RCC_APB1LPENR_TIM7LPEN              ((uint32_t)0x00000020)
+#define  RCC_APB1LPENR_TIM12LPEN             ((uint32_t)0x00000040)
+#define  RCC_APB1LPENR_TIM13LPEN             ((uint32_t)0x00000080)
+#define  RCC_APB1LPENR_TIM14LPEN             ((uint32_t)0x00000100)
+#define  RCC_APB1LPENR_WWDGLPEN              ((uint32_t)0x00000800)
+#define  RCC_APB1LPENR_SPI2LPEN              ((uint32_t)0x00004000)
+#define  RCC_APB1LPENR_SPI3LPEN              ((uint32_t)0x00008000)
+#define  RCC_APB1LPENR_USART2LPEN            ((uint32_t)0x00020000)
+#define  RCC_APB1LPENR_USART3LPEN            ((uint32_t)0x00040000)
+#define  RCC_APB1LPENR_UART4LPEN             ((uint32_t)0x00080000)
+#define  RCC_APB1LPENR_UART5LPEN             ((uint32_t)0x00100000)
+#define  RCC_APB1LPENR_I2C1LPEN              ((uint32_t)0x00200000)
+#define  RCC_APB1LPENR_I2C2LPEN              ((uint32_t)0x00400000)
+#define  RCC_APB1LPENR_I2C3LPEN              ((uint32_t)0x00800000)
+#define  RCC_APB1LPENR_CAN1LPEN              ((uint32_t)0x02000000)
+#define  RCC_APB1LPENR_CAN2LPEN              ((uint32_t)0x04000000)
+#define  RCC_APB1LPENR_PWRLPEN               ((uint32_t)0x10000000)
+#define  RCC_APB1LPENR_DACLPEN               ((uint32_t)0x20000000)
+#define  RCC_APB1LPENR_UART7LPEN             ((uint32_t)0x40000000)
+#define  RCC_APB1LPENR_UART8LPEN             ((uint32_t)0x80000000)
 
-/********************  Bit definition for RCU_APB2LPENR register  *************/
-#define  RCU_APB2LPENR_TIM1LPEN              ((uint32_t)0x00000001)
-#define  RCU_APB2LPENR_TIM8LPEN              ((uint32_t)0x00000002)
-#define  RCU_APB2LPENR_USART1LPEN            ((uint32_t)0x00000010)
-#define  RCU_APB2LPENR_USART6LPEN            ((uint32_t)0x00000020)
-#define  RCU_APB2LPENR_ADC1LPEN              ((uint32_t)0x00000100)
-#define  RCU_APB2LPENR_ADC2PEN               ((uint32_t)0x00000200)
-#define  RCU_APB2LPENR_ADC3LPEN              ((uint32_t)0x00000400)
-#define  RCU_APB2LPENR_SDIOLPEN              ((uint32_t)0x00000800)
-#define  RCU_APB2LPENR_SPI1LPEN              ((uint32_t)0x00001000)
-#define  RCU_APB2LPENR_SPI4LPEN              ((uint32_t)0x00002000)
-#define  RCU_APB2LPENR_SYSCFGLPEN            ((uint32_t)0x00004000)
-#define  RCU_APB2LPENR_TIM9LPEN              ((uint32_t)0x00010000)
-#define  RCU_APB2LPENR_TIM10LPEN             ((uint32_t)0x00020000)
-#define  RCU_APB2LPENR_TIM11LPEN             ((uint32_t)0x00040000)
-#define  RCU_APB2LPENR_SPI5LPEN              ((uint32_t)0x00100000)
-#define  RCU_APB2LPENR_SPI6LPEN              ((uint32_t)0x00200000)
-#define  RCU_APB2LPENR_SAI1LPEN              ((uint32_t)0x00400000)
-#define  RCU_APB2LPENR_LTDCLPEN              ((uint32_t)0x04000000)
+/********************  Bit definition for RCC_APB2LPENR register  *************/
+#define  RCC_APB2LPENR_TIM1LPEN              ((uint32_t)0x00000001)
+#define  RCC_APB2LPENR_TIM8LPEN              ((uint32_t)0x00000002)
+#define  RCC_APB2LPENR_USART1LPEN            ((uint32_t)0x00000010)
+#define  RCC_APB2LPENR_USART6LPEN            ((uint32_t)0x00000020)
+#define  RCC_APB2LPENR_ADC1LPEN              ((uint32_t)0x00000100)
+#define  RCC_APB2LPENR_ADC2PEN               ((uint32_t)0x00000200)
+#define  RCC_APB2LPENR_ADC3LPEN              ((uint32_t)0x00000400)
+#define  RCC_APB2LPENR_SDIOLPEN              ((uint32_t)0x00000800)
+#define  RCC_APB2LPENR_SPI1LPEN              ((uint32_t)0x00001000)
+#define  RCC_APB2LPENR_SPI4LPEN              ((uint32_t)0x00002000)
+#define  RCC_APB2LPENR_SYSCFGLPEN            ((uint32_t)0x00004000)
+#define  RCC_APB2LPENR_TIM9LPEN              ((uint32_t)0x00010000)
+#define  RCC_APB2LPENR_TIM10LPEN             ((uint32_t)0x00020000)
+#define  RCC_APB2LPENR_TIM11LPEN             ((uint32_t)0x00040000)
+#define  RCC_APB2LPENR_SPI5LPEN              ((uint32_t)0x00100000)
+#define  RCC_APB2LPENR_SPI6LPEN              ((uint32_t)0x00200000)
+#define  RCC_APB2LPENR_SAI1LPEN              ((uint32_t)0x00400000)
+#define  RCC_APB2LPENR_LTDCLPEN              ((uint32_t)0x04000000)
 
-/********************  Bit definition for RCU_BDCR register  ******************/
-#define  RCU_BDCR_LSEON                      ((uint32_t)0x00000001)
-#define  RCU_BDCR_LSERDY                     ((uint32_t)0x00000002)
-#define  RCU_BDCR_LSEBYP                     ((uint32_t)0x00000004)
-#define  RCU_BDCR_LSEMOD                     ((uint32_t)0x00000008)
+/********************  Bit definition for RCC_BDCR register  ******************/
+#define  RCC_BDCR_LSEON                      ((uint32_t)0x00000001)
+#define  RCC_BDCR_LSERDY                     ((uint32_t)0x00000002)
+#define  RCC_BDCR_LSEBYP                     ((uint32_t)0x00000004)
+#define  RCC_BDCR_LSEMOD                     ((uint32_t)0x00000008)
 
-#define  RCU_BDCR_RTCSEL                    ((uint32_t)0x00000300)
-#define  RCU_BDCR_RTCSEL_0                  ((uint32_t)0x00000100)
-#define  RCU_BDCR_RTCSEL_1                  ((uint32_t)0x00000200)
+#define  RCC_BDCR_RTCSEL                    ((uint32_t)0x00000300)
+#define  RCC_BDCR_RTCSEL_0                  ((uint32_t)0x00000100)
+#define  RCC_BDCR_RTCSEL_1                  ((uint32_t)0x00000200)
 
-#define  RCU_BDCR_RTCEN                      ((uint32_t)0x00008000)
-#define  RCU_BDCR_BDRST                      ((uint32_t)0x00010000)
+#define  RCC_BDCR_RTCEN                      ((uint32_t)0x00008000)
+#define  RCC_BDCR_BDRST                      ((uint32_t)0x00010000)
 
-/********************  Bit definition for RCU_CSR register  *******************/
-#define  RCU_CSR_LSION                       ((uint32_t)0x00000001)
-#define  RCU_CSR_LSIRDY                      ((uint32_t)0x00000002)
-#define  RCU_CSR_RMVF                        ((uint32_t)0x01000000)
-#define  RCU_CSR_BORRSTF                     ((uint32_t)0x02000000)
-#define  RCU_CSR_PADRSTF                     ((uint32_t)0x04000000)
-#define  RCU_CSR_PORRSTF                     ((uint32_t)0x08000000)
-#define  RCU_CSR_SFTRSTF                     ((uint32_t)0x10000000)
-#define  RCU_CSR_WDGRSTF                     ((uint32_t)0x20000000)
-#define  RCU_CSR_WWDGRSTF                    ((uint32_t)0x40000000)
-#define  RCU_CSR_LPWRRSTF                    ((uint32_t)0x80000000)
+/********************  Bit definition for RCC_CSR register  *******************/
+#define  RCC_CSR_LSION                       ((uint32_t)0x00000001)
+#define  RCC_CSR_LSIRDY                      ((uint32_t)0x00000002)
+#define  RCC_CSR_RMVF                        ((uint32_t)0x01000000)
+#define  RCC_CSR_BORRSTF                     ((uint32_t)0x02000000)
+#define  RCC_CSR_PADRSTF                     ((uint32_t)0x04000000)
+#define  RCC_CSR_PORRSTF                     ((uint32_t)0x08000000)
+#define  RCC_CSR_SFTRSTF                     ((uint32_t)0x10000000)
+#define  RCC_CSR_WDGRSTF                     ((uint32_t)0x20000000)
+#define  RCC_CSR_WWDGRSTF                    ((uint32_t)0x40000000)
+#define  RCC_CSR_LPWRRSTF                    ((uint32_t)0x80000000)
 
-/********************  Bit definition for RCU_SSCGR register  *****************/
-#define  RCU_SSCGR_MODPER                    ((uint32_t)0x00001FFF)
-#define  RCU_SSCGR_INCSTEP                   ((uint32_t)0x0FFFE000)
-#define  RCU_SSCGR_SPREADSEL                 ((uint32_t)0x40000000)
-#define  RCU_SSCGR_SSCGEN                    ((uint32_t)0x80000000)
+/********************  Bit definition for RCC_SSCGR register  *****************/
+#define  RCC_SSCGR_MODPER                    ((uint32_t)0x00001FFF)
+#define  RCC_SSCGR_INCSTEP                   ((uint32_t)0x0FFFE000)
+#define  RCC_SSCGR_SPREADSEL                 ((uint32_t)0x40000000)
+#define  RCC_SSCGR_SSCGEN                    ((uint32_t)0x80000000)
 
-/********************  Bit definition for RCU_PLLI2SCFGR register  ************/
-#define  RCU_PLLI2SCFGR_PLLI2SM              ((uint32_t)0x0000003F)
-#define  RCU_PLLI2SCFGR_PLLI2SM_0            ((uint32_t)0x00000001)
-#define  RCU_PLLI2SCFGR_PLLI2SM_1            ((uint32_t)0x00000002)
-#define  RCU_PLLI2SCFGR_PLLI2SM_2            ((uint32_t)0x00000004)
-#define  RCU_PLLI2SCFGR_PLLI2SM_3            ((uint32_t)0x00000008)
-#define  RCU_PLLI2SCFGR_PLLI2SM_4            ((uint32_t)0x00000010)
-#define  RCU_PLLI2SCFGR_PLLI2SM_5            ((uint32_t)0x00000020)
+/********************  Bit definition for RCC_PLLI2SCFGR register  ************/
+#define  RCC_PLLI2SCFGR_PLLI2SM              ((uint32_t)0x0000003F)
+#define  RCC_PLLI2SCFGR_PLLI2SM_0            ((uint32_t)0x00000001)
+#define  RCC_PLLI2SCFGR_PLLI2SM_1            ((uint32_t)0x00000002)
+#define  RCC_PLLI2SCFGR_PLLI2SM_2            ((uint32_t)0x00000004)
+#define  RCC_PLLI2SCFGR_PLLI2SM_3            ((uint32_t)0x00000008)
+#define  RCC_PLLI2SCFGR_PLLI2SM_4            ((uint32_t)0x00000010)
+#define  RCC_PLLI2SCFGR_PLLI2SM_5            ((uint32_t)0x00000020)
 
-/********************  Bit definition for RCU_PLLI2SCFGR register  ************/
-#define  RCU_PLLI2SCFGR_PLLI2SN              ((uint32_t)0x00007FC0)
-#define  RCU_PLLI2SCFGR_PLLI2SQ              ((uint32_t)0x0F000000)
-#define  RCU_PLLI2SCFGR_PLLI2SR              ((uint32_t)0x70000000)
+/********************  Bit definition for RCC_PLLI2SCFGR register  ************/
+#define  RCC_PLLI2SCFGR_PLLI2SN              ((uint32_t)0x00007FC0)
+#define  RCC_PLLI2SCFGR_PLLI2SQ              ((uint32_t)0x0F000000)
+#define  RCC_PLLI2SCFGR_PLLI2SR              ((uint32_t)0x70000000)
 
-/********************  Bit definition for RCU_PLLSAICFGR register  ************/
-#define  RCU_PLLSAICFGR_PLLI2SN              ((uint32_t)0x00007FC0)
-#define  RCU_PLLSAICFGR_PLLI2SQ              ((uint32_t)0x0F000000)
-#define  RCU_PLLSAICFGR_PLLI2SR              ((uint32_t)0x70000000)
+/********************  Bit definition for RCC_PLLSAICFGR register  ************/
+#define  RCC_PLLSAICFGR_PLLI2SN              ((uint32_t)0x00007FC0)
+#define  RCC_PLLSAICFGR_PLLI2SQ              ((uint32_t)0x0F000000)
+#define  RCC_PLLSAICFGR_PLLI2SR              ((uint32_t)0x70000000)
 
-/********************  Bit definition for RCU_DCKCFGR register  ***************/
-#define  RCU_DCKCFGR_PLLI2SDIVQ              ((uint32_t)0x0000001F)
-#define  RCU_DCKCFGR_PLLSAIDIVQ              ((uint32_t)0x00001F00)
-#define  RCU_DCKCFGR_PLLSAIDIVR              ((uint32_t)0x00030000)
-#define  RCU_DCKCFGR_SAI1ASRC                ((uint32_t)0x00300000)
-#define  RCU_DCKCFGR_SAI1BSRC                ((uint32_t)0x00C00000)
-#define  RCU_DCKCFGR_TIMPRE                  ((uint32_t)0x01000000)
+/********************  Bit definition for RCC_DCKCFGR register  ***************/
+#define  RCC_DCKCFGR_PLLI2SDIVQ              ((uint32_t)0x0000001F)
+#define  RCC_DCKCFGR_PLLSAIDIVQ              ((uint32_t)0x00001F00)
+#define  RCC_DCKCFGR_PLLSAIDIVR              ((uint32_t)0x00030000)
+#define  RCC_DCKCFGR_SAI1ASRC                ((uint32_t)0x00300000)
+#define  RCC_DCKCFGR_SAI1BSRC                ((uint32_t)0x00C00000)
+#define  RCC_DCKCFGR_TIMPRE                  ((uint32_t)0x01000000)
 
 
 /******************************************************************************/
@@ -8938,10 +8920,16 @@ typedef struct
 /* Bit definition for Ethernet DMA Current Host Receive Buffer Address Register */
 #define ETH_DMACHRBAR_HRBAP  ((uint32_t)0xFFFFFFFF)  /* Host receive buffer address pointer */
 
-/** @addtogroup Exported_macro
-  * @{
+/**
+  *
   */
-
+/* define marco USE_STDPERIPH_DRIVER */
+#if !defined  USE_STDPERIPH_DRIVER
+#define USE_STDPERIPH_DRIVER
+#endif 
+#ifdef USE_STDPERIPH_DRIVER
+#include "gd32f4xx_libopt.h"
+#endif /* USE_STDPERIPH_DRIVER */
 #define SET_BIT(REG, BIT)     ((REG) |= (BIT))
 
 #define CLEAR_BIT(REG, BIT)   ((REG) &= ~(BIT))
@@ -8955,17 +8943,10 @@ typedef struct
 #define READ_REG(REG)         ((REG))
 
 #define MODIFY_REG(REG, CLEARMASK, SETMASK)  WRITE_REG((REG), (((READ_REG(REG)) & (~(CLEARMASK))) | (SETMASK)))
-/**
-  *
-  */
-/* define marco USE_STDPERIPH_DRIVER */
-#if !defined  USE_STDPERIPH_DRIVER
-#define USE_STDPERIPH_DRIVER
-#endif 
-#ifdef USE_STDPERIPH_DRIVER
-#include "gd32f4xx_libopt.h"
-#endif /* USE_STDPERIPH_DRIVER */
 
+/**
+  * @}
+  */
 #ifdef __cplusplus
 }
 #endif

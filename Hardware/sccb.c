@@ -25,11 +25,12 @@ void SCCB_Init(void)
   GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;//推挽输出
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;//100MHz
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;//上拉
-  GPIO_Init(GPIOD, &GPIO_InitStructure);//初始化
+  GPIO_Init(GPIOF, &GPIO_InitStructure);//初始化
  
-	GPIO_SetBits(GPIOD,GPIO_Pin_0|GPIO_Pin_1);
+	GPIO_SetBits(GPIOF,GPIO_Pin_0|GPIO_Pin_1);
 	SCCB_SDA_OUT();	   
 }			 
+
 
 //SCCB起始信号
 //当时钟为高的时候,数据线的高到低,为SCCB起始信号

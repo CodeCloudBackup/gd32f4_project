@@ -4,7 +4,8 @@
 #include "delay.h"
 #include "usart.h"			 
 #include "sccb.h"	
- 
+#include "dcmi.h"
+#include "malloc.h"
 //////////////////////////////////////////////////////////////////////////////////	 
 //本程序只供学习使用，未经作者许可，不得用于其它任何用途
 //ALIENTEK STM32F407开发板
@@ -17,7 +18,85 @@
 //Copyright(C) 广州市星翼电子科技有限公司 2014-2024
 //All rights reserved									  
 ////////////////////////////////////////////////////////////////////////////////// 
+
+
+#define jpeg_dma_bufsize	31*1024		//定义JPEG DMA接收时数据缓存jpeg_buf0/1的大小(*4字节)
+vu32 jpeg_data_len=0; 			//buf中的JPEG有效数据长度(*4字节)
+vu8 jpeg_data_ok=0;				//JPEG数据采集完成标志
+u32 *jpeg_data_buf;						//JPEG数据缓存buf,通过malloc申请内存
+u8 ov2640_mode=1;	
+//当采集完一帧JPEG数据后,调用此函数,切换JPEG BUF.开始下一帧采集.
+void jpeg_data_process(void)
+{
+	if(ov2640_mode)//只有在JPEG格式下,才需要做处理.
+	{
+		if(jpeg_data_ok==0)	//jpeg数据还未采集完?
+		{
+			DMA_Cmd(DMA1_Stream1,DISABLE);		//停止当前传输
+			while(DMA_GetCmdStatus(DMA1_Stream1) != DISABLE);	//等待DMA2_Stream1可配置  
+			jpeg_data_len=jpeg_dma_bufsize-DMA_GetCurrDataCounter(DMA1_Stream1);//得到剩余数据长度	
+			jpeg_data_ok=1; 				//标记JPEG数据采集完按成,等待其他函数处理
+		}
+		if(jpeg_data_ok==2)	//上一次的jpeg数据已经被处理了
+		{
+			DMA_SetCurrDataCounter(DMA1_Stream1,jpeg_dma_bufsize);//传输长度为jpeg_buf_size*4字节
+			DMA_Cmd(DMA1_Stream1,ENABLE); //重新传输
+			jpeg_data_ok=0;					//标记数据未采集
+		}
+	}
+}
+u8 OV2640_Jpg_Photo(void)
+{
+	ov2640_mode=1;						//工作模式:0,RGB565模式;1,JPEG模式
+	u8 res=0;
+	u16 i;
+	u8* pbuf;
+	OV2640_JPEG_Mode();		//切换为JPEG模式 
+ 	OV2640_ImageWin_Set(0,0,320,240);			 
+	OV2640_OutSize_Set(320,240);//拍照尺寸为1600*1200
+	DCMI_DMA_Init((u32)jpeg_data_buf,0,jpeg_dma_bufsize,DMA_MemoryDataSize_Word,DMA_MemoryInc_Enable);//DCMI DMA配置(双缓冲模式)
+	DCMI_Start(); 			//启动传输 
+	while(jpeg_data_ok!= 1);
+	
+	if(jpeg_data_ok==1)
+	{
+			printf("jpeg data size:%d\r\n",jpeg_data_len*4);//串口打印JPEG文件大小
+			pbuf=(u8*)jpeg_data_buf;
+			
+			for(i=0;i<jpeg_data_len*4;i++)//查找0XFF,0XD8
+			{
+				if((pbuf[i]==0XFF)&&(pbuf[i+1]==0XD8))break;
+			}
+			if(i==jpeg_data_len*4)res=0XFD;//没找到0XFF,0XD8
+			else//找到了
+			{
+				for(i=0;i<jpeg_data_len*4;i++)		//dma传输1次等于4字节,所以乘以4.
+				{
+						printf("%x",pbuf[i]);
+				} 	
+			}
+			jpeg_data_ok=2;
+			DMA1->LIFCR|=0X3D<<6*1;		//清空通道1上所有中断标志
+			DCMI_Start(); 
+	    DCMI_CaptureCmd(ENABLE);//DCMI捕获使能
+	}
+	return res;
+}
   
+void OV2640_PWR_Init(void)
+{
+	 GPIO_InitTypeDef  GPIO_InitStructure;
+	RCU_AHB1PeriphClockCmd(RCU_AHB1Periph_GPIOE, ENABLE);
+  //GPIOG9,15初始化设置
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;//PG9,15推挽输出
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT; //推挽输出
+  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;//推挽输出
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;//100MHz
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;//上拉
+  GPIO_Init(GPIOE, &GPIO_InitStructure);//初始化
+	GPIO_ResetBits(GPIOE,GPIO_Pin_8);
+}
+	
 //初始化OV2640 
 //配置完以后,默认输出是1600*1200尺寸的图片!! 
 //返回值:0,成功
@@ -26,9 +105,9 @@ u8 OV2640_Init(void)
 { 
 	u16 i=0;
 	u16 reg;
-	//设置IO     	   
+	//设置IO  
+	OV2640_PWR_Init();
   GPIO_InitTypeDef  GPIO_InitStructure;
-
   RCU_AHB1PeriphClockCmd(RCU_AHB1Periph_GPIOF, ENABLE);
   //GPIOG9,15初始化设置
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9|GPIO_Pin_10;//PG9,15推挽输出
@@ -37,7 +116,7 @@ u8 OV2640_Init(void)
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;//100MHz
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;//上拉
   GPIO_Init(GPIOF, &GPIO_InitStructure);//初始化
- 
+
  	OV2640_PWDN=0;	//POWER ON
 	delay_ms(10);
 	OV2640_RST=0;	//复位OV2640
@@ -46,7 +125,7 @@ u8 OV2640_Init(void)
   SCCB_Init();        		//初始化SCCB 的IO口	 
 	SCCB_WR_Reg(OV2640_DSP_RA_DLMT, 0x01);	//操作sensor寄存器
  	SCCB_WR_Reg(OV2640_SENSOR_COM7, 0x80);	//软复位OV2640
-	delay_ms(50); 
+	delay_ms(5); 
 	reg=SCCB_RD_Reg(OV2640_SENSOR_MIDH);	//读取厂家ID 高八位
 	reg<<=8;
 	reg|=SCCB_RD_Reg(OV2640_SENSOR_MIDL);	//读取厂家ID 低八位
@@ -68,6 +147,7 @@ u8 OV2640_Init(void)
 	{
 	   	SCCB_WR_Reg(ov2640_sxga_init_reg_tbl[i][0],ov2640_sxga_init_reg_tbl[i][1]);
  	} 
+	jpeg_data_buf=mymalloc(SRAMIN,100*1024);		//为jpeg文件申请内存(最大300KB)
   	return 0x00; 	//ok
 } 
 //OV2640切换为JPEG模式

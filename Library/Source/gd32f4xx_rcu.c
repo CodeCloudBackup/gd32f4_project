@@ -324,7 +324,7 @@ void RCU_AdjustHSICalibrationValue(uint8_t HSICalibrationValue)
   tmpreg = RCU->CTL;
 
   /* Clear HSITRIM[4:0] bits */
-  tmpreg &= ~RCU_CR_HSITRIM;
+  tmpreg &= ~RCC_CR_HSITRIM;
 
   /* Set the HSITRIM[4:0] bits according to HSICalibrationValue value */
   tmpreg |= (uint32_t)HSICalibrationValue << 3;
@@ -936,7 +936,7 @@ void RCU_SYSCLKConfig(uint32_t RCU_SYSCLKSource)
   tmpreg = RCU->CFG0;
 
   /* Clear SW[1:0] bits */
-  tmpreg &= ~RCU_CFGR_SW;
+  tmpreg &= ~RCC_CFGR_SW;
 
   /* Set SW[1:0] bits according to RCU_SYSCLKSource value */
   tmpreg |= RCU_SYSCLKSource;
@@ -956,7 +956,7 @@ void RCU_SYSCLKConfig(uint32_t RCU_SYSCLKSource)
   */
 uint8_t RCU_GetSYSCLKSource(void)
 {
-  return ((uint8_t)(RCU->CFG0 & RCU_CFGR_SWS));
+  return ((uint8_t)(RCU->CFG0 & RCC_CFGR_SWS));
 }
 
 /**
@@ -989,7 +989,7 @@ void RCU_HCLKConfig(uint32_t RCU_SYSCLK)
   tmpreg = RCU->CFG0;
 
   /* Clear HPRE[3:0] bits */
-  tmpreg &= ~RCU_CFGR_HPRE;
+  tmpreg &= ~RCC_CFGR_HPRE;
 
   /* Set HPRE[3:0] bits according to RCU_SYSCLK value */
   tmpreg |= RCU_SYSCLK;
@@ -1021,7 +1021,7 @@ void RCU_PCLK1Config(uint32_t RCU_HCLK)
   tmpreg = RCU->CFG0;
 
   /* Clear PPRE1[2:0] bits */
-  tmpreg &= ~RCU_CFGR_PPRE1;
+  tmpreg &= ~RCC_CFGR_PPRE1;
 
   /* Set PPRE1[2:0] bits according to RCU_HCLK value */
   tmpreg |= RCU_HCLK;
@@ -1052,7 +1052,7 @@ void RCU_PCLK2Config(uint32_t RCU_HCLK)
   tmpreg = RCU->CFG0;
 
   /* Clear PPRE2[2:0] bits */
-  tmpreg &= ~RCU_CFGR_PPRE2;
+  tmpreg &= ~RCC_CFGR_PPRE2;
 
   /* Set PPRE2[2:0] bits according to RCU_HCLK value */
   tmpreg |= RCU_HCLK << 3;
@@ -1099,7 +1099,7 @@ void RCU_GetClocksFreq(RCU_ClocksTypeDef* RCU_Clocks)
   uint32_t tmp = 0, presc = 0, pllvco = 0, pllp = 2, pllsource = 0, pllm = 2;
 
   /* Get SYSCLK source -------------------------------------------------------*/
-  tmp = RCU->CFG0 & RCU_CFGR_SWS;
+  tmp = RCU->CFG0 & RCC_CFGR_SWS;
 
   switch (tmp)
   {
@@ -1114,21 +1114,21 @@ void RCU_GetClocksFreq(RCU_ClocksTypeDef* RCU_Clocks)
       /* PLL_VCO = (HSE_VALUE or HSI_VALUE / PLLM) * PLLN
          SYSCLK = PLL_VCO / PLLP
          */    
-      pllsource = (RCU->PLL & RCU_PLLCFGR_PLLSRC) >> 22;
-      pllm = RCU->PLL & RCU_PLLCFGR_PLLM;
+      pllsource = (RCU->PLL & RCC_PLLCFGR_PLLSRC) >> 22;
+      pllm = RCU->PLL & RCC_PLLCFGR_PLLM;
       
       if (pllsource != 0)
       {
         /* HSE used as PLL clock source */
-        pllvco = (HXTAL_VALUE / pllm) * ((RCU->PLL & RCU_PLLCFGR_PLLN) >> 6);
+        pllvco = (HXTAL_VALUE / pllm) * ((RCU->PLL & RCC_PLLCFGR_PLLN) >> 6);
       }
       else
       {
         /* HSI used as PLL clock source */
-        pllvco = (IRC16M_VALUE / pllm) * ((RCU->PLL & RCU_PLLCFGR_PLLN) >> 6);      
+        pllvco = (IRC16M_VALUE / pllm) * ((RCU->PLL & RCC_PLLCFGR_PLLN) >> 6);      
       }
 
-      pllp = (((RCU->PLL & RCU_PLLCFGR_PLLP) >>16) + 1 ) *2;
+      pllp = (((RCU->PLL & RCC_PLLCFGR_PLLP) >>16) + 1 ) *2;
       RCU_Clocks->SYSCLK_Frequency = pllvco/pllp;
       break;
     default:
@@ -1138,21 +1138,21 @@ void RCU_GetClocksFreq(RCU_ClocksTypeDef* RCU_Clocks)
   /* Compute HCLK, PCLK1 and PCLK2 clocks frequencies ------------------------*/
 
   /* Get HCLK prescaler */
-  tmp = RCU->CFG0 & RCU_CFGR_HPRE;
+  tmp = RCU->CFG0 & RCC_CFGR_HPRE;
   tmp = tmp >> 4;
   presc = APBAHBPrescTable[tmp];
   /* HCLK clock frequency */
   RCU_Clocks->HCLK_Frequency = RCU_Clocks->SYSCLK_Frequency >> presc;
 
   /* Get PCLK1 prescaler */
-  tmp = RCU->CFG0 & RCU_CFGR_PPRE1;
+  tmp = RCU->CFG0 & RCC_CFGR_PPRE1;
   tmp = tmp >> 10;
   presc = APBAHBPrescTable[tmp];
   /* PCLK1 clock frequency */
   RCU_Clocks->PCLK1_Frequency = RCU_Clocks->HCLK_Frequency >> presc;
 
   /* Get PCLK2 prescaler */
-  tmp = RCU->CFG0 & RCU_CFGR_PPRE2;
+  tmp = RCU->CFG0 & RCC_CFGR_PPRE2;
   tmp = tmp >> 13;
   presc = APBAHBPrescTable[tmp];
   /* PCLK2 clock frequency */
@@ -1231,7 +1231,7 @@ void RCU_RTCCLKConfig(uint32_t RCU_RTCCLKSource)
     tmpreg = RCU->CFG0;
 
     /* Clear RTCPRE[4:0] bits */
-    tmpreg &= ~RCU_CFGR_RTCPRE;
+    tmpreg &= ~RCC_CFGR_RTCPRE;
 
     /* Configure HSE division factor for RTC clock */
     tmpreg |= (RCU_RTCCLKSource & 0xFFFFCFF);
@@ -1316,7 +1316,7 @@ void RCU_SAIPLLI2SClkDivConfig(uint32_t RCU_PLLI2SDivQ)
   tmpreg = RCU->CFG1;
 
   /* Clear PLLI2SDIVQ[4:0] bits */
-  tmpreg &= ~(RCU_DCKCFGR_PLLI2SDIVQ);
+  tmpreg &= ~(RCC_DCKCFGR_PLLI2SDIVQ);
 
   /* Set PLLI2SDIVQ values */
   tmpreg |= (RCU_PLLI2SDivQ - 1);
@@ -1348,7 +1348,7 @@ void RCU_SAIPLLSAIClkDivConfig(uint32_t RCU_PLLSAIDivQ)
   tmpreg = RCU->CFG1;
 
   /* Clear PLLI2SDIVQ[4:0] and PLLSAIDIVQ[4:0] bits */
-  tmpreg &= ~(RCU_DCKCFGR_PLLSAIDIVQ);
+  tmpreg &= ~(RCC_DCKCFGR_PLLSAIDIVQ);
 
   /* Set PLLSAIDIVQ values */
   tmpreg |= ((RCU_PLLSAIDivQ - 1) << 8);
@@ -1384,7 +1384,7 @@ void RCU_SAIBlockACLKConfig(uint32_t RCU_SAIBlockACLKSource)
   tmpreg = RCU->CFG1;
 
   /* Clear RCU_DCKCFGR_SAI1ASRC[1:0] bits */
-  tmpreg &= ~RCU_DCKCFGR_SAI1ASRC;
+  tmpreg &= ~RCC_DCKCFGR_SAI1ASRC;
 
   /* Set SAI Block A source selection value */
   tmpreg |= RCU_SAIBlockACLKSource;
@@ -1420,7 +1420,7 @@ void RCU_SAIBlockBCLKConfig(uint32_t RCU_SAIBlockBCLKSource)
   tmpreg = RCU->CFG1;
 
   /* Clear RCU_DCKCFGR_SAI1BSRC[1:0] bits */
-  tmpreg &= ~RCU_DCKCFGR_SAI1BSRC;
+  tmpreg &= ~RCC_DCKCFGR_SAI1BSRC;
 
   /* Set SAI Block B source selection value */
   tmpreg |= RCU_SAIBlockBCLKSource;
@@ -1453,7 +1453,7 @@ void RCU_LTDCCLKDivConfig(uint32_t RCU_PLLSAIDivR)
   tmpreg = RCU->CFG1;
 
   /* Clear PLLSAIDIVR[2:0] bits */
-  tmpreg &= ~RCU_DCKCFGR_PLLSAIDIVR;
+  tmpreg &= ~RCC_DCKCFGR_PLLSAIDIVR;
 
   /* Set PLLSAIDIVR values */
   tmpreg |= RCU_PLLSAIDivR;
@@ -2103,11 +2103,11 @@ void RCU_LSEModeConfig(uint8_t Mode)
   
   if(Mode == RCU_LSE_HIGHDRIVE_MODE)
   {
-    SET_BIT(RCU->BDCTL, RCU_BDCR_LSEMOD);
+    SET_BIT(RCU->BDCTL, RCC_BDCR_LSEMOD);
   }
   else
   {
-    CLEAR_BIT(RCU->BDCTL, RCU_BDCR_LSEMOD);
+    CLEAR_BIT(RCU->BDCTL, RCC_BDCR_LSEMOD);
   }
 }
 
@@ -2227,7 +2227,7 @@ FlagStatus RCU_GetFlagStatus(uint8_t RCU_FLAG)
 void RCU_ClearFlag(void)
 {
   /* Set RMVF bit to clear the reset flags */
-  RCU->RSTSCK |= RCU_CSR_RMVF;
+  RCU->RSTSCK |= RCC_CSR_RMVF;
 }
 
 /**

@@ -15,13 +15,13 @@
 ////////////////////////////////////////////////////////////////////////////////// 	 
 
 u8 ov_frame=0;  						//帧率
-
+extern void jpeg_data_process(void);
 //DCMI中断服务函数
-void DCMI_IRQHandler(void)
+void DCI_IRQHandler(void)
 {
 	if(DCMI_GetITStatus(DCMI_IT_FRAME)==SET)//捕获到一帧图像
 	{
-		//jpeg_data_process(); 	//jpeg数据处理	
+		jpeg_data_process(); 	//jpeg数据处理	
 		DCMI_ClearITPendingBit(DCMI_IT_FRAME);//清除帧中断
 		LED_B=!LED_B;
 		ov_frame++;  
@@ -94,7 +94,7 @@ void MyDCMI_Init(void)
 	NVIC_InitTypeDef NVIC_InitStructure;
 	DCMI_InitTypeDef DCMI_InitStructure;		
 	
-  RCU_AHB1PeriphClockCmd(RCU_AHB1Periph_GPIOA|RCU_AHB1Periph_GPIOC||RCU_AHB1Periph_GPIOD|RCU_AHB1Periph_GPIOE|RCU_AHB1Periph_GPIOG, ENABLE);//使能GPIOA B C E 时钟
+  RCU_AHB1PeriphClockCmd(RCU_AHB1Periph_GPIOA|RCU_AHB1Periph_GPIOC|RCU_AHB1Periph_GPIOD|RCU_AHB1Periph_GPIOE|RCU_AHB1Periph_GPIOG, ENABLE);//使能GPIOA B C E 时钟
 	RCU_AHB2PeriphClockCmd(RCU_AHB2Periph_DCMI,ENABLE);
   //GPIOF9,F10初始化设置
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4|GPIO_Pin_6;//PA4/6  HSYNC/PLCLK  复用功能输出
@@ -104,7 +104,7 @@ void MyDCMI_Init(void)
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;//上拉
   GPIO_Init(GPIOA, &GPIO_InitStructure);//初始化
 	
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6|GPIO_Pin_7|GPIO_Pin_8;//PC6/7/8   D0/1/2  复用功能输出
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6|GPIO_Pin_7|GPIO_Pin_8|GPIO_Pin_10|GPIO_Pin_12;//PC6/7/8   D0/1/2  复用功能输出
   GPIO_Init(GPIOC, &GPIO_InitStructure);//初始化
 	
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;//PD3 D5  复用功能输出 
@@ -121,6 +121,8 @@ void MyDCMI_Init(void)
  	GPIO_PinAFConfig(GPIOC,GPIO_PinSource6,GPIO_AF_DCMI); //PB4,AF13  DCMI_D0 
  	GPIO_PinAFConfig(GPIOC,GPIO_PinSource7,GPIO_AF_DCMI); //PC5,AF13  DCMI_D1  
  	GPIO_PinAFConfig(GPIOC,GPIO_PinSource8,GPIO_AF_DCMI); //PC6,AF13  DCMI_D2 
+	GPIO_PinAFConfig(GPIOC,GPIO_PinSource10,GPIO_AF_DCMI); //PC5,AF13  DCMI_D8  
+ 	GPIO_PinAFConfig(GPIOC,GPIO_PinSource12,GPIO_AF_DCMI); //PC6,AF13  DCMI_D9 
 	GPIO_PinAFConfig(GPIOD,GPIO_PinSource3,GPIO_AF_DCMI); //PD3,AF13  DCMI_D5
 	GPIO_PinAFConfig(GPIOE,GPIO_PinSource4,GPIO_AF_DCMI); //PE4,AF13  DCMI_D4
 	GPIO_PinAFConfig(GPIOE,GPIO_PinSource5,GPIO_AF_DCMI); //PE5,AF13 DCMI_D6
@@ -134,7 +136,7 @@ void MyDCMI_Init(void)
  
   DCMI_InitStructure.DCMI_CaptureMode=DCMI_CaptureMode_Continuous;//连续模式
 	DCMI_InitStructure.DCMI_CaptureRate=DCMI_CaptureRate_All_Frame;//全帧捕获
-	DCMI_InitStructure.DCMI_ExtendedDataMode= DCMI_ExtendedDataMode_8b;//8位数据格式  
+	DCMI_InitStructure.DCMI_ExtendedDataMode= DCMI_ExtendedDataMode_10b;//8位数据格式  
 	DCMI_InitStructure.DCMI_HSPolarity= DCMI_HSPolarity_Low;//HSYNC 低电平有效
 	DCMI_InitStructure.DCMI_PCKPolarity= DCMI_PCKPolarity_Rising;//PCLK 上升沿有效
 	DCMI_InitStructure.DCMI_SynchroMode= DCMI_SynchroMode_Hardware;//硬件同步HSYNC,VSYNC
@@ -146,7 +148,7 @@ void MyDCMI_Init(void)
 	DCMI_Cmd(ENABLE);	//DCMI使能
 
   NVIC_InitStructure.NVIC_IRQChannel = DCI_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=0;//抢占优先级1
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=1;//抢占优先级1
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority =0;		//子优先级3
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;			//IRQ通道使能
 	NVIC_Init(&NVIC_InitStructure);	//根据指定的参数初始化VIC寄存器、
