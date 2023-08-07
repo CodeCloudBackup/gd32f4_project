@@ -17,7 +17,6 @@
 void IIC_Init(void)
 {			
   GPIO_InitTypeDef  GPIO_InitStructure;
-
   RCU_AHB1PeriphClockCmd(RCU_AHB1Periph_GPIOB, ENABLE);//使能GPIOB时钟
 
   //GPIOB8,B9初始化设置

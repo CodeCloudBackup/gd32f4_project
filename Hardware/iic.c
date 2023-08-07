@@ -21,7 +21,6 @@ void IIC0_Init(void)
 	GPIO_InitTypeDef  GPIO_InitStructure;
 	NVIC_InitTypeDef  NVIC_InitStructure;
 	I2C_InitTypeDef   I2C_InitStructure;
-	EXTI_InitTypeDef   EXTI_InitStructure;
 	
 	RCU_AHB1PeriphClockCmd(RCU_AHB1Periph_GPIOB,ENABLE); //使能GPIOA时钟
 	 //GPIOB8,B9?????
@@ -32,8 +31,8 @@ void IIC0_Init(void)
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;//??
   GPIO_Init(GPIOB, &GPIO_InitStructure);//???
 	//
-	GPIO_PinAFConfig(GPIOB,GPIO_PinSource6,GPIO_AF_I2C0); //GPIOB10???IIC
-	GPIO_PinAFConfig(GPIOB,GPIO_PinSource7,GPIO_AF_I2C0); //GPIOB11???IIC
+	GPIO_PinAFConfig(GPIOB,GPIO_PinSource6,GPIO_AF_I2C1); //GPIOB10???IIC
+	GPIO_PinAFConfig(GPIOB,GPIO_PinSource7,GPIO_AF_I2C1); //GPIOB11???IIC
 	
 	//////////////////////////??????//////////////////////////////////
 	RCU_AHB1PeriphClockCmd(RCU_AHB1Periph_GPIOA,ENABLE); //使能GPIOA时钟
@@ -71,6 +70,7 @@ void IIC1_Init(void)
 {
 	GPIO_InitTypeDef  GPIO_InitStructure;
 	RCU->AHB1EN|=1<<1;//??GPIOB??
+	RCU->APB1EN|=1<<22;//I2C1????
 	 //GPIOB8,B9?????
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_11;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;//??????
@@ -79,10 +79,9 @@ void IIC1_Init(void)
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;//??
   GPIO_Init(GPIOB, &GPIO_InitStructure);//???
 	//??1????????
-	GPIO_PinAFConfig(GPIOB,GPIO_PinSource10,GPIO_AF_I2C1); //GPIOB10???USART2
+	GPIO_PinAFConfig(GPIOB,GPIO_PinSource10,GPIO_AF_I2C2); //GPIOB10???USART2
 	GPIO_PinAFConfig(GPIOB,GPIO_PinSource11,GPIO_AF_I2C1); //GPIOB11???USART2
-	
-	RCU->APB1EN|=1<<22;//I2C1????
+
 	//IIC_Config(I2C1);
 	//////////////////////////??????//////////////////////////////////
 	delay_ms(180);//??180ms
