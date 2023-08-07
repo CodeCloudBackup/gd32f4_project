@@ -10,7 +10,7 @@
       <TargetName>GD32427V_START</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>5060960::V5.06 update 7 (build 960)::.\ARMCC</pCCUsed>
+      <pCCUsed>5060960::V5.06 update 7 (build 960)::ARMCC</pCCUsed>
       <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>GD32F427</Define>
               <Undefine></Undefine>
-              <IncludePath>..\CMSIS;..\Hardware;..\Library\Include;..\User;..\Malloc</IncludePath>
+              <IncludePath>..\CMSIS;..\Hardware;..\Library\Include;..\User</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -444,21 +444,6 @@
               <FilePath>..\Library\Source\gd32f4xx_usart.c</FilePath>
             </File>
             <File>
-              <FileName>gd32f4xx_i2c.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Library\Source\gd32f4xx_i2c.c</FilePath>
-            </File>
-            <File>
-              <FileName>gd32f4xx_spi.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Library\Source\gd32f4xx_spi.c</FilePath>
-            </File>
-            <File>
-              <FileName>gd32f4xx_exti.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Library\Source\gd32f4xx_exti.c</FilePath>
-            </File>
-            <File>
               <FileName>gd32f4xx_adc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Library\Source\gd32f4xx_adc.c</FilePath>
@@ -467,6 +452,16 @@
               <FileName>gd32f4xx_dac.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Library\Source\gd32f4xx_dac.c</FilePath>
+            </File>
+            <File>
+              <FileName>gd32f4xx_i2c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Library\Source\gd32f4xx_i2c.c</FilePath>
+            </File>
+            <File>
+              <FileName>gd32f4xx_spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Library\Source\gd32f4xx_spi.c</FilePath>
             </File>
             <File>
               <FileName>gd32f4xx_dcmi.c</FileName>
@@ -524,74 +519,14 @@
               <FilePath>..\Hardware\led.c</FilePath>
             </File>
             <File>
-              <FileName>timer.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Hardware\timer.h</FilePath>
-            </File>
-            <File>
               <FileName>timer.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Hardware\timer.c</FilePath>
             </File>
             <File>
-              <FileName>usart.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Hardware\usart.h</FilePath>
-            </File>
-            <File>
               <FileName>usart.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Hardware\usart.c</FilePath>
-            </File>
-            <File>
-              <FileName>iic.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Hardware\iic.h</FilePath>
-            </File>
-            <File>
-              <FileName>iic.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Hardware\iic.c</FilePath>
-            </File>
-            <File>
-              <FileName>spi.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Hardware\spi.h</FilePath>
-            </File>
-            <File>
-              <FileName>spi.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Hardware\spi.c</FilePath>
-            </File>
-            <File>
-              <FileName>w25qxx.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Hardware\w25qxx.h</FilePath>
-            </File>
-            <File>
-              <FileName>w25qxx.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Hardware\w25qxx.c</FilePath>
-            </File>
-            <File>
-              <FileName>mpu6050.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Hardware\mpu6050.h</FilePath>
-            </File>
-            <File>
-              <FileName>mpu6050.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Hardware\mpu6050.c</FilePath>
-            </File>
-            <File>
-              <FileName>myiic.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Hardware\myiic.h</FilePath>
-            </File>
-            <File>
-              <FileName>myiic.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Hardware\myiic.c</FilePath>
             </File>
             <File>
               <FileName>dac.h</FileName>
@@ -604,24 +539,9 @@
               <FilePath>..\Hardware\dac.c</FilePath>
             </File>
             <File>
-              <FileName>wavplay.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Hardware\wavplay.h</FilePath>
-            </File>
-            <File>
-              <FileName>wavplay.c</FileName>
+              <FileName>dcmi.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Hardware\wavplay.c</FilePath>
-            </File>
-            <File>
-              <FileName>ov2640cfg.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Hardware\ov2640cfg.h</FilePath>
-            </File>
-            <File>
-              <FileName>ov2640.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Hardware\ov2640.h</FilePath>
+              <FilePath>..\Hardware\dcmi.c</FilePath>
             </File>
             <File>
               <FileName>ov2640.c</FileName>
@@ -629,14 +549,9 @@
               <FilePath>..\Hardware\ov2640.c</FilePath>
             </File>
             <File>
-              <FileName>sccb.h</FileName>
+              <FileName>ov2640.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Hardware\sccb.h</FilePath>
-            </File>
-            <File>
-              <FileName>sccb.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Hardware\sccb.c</FilePath>
+              <FilePath>..\Hardware\ov2640.h</FilePath>
             </File>
             <File>
               <FileName>dcmi.h</FileName>
@@ -644,19 +559,19 @@
               <FilePath>..\Hardware\dcmi.h</FilePath>
             </File>
             <File>
-              <FileName>dcmi.c</FileName>
+              <FileName>sccb.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Hardware\dcmi.c</FilePath>
+              <FilePath>..\Hardware\sccb.c</FilePath>
             </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>Malloc</GroupName>
-          <Files>
+            <File>
+              <FileName>sccb.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\sccb.h</FilePath>
+            </File>
             <File>
               <FileName>malloc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Malloc\malloc.c</FilePath>
+              <FilePath>..\Hardware\malloc.c</FilePath>
             </File>
           </Files>
         </Group>
