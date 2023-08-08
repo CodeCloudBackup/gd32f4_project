@@ -72,7 +72,8 @@ u8 OV2640_Jpg_Photo(void)
 			{
 				for(i=0;i<jpeg_data_len*4;i++)		//dma传输1次等于4字节,所以乘以4.
 				{
-						printf("%x",pbuf[i]);
+						while((USART2->SR&0X40)==0);	//循环发送,直到发送完毕   
+						USART2->DR=pbuf[i]; 
 				} 	
 			}
 			jpeg_data_ok=2;
@@ -94,7 +95,7 @@ void OV2640_PWR_Init(void)
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;//100MHz
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;//上拉
   GPIO_Init(GPIOE, &GPIO_InitStructure);//初始化
-	GPIO_ResetBits(GPIOE,GPIO_Pin_8);
+	GPIO_SetBits(GPIOE,GPIO_Pin_8);
 }
 	
 //初始化OV2640 

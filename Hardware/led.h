@@ -9,4 +9,5 @@
 
 void LED_Init(void);//≥ı ºªØ		
 void LED_Test(void);
+void LED_PWM_Init(void);
 #endif

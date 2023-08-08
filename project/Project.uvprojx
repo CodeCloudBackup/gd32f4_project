@@ -479,6 +479,11 @@
           <GroupName>User</GroupName>
           <Files>
             <File>
+              <FileName>program.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\User\program.h</FilePath>
+            </File>
+            <File>
               <FileName>gd32f4xx_it.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\gd32f4xx_it.c</FilePath>
@@ -503,20 +508,25 @@
               <FileType>1</FileType>
               <FilePath>..\User\delay.c</FilePath>
             </File>
+            <File>
+              <FileName>program.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\program.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>Hardware</GroupName>
           <Files>
             <File>
-              <FileName>led.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Hardware\led.h</FilePath>
-            </File>
-            <File>
               <FileName>led.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Hardware\led.c</FilePath>
+            </File>
+            <File>
+              <FileName>led.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\led.h</FilePath>
             </File>
             <File>
               <FileName>timer.c</FileName>
@@ -597,6 +607,16 @@
               <FileName>icm42670.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Hardware\icm42670.h</FilePath>
+            </File>
+            <File>
+              <FileName>adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\adc.c</FilePath>
+            </File>
+            <File>
+              <FileName>adc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\adc.h</FilePath>
             </File>
           </Files>
         </Group>

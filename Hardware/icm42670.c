@@ -11,12 +11,14 @@ u8 ICM_Init(void)
 { 
 	u8 res;
 	IIC_Init();//初始化IIC总线
-	res = ICM_Read_Byte(ICM_WHOAMI);
-	if(res==ICM_ADDR)//器件ID正确
-	{
-	}
+	
 	ICM_Write_Byte(ICM_PWR_MGMT0,0X00);	//复位MPU6050
-    delay_ms(10);
+    delay_ms(100);
+	res = ICM_Read_Byte(ICM_WHOAMI);
+	if(res!=ICM_ADDR)//器件ID正确
+	{
+		return res;
+	}
 	ICM_Write_Byte(ICM_FIFO_CFG1,0X00);	//stream to FIFO
 	res = ICM_Read_Byte(ICM_INT_SOURCE0);
 	ICM_Write_Byte(ICM_INT_SOURCE0,0x00);	//关闭所有中断

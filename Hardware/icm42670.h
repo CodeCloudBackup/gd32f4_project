@@ -77,9 +77,9 @@
 #define ICM_XG_ST_DATA				0x03
 #define ICM_YG_ST_DATA				0x04
 #define ICM_ZG_ST_DATA				0x05
-//如果AD0脚(9脚)接地,IIC地址为0X67(不包含最低位).
-//如果接V3.3,则IIC地址为0X68(不包含最低位).
-#define ICM_ADDR				0X67
+//如果AD0脚(9脚)接地,IIC地址为0X68(不包含最低位).
+//如果接V3.3,则IIC地址为0X69(不包含最低位).
+#define ICM_ADDR				0X68
 
 typedef struct
 {
