@@ -1,6 +1,6 @@
 #include "adc.h"
 #include "delay.h"
-
+#include <math.h>
 
 //初始化ADC															   
 void  InVolt_Adc_Init(void)
@@ -40,6 +40,18 @@ void  InVolt_Adc_Init(void)
 
 }		
 
+//获得ADC值
+//ch: @ref ADC_channels 
+//通道值 0~16取值范围为：ADC_Channel_0~ADC_Channel_16
+//返回值:转换结果
+u16 Get_InVolt_Adc_Val(void)   
+{
+		u16 adcx=0;
+		//设置指定ADC的规则组通道，一个序列，采样时间
+		adcx=Get_Adc(ADC_Channel_5);
+		adcx=adcx*(33000/4096);
+		return adcx;
+}
 
 //初始化ADC															   
 void  TempSensor_Adc_Init(void)
@@ -78,6 +90,34 @@ void  TempSensor_Adc_Init(void)
 	ADC_Cmd(ADC0, ENABLE);//开启AD转换器	
 }		
 
+const float Rp = 10000.0;
+const float T2 = 298.15; //273.15+25.0
+const float Bx = 3435;
+const float Ka = 273.15;
+//获得ADC值
+//ch: @ref ADC_channels 
+//通道值 0~16取值范围为：ADC_Channel_0~ADC_Channel_16
+//返回值:转换结果
+u16 Get_TempSensor_Adc_Val(void)   
+{
+		u16 adcx=0;
+		u16 Rt=0;
+		u16 referVal=0;
+		u16 temp=0;
+		//设置指定ADC的规则组通道，一个序列，采样时间
+		adcx=Get_Adc(ADC_Channel_14);
+		adcx=adcx*(33000/4096);
+		referVal=(33000-adcx)/Rp;
+		Rt=referVal*adcx;
+		temp=Rt/Rp;
+		temp=log(temp);
+		temp/=Bx;
+		temp+=(1/T2);
+		temp=1/temp;
+		temp-=Ka;
+		return temp;
+}
+
 //初始化ADC															   
 void  Micro_Adc_Init(void)
 {    
@@ -114,6 +154,20 @@ void  Micro_Adc_Init(void)
 	
 	ADC_Cmd(ADC0, ENABLE);//开启AD转换器	
 }	
+
+//获得ADC值
+//ch: @ref ADC_channels 
+//通道值 0~16取值范围为：ADC_Channel_0~ADC_Channel_16
+//返回值:转换结果
+u16 Get_Micro_Adc_Val(void)   
+{
+		u16 adcx=0;
+		//设置指定ADC的规则组通道，一个序列，采样时间
+		adcx=Get_Adc(ADC_Channel_15);
+		adcx=adcx*(33000/4096);
+		return adcx;
+}
+
 //获得ADC值
 //ch: @ref ADC_channels 
 //通道值 0~16取值范围为：ADC_Channel_0~ADC_Channel_16
