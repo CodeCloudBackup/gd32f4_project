@@ -619,11 +619,6 @@
               <FilePath>..\Hardware\adc.h</FilePath>
             </File>
             <File>
-              <FileName>HM609A.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Hardware\HM609A.h</FilePath>
-            </File>
-            <File>
               <FileName>hm609a.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Hardware\hm609a.c</FilePath>

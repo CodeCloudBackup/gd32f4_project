@@ -115,6 +115,35 @@ void USART2_IRQHandler(void)                	//串口1中断服务程序
 #endif
 
 
+void USART2_Clear(void)
+{
+		memset((u8*)USART2_RX_BUF, 0, sizeof(USART2_RX_BUF));
+		USART2_RX_STA = 0;
+		//usart2_rev_finish = 0;
+}
+
+//u16 USART2_Revice(u8* data)
+//{
+//	u16 len = USART2_RX_STA;
+//	if(usart2_rev_finish)
+//	{
+//		usart2_rev_finish = 0;
+//		if(len>0)
+//		{
+//			
+//				USART2_RX_BUF[len]='\0';//?????
+//				memcpy(data, (u8*)USART2_RX_BUF, len+1);
+//				USART2_Clear();
+//				return len;	
+//		}else{
+//			USART2_Clear();
+//			return 0;
+//		}	
+//	}
+//	return 0;
+//}
+
+
 //串口发送缓存区 	
 __align(8) u8 USART1_TX_BUF[USART1_MAX_SEND_LEN]; 	//发送缓冲,最大USART3_MAX_SEND_LEN字节
 //串口接收缓存区 	
