@@ -383,7 +383,7 @@ typedef struct
 
 #if defined (gd32F427) || defined (gd32F429_439xx) 
 #define RCU_AHB3Periph_FMC                ((uint32_t)0x00000001)
-#endif /* STM32F427_437xx ||  STM32F429_439xx */
+#endif /* GD32F427_437xx ||  STM32F429_439xx */
 
 #define IS_RCU_AHB3_PERIPH(PERIPH) ((((PERIPH) & 0xFFFFFFFE) == 0x00) && ((PERIPH) != 0x00))
 /**
@@ -583,13 +583,8 @@ void        RCU_LSICmd(FunctionalState NewState);
 void        RCU_PLLConfig(uint32_t RCU_PLLSource, uint32_t PLLM, uint32_t PLLN, uint32_t PLLP, uint32_t PLLQ);
 void        RCU_PLLCmd(FunctionalState NewState);
 
-#if defined (STM32F40_41xxx) || defined (STM32F401xx)
-void        RCU_PLLI2SConfig(uint32_t PLLI2SN, uint32_t PLLI2SR);
-#elif defined (STM32F411xE)
-void        RCU_PLLI2SConfig(uint32_t PLLI2SN, uint32_t PLLI2SR, uint32_t PLLI2SM);
-#elif defined (STM32F427_437xx) || defined (STM32F429_439xx)
+#if defined (GD32F427) || defined (STM32F429_439xx)
 void        RCU_PLLI2SConfig(uint32_t PLLI2SN, uint32_t PLLI2SQ, uint32_t PLLI2SR);
-#else
 #endif /* STM32F40_41xxx || STM32F401xx */
 
 void        RCU_PLLI2SCmd(FunctionalState NewState);

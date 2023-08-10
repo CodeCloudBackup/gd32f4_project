@@ -464,20 +464,50 @@
               <FilePath>..\Library\Source\gd32f4xx_spi.c</FilePath>
             </File>
             <File>
-              <FileName>gd32f4xx_dcmi.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Library\Source\gd32f4xx_dcmi.c</FilePath>
-            </File>
-            <File>
               <FileName>gd32f4xx_dma.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Library\Source\gd32f4xx_dma.c</FilePath>
+            </File>
+            <File>
+              <FileName>gd32f4xx_rtc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Library\Source\gd32f4xx_rtc.c</FilePath>
+            </File>
+            <File>
+              <FileName>gd32f4xx_rtc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Library\Include\gd32f4xx_rtc.h</FilePath>
+            </File>
+            <File>
+              <FileName>gd32f4xx_flash.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Library\Include\gd32f4xx_flash.h</FilePath>
+            </File>
+            <File>
+              <FileName>gd32f4xx_flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Library\Source\gd32f4xx_flash.c</FilePath>
+            </File>
+            <File>
+              <FileName>gd32f4xx_exti.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Library\Source\gd32f4xx_exti.c</FilePath>
+            </File>
+            <File>
+              <FileName>gd32f4xx_exti.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Library\Include\gd32f4xx_exti.h</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
           <GroupName>User</GroupName>
           <Files>
+            <File>
+              <FileName>gd32f4xx_dcmi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Library\Source\gd32f4xx_dcmi.c</FilePath>
+            </File>
             <File>
               <FileName>program.h</FileName>
               <FileType>5</FileType>
@@ -622,6 +652,26 @@
               <FileName>hm609a.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Hardware\hm609a.c</FilePath>
+            </File>
+            <File>
+              <FileName>gdflash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\gdflash.c</FilePath>
+            </File>
+            <File>
+              <FileName>gdflash.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\gdflash.h</FilePath>
+            </File>
+            <File>
+              <FileName>rtc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\rtc.c</FilePath>
+            </File>
+            <File>
+              <FileName>rtc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\rtc.h</FilePath>
             </File>
           </Files>
         </Group>

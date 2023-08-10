@@ -4725,7 +4725,7 @@ typedef struct
 #define  FSMC_ECCR3_ECC3                     ((uint32_t)0xFFFFFFFF)        /*!<ECC result */
 #endif /* STM32F40_41xxx */
 
-#if defined (STM32F427_437xx) || defined (STM32F429_439xx)
+#if defined (GD32F427) || defined (STM32F429_439xx)
 /******************************************************************************/
 /*                                                                            */
 /*                          Flexible Memory Controller                        */
@@ -6661,7 +6661,7 @@ typedef struct
 #define  RCC_AHB3RSTR_FSMCRST                ((uint32_t)0x00000001)
 #endif /* STM32F40_41xxx */
 
-#if defined (STM32F427_437xx) || defined (STM32F429_439xx)
+#if defined (GD32F427) || defined (STM32F429_439xx)
 #define  RCC_AHB3RSTR_FMCRST                ((uint32_t)0x00000001)
 #endif /* STM32F427_437xx ||  STM32F429_439xx */
 /********************  Bit definition for RCC_APB1RSTR register  **************/
@@ -6750,9 +6750,9 @@ typedef struct
 #define  RCC_AHB3ENR_FSMCEN                  ((uint32_t)0x00000001)
 #endif /* STM32F40_41xxx */
 
-#if defined (STM32F427_437xx) || defined (STM32F429_439xx)
+#if defined (GD32F427) || defined (STM32F429_439xx)
 #define  RCC_AHB3ENR_FMCEN                  ((uint32_t)0x00000001)
-#endif /* STM32F427_437xx ||  STM32F429_439xx */
+#endif /* GD32F427_437xx ||  STM32F429_439xx */
 
 /********************  Bit definition for RCC_APB1ENR register  ***************/
 #define  RCC_APB1ENR_TIM2EN                  ((uint32_t)0x00000001)
@@ -6841,7 +6841,7 @@ typedef struct
 #define  RCC_AHB3LPENR_FSMCLPEN              ((uint32_t)0x00000001)
 #endif /* STM32F40_41xxx */
 
-#if defined (STM32F427_437xx) || defined (STM32F429_439xx)
+#if defined (GD32F427) || defined (STM32F429_439xx)
 #define  RCC_AHB3LPENR_FMCLPEN              ((uint32_t)0x00000001)
 #endif /* STM32F427_437xx ||  STM32F429_439xx */
 

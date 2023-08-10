@@ -1,274 +1,183 @@
-/*!
-    \file    gd32f4xx_exti.h
-    \brief   definitions for the EXTI
-    \version 2016-08-15, V1.0.0, firmware for GD32F4xx
-    \version 2018-12-12, V2.0.0, firmware for GD32F4xx
-    \version 2020-09-30, V2.1.0, firmware for GD32F4xx
-    \version 2022-03-09, V3.0.0, firmware for GD32F4xx
-*/
+/**
+  ******************************************************************************
+  * @file    stm32f4xx_exti.h
+  * @author  MCD Application Team
+  * @version V1.4.0
+  * @date    04-August-2014
+  * @brief   This file contains all the functions prototypes for the EXTI firmware
+  *          library.
+  ******************************************************************************
+  * @attention
+  *
+  * <h2><center>&copy; COPYRIGHT 2014 STMicroelectronics</center></h2>
+  *
+  * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
+  * You may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at:
+  *
+  *        http://www.st.com/software_license_agreement_liberty_v2
+  *
+  * Unless required by applicable law or agreed to in writing, software 
+  * distributed under the License is distributed on an "AS IS" BASIS, 
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  *
+  ******************************************************************************
+  */
 
-/*
-    Copyright (c) 2022, GigaDevice Semiconductor Inc.
+/* Define to prevent recursive inclusion -------------------------------------*/
+#ifndef __GD32F4xx_EXTI_H
+#define __GD32F4xx_EXTI_H
 
-    Redistribution and use in source and binary forms, with or without modification, 
-are permitted provided that the following conditions are met:
+#ifdef __cplusplus
+ extern "C" {
+#endif
 
-    1. Redistributions of source code must retain the above copyright notice, this 
-       list of conditions and the following disclaimer.
-    2. Redistributions in binary form must reproduce the above copyright notice, 
-       this list of conditions and the following disclaimer in the documentation 
-       and/or other materials provided with the distribution.
-    3. Neither the name of the copyright holder nor the names of its contributors 
-       may be used to endorse or promote products derived from this software without 
-       specific prior written permission.
-
-    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
-IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
-INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
-NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR 
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
-WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
-ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
-OF SUCH DAMAGE.
-*/
-
-#ifndef GD32F4XX_EXTI_H
-#define GD32F4XX_EXTI_H
-
+/* Includes ------------------------------------------------------------------*/
 #include "gd32f4xx.h"
 
-/* EXTI definitions */
-#define EXTI                         EXTI_BASE
+/** @addtogroup STM32F4xx_StdPeriph_Driver
+  * @{
+  */
 
-/* registers definitions */
-#define EXTI_INTEN                   REG32(EXTI + 0x00U)      /*!< interrupt enable register */
-#define EXTI_EVEN                    REG32(EXTI + 0x04U)      /*!< event enable register */
-#define EXTI_RTEN                    REG32(EXTI + 0x08U)      /*!< rising edge trigger enable register */
-#define EXTI_FTEN                    REG32(EXTI + 0x0CU)      /*!< falling trigger enable register */
-#define EXTI_SWIEV                   REG32(EXTI + 0x10U)      /*!< software interrupt event register */
-#define EXTI_PD                      REG32(EXTI + 0x14U)      /*!< pending register */
+/** @addtogroup EXTI
+  * @{
+  */
 
-/* bits definitions */
-/* EXTI_INTEN */
-#define EXTI_INTEN_INTEN0            BIT(0)                   /*!< interrupt from line 0 */
-#define EXTI_INTEN_INTEN1            BIT(1)                   /*!< interrupt from line 1 */
-#define EXTI_INTEN_INTEN2            BIT(2)                   /*!< interrupt from line 2 */
-#define EXTI_INTEN_INTEN3            BIT(3)                   /*!< interrupt from line 3 */
-#define EXTI_INTEN_INTEN4            BIT(4)                   /*!< interrupt from line 4 */
-#define EXTI_INTEN_INTEN5            BIT(5)                   /*!< interrupt from line 5 */
-#define EXTI_INTEN_INTEN6            BIT(6)                   /*!< interrupt from line 6 */
-#define EXTI_INTEN_INTEN7            BIT(7)                   /*!< interrupt from line 7 */
-#define EXTI_INTEN_INTEN8            BIT(8)                   /*!< interrupt from line 8 */
-#define EXTI_INTEN_INTEN9            BIT(9)                   /*!< interrupt from line 9 */
-#define EXTI_INTEN_INTEN10           BIT(10)                  /*!< interrupt from line 10 */
-#define EXTI_INTEN_INTEN11           BIT(11)                  /*!< interrupt from line 11 */
-#define EXTI_INTEN_INTEN12           BIT(12)                  /*!< interrupt from line 12 */
-#define EXTI_INTEN_INTEN13           BIT(13)                  /*!< interrupt from line 13 */
-#define EXTI_INTEN_INTEN14           BIT(14)                  /*!< interrupt from line 14 */
-#define EXTI_INTEN_INTEN15           BIT(15)                  /*!< interrupt from line 15 */
-#define EXTI_INTEN_INTEN16           BIT(16)                  /*!< interrupt from line 16 */
-#define EXTI_INTEN_INTEN17           BIT(17)                  /*!< interrupt from line 17 */
-#define EXTI_INTEN_INTEN18           BIT(18)                  /*!< interrupt from line 18 */
-#define EXTI_INTEN_INTEN19           BIT(19)                  /*!< interrupt from line 19 */
-#define EXTI_INTEN_INTEN20           BIT(20)                  /*!< interrupt from line 20 */
-#define EXTI_INTEN_INTEN21           BIT(21)                  /*!< interrupt from line 21 */
-#define EXTI_INTEN_INTEN22           BIT(22)                  /*!< interrupt from line 22 */
+/* Exported types ------------------------------------------------------------*/
 
-/* EXTI_EVEN */
-#define EXTI_EVEN_EVEN0              BIT(0)                   /*!< event from line 0 */
-#define EXTI_EVEN_EVEN1              BIT(1)                   /*!< event from line 1 */
-#define EXTI_EVEN_EVEN2              BIT(2)                   /*!< event from line 2 */
-#define EXTI_EVEN_EVEN3              BIT(3)                   /*!< event from line 3 */
-#define EXTI_EVEN_EVEN4              BIT(4)                   /*!< event from line 4 */
-#define EXTI_EVEN_EVEN5              BIT(5)                   /*!< event from line 5 */
-#define EXTI_EVEN_EVEN6              BIT(6)                   /*!< event from line 6 */
-#define EXTI_EVEN_EVEN7              BIT(7)                   /*!< event from line 7 */
-#define EXTI_EVEN_EVEN8              BIT(8)                   /*!< event from line 8 */
-#define EXTI_EVEN_EVEN9              BIT(9)                   /*!< event from line 9 */
-#define EXTI_EVEN_EVEN10             BIT(10)                  /*!< event from line 10 */
-#define EXTI_EVEN_EVEN11             BIT(11)                  /*!< event from line 11 */
-#define EXTI_EVEN_EVEN12             BIT(12)                  /*!< event from line 12 */
-#define EXTI_EVEN_EVEN13             BIT(13)                  /*!< event from line 13 */
-#define EXTI_EVEN_EVEN14             BIT(14)                  /*!< event from line 14 */
-#define EXTI_EVEN_EVEN15             BIT(15)                  /*!< event from line 15 */
-#define EXTI_EVEN_EVEN16             BIT(16)                  /*!< event from line 16 */
-#define EXTI_EVEN_EVEN17             BIT(17)                  /*!< event from line 17 */
-#define EXTI_EVEN_EVEN18             BIT(18)                  /*!< event from line 18 */
-#define EXTI_EVEN_EVEN19             BIT(19)                  /*!< event from line 19 */
-#define EXTI_EVEN_EVEN20             BIT(20)                  /*!< event from line 20 */
-#define EXTI_EVEN_EVEN21             BIT(21)                  /*!< event from line 21 */
-#define EXTI_EVEN_EVEN22             BIT(22)                  /*!< event from line 22 */
+/** 
+  * @brief  EXTI mode enumeration  
+  */
 
-/* EXTI_RTEN */
-#define EXTI_RTEN_RTEN0              BIT(0)                   /*!< rising edge from line 0 */
-#define EXTI_RTEN_RTEN1              BIT(1)                   /*!< rising edge from line 1 */
-#define EXTI_RTEN_RTEN2              BIT(2)                   /*!< rising edge from line 2 */
-#define EXTI_RTEN_RTEN3              BIT(3)                   /*!< rising edge from line 3 */
-#define EXTI_RTEN_RTEN4              BIT(4)                   /*!< rising edge from line 4 */
-#define EXTI_RTEN_RTEN5              BIT(5)                   /*!< rising edge from line 5 */
-#define EXTI_RTEN_RTEN6              BIT(6)                   /*!< rising edge from line 6 */
-#define EXTI_RTEN_RTEN7              BIT(7)                   /*!< rising edge from line 7 */
-#define EXTI_RTEN_RTEN8              BIT(8)                   /*!< rising edge from line 8 */
-#define EXTI_RTEN_RTEN9              BIT(9)                   /*!< rising edge from line 9 */
-#define EXTI_RTEN_RTEN10             BIT(10)                  /*!< rising edge from line 10 */
-#define EXTI_RTEN_RTEN11             BIT(11)                  /*!< rising edge from line 11 */
-#define EXTI_RTEN_RTEN12             BIT(12)                  /*!< rising edge from line 12 */
-#define EXTI_RTEN_RTEN13             BIT(13)                  /*!< rising edge from line 13 */
-#define EXTI_RTEN_RTEN14             BIT(14)                  /*!< rising edge from line 14 */
-#define EXTI_RTEN_RTEN15             BIT(15)                  /*!< rising edge from line 15 */
-#define EXTI_RTEN_RTEN16             BIT(16)                  /*!< rising edge from line 16 */
-#define EXTI_RTEN_RTEN17             BIT(17)                  /*!< rising edge from line 17 */
-#define EXTI_RTEN_RTEN18             BIT(18)                  /*!< rising edge from line 18 */
-#define EXTI_RTEN_RTEN19             BIT(19)                  /*!< rising edge from line 19 */
-#define EXTI_RTEN_RTEN20             BIT(20)                  /*!< rising edge from line 20 */
-#define EXTI_RTEN_RTEN21             BIT(21)                  /*!< rising edge from line 21 */
-#define EXTI_RTEN_RTEN22             BIT(22)                  /*!< rising edge from line 22 */
+typedef enum
+{
+  EXTI_Mode_Interrupt = 0x00,
+  EXTI_Mode_Event = 0x04
+}EXTIMode_TypeDef;
 
-/* EXTI_FTEN */
-#define EXTI_FTEN_FTEN0              BIT(0)                   /*!< falling edge from line 0 */
-#define EXTI_FTEN_FTEN1              BIT(1)                   /*!< falling edge from line 1 */
-#define EXTI_FTEN_FTEN2              BIT(2)                   /*!< falling edge from line 2 */
-#define EXTI_FTEN_FTEN3              BIT(3)                   /*!< falling edge from line 3 */
-#define EXTI_FTEN_FTEN4              BIT(4)                   /*!< falling edge from line 4 */
-#define EXTI_FTEN_FTEN5              BIT(5)                   /*!< falling edge from line 5 */
-#define EXTI_FTEN_FTEN6              BIT(6)                   /*!< falling edge from line 6 */
-#define EXTI_FTEN_FTEN7              BIT(7)                   /*!< falling edge from line 7 */
-#define EXTI_FTEN_FTEN8              BIT(8)                   /*!< falling edge from line 8 */
-#define EXTI_FTEN_FTEN9              BIT(9)                   /*!< falling edge from line 9 */
-#define EXTI_FTEN_FTEN10             BIT(10)                  /*!< falling edge from line 10 */
-#define EXTI_FTEN_FTEN11             BIT(11)                  /*!< falling edge from line 11 */
-#define EXTI_FTEN_FTEN12             BIT(12)                  /*!< falling edge from line 12 */
-#define EXTI_FTEN_FTEN13             BIT(13)                  /*!< falling edge from line 13 */
-#define EXTI_FTEN_FTEN14             BIT(14)                  /*!< falling edge from line 14 */
-#define EXTI_FTEN_FTEN15             BIT(15)                  /*!< falling edge from line 15 */
-#define EXTI_FTEN_FTEN16             BIT(16)                  /*!< falling edge from line 16 */
-#define EXTI_FTEN_FTEN17             BIT(17)                  /*!< falling edge from line 17 */
-#define EXTI_FTEN_FTEN18             BIT(18)                  /*!< falling edge from line 18 */
-#define EXTI_FTEN_FTEN19             BIT(19)                  /*!< falling edge from line 19 */
-#define EXTI_FTEN_FTEN20             BIT(20)                  /*!< falling edge from line 20 */
-#define EXTI_FTEN_FTEN21             BIT(21)                  /*!< falling edge from line 21 */
-#define EXTI_FTEN_FTEN22             BIT(22)                  /*!< falling edge from line 22 */
+#define IS_EXTI_MODE(MODE) (((MODE) == EXTI_Mode_Interrupt) || ((MODE) == EXTI_Mode_Event))
 
-/* EXTI_SWIEV */
-#define EXTI_SWIEV_SWIEV0            BIT(0)                   /*!< software interrupt/event request from line 0 */
-#define EXTI_SWIEV_SWIEV1            BIT(1)                   /*!< software interrupt/event request from line 1 */
-#define EXTI_SWIEV_SWIEV2            BIT(2)                   /*!< software interrupt/event request from line 2 */
-#define EXTI_SWIEV_SWIEV3            BIT(3)                   /*!< software interrupt/event request from line 3 */
-#define EXTI_SWIEV_SWIEV4            BIT(4)                   /*!< software interrupt/event request from line 4 */
-#define EXTI_SWIEV_SWIEV5            BIT(5)                   /*!< software interrupt/event request from line 5 */
-#define EXTI_SWIEV_SWIEV6            BIT(6)                   /*!< software interrupt/event request from line 6 */
-#define EXTI_SWIEV_SWIEV7            BIT(7)                   /*!< software interrupt/event request from line 7 */
-#define EXTI_SWIEV_SWIEV8            BIT(8)                   /*!< software interrupt/event request from line 8 */
-#define EXTI_SWIEV_SWIEV9            BIT(9)                   /*!< software interrupt/event request from line 9 */
-#define EXTI_SWIEV_SWIEV10           BIT(10)                  /*!< software interrupt/event request from line 10 */
-#define EXTI_SWIEV_SWIEV11           BIT(11)                  /*!< software interrupt/event request from line 11 */
-#define EXTI_SWIEV_SWIEV12           BIT(12)                  /*!< software interrupt/event request from line 12 */
-#define EXTI_SWIEV_SWIEV13           BIT(13)                  /*!< software interrupt/event request from line 13 */
-#define EXTI_SWIEV_SWIEV14           BIT(14)                  /*!< software interrupt/event request from line 14 */
-#define EXTI_SWIEV_SWIEV15           BIT(15)                  /*!< software interrupt/event request from line 15 */
-#define EXTI_SWIEV_SWIEV16           BIT(16)                  /*!< software interrupt/event request from line 16 */
-#define EXTI_SWIEV_SWIEV17           BIT(17)                  /*!< software interrupt/event request from line 17 */
-#define EXTI_SWIEV_SWIEV18           BIT(18)                  /*!< software interrupt/event request from line 18 */
-#define EXTI_SWIEV_SWIEV19           BIT(19)                  /*!< software interrupt/event request from line 19 */
-#define EXTI_SWIEV_SWIEV20           BIT(20)                  /*!< software interrupt/event request from line 20 */
-#define EXTI_SWIEV_SWIEV21           BIT(21)                  /*!< software interrupt/event request from line 21 */
-#define EXTI_SWIEV_SWIEV22           BIT(22)                  /*!< software interrupt/event request from line 22 */
+/** 
+  * @brief  EXTI Trigger enumeration  
+  */
 
-/* EXTI_PD */
-#define EXTI_PD_PD0                  BIT(0)                   /*!< interrupt pending status from line 0 */
-#define EXTI_PD_PD1                  BIT(1)                   /*!< interrupt pending status from line 1 */
-#define EXTI_PD_PD2                  BIT(2)                   /*!< interrupt pending status from line 2 */
-#define EXTI_PD_PD3                  BIT(3)                   /*!< interrupt pending status from line 3 */
-#define EXTI_PD_PD4                  BIT(4)                   /*!< interrupt pending status from line 4 */
-#define EXTI_PD_PD5                  BIT(5)                   /*!< interrupt pending status from line 5 */
-#define EXTI_PD_PD6                  BIT(6)                   /*!< interrupt pending status from line 6 */
-#define EXTI_PD_PD7                  BIT(7)                   /*!< interrupt pending status from line 7 */
-#define EXTI_PD_PD8                  BIT(8)                   /*!< interrupt pending status from line 8 */
-#define EXTI_PD_PD9                  BIT(9)                   /*!< interrupt pending status from line 9 */
-#define EXTI_PD_PD10                 BIT(10)                  /*!< interrupt pending status from line 10 */
-#define EXTI_PD_PD11                 BIT(11)                  /*!< interrupt pending status from line 11 */
-#define EXTI_PD_PD12                 BIT(12)                  /*!< interrupt pending status from line 12 */
-#define EXTI_PD_PD13                 BIT(13)                  /*!< interrupt pending status from line 13 */
-#define EXTI_PD_PD14                 BIT(14)                  /*!< interrupt pending status from line 14 */
-#define EXTI_PD_PD15                 BIT(15)                  /*!< interrupt pending status from line 15 */
-#define EXTI_PD_PD16                 BIT(16)                  /*!< interrupt pending status from line 16 */
-#define EXTI_PD_PD17                 BIT(17)                  /*!< interrupt pending status from line 17 */
-#define EXTI_PD_PD18                 BIT(18)                  /*!< interrupt pending status from line 18 */
-#define EXTI_PD_PD19                 BIT(19)                  /*!< interrupt pending status from line 19 */
-#define EXTI_PD_PD20                 BIT(20)                  /*!< interrupt pending status from line 20 */
-#define EXTI_PD_PD21                 BIT(21)                  /*!< interrupt pending status from line 21 */
-#define EXTI_PD_PD22                 BIT(22)                  /*!< interrupt pending status from line 22 */
+typedef enum
+{
+  EXTI_Trigger_Rising = 0x08,
+  EXTI_Trigger_Falling = 0x0C,  
+  EXTI_Trigger_Rising_Falling = 0x10
+}EXTITrigger_TypeDef;
 
-/* constants definitions */
-/* EXTI line number */
-typedef enum { 
-    EXTI_0      = BIT(0),                                     /*!< EXTI line 0 */
-    EXTI_1      = BIT(1),                                     /*!< EXTI line 1 */
-    EXTI_2      = BIT(2),                                     /*!< EXTI line 2 */
-    EXTI_3      = BIT(3),                                     /*!< EXTI line 3 */
-    EXTI_4      = BIT(4),                                     /*!< EXTI line 4 */
-    EXTI_5      = BIT(5),                                     /*!< EXTI line 5 */
-    EXTI_6      = BIT(6),                                     /*!< EXTI line 6 */
-    EXTI_7      = BIT(7),                                     /*!< EXTI line 7 */
-    EXTI_8      = BIT(8),                                     /*!< EXTI line 8 */
-    EXTI_9      = BIT(9),                                     /*!< EXTI line 9 */
-    EXTI_10     = BIT(10),                                    /*!< EXTI line 10 */
-    EXTI_11     = BIT(11),                                    /*!< EXTI line 11 */
-    EXTI_12     = BIT(12),                                    /*!< EXTI line 12 */
-    EXTI_13     = BIT(13),                                    /*!< EXTI line 13 */
-    EXTI_14     = BIT(14),                                    /*!< EXTI line 14 */
-    EXTI_15     = BIT(15),                                    /*!< EXTI line 15 */
-    EXTI_16     = BIT(16),                                    /*!< EXTI line 16 */
-    EXTI_17     = BIT(17),                                    /*!< EXTI line 17 */
-    EXTI_18     = BIT(18),                                    /*!< EXTI line 18 */
-    EXTI_19     = BIT(19),                                    /*!< EXTI line 19 */
-    EXTI_20     = BIT(20),                                    /*!< EXTI line 20 */    
-    EXTI_21     = BIT(21),                                    /*!< EXTI line 21 */
-    EXTI_22     = BIT(22)                                     /*!< EXTI line 22 */
-} exti_line_enum;
+#define IS_EXTI_TRIGGER(TRIGGER) (((TRIGGER) == EXTI_Trigger_Rising) || \
+                                  ((TRIGGER) == EXTI_Trigger_Falling) || \
+                                  ((TRIGGER) == EXTI_Trigger_Rising_Falling))
+/** 
+  * @brief  EXTI Init Structure definition  
+  */
 
-/* external interrupt and event  */
-typedef enum {
-    EXTI_INTERRUPT   = 0,                                     /*!< EXTI interrupt mode */
-    EXTI_EVENT                                                /*!< EXTI event mode */
-} exti_mode_enum;
+typedef struct
+{
+  uint32_t EXTI_Line;               /*!< Specifies the EXTI lines to be enabled or disabled.
+                                         This parameter can be any combination value of @ref EXTI_Lines */
+   
+  EXTIMode_TypeDef EXTI_Mode;       /*!< Specifies the mode for the EXTI lines.
+                                         This parameter can be a value of @ref EXTIMode_TypeDef */
 
-/* interrupt trigger mode */
-typedef enum { 
-    EXTI_TRIG_RISING = 0,                                     /*!< EXTI rising edge trigger */
-    EXTI_TRIG_FALLING,                                        /*!< EXTI falling edge trigger */
-    EXTI_TRIG_BOTH,                                           /*!< EXTI rising and falling edge trigger */
-    EXTI_TRIG_NONE                                            /*!< none EXTI edge trigger */
-} exti_trig_type_enum;
+  EXTITrigger_TypeDef EXTI_Trigger; /*!< Specifies the trigger signal active edge for the EXTI lines.
+                                         This parameter can be a value of @ref EXTITrigger_TypeDef */
 
-/* function declarations */
-/* deinitialize the EXTI */
-void exti_deinit(void);
-/* initialize the EXTI line x */
-void exti_init(exti_line_enum linex, exti_mode_enum mode, exti_trig_type_enum trig_type);
-/* enable the interrupts from EXTI line x */
-void exti_interrupt_enable(exti_line_enum linex);
-/* disable the interrupts from EXTI line x */
-void exti_interrupt_disable(exti_line_enum linex);
-/* enable the events from EXTI line x */
-void exti_event_enable(exti_line_enum linex);
-/* disable the events from EXTI line x */
-void exti_event_disable(exti_line_enum linex);
-/* enable the software interrupt event from EXTI line x */
-void exti_software_interrupt_enable(exti_line_enum linex);
-/* disable the software interrupt event from EXTI line x */
-void exti_software_interrupt_disable(exti_line_enum linex);
+  FunctionalState EXTI_LineCmd;     /*!< Specifies the new state of the selected EXTI lines.
+                                         This parameter can be set either to ENABLE or DISABLE */ 
+}EXTI_InitTypeDef;
 
-/* interrupt & flag functions */
-/* get EXTI line x interrupt pending flag */
-FlagStatus exti_flag_get(exti_line_enum linex);
-/* clear EXTI line x interrupt pending flag */
-void exti_flag_clear(exti_line_enum linex);
-/* get EXTI line x interrupt pending flag */
-FlagStatus exti_interrupt_flag_get(exti_line_enum linex);
-/* clear EXTI line x interrupt pending flag */
-void exti_interrupt_flag_clear(exti_line_enum linex);
+/* Exported constants --------------------------------------------------------*/
 
-#endif /* GD32F4XX_EXTI_H */
+/** @defgroup EXTI_Exported_Constants
+  * @{
+  */
+
+/** @defgroup EXTI_Lines 
+  * @{
+  */
+
+#define EXTI_Line0       ((uint32_t)0x00001)     /*!< External interrupt line 0 */
+#define EXTI_Line1       ((uint32_t)0x00002)     /*!< External interrupt line 1 */
+#define EXTI_Line2       ((uint32_t)0x00004)     /*!< External interrupt line 2 */
+#define EXTI_Line3       ((uint32_t)0x00008)     /*!< External interrupt line 3 */
+#define EXTI_Line4       ((uint32_t)0x00010)     /*!< External interrupt line 4 */
+#define EXTI_Line5       ((uint32_t)0x00020)     /*!< External interrupt line 5 */
+#define EXTI_Line6       ((uint32_t)0x00040)     /*!< External interrupt line 6 */
+#define EXTI_Line7       ((uint32_t)0x00080)     /*!< External interrupt line 7 */
+#define EXTI_Line8       ((uint32_t)0x00100)     /*!< External interrupt line 8 */
+#define EXTI_Line9       ((uint32_t)0x00200)     /*!< External interrupt line 9 */
+#define EXTI_Line10      ((uint32_t)0x00400)     /*!< External interrupt line 10 */
+#define EXTI_Line11      ((uint32_t)0x00800)     /*!< External interrupt line 11 */
+#define EXTI_Line12      ((uint32_t)0x01000)     /*!< External interrupt line 12 */
+#define EXTI_Line13      ((uint32_t)0x02000)     /*!< External interrupt line 13 */
+#define EXTI_Line14      ((uint32_t)0x04000)     /*!< External interrupt line 14 */
+#define EXTI_Line15      ((uint32_t)0x08000)     /*!< External interrupt line 15 */
+#define EXTI_Line16      ((uint32_t)0x10000)     /*!< External interrupt line 16 Connected to the PVD Output */
+#define EXTI_Line17      ((uint32_t)0x20000)     /*!< External interrupt line 17 Connected to the RTC Alarm event */
+#define EXTI_Line18      ((uint32_t)0x40000)     /*!< External interrupt line 18 Connected to the USB OTG FS Wakeup from suspend event */                                    
+#define EXTI_Line19      ((uint32_t)0x80000)     /*!< External interrupt line 19 Connected to the Ethernet Wakeup event */
+#define EXTI_Line20      ((uint32_t)0x00100000)  /*!< External interrupt line 20 Connected to the USB OTG HS (configured in FS) Wakeup event  */
+#define EXTI_Line21      ((uint32_t)0x00200000)  /*!< External interrupt line 21 Connected to the RTC Tamper and Time Stamp events */                                               
+#define EXTI_Line22      ((uint32_t)0x00400000)  /*!< External interrupt line 22 Connected to the RTC Wakeup event */                                               
+                                          
+#define IS_EXTI_LINE(LINE) ((((LINE) & (uint32_t)0xFF800000) == 0x00) && ((LINE) != (uint16_t)0x00))
+
+#define IS_GET_EXTI_LINE(LINE) (((LINE) == EXTI_Line0) || ((LINE) == EXTI_Line1) || \
+                                ((LINE) == EXTI_Line2) || ((LINE) == EXTI_Line3) || \
+                                ((LINE) == EXTI_Line4) || ((LINE) == EXTI_Line5) || \
+                                ((LINE) == EXTI_Line6) || ((LINE) == EXTI_Line7) || \
+                                ((LINE) == EXTI_Line8) || ((LINE) == EXTI_Line9) || \
+                                ((LINE) == EXTI_Line10) || ((LINE) == EXTI_Line11) || \
+                                ((LINE) == EXTI_Line12) || ((LINE) == EXTI_Line13) || \
+                                ((LINE) == EXTI_Line14) || ((LINE) == EXTI_Line15) || \
+                                ((LINE) == EXTI_Line16) || ((LINE) == EXTI_Line17) || \
+                                ((LINE) == EXTI_Line18) || ((LINE) == EXTI_Line19) || \
+                                ((LINE) == EXTI_Line20) || ((LINE) == EXTI_Line21) ||\
+                                ((LINE) == EXTI_Line22))
+                    
+/**
+  * @}
+  */
+
+/**
+  * @}
+  */
+
+/* Exported macro ------------------------------------------------------------*/
+/* Exported functions --------------------------------------------------------*/
+
+/*  Function used to set the EXTI configuration to the default reset state *****/
+void EXTI_DeInit(void);
+
+/* Initialization and Configuration functions *********************************/
+void EXTI_Init(EXTI_InitTypeDef* EXTI_InitStruct);
+void EXTI_StructInit(EXTI_InitTypeDef* EXTI_InitStruct);
+void EXTI_GenerateSWInterrupt(uint32_t EXTI_Line);
+
+/* Interrupts and flags management functions **********************************/
+FlagStatus EXTI_GetFlagStatus(uint32_t EXTI_Line);
+void EXTI_ClearFlag(uint32_t EXTI_Line);
+FlagStatus EXTI_GetITStatus(uint32_t EXTI_Line);
+void EXTI_ClearITPendingBit(uint32_t EXTI_Line);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* __STM32F4xx_EXTI_H */
+
+/**
+  * @}
+  */
+
+/**
+  * @}
+  */
+
+/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

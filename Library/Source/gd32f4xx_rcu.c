@@ -559,7 +559,7 @@ void RCU_PLLI2SConfig(uint32_t PLLI2SN, uint32_t PLLI2SR, uint32_t PLLI2SM)
   RCU->PLLI2S = (PLLI2SN << 6) | (PLLI2SR << 28) | PLLI2SM;
 }
 
-#elif defined (STM32F427_437xx) || defined (STM32F429_439xx)
+#elif defined (GD32F427) || defined (STM32F429_439xx)
 /**
   * @brief  Configures the PLLI2S clock multiplication and division factors.
   * 
@@ -594,7 +594,6 @@ void RCU_PLLI2SConfig(uint32_t PLLI2SN, uint32_t PLLI2SQ, uint32_t PLLI2SR)
 
   RCU->PLLI2S = (PLLI2SN << 6) | (PLLI2SQ << 24) | (PLLI2SR << 28);
 }
-#else
 #endif /* STM32F40_41xxx || STM32F401xx */
 
 /**

@@ -112,14 +112,14 @@ void TIM3_PWM_Init(u16 arr,u16 psc)
 	RCU_APB1PeriphClockCmd(RCU_APB1Periph_TIM3,ENABLE);  	//TIM14时钟使能    
 	RCU_AHB1PeriphClockCmd(RCU_AHB1Periph_GPIOD, ENABLE); 	//使能PORTF时钟	
 	
-	GPIO_PinAFConfig(GPIOD,GPIO_PinSource12,GPIO_AF_TIM4); //GPIOF9复用为定时器14
+	GPIO_PinAFConfig(GPIOD,GPIO_PinSource12,GPIO_AF_TIM4); //GPIOD12复用为定时器3
 	
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;           //GPIOF9
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;           //GPIOD12
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;        //复用功能
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;	//速度100MHz
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;      //推挽复用输出
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;        //上拉
-	GPIO_Init(GPIOD,&GPIO_InitStructure);              //初始化PF9
+	GPIO_Init(GPIOD,&GPIO_InitStructure);              //初始化PD12
 	  
 	TIM_TimeBaseStructure.TIM_Prescaler=psc;  //定时器分频
 	TIM_TimeBaseStructure.TIM_CounterMode=TIM_CounterMode_Up; //向上计数模式
