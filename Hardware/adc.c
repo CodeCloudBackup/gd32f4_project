@@ -48,7 +48,7 @@ u16 Get_InVolt_Adc_Val(void)
 {
 		u16 adcx=0;
 		//设置指定ADC的规则组通道，一个序列，采样时间
-		adcx=Get_Adc(ADC_Channel_5);
+		adcx=Get_Adc(ADC_Channel_7);
 		adcx=adcx*(33000/4096);
 		return adcx;
 }
@@ -175,13 +175,13 @@ u16 Get_Micro_Adc_Val(void)
 u16 Get_Adc(u8 ch)   
 {
 	  	//设置指定ADC的规则组通道，一个序列，采样时间
-	ADC_RegularChannelConfig(ADC1, ch, 1, ADC_SampleTime_480Cycles );	//ADC1,ADC通道,480个周期,提高采样时间可以提高精确度			    
+	ADC_RegularChannelConfig(ADC0, ch, 1, ADC_SampleTime_480Cycles );	//ADC1,ADC通道,480个周期,提高采样时间可以提高精确度			    
   
-	ADC_SoftwareStartConv(ADC1);		//使能指定的ADC1的软件转换启动功能	
+	ADC_SoftwareStartConv(ADC0);		//使能指定的ADC1的软件转换启动功能	
 	 
-	while(!ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC ));//等待转换结束
+	while(!ADC_GetFlagStatus(ADC0, ADC_FLAG_EOC ));//等待转换结束
 
-	return ADC_GetConversionValue(ADC1);	//返回最近一次ADC1规则组的转换结果
+	return ADC_GetConversionValue(ADC0);	//返回最近一次ADC1规则组的转换结果
 }
 //获取通道ch的转换值，取times次,然后平均 
 //ch:通道编号

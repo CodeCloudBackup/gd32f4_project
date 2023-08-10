@@ -42,21 +42,17 @@ OF SUCH DAMAGE.
 
 int main(void)
 {
-		u16 led0pwmval=0;    
-		u8 dir=1;
+		u16 inVolt=0;
 		Program_Init();
     /* configure systick */	
 		OV2640_Jpg_Photo();
     while(1) {
+			delay_ms(1000);
+			inVolt = Get_InVolt_Adc_Val();
+			printf("volt:%d\n",inVolt);
 			// LED_Test();
-			DAC1_Test( 36,4096 );
+			//DAC1_Test( 36,4096 );
       // usart2_test();
-			if(dir)led0pwmval++;//dir==1 led0pwmval递增
-			else led0pwmval--;	//dir==0 led0pwmval递减 
-			if(led0pwmval>300)dir=0;//led0pwmval到达300后，方向为递减
-			if(led0pwmval==0)dir=1;	//led0pwmval递减到0后，方向改为递增
- 
-			TIM_SetCompare1(TIM3,led0pwmval);	//修改比较值，修改占空比
 			
     }
 }

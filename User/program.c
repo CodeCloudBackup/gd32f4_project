@@ -13,8 +13,9 @@ void Program_Init(void)
 		delay_init(200);    //初始化延时函数
 		LED_Init();
 		LED_PWM_Init();
+	  InVolt_Adc_Init(); 
 		TIM1_Init(99,999); //定时器时钟100M，分频系数1000，所以100M/1000=100Khz的计数频率，计数100次为1ms 
-		TIM3_PWM_Init(49,99);	//100M/100=1Mhz的计数频率,重装载值500，所以PWM频率为 1M/500=2Khz.  
+		TIM3_PWM_Init(499,99);	//100M/100=1Mhz的计数频率,重装载值500，所以PWM频率为 1M/500=2Khz.  
 		usart1_init(115200);
 		Speaker_Init();
 		my_mem_init(SRAMIN);		//初始化内部内存池 

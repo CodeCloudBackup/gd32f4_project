@@ -14,7 +14,7 @@
 #include "ov2640.h"
 #include "sccb.h"
 #include "malloc.h"
-
+#include "adc.h"
 
 void Program_Init(void);
 #endif

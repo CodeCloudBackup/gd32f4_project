@@ -6,7 +6,7 @@
 #define LED_R PFout(2)	// DS0
 #define LED_G PFout(3)	// DS1	 
 #define LED_B PFout(4)	// DS1
-
+#define LED_PWD PEout(9)
 void LED_Init(void);//≥ı ºªØ		
 void LED_Test(void);
 void LED_PWM_Init(void);
