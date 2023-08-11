@@ -10,7 +10,7 @@
       <TargetName>GD32427V_START</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>5060960::V5.06 update 7 (build 960)::ARMCC</pCCUsed>
+      <pCCUsed>5060960::V5.06 update 7 (build 960)::.\ARMCC</pCCUsed>
       <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
@@ -474,16 +474,6 @@
               <FilePath>..\Library\Source\gd32f4xx_rtc.c</FilePath>
             </File>
             <File>
-              <FileName>gd32f4xx_rtc.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Library\Include\gd32f4xx_rtc.h</FilePath>
-            </File>
-            <File>
-              <FileName>gd32f4xx_flash.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Library\Include\gd32f4xx_flash.h</FilePath>
-            </File>
-            <File>
               <FileName>gd32f4xx_flash.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Library\Source\gd32f4xx_flash.c</FilePath>
@@ -492,11 +482,6 @@
               <FileName>gd32f4xx_exti.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Library\Source\gd32f4xx_exti.c</FilePath>
-            </File>
-            <File>
-              <FileName>gd32f4xx_exti.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Library\Include\gd32f4xx_exti.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -507,11 +492,6 @@
               <FileName>gd32f4xx_dcmi.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Library\Source\gd32f4xx_dcmi.c</FilePath>
-            </File>
-            <File>
-              <FileName>program.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\User\program.h</FilePath>
             </File>
             <File>
               <FileName>gd32f4xx_it.c</FileName>
@@ -539,6 +519,11 @@
               <FilePath>..\User\delay.c</FilePath>
             </File>
             <File>
+              <FileName>program.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\User\program.h</FilePath>
+            </File>
+            <File>
               <FileName>program.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\program.c</FilePath>
@@ -552,11 +537,6 @@
               <FileName>led.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Hardware\led.c</FilePath>
-            </File>
-            <File>
-              <FileName>led.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Hardware\led.h</FilePath>
             </File>
             <File>
               <FileName>timer.c</FileName>
@@ -589,24 +569,9 @@
               <FilePath>..\Hardware\ov2640.c</FilePath>
             </File>
             <File>
-              <FileName>ov2640.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Hardware\ov2640.h</FilePath>
-            </File>
-            <File>
-              <FileName>dcmi.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Hardware\dcmi.h</FilePath>
-            </File>
-            <File>
               <FileName>sccb.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Hardware\sccb.c</FilePath>
-            </File>
-            <File>
-              <FileName>sccb.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Hardware\sccb.h</FilePath>
             </File>
             <File>
               <FileName>malloc.c</FileName>
@@ -672,6 +637,21 @@
               <FileName>rtc.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Hardware\rtc.h</FilePath>
+            </File>
+            <File>
+              <FileName>mos_sw.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\mos_sw.h</FilePath>
+            </File>
+            <File>
+              <FileName>mos_sw.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\mos_sw.c</FilePath>
+            </File>
+            <File>
+              <FileName>network.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\network.h</FilePath>
             </File>
           </Files>
         </Group>
