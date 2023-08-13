@@ -37,6 +37,20 @@ OF SUCH DAMAGE.
 
 #include "gd32f4xx.h"
 #include <stdint.h>
+
+typedef union {
+    vu8 Byte;
+    struct {
+        vu8 B0	:1;
+        vu8 B1	:1;
+        vu8 B2	:1;
+        vu8 B3	:1;
+        vu8 B4	:1;
+        vu8 B5	:1;
+        vu8 B6	:1;
+        vu8 B7	:1;
+    } Bits;
+} Byte8;	
 //位带操作,实现51类似的GPIO控制功能
 //具体实现思想,参考<<CM3权威指南>>第五章(87页~92页).M4同M3类似,只是寄存器地址变了.
 //IO口操作宏定义

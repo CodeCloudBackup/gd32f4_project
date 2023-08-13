@@ -15,6 +15,7 @@
 #include "sccb.h"
 #include "malloc.h"
 #include "adc.h"
+#include "hm609a.h"	
 
 void Program_Init(void);
 #endif

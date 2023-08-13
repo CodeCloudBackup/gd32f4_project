@@ -13,7 +13,7 @@ void  InVolt_Adc_Init(void)
   RCU_APB2PeriphClockCmd(RCU_APB2Periph_ADC0, ENABLE); //使能ADC1时钟
 
   //先初始化ADC1通道5 IO口
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;//PA5 通道5
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;//PA7 通道7
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;//模拟输入
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL ;//不带上下拉
   GPIO_Init(GPIOA, &GPIO_InitStructure);//初始化  
@@ -49,7 +49,7 @@ u16 Get_InVolt_Adc_Val(void)
 		u16 adcx=0;
 		//设置指定ADC的规则组通道，一个序列，采样时间
 		adcx=Get_Adc(ADC_Channel_7);
-		adcx=adcx*(33000/4096);
+		adcx=adcx*(330/4096);
 		return adcx;
 }
 
@@ -64,7 +64,7 @@ void  TempSensor_Adc_Init(void)
   RCU_APB2PeriphClockCmd(RCU_APB2Periph_ADC0, ENABLE); //使能ADC1时钟
 
   //先初始化ADC1通道5 IO口
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;//PA5 通道5
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;//PC4 通道1
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;//模拟输入
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL ;//不带上下拉
   GPIO_Init(GPIOC, &GPIO_InitStructure);//初始化  
@@ -106,8 +106,8 @@ u16 Get_TempSensor_Adc_Val(void)
 		u16 temp=0;
 		//设置指定ADC的规则组通道，一个序列，采样时间
 		adcx=Get_Adc(ADC_Channel_14);
-		adcx=adcx*(33000/4096);
-		referVal=(33000-adcx)/Rp;
+		adcx=adcx*(330/4096);
+		referVal=(330-adcx)/Rp;
 		Rt=referVal*adcx;
 		temp=Rt/Rp;
 		temp=log(temp);

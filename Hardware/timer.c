@@ -4,9 +4,12 @@
 static u32 g_timCnt = 0;
 u8 g_timFlag = 0;
 
+extern void HM609A_TIM_1ms(void);
+extern void  USART1_TIM_1ms(void);
 void TIM_1msProgram(void)
 {
-
+	USART1_TIM_1ms();
+	HM609A_TIM_1ms();
 }
 
 void TIM_10msProgram(void)

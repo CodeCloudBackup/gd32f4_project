@@ -42,14 +42,11 @@ OF SUCH DAMAGE.
 
 int main(void)
 {
-		u16 inVolt=0;
 		Program_Init();
     /* configure systick */	
 		OV2640_Jpg_Photo();
     while(1) {
-			delay_ms(1000);
-			inVolt = Get_InVolt_Adc_Val();
-			printf("volt:%d\n",inVolt);
+			HM609A_Program();
 			// LED_Test();
 			//DAC1_Test( 36,4096 );
       // usart2_test();
