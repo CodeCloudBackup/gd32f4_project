@@ -21,6 +21,7 @@ void Program_Init(void)
 		Speaker_Init();
 		my_mem_init(SRAMIN);		//初始化内部内存池 
 		SPEAKER_SW=1;
+	
 		while(OV2640_Init())//初始化OV2640
 		{
 			printf("ov2640_init failed\r\n");
@@ -29,6 +30,7 @@ void Program_Init(void)
 		delay_ms(2000);
 		MyDCMI_Init();			//DCMI配置
 		HM609A_Init();
+		OutDirveInit();
 }
 
 void Program_Progress(void)

@@ -45,8 +45,9 @@ int main(void)
 		Program_Init();
     /* configure systick */	
 		OV2640_Jpg_Photo();
+		
     while(1) {
-			HM609A_Program();
+			//HM609A_Program();
 			// LED_Test();
 			//DAC1_Test( 36,4096 );
       // usart2_test();

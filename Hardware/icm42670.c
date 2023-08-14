@@ -75,11 +75,18 @@ u8 ICM_Set_LPF(u16 lpf)
 }
 
 
+
 u8 ICM_Get_AllSensorData(ICM42670_SENSOR_DATA *sensor_data)
 {
 	return ICM_Read_Len(ICM_ADDR,ICM_TEMP_OUTH_REG,14,(u8*)sensor_data);
 }
 
+void ICM_Test(void)
+{
+	ICM42670_SENSOR_DATA icm_data;
+	ICM_Get_AllSensorData(&icm_data);
+//	printf("icm_data temp:%d",temp);
+}
 //得到温度值
 //返回值:温度值(扩大了100倍)
 short ICM_Get_Temperature(void)

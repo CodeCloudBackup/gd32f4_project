@@ -131,7 +131,7 @@ u8 air208_InAt(void)//模块进入AT模式
                     printf("+++\r\n测试AT命令通信是否正常%d\r\n",count+1);  //调试回显 ,正常是可回避
                     g_hm609aTim =1500;           //检测超时时间ms
                     count++;                    //重试次数+1
-                    u1_printf("ATI");    //发送AT测试指令
+                    u1_printf("+++");    //发送AT测试指令
                 }
             }
         }
@@ -152,7 +152,7 @@ u8 air208_InAt(void)//模块进入AT模式
                    printf("AT\r\n进入AT模式%d次\r\n", count + 1); //测试AT是否正常
                     g_hm609aTim = 1500;      //检测超时时间ms
                     count++;                //重试次数+1
-                    u1_printf("\r\nATI\r\n");//发送AT测试指令
+                    u1_printf("+++");//发送AT测试指令
                 }
             }
             else

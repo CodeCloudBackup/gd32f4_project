@@ -16,6 +16,7 @@
 #include "malloc.h"
 #include "adc.h"
 #include "hm609a.h"	
-
+#include "mos_sw.h"
+#include "icm42670.h"
 void Program_Init(void);
 #endif
