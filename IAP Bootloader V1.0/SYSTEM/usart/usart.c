@@ -29,18 +29,18 @@ void _sys_exit(int x)
 //重定义fputc函数 
 int fputc(int ch, FILE *f)
 {      
-	while((USART1->SR&0X40)==0);//循环发送,直到发送完毕   
-	USART1->DR = (u8) ch;      
+	while((USART3->SR&0X40)==0);//循环发送,直到发送完毕   
+	USART3->DR = (u8) ch;      
 	return ch;
 }
 #endif 
 //end
 //////////////////////////////////////////////////////////////////
 
-#if EN_USART1_RX   //如果使能了接收
+#if EN_USART3_RX   //如果使能了接收
 //串口1中断服务程序
 //注意,读取USARTx->SR能避免莫名其妙的错误   	
-u8 USART_RX_BUF[USART_REC_LEN] __attribute__ ((at(0X20001000)));//接收缓冲,最大USART_REC_LEN个字节,起始地址为0X20001000.    
+u8 USART_RX_BUF[USART_REC_LEN];//接收缓冲,最大USART_REC_LEN个字节,起始地址为0X20001000.    
 //接收状态
 //bit15，	接收完成标志
 //bit14，	接收到0x0d
@@ -48,15 +48,15 @@ u8 USART_RX_BUF[USART_REC_LEN] __attribute__ ((at(0X20001000)));//接收缓冲,最大U
 u16 USART_RX_STA=0;       //接收状态标记	  
 u32 USART_RX_CNT=0;			//接收的字节数 
   
-void USART1_IRQHandler(void)
+void USART3_IRQHandler(void)
 {
 	u8 res;	
 #if SYSTEM_SUPPORT_OS 		//如果SYSTEM_SUPPORT_OS为真，则需要支持OS.
 	OSIntEnter();    
 #endif
-	if(USART1->SR&(1<<5))//接收到数据
+	if(USART3->SR&(1<<5))//接收到数据
 	{	 
-		res=USART1->DR; 
+		res=USART3->DR; 
 		if(USART_RX_CNT<USART_REC_LEN)
 		{
 			USART_RX_BUF[USART_RX_CNT]=res;
@@ -87,16 +87,16 @@ void uart_init(u32 pclk2,u32 bound)
  	GPIO_AF_Set(GPIOA,9,7);	//PA9,AF7
 	GPIO_AF_Set(GPIOA,10,7);//PA10,AF7  	   
 	//波特率设置
- 	USART1->BRR=mantissa; 	//波特率设置	 
-	USART1->CR1&=~(1<<15); 	//设置OVER8=0 
-	USART1->CR1|=1<<3;  	//串口发送使能 
-#if EN_USART1_RX		  	//如果使能了接收
+ 	USART3->BRR=mantissa; 	//波特率设置	 
+	USART3->CR1&=~(1<<15); 	//设置OVER8=0 
+	USART3->CR1|=1<<3;  	//串口发送使能 
+#if EN_USART3_RX		  	//如果使能了接收
 	//使能接收中断 
-	USART1->CR1|=1<<2;  	//串口接收使能
-	USART1->CR1|=1<<5;    	//接收缓冲区非空中断使能	    	
-	MY_NVIC_Init(3,3,USART1_IRQn,2);//组2，最低优先级 
+	USART3->CR1|=1<<2;  	//串口接收使能
+	USART3->CR1|=1<<5;    	//接收缓冲区非空中断使能	    	
+	MY_NVIC_Init(3,3,USART3_IRQn,2);//组2，最低优先级 
 #endif
-	USART1->CR1|=1<<13;  	//串口使能
+	USART3->CR1|=1<<13;  	//串口使能
 }
 
 

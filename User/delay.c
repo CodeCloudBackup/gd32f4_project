@@ -64,3 +64,8 @@ void delay_ms(u16 nms)
 	}
 	if(remain)delay_xms(remain);
 } 
+
+u32 inv_imu_get_time_us(void)
+{
+	return 0;
+}

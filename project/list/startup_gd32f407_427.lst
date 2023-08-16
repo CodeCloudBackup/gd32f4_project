@@ -695,10 +695,10 @@ ARM Macro Assembler    Page 11
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp.sp --apcs=
 interwork --depend=.\output\startup_gd32f407_427.d -o.\output\startup_gd32f407_
-427.o -ID:\Keil_v5\ARM\PACK\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include -
-ID:\Keil_v5\ARM\CMSIS\Include --predefine="__MICROLIB SETA 1" --predefine="__UV
-ISION_VERSION SETA 533" --predefine="GD32F427 SETA 1" --list=.\list\startup_gd3
-2f407_427.lst ..\Startup\startup_gd32f407_427.s
+427.o -ID:\Keil_v5\Packs\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include -ID:
+\Keil_v5\ARM\CMSIS\Include --predefine="__MICROLIB SETA 1" --predefine="__UVISI
+ON_VERSION SETA 533" --predefine="GD32F427 SETA 1" --list=.\list\startup_gd32f4
+07_427.lst ..\Startup\startup_gd32f407_427.s
 
 
 

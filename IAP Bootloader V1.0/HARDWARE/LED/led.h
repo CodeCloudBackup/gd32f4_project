@@ -8,8 +8,9 @@
 ////////////////////////////////////////////////////////////////////////////////// 	
 
 //LED端口定义
-#define LED0 PFout(2)	// LED0
-#define LED1 PFout(3)	// LED1	 
+#define LEDR PEout(2)	// LED0
+#define LEDG PEout(3)	// LED1	 
+#define LEDB PEout(4)	// LED1	
 
 void LED_Init(void);//LED初始化		 				    
 #endif

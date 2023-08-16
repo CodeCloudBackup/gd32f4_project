@@ -39,15 +39,22 @@ OF SUCH DAMAGE.
     \param[out] none
     \retval     none
 00*/
+#define CLI() __set_PRIMASK(1)//关闭总中断  
+#define SEI() __set_PRIMASK(0)//打开总中断
 
 int main(void)
 {
+	//	SEI();
+	//	NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0x10000);//中断向量地址偏移0x100000
 		Program_Init();
     /* configure systick */	
 		OV2640_Jpg_Photo();
-		
+
     while(1) {
-			//HM609A_Program();
+			
+			HM609A_Program();
+			
+			//Open_Lock_Test();
 			// LED_Test();
 			//DAC1_Test( 36,4096 );
       // usart2_test();

@@ -11,6 +11,6 @@
 #define LOCK_SW PGout(8)	// DS0
 
 void OutDirveInit(void);
-
+void Open_Lock_Test(void);
 #endif
 

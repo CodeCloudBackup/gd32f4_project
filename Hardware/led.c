@@ -52,3 +52,14 @@ void LED_Test(void)
 		delay_ms(200);
 }
 
+void LED_PWM_Test(void)
+{
+		static u16 led0pwmval=0;    
+		static u8 dir=1;
+		delay_ms(10);	 
+		if(dir)led0pwmval++;
+		else led0pwmval--;	 
+		if(led0pwmval>300)dir=0;
+		if(led0pwmval==0)dir=1;	   					 
+		TIM_SetCompare1(TIM3,led0pwmval);	//修改比较值，修改占空比
+}

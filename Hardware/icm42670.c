@@ -3,42 +3,221 @@
 #include "delay.h"
 #include "usart.h" 
 
+/* I2C number and slave address for INV device */
+#if (SM_BOARD_REV == SM_REVB_OB)
+#define INV_SPI_AP   INV_SPI_ONBOARD_REVB
+#define ICM_I2C_ADDR 0x69
+#else
+/* SM_REVB_DB and SM_REVG have same SPI/I2C configuration */
+#define ICM_I2C_ADDR 0x68
+#endif
 
+#if !USE_FIFO
+/* Buffer to keep track of the timestamp when IMU data ready interrupt fires. */
+extern RINGBUFFER(timestamp_buffer, 64, uint64_t);
+#endif
+
+int ICM_IO_Init(struct inv_imu_serif *serif)
+{
+	switch (serif->serif_type) {
+		case UI_SPI4: {
+			break;
+		}
+		case UI_I2C:
+			/* Set I2C clock is 400kHz by default */
+			IIC_Init();
+			break;
+		default:
+			return -1;
+	}
+
+	return 0;
+}
+
+/* --------------------------------------------------------------------------------------
+ *  Static functions definition
+ * -------------------------------------------------------------------------------------- */
+
+static void apply_mounting_matrix(const int32_t matrix[9], int32_t raw[3])
+{
+	unsigned i;
+	int64_t  data_q30[3];
+
+	for (i = 0; i < 3; i++) {
+		data_q30[i] = ((int64_t)matrix[3 * i + 0] * raw[0]);
+		data_q30[i] += ((int64_t)matrix[3 * i + 1] * raw[1]);
+		data_q30[i] += ((int64_t)matrix[3 * i + 2] * raw[2]);
+	}
+	raw[0] = (int32_t)(data_q30[0] >> 30);
+	raw[1] = (int32_t)(data_q30[1] >> 30);
+	raw[2] = (int32_t)(data_q30[2] >> 30);
+}
+
+static struct inv_imu_device icm_driver;
+
+void imu_callback(inv_imu_sensor_event_t *event)
+{
+	int32_t  accel[3], gyro[3];
+#if USE_FIFO
+//	static uint64_t last_fifo_timestamp = 0;
+	static uint32_t rollover_num        = 0;
+
+	// Handle rollover
+//	if (last_fifo_timestamp > event->timestamp_fsync)
+//		rollover_num++;
+//	last_fifo_timestamp = event->timestamp_fsync;
+
+//	// Compute timestamp in us
+//	timestamp = event->timestamp_fsync + rollover_num * UINT16_MAX;
+//	timestamp *= inv_imu_get_fifo_timestamp_resolution_us_q24(&icm_driver);
+//	timestamp /= (1UL << 24);
+
+	if (icm_driver.fifo_highres_enabled) {
+		accel[0] = (((int32_t)event->accel[0] << 4)) | event->accel_high_res[0];
+		accel[1] = (((int32_t)event->accel[1] << 4)) | event->accel_high_res[1];
+		accel[2] = (((int32_t)event->accel[2] << 4)) | event->accel_high_res[2];
+
+		gyro[0] = (((int32_t)event->gyro[0] << 4)) | event->gyro_high_res[0];
+		gyro[1] = (((int32_t)event->gyro[1] << 4)) | event->gyro_high_res[1];
+		gyro[2] = (((int32_t)event->gyro[2] << 4)) | event->gyro_high_res[2];
+
+	} else {
+		accel[0] = event->accel[0];
+		accel[1] = event->accel[1];
+		accel[2] = event->accel[2];
+
+		gyro[0] = event->gyro[0];
+		gyro[1] = event->gyro[1];
+		gyro[2] = event->gyro[2];
+	}
+	#endif
+	apply_mounting_matrix(icm_mounting_matrix, accel);
+	apply_mounting_matrix(icm_mounting_matrix, gyro);
+	
+	/*
+	 * Output raw data on UART link
+	 */
+	if (event->sensor_mask & (1 << INV_SENSOR_ACCEL) && event->sensor_mask & (1 << INV_SENSOR_GYRO))
+		printf("%d, %d, %d, %d, %d, %d, %d", accel[0],\
+		        accel[1], accel[2], event->temperature, gyro[0], gyro[1], gyro[2]);
+	else if (event->sensor_mask & (1 << INV_SENSOR_GYRO))
+		printf("NA, NA, NA, %d, %d, %d, %d", \
+		        event->temperature, gyro[0], gyro[1], gyro[2]);
+	else if (event->sensor_mask & (1 << INV_SENSOR_ACCEL))
+		printf("%d, %d, %d, %d, NA, NA, NA", accel[0],
+		        accel[1], accel[2], event->temperature);
+	
+}
+
+
+int ICM_Init_Configure(struct inv_imu_serif *icm_serif)
+{
+	int     rc = 0;
+	uint8_t who_am_i;
+
+	/* Init device */
+	rc = inv_imu_init(&icm_driver, icm_serif, imu_callback);
+	if (rc != INV_ERROR_SUCCESS) {
+		//INV_MSG(INV_MSG_LEVEL_ERROR, "Failed to initialize IMU!");
+		return rc;
+	}
+
+	/* Check WHOAMI */
+	rc = inv_imu_get_who_am_i(&icm_driver, &who_am_i);
+	if (rc != INV_ERROR_SUCCESS) {
+		//INV_MSG(INV_MSG_LEVEL_ERROR, "Failed to read whoami!");
+		return rc;
+	}
+
+	if (who_am_i != ICM_WHOAMI) {
+		//INV_MSG(INV_MSG_LEVEL_ERROR, "Bad WHOAMI value!");
+		//INV_MSG(INV_MSG_LEVEL_ERROR, "Read 0x%02x, expected 0x%02x", who_am_i, ICM_WHOAMI);
+		return INV_ERROR;
+	}
+
+#if !USE_FIFO
+	RINGBUFFER_CLEAR(&timestamp_buffer);
+#endif
+
+	if (!USE_FIFO)
+		rc |= inv_imu_configure_fifo(&icm_driver, INV_IMU_FIFO_DISABLED);
+
+	if (USE_HIGH_RES_MODE) {
+		rc |= inv_imu_enable_high_resolution_fifo(&icm_driver);
+	} else {
+		rc |= inv_imu_set_accel_fsr(&icm_driver, ACCEL_CONFIG0_FS_SEL_4g);
+		rc |= inv_imu_set_gyro_fsr(&icm_driver, GYRO_CONFIG0_FS_SEL_2000dps);
+	}
+
+	if (USE_LOW_NOISE_MODE) {
+		rc |= inv_imu_set_accel_frequency(&icm_driver, ACCEL_CONFIG0_ODR_25_HZ);
+		rc |= inv_imu_set_gyro_frequency(&icm_driver, GYRO_CONFIG0_ODR_25_HZ);
+		rc |= inv_imu_enable_accel_low_noise_mode(&icm_driver);
+	} else {
+		rc |= inv_imu_set_accel_lp_avg(&icm_driver,ACCEL_CONFIG1_ACCEL_FILT_AVG_2);
+		rc |= inv_imu_set_accel_frequency(&icm_driver, ACCEL_CONFIG0_ODR_25_HZ);
+//		rc |= inv_imu_set_gyro_frequency(&icm_driver, GYRO_CONFIG0_ODR_25_HZ);
+		rc |= inv_imu_enable_accel_low_power_mode(&icm_driver);
+	}
+
+//	rc |= inv_imu_enable_gyro_low_noise_mode(&icm_driver);
+
+	if (!USE_FIFO)
+		delay_ms(GYR_STARTUP_TIME_US/1000);
+	return rc;
+}
+
+int ICM_IO_ReadData(struct inv_imu_serif *serif, u8 reg, u8 *rbuffer, u32 rlen)
+{
+	switch (serif->serif_type) {
+	case UI_SPI4:
+	case UI_I2C:
+		while (ICM_Read_Len(ICM_I2C_ADDR, reg, rlen, rbuffer)) {
+			delay_ms(32); // Loop in case of I2C timeout
+		}
+		return 0;
+	default:
+		return -1;
+	}
+}
+
+int ICM_IO_WriteData(struct inv_imu_serif *serif, u8 reg, const u8 *wbuffer, u32 wlen)
+{
+	switch (serif->serif_type) {
+	case UI_SPI4:
+	case UI_I2C:
+		while (ICM_Write_Len(ICM_I2C_ADDR, reg, wlen, wbuffer)) {
+			delay_ms(32); // Loop in case of I2C timeout
+		}
+		return 0;
+	default:
+		return -1;
+	}
+}
 //初始化MPU6050
 //返回值:0,成功
 //    其他,错误代码
-u8 ICM_Init(void)
+u8 ICM_Init(struct inv_imu_serif *icm_serif)
 { 
-	u8 res;
-	IIC_Init();//初始化IIC总线
+	int rc=0;
+	icm_serif->context    = 0; /* no need */
+	icm_serif->read_reg   = ICM_IO_ReadData;
+	icm_serif->write_reg  = ICM_IO_WriteData;
+	icm_serif->max_read   = 1024 * 32; /* maximum number of bytes allowed per serial read */
+	icm_serif->max_write  = 1024 * 32; /* maximum number of bytes allowed per serial write */
+	icm_serif->serif_type = UI_I2C;
 	
-	ICM_Write_Byte(ICM_PWR_MGMT0,0X00);	//复位MPU6050
-    delay_ms(100);
-	res = ICM_Read_Byte(ICM_WHOAMI);
-	if(res!=ICM_ADDR)//器件ID正确
-	{
-		return res;
+	rc = ICM_IO_Init(icm_serif);
+	if (rc != INV_ERROR_SUCCESS) {
+		//INV_MSG(INV_MSG_LEVEL_ERROR, "Failed to read whoami!");
+		return rc;
 	}
-	ICM_Write_Byte(ICM_FIFO_CFG1,0X00);	//stream to FIFO
-	res = ICM_Read_Byte(ICM_INT_SOURCE0);
-	ICM_Write_Byte(ICM_INT_SOURCE0,0x00);	//关闭所有中断
-	ICM_Write_Byte(ICM_FIFO_CFG2,0X00);
-	ICM_Write_Byte(ICM_FIFO_CFG3,0X02);
-	ICM_Write_Byte(ICM_INT_SOURCE0,res);
-	ICM_Write_Byte(ICM_FIFO_CFG1,0X33);	//stream to FIFO
-	
-	ICM_Write_Byte(ICM_INT_CFG,0X36);	//stream to FIFO
-	res = ICM_Read_Byte(ICM_INT_SOURCE0);
-	res |= 1<<2;
-	ICM_Write_Byte(ICM_INT_SOURCE0,res);	//关闭所有中断
-	
-	ICM_Set_Gyro_Fsr(3,10);					//陀螺仪传感器,±2000dps
-	ICM_Set_Accel_Fsr(0,10);					//加速度传感器,±2g
-	res = ICM_Read_Byte(ICM_PWR_MGMT0);
-	res |= (3<<2);	//GYRO_MODE,00:off, 01:Standby, 10:Reserved, 11:Low Noise
-	res |= (3);			//ACCEL_MODE,00:off,01:off,10,Low Power,11:Low Noise
-	ICM_Write_Byte(ICM_PWR_MGMT0, res);
-	delay_ms(1);
+	rc = ICM_Init_Configure(icm_serif);
+	if (rc != INV_ERROR_SUCCESS) {
+		//INV_MSG(INV_MSG_LEVEL_ERROR, "Failed to read whoami!");
+		return rc;
+	}
+
 	return 0;
 }
 //设置MPU6050陀螺仪传感器满量程范围
@@ -47,7 +226,8 @@ u8 ICM_Init(void)
 //    其他,设置失败 
 u8 ICM_Set_Gyro_Fsr(u8 fsr,u8 odr)
 {
-	return ICM_Write_Byte(ICM_GYRO_CFG0,fsr<<4|odr);//设置陀螺仪满量程范围  
+	return 0;
+	//return ICM_Write_Byte(ICM_GYRO_CFG0,fsr<<4|odr);//设置陀螺仪满量程范围  
 }
 //设置MPU6050加速度传感器满量程范围
 //fsr:0,±2g;1,±4g;2,±8g;3,±16g
@@ -55,7 +235,8 @@ u8 ICM_Set_Gyro_Fsr(u8 fsr,u8 odr)
 //    其他,设置失败 
 u8 ICM_Set_Accel_Fsr(u8 fsr,u8 odr)
 {
-	return ICM_Write_Byte(ICM_ACCEL_CFG0,fsr<<4|odr);//设置加速度传感器满量程范围  
+	return 0;
+	//return ICM_Write_Byte(ICM_ACCEL_CFG0,fsr<<4|odr);//设置加速度传感器满量程范围  
 }
 //设置MPU6050的数字低通滤波器
 //lpf:数字低通滤波频率(Hz)
@@ -71,14 +252,17 @@ u8 ICM_Set_LPF(u16 lpf)
 	else if(lpf>=34)data=5;
 	else if(lpf>=25)data=6;
 	else data=7; 
-	return ICM_Write_Byte(ICM_GYRO_CFG1,data)|ICM_Write_Byte(ICM_ACCEL_CFG1,data);//设置数字低通滤波器  
+	
+	return 0;
+	//return ICM_Write_Byte(ICM_GYRO_CFG1,data)|ICM_Write_Byte(ICM_ACCEL_CFG1,data);//设置数字低通滤波器  
 }
 
 
 
 u8 ICM_Get_AllSensorData(ICM42670_SENSOR_DATA *sensor_data)
 {
-	return ICM_Read_Len(ICM_ADDR,ICM_TEMP_OUTH_REG,14,(u8*)sensor_data);
+	return 0;
+//	return ICM_Read_Len(ICM_ADDR,ICM_TEMP_OUTH_REG,14,(u8*)sensor_data);
 }
 
 void ICM_Test(void)
@@ -94,7 +278,7 @@ short ICM_Get_Temperature(void)
     u8 buf[2]; 
     short raw;
 		float temp;
-		ICM_Read_Len(ICM_ADDR,ICM_TEMP_OUTH_REG,2,buf);
+	//	ICM_Read_Len(ICM_ADDR,ICM_TEMP_OUTH_REG,2,buf);
     raw=((u16)buf[0]<<8)|buf[1];  
     temp=(float)raw/128+25;  
     return temp*100;;
@@ -106,7 +290,7 @@ short ICM_Get_Temperature(void)
 u8 ICM_Get_Gyroscope(short *gx,short *gy,short *gz)
 {
     u8 buf[6],res;  
-	res=ICM_Read_Len(ICM_ADDR,ICM_GYRO_XOUTH_REG,6,buf);
+	//res=ICM_Read_Len(ICM_ADDR,ICM_GYRO_XOUTH_REG,6,buf);
 	if(res==0)
 	{
 		*gx=((u16)buf[0]<<8)|buf[1];  
@@ -122,7 +306,7 @@ u8 ICM_Get_Gyroscope(short *gx,short *gy,short *gz)
 u8 ICM_Get_Accelerometer(short *ax,short *ay,short *az)
 {
     u8 buf[6],res;  
-	res=ICM_Read_Len(ICM_ADDR,ICM_ACCEL_XOUTH_REG,6,buf);
+	//res=ICM_Read_Len(ICM_ADDR,ICM_ACCEL_XOUTH_REG,6,buf);
 	if(res==0)
 	{
 		*ax=((u16)buf[0]<<8)|buf[1];  
@@ -131,6 +315,8 @@ u8 ICM_Get_Accelerometer(short *ax,short *ay,short *az)
 	} 	
     return res;;
 }
+
+
 //IIC连续写
 //addr:器件地址 
 //reg:寄存器地址
@@ -138,7 +324,7 @@ u8 ICM_Get_Accelerometer(short *ax,short *ay,short *az)
 //buf:数据区
 //返回值:0,正常
 //    其他,错误代码
-u8 ICM_Write_Len(u8 addr,u8 reg,u8 len,u8 *buf)
+u8 ICM_Write_Len(u8 addr,u8 reg,u8 len,const u8 *buf)
 {
 	u8 i; 
     IIC_Start(); 

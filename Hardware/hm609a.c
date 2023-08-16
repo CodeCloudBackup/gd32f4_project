@@ -100,87 +100,6 @@ u8 HM609A_Restart_Program(void)//模块重启流程
 }
 
 /*
-*模块进入AT模式
-*进入成功返回1,执行中返回0,进入失败返回10
-*/
-u8 air208_InAt(void)//模块进入AT模式
-{
-    static uint8_t count = 0, Signs = 0; //重复次数,重启流程
-    char buf[200];
-    switch (Signs)//AIR208状态处理
-    {
-        case 0: //延时1.5s
-        {
-            count = 0;      //重试次数清零
-            Signs++;        //进入下一个流程
-            g_hm609aTim =1500;           //延时时间ms
-            USART1_Clear();             //清除USART3接收缓存
-        }
-        break;
-        case 1: //检查是否在AT模式
-        {
-            if(g_hm609aTim == 0) //发送测试数据+++
-            {
-                if(count>=2)
-                {
-                    count = 0;      //重试次数清零
-                    Signs=0;        //进入下一个流程
-                }
-                else
-                {
-                    printf("+++\r\n测试AT命令通信是否正常%d\r\n",count+1);  //调试回显 ,正常是可回避
-                    g_hm609aTim =1500;           //检测超时时间ms
-                    count++;                    //重试次数+1
-                    u1_printf("+++");    //发送AT测试指令
-                }
-            }
-        }
-        break;
-        case 2: //发送AT
-        {
-            if(g_hm609aTim == 0) //测试AT是否正常
-            {
-                if(count >= 5)
-                {
-                    //超时未检测到AT指令
-                    count = 0;      //重试次数清零
-                    Signs = 0 ;     //进入下一个流程
-                    return 10;  
-                }
-                else
-                {
-                   printf("AT\r\n进入AT模式%d次\r\n", count + 1); //测试AT是否正常
-                    g_hm609aTim = 1500;      //检测超时时间ms
-                    count++;                //重试次数+1
-                    u1_printf("+++");//发送AT测试指令
-                }
-            }
-            else
-            {
-                if(USART1_Revice(buf))         //从串口3读取数据
-                {
-										printf("Rev:%s\n",buf);
-                    if(strstr((const char *)buf, "OK") != NULL) //检查是否包含关键字
-                    {
-                        g_hm609aTim = 0; //定时清零
-                        count = 0;      //重试次数清零
-                        Signs = 0;      //流程清零
-                        return 1;       //返回进入AT成功
-                    }
-                }
-            }
-        }
-        break;
-        default://进入AT成功
-        {
-            count = 0;      //重试次数清零
-            Signs = 0;      //流程清零
-            return 10;      //返回进入流程失败
-        }
-    }
-    return 0;
-}
-/*
 *模块配置
 *成功返回1,执行中返回0,失败返回错误代码>=20
 */
@@ -206,37 +125,46 @@ u8 HM609A_config(void)
         {
 					case 0: //取消核心板回显功能
           {
-						printf("A|ATE0\r\n");
+						printf("A|ATE1\r\n");
 						g_hm609aTim = 2000;          //超时时间ms
 						cnt = 1;   //重复检查次数,*air208_Tim后时总体时间
 						strcpy(res_at,"OK"); 
-						u1_printf("ATS0?");  //发送AT指令
+						u1_printf("ATE1\r\n");  //发送AT指令
 					}
 					break;
-					case 1:  // 查询核心板是否读到卡
+					case 1:  // 查询系统信息及SIM状态
           {
-						 printf("A|AT+CPIN?\r\n");
+						 printf("A|AT^SYSINFO\r\n");
              g_hm609aTim = 2000;				//超时时间ms
              cnt = 30;   //重复检查次数,*air208_Tim后时总体时间
-             strcpy(res_at, "+CPIN: READY");	//设置返回判断关键字
-             u1_printf("\r\nAT+CPIN?\r\n");  //发送AT指令
+             strcpy(res_at, "^SYSINFO");	//设置返回判断关键字
+             u1_printf("\r\nAT^SYSINFO\r\n");  //发送AT指令
 					}
 					break;
 					case 3: // 查询网络注册情况，核心板会自动注册网络，上电到注册大概 10s 左右
           {
-							printf("A|AT+CGREG?\r\n");
+							printf("A|ping\r\n");
 							g_hm609aTim = 2000;				//超时时间ms
 							cnt = 60;   //重复检查次数,*air208_Tim后时总体时间
 							strcpy(res_at, "+CGREG:0,1");		//设置返回判断关键字
-							u1_printf("\r\nAT+CGREG?\r\n"); //发送AT指令
+							u1_printf("\r\nat*lwipctrl=ping, host|www.baidu.com|loop|3, 0\r\n"); //发送AT指令
           }
-					case 4: // 查询是否附着网络
+					case 4: // 查询制造商信息
 					{
-							printf("A|AT+CGATT?\r\n");
+							printf("A|ATI\r\n");
 							g_hm609aTim = 2000;          	//超时时间ms
 							cnt = 60;   //重复检查次数,*air208_Tim后时总体时间
-							strcpy(res_at, "+CGATT:1");		//设置返回判断关键字
-							u1_printf("\r\nAT+CGATT?\r\n"); //发送AT指令
+							strcpy(res_at, "OK");		//设置返回判断关键字
+							u1_printf("\r\nATI\r\n"); //发送AT指令
+					}
+					break;
+					case 5: // 查询SN值
+					{
+							printf("A|AT+CGSN\r\n");
+							g_hm609aTim = 2000;          	//超时时间ms
+							cnt = 60;   //重复检查次数,*air208_Tim后时总体时间
+							strcpy(res_at, "OK");		//设置返回判断关键字
+							u1_printf("\r\nAT+CGSN\r\n"); //发送AT指令
 					}
 					break;
 					default:// 状态配置执行完毕
@@ -251,7 +179,7 @@ u8 HM609A_config(void)
 	}
 	else
 	{
-		if(USART1_Revice(buf))         //从串口3读取数据
+		if(USART1_Revice((u8*)buf))         //从串口3读取数据
 		{
 				printf("Recv:%s",buf);
 				if(strstr((const char *)buf, (const char *)res_at) != NULL) //检查是否包含关键字
@@ -266,6 +194,205 @@ u8 HM609A_config(void)
 	
 }
 
+u8 HM609A_Http(void)
+{
+	static uint8_t count = 0, Signs = 0, cnt = 1; //重复次数,重启流程
+	u16 len = 0;
+	char buf[200];
+	if(g_hm609aTim == 0) //为0时发送测试数据
+	{
+		if(count > 0 && count >= cnt) //超过最大重复次数
+			{
+				count = 0;      //次数清零
+				cnt = 1;        //最大次数复位
+				len = Signs + 20; //计算错误代码
+				Signs = 0;      //流程清零
+				return len;     //返回错误码
+			}
+		  else
+			{
+				count++;
+				switch (Signs)//AIR208状态处理
+        {
+					case 0: //
+          {
+						printf("A|AT+HTTPCFG,resquestheader\r\n");
+						g_hm609aTim = 2000;          //超时时间ms
+						cnt = 1;   //重复检查次数,*air208_Tim后时总体时间
+						strcpy(res_at,"OK"); 
+						u1_printf("AT+HTTPCFG=\"requestheader\",0\r\n");  //发送AT指令
+					}
+					break;
+					case 1: //
+          {
+						printf("A|AT+HTTPCFG,responseheader\r\n");
+						g_hm609aTim = 2000;          //超时时间ms
+						cnt = 1;   //重复检查次数,*air208_Tim后时总体时间
+						strcpy(res_at,"OK"); 
+						u1_printf("AT+HTTPCFG=\"responseheader\",1\r\n");  //发送AT指令
+					}
+					break;
+					case 2: //
+          {
+						printf("A|AT+HTTPCFG,rspout auto\r\n");
+						g_hm609aTim = 2000;          //超时时间ms
+						cnt = 1;   //重复检查次数,*air208_Tim后时总体时间
+						strcpy(res_at,"OK"); 
+						u1_printf("AT+HTTPCFG=\"rspout/auto\",0\r\n");  //发送AT指令
+					}
+					break;
+					case 3: //取消核心板回显功能
+          {
+						printf("A|AT+HTTPURL=118,80\r\n");
+						g_hm609aTim = 2000;          //超时时间ms
+						cnt = 1;   //重复检查次数,*air208_Tim后时总体时间
+						strcpy(res_at,"CONNECT"); 
+						u1_printf("AT+HTTPCFG=\"rspout/auto\",0\r\n");  //发送AT指令
+					}
+					break;
+					case 4: //取消核心板回显功能
+          {
+						printf("A|AT+HTTPURL=118,80\r\n");
+						g_hm609aTim = 2000;          //超时时间ms
+						cnt = 1;   //重复检查次数,*air208_Tim后时总体时间
+						strcpy(res_at,"CONNECT"); 
+						u1_printf("http://101.57.89.157\r\n");  //发送AT指令
+					}
+					break;
+					case 5: //取消核心板回显功能
+          {
+						printf("A|AT+HTTPGET=10\r\n");
+						g_hm609aTim = 2000;          //超时时间ms
+						cnt = 1;   //重复检查次数,*air208_Tim后时总体时间
+						strcpy(res_at,"CONNECT"); 
+						u1_printf("AT+HTTPGET=10\r\n");  //发送AT指令
+					}
+					break;
+					default:// 状态配置执行完毕
+					{
+						count = 0;      //重试次数清零
+						Signs = 0;      //流程清零
+						cnt = 1;        //最大次数复位
+						return 1;       //返回配置完成
+					}
+				}
+			}
+	}
+	else
+	{
+		if(USART1_Revice((u8*)buf))         //从串口3读取数据
+		{
+				printf("Recv:%s",buf);
+				if(strstr((const char *)buf, (const char *)res_at) != NULL) //检查是否包含关键字
+				{
+					g_hm609aTim = 0; //定时清零
+					count = 0;      //重试次数清零
+					Signs++;        //下一个流程
+				}
+		}
+	}
+	return 0;
+}	
+
+u8 HM609A_Mqtt(void)
+{
+	static uint8_t count = 0, Signs = 0, cnt = 1; //重复次数,重启流程
+	u16 len = 0;
+	char buf[200];
+	if(g_hm609aTim == 0) //为0时发送测试数据
+	{
+		if(count > 0 && count >= cnt) //超过最大重复次数
+			{
+				count = 0;      //次数清零
+				cnt = 1;        //最大次数复位
+				len = Signs + 20; //计算错误代码
+				Signs = 0;      //流程清零
+				return len;     //返回错误码
+			}
+		  else
+			{
+				count++;
+				switch (Signs)//AIR208状态处理
+        {
+					case 0: //
+          {
+						printf("A|AT+HTTPCFG,resquestheader\r\n");
+						g_hm609aTim = 2000;          //超时时间ms
+						cnt = 1;   //重复检查次数,*air208_Tim后时总体时间
+						strcpy(res_at,"OK"); 
+						u1_printf("AT+HTTPCFG=\"requestheader\",0\r\n");  //发送AT指令
+					}
+					break;
+					case 1: //
+          {
+						printf("A|AT+HTTPCFG,responseheader\r\n");
+						g_hm609aTim = 2000;          //超时时间ms
+						cnt = 1;   //重复检查次数,*air208_Tim后时总体时间
+						strcpy(res_at,"OK"); 
+						u1_printf("AT+HTTPCFG=\"responseheader\",1\r\n");  //发送AT指令
+					}
+					break;
+					case 2: //
+          {
+						printf("A|AT+HTTPCFG,rspout auto\r\n");
+						g_hm609aTim = 2000;          //超时时间ms
+						cnt = 1;   //重复检查次数,*air208_Tim后时总体时间
+						strcpy(res_at,"OK"); 
+						u1_printf("AT+HTTPCFG=\"rspout/auto\",0\r\n");  //发送AT指令
+					}
+					break;
+					case 3: //取消核心板回显功能
+          {
+						printf("A|AT+HTTPURL=118,80\r\n");
+						g_hm609aTim = 2000;          //超时时间ms
+						cnt = 1;   //重复检查次数,*air208_Tim后时总体时间
+						strcpy(res_at,"CONNECT"); 
+						u1_printf("AT+HTTPCFG=\"rspout/auto\",0\r\n");  //发送AT指令
+					}
+					break;
+					case 4: //取消核心板回显功能
+          {
+						printf("A|AT+HTTPURL=118,80\r\n");
+						g_hm609aTim = 2000;          //超时时间ms
+						cnt = 1;   //重复检查次数,*air208_Tim后时总体时间
+						strcpy(res_at,"CONNECT"); 
+						u1_printf("http://101.57.89.157\r\n");  //发送AT指令
+					}
+					break;
+					case 5: //取消核心板回显功能
+          {
+						printf("A|AT+HTTPGET=10\r\n");
+						g_hm609aTim = 2000;          //超时时间ms
+						cnt = 1;   //重复检查次数,*air208_Tim后时总体时间
+						strcpy(res_at,"CONNECT"); 
+						u1_printf("AT+HTTPGET=10\r\n");  //发送AT指令
+					}
+					break;
+					default:// 状态配置执行完毕
+					{
+						count = 0;      //重试次数清零
+						Signs = 0;      //流程清零
+						cnt = 1;        //最大次数复位
+						return 1;       //返回配置完成
+					}
+				}
+			}
+	}
+	else
+	{
+		if(USART1_Revice((u8*)buf))         //从串口3读取数据
+		{
+				printf("Recv:%s",buf);
+				if(strstr((const char *)buf, (const char *)res_at) != NULL) //检查是否包含关键字
+				{
+					g_hm609aTim = 0; //定时清零
+					count = 0;      //重试次数清零
+					Signs++;        //下一个流程
+				}
+		}
+	}
+	return 0;
+}	
 /*
 主循环程序，每个循环执行一次
 */
@@ -286,7 +413,7 @@ void HM609A_Program(void)
 		break;
 		case 1:     //模块进入AT
     {
-        err = air208_InAt();
+        err = HM609A_config();
         switch(err)
         {
         case 1:
@@ -298,8 +425,6 @@ void HM609A_Program(void)
         break;
         case 2:
         {
-            //进入失败,重启模块
-            count=0;
             HM609A_Restart();
         }
         break;
@@ -310,7 +435,7 @@ void HM609A_Program(void)
     break;
 		case 2:
 		{
-			err = HM609A_config();
+			err = HM609A_Http();
 			switch(err)
       {
          case 0:break; 		//正常流程,直接跳出
@@ -324,7 +449,29 @@ void HM609A_Program(void)
           default:
           {
                 //初始化失败，重启模块
-               // air208_restart();
+             HM609A_Restart();
+          }
+          break;
+      }
+		}
+		break;
+		case 3:
+		{
+			err = HM609A_Mqtt();
+			switch(err)
+      {
+         case 0:break; 		//正常流程,直接跳出
+         case 1:
+         {
+						//初始化,跳到下一个流程
+						count=0;
+						g_hm609aState++;
+          }
+          break;
+          default:
+          {
+                //初始化失败，重启模块
+             HM609A_Restart();
           }
           break;
       }
