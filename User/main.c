@@ -53,7 +53,7 @@ int main(void)
     while(1) {
 			
 			HM609A_Program();
-			
+			Sensor_Adc_Test();
 			//Open_Lock_Test();
 			// LED_Test();
 			//DAC1_Test( 36,4096 );

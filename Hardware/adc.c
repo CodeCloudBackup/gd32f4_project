@@ -1,7 +1,7 @@
 #include "adc.h"
 #include "delay.h"
 #include <math.h>
-
+#include "usart.h"
 //初始化ADC															   
 void  InVolt_Adc_Init(void)
 {    
@@ -49,7 +49,7 @@ u16 Get_InVolt_Adc_Val(void)
 		u16 adcx=0;
 		//设置指定ADC的规则组通道，一个序列，采样时间
 		adcx=Get_Adc(ADC_Channel_7);
-		adcx=adcx*(330/4096);
+		adcx=(float)adcx*(330/4096.0);
 		return adcx;
 }
 
@@ -104,17 +104,17 @@ u16 Get_TempSensor_Adc_Val(void)
 		u16 Rt=0;
 		u16 referVal=0;
 		u16 temp=0;
+		float t=0;
 		//设置指定ADC的规则组通道，一个序列，采样时间
 		adcx=Get_Adc(ADC_Channel_14);
-		adcx=adcx*(330/4096);
-		referVal=(330-adcx)/Rp;
-		Rt=referVal*adcx;
-		temp=Rt/Rp;
-		temp=log(temp);
-		temp/=Bx;
-		temp+=(1/T2);
-		temp=1/temp;
-		temp-=Ka;
+		adcx=(float)adcx*(330/4096.0);
+	  Rt=Rp*(adcx/(float)(330-adcx));
+	
+		if(Rt==0)
+			Rt+=5;
+		t=1/T2;
+		t=1/Bx*log(Rt/10);
+		temp=1/(1/T2+1/Bx*log(Rt/Rp))-Ka;
 		return temp;
 }
 
@@ -200,4 +200,13 @@ u16 Get_Adc_Average(u8 ch,u8 times)
 } 
 	 
 
-
+void Sensor_Adc_Test(void)
+{
+	u16 inVolt=0; 
+	u16 temp=0;	
+	delay_ms(1000);
+	inVolt=Get_InVolt_Adc_Val();
+	printf("InVolt:%d\n",inVolt);
+	temp=Get_TempSensor_Adc_Val();
+	printf("temp:%d\n",temp);
+}

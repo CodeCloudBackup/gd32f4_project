@@ -107,7 +107,7 @@ u8 HM609A_config(void)
 {
 	static uint8_t count = 0, Signs = 0, cnt = 1; //重复次数,重启流程
 	u16 len = 0;
-	char buf[200];
+	char buf[200]={0};
 	if(g_hm609aTim == 0) //为0时发送测试数据
 	{
 			if(count > 0 && count >= cnt) //超过最大重复次数
@@ -141,24 +141,25 @@ u8 HM609A_config(void)
              u1_printf("\r\nAT^SYSINFO\r\n");  //发送AT指令
 					}
 					break;
-					case 3: // 查询网络注册情况，核心板会自动注册网络，上电到注册大概 10s 左右
+					case 2: // 查询网络注册情况，核心板会自动注册网络，上电到注册大概 10s 左右
           {
-							printf("A|ping\r\n");
-							g_hm609aTim = 2000;				//超时时间ms
-							cnt = 60;   //重复检查次数,*air208_Tim后时总体时间
-							strcpy(res_at, "+CGREG:0,1");		//设置返回判断关键字
-							u1_printf("\r\nat*lwipctrl=ping, host|www.baidu.com|loop|3, 0\r\n"); //发送AT指令
-          }
-					case 4: // 查询制造商信息
-					{
 							printf("A|ATI\r\n");
-							g_hm609aTim = 2000;          	//超时时间ms
+							g_hm609aTim = 2000;				//超时时间ms
 							cnt = 60;   //重复检查次数,*air208_Tim后时总体时间
 							strcpy(res_at, "OK");		//设置返回判断关键字
 							u1_printf("\r\nATI\r\n"); //发送AT指令
+          }
+					break;
+					case 3: // 查询制造商信息
+					{
+							printf("A|AT+CPIN?\r\n");
+							g_hm609aTim = 2000;          	//超时时间ms
+							cnt = 60;   //重复检查次数,*air208_Tim后时总体时间
+							strcpy(res_at, "OK");		//设置返回判断关键字
+							u1_printf("\r\nAT+CPIN?\r\n"); //发送AT指令
 					}
 					break;
-					case 5: // 查询SN值
+					case 4: // 查询SN值
 					{
 							printf("A|AT+CGSN\r\n");
 							g_hm609aTim = 2000;          	//超时时间ms
