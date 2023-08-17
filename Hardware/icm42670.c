@@ -2,6 +2,14 @@
 #include "systick.h"
 #include "delay.h"
 #include "usart.h" 
+#include "Invn/EmbUtils/RingBuffer.h"
+/*
+ * Print raw data or scaled data
+ * 0 : print raw accel, gyro and temp data
+ * 1 : print scaled accel, gyro and temp data in g, dps and degree Celsius
+ */
+#define SCALED_DATA_G_DPS 1
+
 
 /* I2C number and slave address for INV device */
 #if (SM_BOARD_REV == SM_REVB_OB)
@@ -12,10 +20,17 @@
 #define ICM_I2C_ADDR 0x68
 #endif
 
-#if !USE_FIFO
-/* Buffer to keep track of the timestamp when IMU data ready interrupt fires. */
-extern RINGBUFFER(timestamp_buffer, 64, uint64_t);
+/*
+ * ICM mounting matrix
+ * Coefficients are coded as Q30 integer
+ */
+#if (SM_BOARD_REV == SM_REVB_DB) /* when DB or EVB are used */
+static int32_t icm_mounting_matrix[9] = { 0, -(1 << 30), 0, (1 << 30), 0, 0, 0, 0, (1 << 30) };
+#else /* For SmartMotion */
+static int32_t icm_mounting_matrix[9] = { (1 << 30), 0, 0, 0, (1 << 30), 0, 0, 0, (1 << 30) };
 #endif
+
+static struct inv_imu_device icm_driver;
 
 int ICM_IO_Init(struct inv_imu_serif *serif)
 {
@@ -53,52 +68,105 @@ static void apply_mounting_matrix(const int32_t matrix[9], int32_t raw[3])
 	raw[2] = (int32_t)(data_q30[2] >> 30);
 }
 
-static struct inv_imu_device icm_driver;
+int get_imu_data(void)
+{
+#if USE_FIFO
+	return inv_imu_get_data_from_fifo(&icm_driver);
+#else
+	return inv_imu_get_data_from_registers(&icm_driver);
+#endif
+}
+
+
+static void get_accel_and_gyr_fsr(uint16_t *accel_fsr_g, uint16_t *gyro_fsr_dps)
+{
+	ACCEL_CONFIG0_FS_SEL_t accel_fsr_bitfield;
+	GYRO_CONFIG0_FS_SEL_t  gyro_fsr_bitfield;
+
+	inv_imu_get_accel_fsr(&icm_driver, &accel_fsr_bitfield);
+	switch (accel_fsr_bitfield) {
+	case ACCEL_CONFIG0_FS_SEL_2g:
+		*accel_fsr_g = 2;
+		break;
+	case ACCEL_CONFIG0_FS_SEL_4g:
+		*accel_fsr_g = 4;
+		break;
+	case ACCEL_CONFIG0_FS_SEL_8g:
+		*accel_fsr_g = 8;
+		break;
+	case ACCEL_CONFIG0_FS_SEL_16g:
+		*accel_fsr_g = 16;
+		break;
+	default:
+		*accel_fsr_g = -1;
+	}
+
+	inv_imu_get_gyro_fsr(&icm_driver, &gyro_fsr_bitfield);
+	switch (gyro_fsr_bitfield) {
+	case GYRO_CONFIG0_FS_SEL_250dps:
+		*gyro_fsr_dps = 250;
+		break;
+	case GYRO_CONFIG0_FS_SEL_500dps:
+		*gyro_fsr_dps = 500;
+		break;
+	case GYRO_CONFIG0_FS_SEL_1000dps:
+		*gyro_fsr_dps = 1000;
+		break;
+	case GYRO_CONFIG0_FS_SEL_2000dps:
+		*gyro_fsr_dps = 2000;
+		break;
+	default:
+		*gyro_fsr_dps = -1;
+	}
+}
 
 void imu_callback(inv_imu_sensor_event_t *event)
 {
 	int32_t  accel[3], gyro[3];
-#if USE_FIFO
-//	static uint64_t last_fifo_timestamp = 0;
-	static uint32_t rollover_num        = 0;
-
-	// Handle rollover
-//	if (last_fifo_timestamp > event->timestamp_fsync)
-//		rollover_num++;
-//	last_fifo_timestamp = event->timestamp_fsync;
-
-//	// Compute timestamp in us
-//	timestamp = event->timestamp_fsync + rollover_num * UINT16_MAX;
-//	timestamp *= inv_imu_get_fifo_timestamp_resolution_us_q24(&icm_driver);
-//	timestamp /= (1UL << 24);
-
-	if (icm_driver.fifo_highres_enabled) {
-		accel[0] = (((int32_t)event->accel[0] << 4)) | event->accel_high_res[0];
-		accel[1] = (((int32_t)event->accel[1] << 4)) | event->accel_high_res[1];
-		accel[2] = (((int32_t)event->accel[2] << 4)) | event->accel_high_res[2];
-
-		gyro[0] = (((int32_t)event->gyro[0] << 4)) | event->gyro_high_res[0];
-		gyro[1] = (((int32_t)event->gyro[1] << 4)) | event->gyro_high_res[1];
-		gyro[2] = (((int32_t)event->gyro[2] << 4)) | event->gyro_high_res[2];
-
-	} else {
-		accel[0] = event->accel[0];
-		accel[1] = event->accel[1];
-		accel[2] = event->accel[2];
-
-		gyro[0] = event->gyro[0];
-		gyro[1] = event->gyro[1];
-		gyro[2] = event->gyro[2];
-	}
-	#endif
+#if SCALED_DATA_G_DPS
+	float    accel_g[3];
+	float    gyro_dps[3];
+	float    temp_degc;
+	uint16_t accel_fsr_g, gyro_fsr_dps;
+#endif
 	apply_mounting_matrix(icm_mounting_matrix, accel);
 	apply_mounting_matrix(icm_mounting_matrix, gyro);
 	
+	accel[0] = event->accel[0];
+	accel[1] = event->accel[1];
+	accel[2] = event->accel[2];
+
+	gyro[0] = event->gyro[0];
+	gyro[1] = event->gyro[1];
+	gyro[2] = event->gyro[2];
+
+	// Force sensor_mask so it gets displayed below
+	event->sensor_mask |= (1 << INV_SENSOR_TEMPERATURE);
+	event->sensor_mask |= (1 << INV_SENSOR_ACCEL);
+	event->sensor_mask |= (1 << INV_SENSOR_GYRO);
+	
+		/*
+	 * Convert raw data into scaled data in g and dps
+	*/
+	get_accel_and_gyr_fsr(&accel_fsr_g, &gyro_fsr_dps);
+	accel_g[0]  = (float)(accel[0] * accel_fsr_g) / INT16_MAX;
+	accel_g[1]  = (float)(accel[1] * accel_fsr_g) / INT16_MAX;
+	accel_g[2]  = (float)(accel[2] * accel_fsr_g) / INT16_MAX;
+	gyro_dps[0] = (float)(gyro[0] * gyro_fsr_dps) / INT16_MAX;
+	gyro_dps[1] = (float)(gyro[1] * gyro_fsr_dps) / INT16_MAX;
+	gyro_dps[2] = (float)(gyro[2] * gyro_fsr_dps) / INT16_MAX;
+	if (USE_HIGH_RES_MODE || !USE_FIFO)
+		temp_degc = 25 + ((float)event->temperature / 128);
+	else
+		temp_degc = 25 + ((float)event->temperature / 2);
+	
+	printf("\r\n temp:%f.\r\nacl:%f,%f,%f\r\ngyo:%f,%f,%f\r\n",\
+					temp_degc,accel_g[0],accel_g[1],accel_g[2],gyro_dps[0],gyro_dps[1],gyro_dps[2]);
 	/*
 	 * Output raw data on UART link
-	 */
+	
 	if (event->sensor_mask & (1 << INV_SENSOR_ACCEL) && event->sensor_mask & (1 << INV_SENSOR_GYRO))
-		printf("%d, %d, %d, %d, %d, %d, %d", accel[0],\
+		printf("acl:%d, %d, %d,temp: %d, gyro:%d, %d, %d", accel[0],\
 		        accel[1], accel[2], event->temperature, gyro[0], gyro[1], gyro[2]);
 	else if (event->sensor_mask & (1 << INV_SENSOR_GYRO))
 		printf("NA, NA, NA, %d, %d, %d, %d", \
@@ -106,7 +174,7 @@ void imu_callback(inv_imu_sensor_event_t *event)
 	else if (event->sensor_mask & (1 << INV_SENSOR_ACCEL))
 		printf("%d, %d, %d, %d, NA, NA, NA", accel[0],
 		        accel[1], accel[2], event->temperature);
-	
+	 */
 }
 
 
@@ -135,9 +203,9 @@ int ICM_Init_Configure(struct inv_imu_serif *icm_serif)
 		return INV_ERROR;
 	}
 
-#if !USE_FIFO
-	RINGBUFFER_CLEAR(&timestamp_buffer);
-#endif
+//#if !USE_FIFO
+//	RINGBUFFER_CLEAR(&timestamp_buffer);
+//#endif
 
 	if (!USE_FIFO)
 		rc |= inv_imu_configure_fifo(&icm_driver, INV_IMU_FIFO_DISABLED);

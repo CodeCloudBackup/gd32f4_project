@@ -214,7 +214,7 @@ static int read_mclk_reg(struct inv_imu_device *s, uint16_t regaddr, uint8_t rd_
 	uint8_t data;
 	uint8_t blk_sel = (regaddr & 0xFF00) >> 8;
 	int     status  = 0;
-
+	struct inv_imu_serif *serif = (struct inv_imu_serif *)s;
 	// Have IMU not in IDLE mode to access MCLK domain
 	status |= inv_imu_switch_on_mclk(s);
 
@@ -225,7 +225,10 @@ static int read_mclk_reg(struct inv_imu_device *s, uint16_t regaddr, uint8_t rd_
 	data = (regaddr & 0x00FF);
 	status |= write_sreg(s, (uint8_t)MADDR_R, 1, &data);
 	delay_us(10);
-	status |= read_sreg(s, (uint8_t)M_R, rd_cnt, buf);
+	if (rd_cnt >serif->max_read)
+		status|= INV_ERROR_SIZE;
+	else if (serif->read_reg(serif, (uint8_t)M_R, buf, rd_cnt) != 0)
+		status|= INV_ERROR_TRANSPORT;
 	delay_us(10);
 
 	if (blk_sel) {
