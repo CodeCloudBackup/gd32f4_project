@@ -18,9 +18,9 @@ void HM609A_Init(void)
 	delay_ms(1000);
 	GPIO_ResetBits(GPIOF,GPIO_Pin_11);
 	GPIO_ResetBits(GPIOF,GPIO_Pin_12); // RESET,High, HM609A,Low time >300ms reset
-	GPIO_SetBits(GPIOF,GPIO_Pin_13); // WakeUp,High, HM609A,High;
-	GPIO_SetBits(GPIOF,GPIO_Pin_14); // Fly Mode,High, HM609A,High
-	GPIO_ResetBits(GPIOF,GPIO_Pin_15); //high:mcu sleep state
+	GPIO_SetBits(GPIOF,GPIO_Pin_13); // WakeUp_IN,High, HM609A,High;
+	GPIO_SetBits(GPIOF,GPIO_Pin_14); // W_DISABLE Mode,High, HM609A,High
+	GPIO_ResetBits(GPIOF,GPIO_Pin_15); //AP_READY high:mcu sleep state
 	 //先初始化ADC1通道5 IO口
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2|GPIO_Pin_3|GPIO_Pin_4;//PA5 通道5
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;//模拟输入
@@ -152,6 +152,15 @@ u8 HM609A_config(void)
 					break;
 					case 3: // 查询制造商信息
 					{
+							printf("A|AT+CFUN?\r\n");
+							g_hm609aTim = 2000;          	//超时时间ms
+							cnt = 60;   //重复检查次数,*air208_Tim后时总体时间
+							strcpy(res_at, "OK");		//设置返回判断关键字
+							u1_printf("\r\nAT+CFUN?\r\n"); //发送AT指令
+					}
+					break;
+					case 4: // 查询制造商信息
+					{
 							printf("A|AT+CPIN?\r\n");
 							g_hm609aTim = 2000;          	//超时时间ms
 							cnt = 60;   //重复检查次数,*air208_Tim后时总体时间
@@ -159,7 +168,7 @@ u8 HM609A_config(void)
 							u1_printf("\r\nAT+CPIN?\r\n"); //发送AT指令
 					}
 					break;
-					case 4: // 查询SN值
+					case 5: // 查询SN值
 					{
 							printf("A|AT+CGSN\r\n");
 							g_hm609aTim = 2000;          	//超时时间ms

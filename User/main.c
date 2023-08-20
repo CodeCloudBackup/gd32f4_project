@@ -48,13 +48,13 @@ int main(void)
 	//	NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0x10000);//中断向量地址偏移0x100000
 		Program_Init();
     /* configure systick */	
-		OV2640_Jpg_Photo();
+	//	OV2640_Jpg_Photo();
 
     while(1) {
 			
-			HM609A_Program();
+	  //	HM609A_Program();
 			delay_ms(1000);
-			get_imu_data();
+		//	get_imu_data();
 			//Sensor_Adc_Test();
 			//Open_Lock_Test();
 			// LED_Test();
