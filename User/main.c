@@ -44,6 +44,7 @@ OF SUCH DAMAGE.
 
 int main(void)
 {
+	u32 flash_id = 0;
 	//	SEI();
 	//	NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0x10000);//中断向量地址偏移0x100000
 		Program_Init();
@@ -52,8 +53,12 @@ int main(void)
 
     while(1) {
 			
-	  //	HM609A_Program();
-			delay_ms(1000);
+	  	HM609A_Program();
+			
+			//LED_PWM_Test();
+//				flash_id=F35SQA_ReadID();	//读取FLASH ID.
+//				printf("F35SQA_ID:%x",flash_id);
+//				delay_ms(1000);
 		//	get_imu_data();
 			//Sensor_Adc_Test();
 			//Open_Lock_Test();

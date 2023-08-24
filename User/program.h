@@ -18,5 +18,7 @@
 #include "hm609a.h"	
 #include "mos_sw.h"
 #include "icm42670.h"
+#include "spi.h"
+#include "f35sqa512m.h"
 void Program_Init(void);
 #endif

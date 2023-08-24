@@ -23,17 +23,22 @@ void Program_Init(void)
 		usart1_init(115200);
 		Speaker_Init();
 		SPEAKER_SW=1;
-		my_mem_init(SRAMIN);		//初	while(OV2640_Init())//初始化OV2640
-//		{
-//			printf("ov2640_init failed\r\n");
-//			delay_ms(400);
-//		}始化内部内存池 
-//	
-		delay_ms(2000);
+		//初始化内部内存池 
+		my_mem_init(SRAMIN);		//	while(OV2640_Init())//初始化OV2640
+	 
+		//F35SQA_Init();
+		while(OV2640_Init())
+		{
+			printf("ov2640_init failed\r\n");
+			delay_ms(400);
+		}
+	
 		MyDCMI_Init();			//DCMI配置
 		HM609A_Init();
+		delay_ms(2000);
 		//icm
 		ICM_Init(&icm_serif);
+		
 }
 
 void Program_Progress(void)

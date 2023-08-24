@@ -10,7 +10,7 @@
       <TargetName>GD32427V_START</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>5060960::V5.06 update 7 (build 960)::.\ARMCC</pCCUsed>
+      <pCCUsed>5060960::V5.06 update 7 (build 960)::ARMCC</pCCUsed>
       <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>GD32F427</Define>
               <Undefine></Undefine>
-              <IncludePath>..\CMSIS;..\Hardware;..\Library\Include;..\User;..\Hardware\imu</IncludePath>
+              <IncludePath>..\CMSIS;..\Hardware;..\Library\Include;..\User;..\Hardware\IMU;..\Hardware\MQTT;..\Hardware\MQTT\src</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -644,54 +644,39 @@
               <FilePath>..\Hardware\icm42670.c</FilePath>
             </File>
             <File>
+              <FileName>f35sqa512m.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\f35sqa512m.h</FilePath>
+            </File>
+            <File>
+              <FileName>f35sqa512m.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\f35sqa512m.c</FilePath>
+            </File>
+            <File>
               <FileName>network.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Hardware\network.h</FilePath>
             </File>
             <File>
-              <FileName>inv_imu_regmap.h</FileName>
+              <FileName>spi.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Hardware\imu\inv_imu_regmap.h</FilePath>
+              <FilePath>..\Hardware\spi.h</FilePath>
             </File>
             <File>
-              <FileName>inv_imu_version.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Hardware\imu\inv_imu_version.h</FilePath>
-            </File>
-            <File>
-              <FileName>inv_imu_apex.c</FileName>
+              <FileName>spi.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Hardware\imu\inv_imu_apex.c</FilePath>
+              <FilePath>..\Hardware\spi.c</FilePath>
             </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>IMU</GroupName>
+          <Files>
             <File>
-              <FileName>inv_imu_apex.h</FileName>
+              <FileName>inv_imu_transport.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Hardware\imu\inv_imu_apex.h</FilePath>
-            </File>
-            <File>
-              <FileName>inv_imu_defs.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Hardware\imu\inv_imu_defs.h</FilePath>
-            </File>
-            <File>
-              <FileName>inv_imu_driver.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Hardware\imu\inv_imu_driver.c</FilePath>
-            </File>
-            <File>
-              <FileName>inv_imu_driver.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Hardware\imu\inv_imu_driver.h</FilePath>
-            </File>
-            <File>
-              <FileName>inv_imu_selftest.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Hardware\imu\inv_imu_selftest.c</FilePath>
-            </File>
-            <File>
-              <FileName>inv_imu_selftest.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Hardware\imu\inv_imu_selftest.h</FilePath>
+              <FilePath>..\Hardware\imu\inv_imu_transport.h</FilePath>
             </File>
             <File>
               <FileName>inv_imu_transport.c</FileName>
@@ -699,9 +684,99 @@
               <FilePath>..\Hardware\imu\inv_imu_transport.c</FilePath>
             </File>
             <File>
-              <FileName>inv_imu_transport.h</FileName>
+              <FileName>inv_imu_selftest.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Hardware\imu\inv_imu_transport.h</FilePath>
+              <FilePath>..\Hardware\imu\inv_imu_selftest.h</FilePath>
+            </File>
+            <File>
+              <FileName>inv_imu_selftest.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\imu\inv_imu_selftest.c</FilePath>
+            </File>
+            <File>
+              <FileName>inv_imu_driver.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\imu\inv_imu_driver.h</FilePath>
+            </File>
+            <File>
+              <FileName>inv_imu_driver.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\imu\inv_imu_driver.c</FilePath>
+            </File>
+            <File>
+              <FileName>inv_imu_defs.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\imu\inv_imu_defs.h</FilePath>
+            </File>
+            <File>
+              <FileName>inv_imu_apex.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\imu\inv_imu_apex.h</FilePath>
+            </File>
+            <File>
+              <FileName>inv_imu_apex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\imu\inv_imu_apex.c</FilePath>
+            </File>
+            <File>
+              <FileName>inv_imu_version.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\imu\inv_imu_version.h</FilePath>
+            </File>
+            <File>
+              <FileName>inv_imu_regmap.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\imu\inv_imu_regmap.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>MQTT</GroupName>
+          <Files>
+            <File>
+              <FileName>MQTTConnectClient.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\MQTT\src\MQTTConnectClient.c</FilePath>
+            </File>
+            <File>
+              <FileName>MQTTDeserializePublish.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\MQTT\src\MQTTDeserializePublish.c</FilePath>
+            </File>
+            <File>
+              <FileName>MQTTFormat.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\MQTT\src\MQTTFormat.c</FilePath>
+            </File>
+            <File>
+              <FileName>MQTTPacket.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\MQTT\src\MQTTPacket.c</FilePath>
+            </File>
+            <File>
+              <FileName>MQTTSerializePublish.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\MQTT\src\MQTTSerializePublish.c</FilePath>
+            </File>
+            <File>
+              <FileName>MQTTSubscribeClient.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\MQTT\src\MQTTSubscribeClient.c</FilePath>
+            </File>
+            <File>
+              <FileName>MQTTUnsubscribeClient.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\MQTT\src\MQTTUnsubscribeClient.c</FilePath>
+            </File>
+            <File>
+              <FileName>transport.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\MQTT\transport.c</FilePath>
+            </File>
+            <File>
+              <FileName>transport.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\MQTT\transport.h</FilePath>
             </File>
           </Files>
         </Group>

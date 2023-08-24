@@ -41,7 +41,7 @@ void LED_PWM_Init(void)
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;//上拉
   GPIO_Init(GPIOE, &GPIO_InitStructure);//初始化
 	
-	GPIO_SetBits(GPIOE,GPIO_Pin_9);//GPIOF9,F10设置高，灯灭
+	GPIO_ResetBits(GPIOE,GPIO_Pin_9);//GPIOF9,F10设置高，灯灭
 }
 
 void LED_Test(void)
@@ -54,12 +54,12 @@ void LED_Test(void)
 
 void LED_PWM_Test(void)
 {
-		static u16 led0pwmval=0;    
+		static u16 led0pwmval=1000;    
 		static u8 dir=1;
-		delay_ms(10);	 
-		if(dir)led0pwmval++;
-		else led0pwmval--;	 
-		if(led0pwmval>300)dir=0;
-		if(led0pwmval==0)dir=1;	   					 
+		delay_ms(200);	 
+		if(dir)led0pwmval+=100;
+		else led0pwmval-=100;	 
+		if(led0pwmval>30000)dir=0;
+		if(led0pwmval==1000)dir=1;	   					 
 		TIM_SetCompare1(TIM3,led0pwmval);	//修改比较值，修改占空比
 }

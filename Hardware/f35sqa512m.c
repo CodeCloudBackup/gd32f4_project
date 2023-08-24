@@ -1,8 +1,9 @@
 
 #include "f35sqa512m.h"
 #include "spi.h"
+#include "usart.h"
 
-u16 F35SQA_TYPE=F35SQA512M;	//默认是W25Q128
+u32 F35SQA_TYPE=F35SQA512M;	//默认是W25Q128
 
 void F35SQA_Init(void)
 {
@@ -20,20 +21,21 @@ void F35SQA_Init(void)
 	SPI1_Init();		   			//初始化SPI
 	SPI1_SetSpeed(SPI_BaudRatePrescaler_4);		//设置为25M时钟,高速模式 
 	F35SQA_TYPE=F35SQA_ReadID();	//读取FLASH ID.
+	printf("F35SQA_ID:%x",F35SQA_TYPE);
 }
 
 //读取芯片ID
 //返回值如下:	
-u16  F35SQA_ReadID(void)
+u32  F35SQA_ReadID(void)
 {
-	u16 Temp = 0;	  
+	u32 Temp = 0;	  
 	F35SQA_CS=0;				    
-	SPI1_ReadWriteByte(0x90);//发送读取ID命令	    
+	SPI1_ReadWriteByte(F35SQA_JedecDeviceID);//发送读取ID命令	    
 	SPI1_ReadWriteByte(0x00); 	    
-	SPI1_ReadWriteByte(0x00); 	    
-	SPI1_ReadWriteByte(0x00); 	 			   
-	Temp|=SPI1_ReadWriteByte(0xFF)<<8;  
-	Temp|=SPI1_ReadWriteByte(0xFF);	 
+	Temp|=SPI1_ReadWriteByte(0x00)<<24;  
+	Temp|=SPI1_ReadWriteByte(0x00)<<16;	 
+	Temp|=SPI1_ReadWriteByte(0x00)<<8;
+	Temp|=SPI1_ReadWriteByte(0x00)	;
 	F35SQA_CS=1;				    
 	return Temp;
 }

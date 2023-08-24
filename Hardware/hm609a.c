@@ -26,7 +26,7 @@ void HM609A_Init(void)
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;//模拟输入
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL ;//不带上下拉
   GPIO_Init(GPIOG, &GPIO_InitStructure);//初始化 
-
+	printf("HM609A Init successed.\n");
 }
 
 char res_at[20];
@@ -132,22 +132,22 @@ u8 HM609A_config(void)
 						u1_printf("ATE1\r\n");  //发送AT指令
 					}
 					break;
-					case 1:  // 查询系统信息及SIM状态
-          {
-						 printf("A|AT^SYSINFO\r\n");
-             g_hm609aTim = 2000;				//超时时间ms
-             cnt = 30;   //重复检查次数,*air208_Tim后时总体时间
-             strcpy(res_at, "^SYSINFO");	//设置返回判断关键字
-             u1_printf("\r\nAT^SYSINFO\r\n");  //发送AT指令
-					}
-					break;
-					case 2: // 查询网络注册情况，核心板会自动注册网络，上电到注册大概 10s 左右
+					case 1: // 查询网络注册情况，核心板会自动注册网络，上电到注册大概 10s 左右
           {
 							printf("A|ATI\r\n");
 							g_hm609aTim = 2000;				//超时时间ms
 							cnt = 60;   //重复检查次数,*air208_Tim后时总体时间
 							strcpy(res_at, "OK");		//设置返回判断关键字
 							u1_printf("\r\nATI\r\n"); //发送AT指令
+          }
+					break;
+					case 2: // 查询网络注册情况，核心板会自动注册网络，上电到注册大概 10s 左右
+          {
+							printf("A|AT+CGMR\r\n");
+							g_hm609aTim = 2000;				//超时时间ms
+							cnt = 60;   //重复检查次数,*air208_Tim后时总体时间
+							strcpy(res_at, "OK");		//设置返回判断关键字
+							u1_printf("\r\nAT+CGMR\r\n"); //发送AT指令
           }
 					break;
 					case 3: // 查询制造商信息
@@ -168,7 +168,16 @@ u8 HM609A_config(void)
 							u1_printf("\r\nAT+CPIN?\r\n"); //发送AT指令
 					}
 					break;
-					case 5: // 查询SN值
+					case 5:  // 查询系统信息及SIM状态
+          {
+						 printf("A|AT^SYSINFO\r\n");
+             g_hm609aTim = 2000;				//超时时间ms
+             cnt = 30;   //重复检查次数,*air208_Tim后时总体时间
+             strcpy(res_at, "^SYSINFO");	//设置返回判断关键字
+             u1_printf("\r\nAT^SYSINFO\r\n");  //发送AT指令
+					}
+					break;
+					case 6: // 查询SN值
 					{
 							printf("A|AT+CGSN\r\n");
 							g_hm609aTim = 2000;          	//超时时间ms
@@ -204,6 +213,126 @@ u8 HM609A_config(void)
 	
 }
 
+u8 HM609A_Tcp(void)
+{
+	static uint8_t count = 0, Signs = 0, cnt = 1; //重复次数,重启流程
+	u16 len = 0;
+	char buf[200];
+	if(g_hm609aTim == 0) //为0时发送测试数据
+	{
+		if(count > 0 && count >= cnt) //超过最大重复次数
+			{
+				count = 0;      //次数清零
+				cnt = 1;        //最大次数复位
+				len = Signs + 20; //计算错误代码
+				Signs = 0;      //流程清零
+				return len;     //返回错误码
+			}
+		  else
+			{
+				count++;
+				switch (Signs)//HTTP配置查询
+        {
+					case 0: //
+          {
+						printf("A|AT+IPOPEN?\r\n");
+						g_hm609aTim = 2000;          //超时时间ms
+						cnt = 5;   //重复检查次数,*air208_Tim后时总体时间
+						strcpy(res_at,"OK"); 
+						u1_printf("AT+IPOPEN?\r\n");  //发送AT指令
+					}
+					break;
+					case 1: //
+          {
+						printf("A|AT+IPOPEN=\"TCP\"\r\n");
+						g_hm609aTim = 2000;          //超时时间ms
+						cnt = 1;   //重复检查次数,*air208_Tim后时总体时间
+						strcpy(res_at,"OK"); 
+						
+						u1_printf("\r\nAT+IPOPEN=1,\"TCP\",\"101.37.89.157\",80,0,0\r\n",len);  //发送AT指令
+					}
+					break;
+					case 2: //
+          {
+						printf("A|AT+IPSWTMD=1,1\r\n");
+						g_hm609aTim = 5000;          //超时时间ms
+						cnt = 6;   //重复检查次数,*air208_Tim后时总体时间
+						strcpy(res_at,"OK"); 
+						
+						u1_printf("\r\nAT+IPSWTMD=1,0\r\n");  //发送AT指令
+					}
+					break;
+					case 3: //取消核心板回显功能
+          {
+						char getCommond[100]= "GET /iob/download/test.txt HTTP/1.1\\r\\nHost:101.37.89.157\\r\\n\\r\\n";
+						u16 len = strlen(getCommond);
+						getCommond[len] = '\0';
+						printf("\r\nA|AT+IPSEND=1\r\n");
+						g_hm609aTim = 3000;          //超时时间ms
+						cnt = 10;   //重复检查次数,*air208_Tim后时总体时间
+						strcpy(res_at,"OK"); 
+						u1_printf("\r\nAT+IPSEND=1,%d\r\n",strlen(getCommond)-3);  //发送AT指令
+						u1_printf("%s",getCommond);  //发送AT指令
+					}
+					break;
+					
+					case 4: //
+          {
+						printf("\r\nA|AT+IPRD\r\n");
+						g_hm609aTim = 2000;          //超时时间ms
+						cnt = 10;   //重复检查次数,*air208_Tim后时总体时间
+						strcpy(res_at,"OK"); 
+						
+						u1_printf("AT+IPRD=1,20\r\n");  //发送AT指令
+					}
+//					break;
+//					case 4: //
+//          {
+//						printf("\r\nA|+++\r\n");
+//						g_hm609aTim = 2000;          //超时时间ms
+//						cnt = 10;   //重复检查次数,*air208_Tim后时总体时间
+//						strcpy(res_at,"OK"); 
+//						
+//						u1_printf("+++\r\n");  //发送AT指令
+//					}
+					break;
+					case 5: //
+          {
+						printf("A|AT+IPCLOSE=1\r\n");
+						g_hm609aTim = 2000;          //超时时间ms
+						cnt = 1;   //重复检查次数,*air208_Tim后时总体时间
+						strcpy(res_at,"OK"); 
+						
+						u1_printf("AT+IPCLOSE=1\r\n");  //发送AT指令
+					}
+					break;
+					default:// 状态配置执行完毕
+					{
+						count = 0;      //重试次数清零
+						Signs = 0;      //流程清零
+						cnt = 1;        //最大次数复位
+						return 1;       //返回配置完成
+					}
+				}
+			}
+	}
+	else
+	{
+		if(USART1_Revice((u8*)buf))         //从串口3读取数据
+		{
+				printf("Recv:%s",buf);
+				if(strstr((const char *)buf, (const char *)res_at) != NULL) //检查是否包含关键字
+				{
+					g_hm609aTim = 0; //定时清零
+					count = 0;      //重试次数清零
+					Signs++;        //下一个流程
+				}
+		}
+	}
+	return 0;
+}	
+
+
 u8 HM609A_Http(void)
 {
 	static uint8_t count = 0, Signs = 0, cnt = 1; //重复次数,重启流程
@@ -222,54 +351,31 @@ u8 HM609A_Http(void)
 		  else
 			{
 				count++;
-				switch (Signs)//AIR208状态处理
+				switch (Signs)//HTTP配置查询
         {
 					case 0: //
           {
-						printf("A|AT+HTTPCFG,resquestheader\r\n");
+						printf("A|AT+HTTPCFG?\r\n");
 						g_hm609aTim = 2000;          //超时时间ms
-						cnt = 1;   //重复检查次数,*air208_Tim后时总体时间
+						cnt = 5;   //重复检查次数,*air208_Tim后时总体时间
 						strcpy(res_at,"OK"); 
-						u1_printf("AT+HTTPCFG=\"requestheader\",0\r\n");  //发送AT指令
+						u1_printf("AT+HTTPCFG=?\r\n");  //发送AT指令
 					}
 					break;
 					case 1: //
           {
-						printf("A|AT+HTTPCFG,responseheader\r\n");
+						char *url = "http://101.37.89.157/iob/download/test.txt";
+						u16 len = strlen(url); 
+						printf("A|AT+HTTPURL\r\n");
 						g_hm609aTim = 2000;          //超时时间ms
 						cnt = 1;   //重复检查次数,*air208_Tim后时总体时间
 						strcpy(res_at,"OK"); 
-						u1_printf("AT+HTTPCFG=\"responseheader\",1\r\n");  //发送AT指令
+						
+						u1_printf("AT+HTTPURL=%d,20\r\n",len);  //发送AT指令
+						u1_printf("%s",url);
 					}
 					break;
-					case 2: //
-          {
-						printf("A|AT+HTTPCFG,rspout auto\r\n");
-						g_hm609aTim = 2000;          //超时时间ms
-						cnt = 1;   //重复检查次数,*air208_Tim后时总体时间
-						strcpy(res_at,"OK"); 
-						u1_printf("AT+HTTPCFG=\"rspout/auto\",0\r\n");  //发送AT指令
-					}
-					break;
-					case 3: //取消核心板回显功能
-          {
-						printf("A|AT+HTTPURL=118,80\r\n");
-						g_hm609aTim = 2000;          //超时时间ms
-						cnt = 1;   //重复检查次数,*air208_Tim后时总体时间
-						strcpy(res_at,"CONNECT"); 
-						u1_printf("AT+HTTPCFG=\"rspout/auto\",0\r\n");  //发送AT指令
-					}
-					break;
-					case 4: //取消核心板回显功能
-          {
-						printf("A|AT+HTTPURL=118,80\r\n");
-						g_hm609aTim = 2000;          //超时时间ms
-						cnt = 1;   //重复检查次数,*air208_Tim后时总体时间
-						strcpy(res_at,"CONNECT"); 
-						u1_printf("http://101.57.89.157\r\n");  //发送AT指令
-					}
-					break;
-					case 5: //取消核心板回显功能
+					case 2: //取消核心板回显功能
           {
 						printf("A|AT+HTTPGET=10\r\n");
 						g_hm609aTim = 2000;          //超时时间ms
@@ -326,57 +432,13 @@ u8 HM609A_Mqtt(void)
         {
 					case 0: //
           {
-						printf("A|AT+HTTPCFG,resquestheader\r\n");
+						printf("A|AT+MQTTCFG\r\n");
 						g_hm609aTim = 2000;          //超时时间ms
-						cnt = 1;   //重复检查次数,*air208_Tim后时总体时间
+						cnt = 3;   //重复检查次数,*air208_Tim后时总体时间
 						strcpy(res_at,"OK"); 
-						u1_printf("AT+HTTPCFG=\"requestheader\",0\r\n");  //发送AT指令
+						u1_printf("\r\nAT+CGMR\r\n");  //发送AT指令
 					}
-					break;
-					case 1: //
-          {
-						printf("A|AT+HTTPCFG,responseheader\r\n");
-						g_hm609aTim = 2000;          //超时时间ms
-						cnt = 1;   //重复检查次数,*air208_Tim后时总体时间
-						strcpy(res_at,"OK"); 
-						u1_printf("AT+HTTPCFG=\"responseheader\",1\r\n");  //发送AT指令
-					}
-					break;
-					case 2: //
-          {
-						printf("A|AT+HTTPCFG,rspout auto\r\n");
-						g_hm609aTim = 2000;          //超时时间ms
-						cnt = 1;   //重复检查次数,*air208_Tim后时总体时间
-						strcpy(res_at,"OK"); 
-						u1_printf("AT+HTTPCFG=\"rspout/auto\",0\r\n");  //发送AT指令
-					}
-					break;
-					case 3: //取消核心板回显功能
-          {
-						printf("A|AT+HTTPURL=118,80\r\n");
-						g_hm609aTim = 2000;          //超时时间ms
-						cnt = 1;   //重复检查次数,*air208_Tim后时总体时间
-						strcpy(res_at,"CONNECT"); 
-						u1_printf("AT+HTTPCFG=\"rspout/auto\",0\r\n");  //发送AT指令
-					}
-					break;
-					case 4: //取消核心板回显功能
-          {
-						printf("A|AT+HTTPURL=118,80\r\n");
-						g_hm609aTim = 2000;          //超时时间ms
-						cnt = 1;   //重复检查次数,*air208_Tim后时总体时间
-						strcpy(res_at,"CONNECT"); 
-						u1_printf("http://101.57.89.157\r\n");  //发送AT指令
-					}
-					break;
-					case 5: //取消核心板回显功能
-          {
-						printf("A|AT+HTTPGET=10\r\n");
-						g_hm609aTim = 2000;          //超时时间ms
-						cnt = 1;   //重复检查次数,*air208_Tim后时总体时间
-						strcpy(res_at,"CONNECT"); 
-						u1_printf("AT+HTTPGET=10\r\n");  //发送AT指令
-					}
+				
 					break;
 					default:// 状态配置执行完毕
 					{
@@ -445,7 +507,7 @@ void HM609A_Program(void)
     break;
 		case 2:
 		{
-			err = HM609A_Http();
+			err = HM609A_Tcp();
 			switch(err)
       {
          case 0:break; 		//正常流程,直接跳出

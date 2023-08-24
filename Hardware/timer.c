@@ -132,6 +132,7 @@ void TIM3_PWM_Init(u16 arr,u16 psc)
 	TIM_TimeBaseInit(TIM3,&TIM_TimeBaseStructure);//初始化定时器14
 	
 	//初始化TIM14 Channel1 PWM模式	 
+	//PWM模式1,CCR1越大，低电平越多
 	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1; //选择定时器模式:TIM脉冲宽度调制模式2
  	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable; //比较输出使能
 	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_Low; //输出极性:TIM输出比较极性低
@@ -148,10 +149,10 @@ void TIM3_Output_PWM(void)
 {
 	static u16 led0pwmval=0;  
 	static u8 dir=1;
-	delay_ms(10);
+	delay_ms(100);
 	if(dir)led0pwmval++;
 	else led0pwmval--;	 
-	if(led0pwmval>300)dir=0;
-	if(led0pwmval==0)dir=1;	   					 
+	if(led0pwmval>3000)dir=0;
+	if(led0pwmval==300)dir=1;	   					 
 	TIM_SetCompare1(TIM3,led0pwmval);	//修改比较值，修改占空比	
 }
