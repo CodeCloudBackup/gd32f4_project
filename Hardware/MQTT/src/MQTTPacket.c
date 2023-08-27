@@ -51,7 +51,7 @@ int MQTTPacket_encode(unsigned char* buf, int length)
  * @param value the decoded length returned
  * @return the number of bytes read from the socket
  */
-int MQTTPacket_decode(int (*getcharfn)(unsigned char*, int), int* value)
+int MQTTPacket_decode(int (*getcharfn)(unsigned char*, int),int* value)
 {
 	unsigned char c;
 	int multiplier = 1;

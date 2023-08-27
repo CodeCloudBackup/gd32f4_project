@@ -3,7 +3,7 @@
 #include "delay.h"
 static u32 g_timCnt = 0;
 u8 g_timFlag = 0;
-
+extern u16  g_hm609aHeartBeat; 
 extern void HM609A_TIM_1ms(void);
 extern void  USART1_TIM_1ms(void);
 void TIM_1msProgram(void)
@@ -24,6 +24,7 @@ void TIM_100msProgram(void)
 void TIM_1000msProgram(void)
 {
 	LED_R = !LED_R;
+	g_hm609aHeartBeat++;
 }
 //定时器3中断服务程序	 
 void TIMER1_IRQHandler(void)

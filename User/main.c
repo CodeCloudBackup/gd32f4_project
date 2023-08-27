@@ -33,6 +33,7 @@ OF SUCH DAMAGE.
 */
 
 #include "program.h"
+#include "MQTTPacket.h"
 /*!
     \brief      main function
     \param[in]  none
@@ -50,11 +51,15 @@ int main(void)
 		Program_Init();
     /* configure systick */	
 	//	OV2640_Jpg_Photo();
+	char *host = "101.37.89.157";//主机
+	int port = 1883;
 
-    while(1) {
+
+		printf("publishing reading\n");//读取发布
+
+  while(1) {
 			
-	  	HM609A_Program();
-			
+	  	HM609A_Program(host,port);
 			//LED_PWM_Test();
 //				flash_id=F35SQA_ReadID();	//读取FLASH ID.
 //				printf("F35SQA_ID:%x",flash_id);

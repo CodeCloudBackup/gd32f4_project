@@ -286,6 +286,15 @@ void u1_printf(const char* fmt,...)
 	}
 }
 
+void USART1_SendData(const u8* data,u16 len)
+{
+	const u8* p = data;
+	while(len--)//循环发送数据
+	{
+		while(USART_GetFlagStatus(USART1,USART_FLAG_TC)==RESET);//循环发送,直到发送完毕   
+		USART_SendData(USART1,*p++);   
+	}
+}
 void usart2_test(void)
 {
 	u8 t,len=0;

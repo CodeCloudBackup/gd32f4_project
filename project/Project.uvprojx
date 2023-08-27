@@ -604,6 +604,11 @@
               <FilePath>..\Hardware\hm609a.c</FilePath>
             </File>
             <File>
+              <FileName>hm609a.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\hm609a.h</FilePath>
+            </File>
+            <File>
               <FileName>gdflash.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Hardware\gdflash.c</FilePath>
@@ -767,16 +772,6 @@
               <FileName>MQTTUnsubscribeClient.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Hardware\MQTT\src\MQTTUnsubscribeClient.c</FilePath>
-            </File>
-            <File>
-              <FileName>transport.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Hardware\MQTT\transport.c</FilePath>
-            </File>
-            <File>
-              <FileName>transport.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Hardware\MQTT\transport.h</FilePath>
             </File>
           </Files>
         </Group>

@@ -20,6 +20,7 @@ void HM609A_Send_At_Cmd(const u8* cmd,u8* ack,u32 time);
 void HM609A_At_Restore(char *ret_ask);
 void HM609A_Check_At_Response(const char* ret_ask);
 u8 HM609A_config(void);
-void HM609A_Program(void);
+void HM609A_Program(char* addr, int port);
+int transport_getdata(unsigned char* buf, int count);
 #endif
 

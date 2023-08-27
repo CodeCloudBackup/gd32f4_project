@@ -20,6 +20,7 @@ void u1_printf(const char* fmt,...);
 u16 USART1_Revice(u8* data);
 void USART1_Clear(void);
 u8 USART1_Send_ATCmd(const char *cmd,const char *res3,u32 timeOut,u8 retime);
+void USART1_SendData(const u8* data,u16 len);
 // debug output 
 #define USART2_MAX_RECV_LEN		100					//最大接收缓存字节数
 #define USART2_MAX_SEND_LEN		100					//最大发送缓存字节数
