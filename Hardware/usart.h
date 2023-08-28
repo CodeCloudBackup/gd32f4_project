@@ -14,6 +14,7 @@
 extern u8  USART1_RX_BUF[USART1_MAX_RECV_LEN]; 		//接收缓冲,最大USART3_MAX_RECV_LEN字节
 extern u8  USART1_TX_BUF[USART1_MAX_SEND_LEN]; 		//发送缓冲,最大USART3_MAX_SEND_LEN字节
 extern vu16 USART1_RX_STA;   						//接收数据状态
+extern u16 g_mqttReadLen;//mqtt
 
 void usart1_init(u32 bound);
 void u1_printf(const char* fmt,...);

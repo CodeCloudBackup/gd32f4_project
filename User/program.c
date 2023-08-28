@@ -11,6 +11,8 @@ void Program_Init(void)
 		struct inv_imu_serif icm_serif;
 		NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);//设置系统中断优先级分组2
     systick_config();
+		CpuIDGetId();
+		printf("MCUID:%x,%x,%x",mcuID[0],mcuID[1],mcuID[2]);
 		delay_init(200);    //初始化延时函数
 		LED_Init();
 		LED_PWM_Init();

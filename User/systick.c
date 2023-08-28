@@ -37,6 +37,15 @@ OF SUCH DAMAGE.
 
 volatile static uint32_t delay;
 
+
+u32 mcuID[UNIQUE_SIZE] = {0};
+
+void CpuIDGetId(void)
+{
+    mcuID[0] = *(volatile u32*)(0x1FFF7A10);
+    mcuID[1] = *(volatile u32*)(0x1FFF7A14);
+    mcuID[2] = *(volatile u32*)(0x1FFF7A18);
+}
 /*!
     \brief      configure systick
     \param[in]  none

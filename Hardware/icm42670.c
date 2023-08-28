@@ -98,7 +98,7 @@ static void get_accel_and_gyr_fsr(uint16_t *accel_fsr_g, uint16_t *gyro_fsr_dps)
 		*accel_fsr_g = 16;
 		break;
 	default:
-		*accel_fsr_g = -1;
+		*accel_fsr_g = (uint16_t)-1;
 	}
 
 	inv_imu_get_gyro_fsr(&icm_driver, &gyro_fsr_bitfield);
@@ -116,7 +116,7 @@ static void get_accel_and_gyr_fsr(uint16_t *accel_fsr_g, uint16_t *gyro_fsr_dps)
 		*gyro_fsr_dps = 2000;
 		break;
 	default:
-		*gyro_fsr_dps = -1;
+		*gyro_fsr_dps = (uint16_t)-1;
 	}
 }
 
@@ -288,43 +288,6 @@ u8 ICM_Init(struct inv_imu_serif *icm_serif)
 
 	return 0;
 }
-//设置MPU6050陀螺仪传感器满量程范围
-//fsr:0,±250dps;1,±500dps;2,±1000dps;3,±2000dps
-//返回值:0,设置成功
-//    其他,设置失败 
-u8 ICM_Set_Gyro_Fsr(u8 fsr,u8 odr)
-{
-	return 0;
-	//return ICM_Write_Byte(ICM_GYRO_CFG0,fsr<<4|odr);//设置陀螺仪满量程范围  
-}
-//设置MPU6050加速度传感器满量程范围
-//fsr:0,±2g;1,±4g;2,±8g;3,±16g
-//返回值:0,设置成功
-//    其他,设置失败 
-u8 ICM_Set_Accel_Fsr(u8 fsr,u8 odr)
-{
-	return 0;
-	//return ICM_Write_Byte(ICM_ACCEL_CFG0,fsr<<4|odr);//设置加速度传感器满量程范围  
-}
-//设置MPU6050的数字低通滤波器
-//lpf:数字低通滤波频率(Hz)
-//返回值:0,设置成功
-//    其他,设置失败 
-u8 ICM_Set_LPF(u16 lpf)
-{
-	u8 data=0;
-	if(lpf>=180)data=1;
-	else if(lpf>=121)data=2;
-	else if(lpf>=73)data=3;
-	else if(lpf>=53)data=4;
-	else if(lpf>=34)data=5;
-	else if(lpf>=25)data=6;
-	else data=7; 
-	
-	return 0;
-	//return ICM_Write_Byte(ICM_GYRO_CFG1,data)|ICM_Write_Byte(ICM_ACCEL_CFG1,data);//设置数字低通滤波器  
-}
-
 
 
 u8 ICM_Get_AllSensorData(ICM42670_SENSOR_DATA *sensor_data)

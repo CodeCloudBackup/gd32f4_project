@@ -135,12 +135,15 @@ vu8 g_usart1RevTimCnt = 0;         // ??3????,??????
 vu8 g_usart1RevFlag = 0;        // ??3????
 vu8 g_usart1RevFinish = 0;      // ????????
 
+u16 g_mqttReadLen=0;//mqtt
+
 void  USART1_TIM_1ms(void)
 {
 		if(g_usart1RevFlag)
 		{
 				if(++g_usart1RevTimCnt > 50)
 				{
+						g_mqttReadLen=0;
 						g_usart1RevFinish=1;
 						g_usart1RevFlag=0;
 						g_usart1RevTimCnt=0;
