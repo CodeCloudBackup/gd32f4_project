@@ -4,11 +4,6 @@
 #include "systick.h"
 #include "MQTTPacket.h"
 
-extern MQTTPacket_connectData data ;
-extern MQTTString topicString;
-extern char* payload;
-extern int payloadlen;
-
 void MQTT_Init(void);
 int transport_getdata(unsigned char* buf, int count);
 u8 Mqtt_Connack_Deserialize(u8* buf);

@@ -118,11 +118,10 @@ u8 HM609A_Mqtt_Program(char* addr, int port)
 	static u16 count=0;
 	MQTT_Init();
 	if(hm609a_connect_flag)//TCP连接建立
-	{  
-			i = USART1_Revice(buf);
-			if(i)
+	{   
+			if(USART1_Revice(buf))
       {
-				Mqtt_Deserialize_Handle(1, buf);
+				Mqtt_Deserialize_Handle(msg_type, buf);
 			}
 			if(!hm609a_mqtt_conn_flag)
 			{
