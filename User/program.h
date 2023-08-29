@@ -20,5 +20,6 @@
 #include "icm42670.h"
 #include "spi.h"
 #include "f35sqa512m.h"
+#include "mqtt_app.h"
 void Program_Init(void);
 #endif

@@ -60,6 +60,7 @@ int main(void)
   while(1) {
 			
 	  	HM609A_Program(host,port);
+			HM609A_Mqtt_Program(host,port);
 			//LED_PWM_Test();
 //				flash_id=F35SQA_ReadID();	//∂¡»°FLASH ID.
 //				printf("F35SQA_ID:%x",flash_id);
