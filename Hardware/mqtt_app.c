@@ -6,12 +6,13 @@ MQTTPacket_connectData data = MQTTPacket_connectData_initializer;
 MQTTString topicString = MQTTString_initializer;
 
 u16 g_mqttHeartbeatNum=0;  //心跳计数
-
-int buflen = 200;
+u32 g_mqttConnTim=0;     //注册失败重发延时
+u8 g_mqttPublishFlag=0;
+u8 g_mqttSubscribeFlag=0;
 char* payload = "iob/iob/job/x";
 int payloadlen = 0;
 
-u8 bufflen=200;
+u16 buflen=200;
 u8 p [200];
 u8 *revicebuf = NULL;
 u8 msg_type;
@@ -64,12 +65,12 @@ u8 Mqtt_Suback_Deserialize(u8* buf)
 
 u8 Mqtt_Publish_Deserialize(u8* buf)
 {
-		unsigned char dup;
+		u8 dup;
 		int qos;
-		unsigned char retained;
-		unsigned short msgid;
+		u8 retained;
+		u16 msgid;
 		int payloadlen_in;
-		unsigned char* payload_in;
+		u8* payload_in;
 		MQTTString receivedTopic;
 
 		MQTTDeserialize_publish(&dup, &qos, &retained, &msgid, &receivedTopic,
@@ -101,9 +102,9 @@ u8 Mqtt_Deserialize_Handle(u8 msg_type, u8* buf)
 	return ret;
 }
 
-void Mqtt_TIM_1ms(void)
+void Mqtt_TIM_10ms(void)
 {
-
+	if((!hm609a_mqtt_conn_flag)&&g_mqttConnTim)g_mqttConnTim--;
 }
 
 u8 HM609A_Mqtt_Program(char* addr, int port)
@@ -120,7 +121,7 @@ u8 HM609A_Mqtt_Program(char* addr, int port)
 				printf("RecvMqtt:%s",buf);
 				Mqtt_Deserialize_Handle(msg_type, buf);
 			}
-			if(!hm609a_mqtt_conn_flag)
+			if(!hm609a_mqtt_conn_flag && g_mqttConnTim==0)
 			{
 				if(count>3)//是注册失败超过次数后断开TCP重新连接
         {
@@ -131,15 +132,33 @@ u8 HM609A_Mqtt_Program(char* addr, int port)
 				else
 				{
 					count++;
-					memset(p,0,bufflen);
+					g_mqttConnTim=200;
+					memset(p,0,buflen);
 					msg_type = CONNACK;
-					len = MQTTSerialize_connect(p, bufflen, &data);
+					len = MQTTSerialize_connect(p, buflen, &data);
 					HM609A_Send_Data(2,p,len);
 				}
 			}
 			else
 			{
 				if(count)count=0;
+				if(g_mqttPublishFlag){
+						g_mqttPublishFlag=0;
+						topicString.cstring = "iob/iob/job/x";
+						memset(p,0,buflen);
+						msg_type = SUBACK;
+						len = MQTTSerialize_publish(p, buflen, 0, 0, 0, 0, topicString, (unsigned char*)payload, payloadlen);
+					  HM609A_Send_Data(2,p,len);
+				}
+				if(g_mqttSubscribeFlag){
+						int req_qos = 0;//QOS
+						int msgid = 1;
+						g_mqttSubscribeFlag=0;
+						memset(p,0,buflen);
+						msg_type = PUBLISH;
+						len=MQTTSerialize_subscribe(p, buflen, 0, msgid, 1, &topicString, &req_qos);
+						HM609A_Send_Data(2,p,len);
+				}
 				if(g_mqttHeartbeatNum == 55){
 					g_mqttHeartbeatNum = 0;
 					len = MQTTSerialize_pingreq(p, buflen);//发送心跳
@@ -147,37 +166,13 @@ u8 HM609A_Mqtt_Program(char* addr, int port)
 				}
 			}
 	}		
-//	static uint8_t count = 0, Signs = 0, cnt = 1; //重复次数,重启流程
-//	u16 errCode = 0;
-//	static u8 msg_type = 0;
-//	static int len = 0;
-//	if(hm609a_connect_flag == 0) //为0时发送测试数据
-//	{
-//		
-//	}
-//		if(count > 0 && count >= cnt) //超过最大重复次数
-//			{
-//				count = 0;      //次数清零
-//				cnt = 1;        //最大次数复位
-//				errCode = Signs + 20; //计算错误代码
-//				Signs = 0;      //流程清零
-//				return errCode;     //返回错误码
-//			}
+
+
 //		  else
 //			{
 //				count++;
 //				switch (Signs)//AIR208状态处理
 //        {
-
-//					case 1: //
-//          {
-//						flag=0;
-//						printf("A|AT+IPSWTMD=2,1\r\n");
-//						g_hm609aTim = 2000;          //超时时间ms
-//						cnt = 6;   //重复检查次数,*air208_Tim后时总体时间
-//						strcpy(res_at,"OK"); 				
-//						u1_printf("\r\nAT+IPSWTMD=2,1\r\n");  //发送AT指令
-//					}
 //					break;
 //					case 2: //
 //          {
@@ -259,35 +254,6 @@ u8 HM609A_Mqtt_Program(char* addr, int port)
 //					}
 //				}
 //			}
-//	}
-//	else
-//	{
-//		if(USART1_Revice(revicebuf))         //从串口3读取数据
-//		{
-//				printf("Recv:%s",revicebuf);
-//				if(flag){
-//					unsigned char buf[200];
-//					int buflen = sizeof(buf);
-//				
-//					if(MQTTPacket_read(buf, buflen, transport_getdata) == msg_type){
-//						if(Mqtt_Deserialize_Handle(msg_type, buf) == 0)
-//						{
-//								g_hm609aTim = 0; //定时清零
-//								count = 0;      //重试次数清零
-//								Signs++;        //下一个流程
-//						}
-//					}
-//					
-//				}else{
-//					if(strstr((const char *)revicebuf, (const char *)res_at) != NULL) //检查是否包含关键字
-//					{
-//						g_hm609aTim = 0; //定时清零
-//						count = 0;      //重试次数清零
-//						Signs++;        //下一个流程
-//					}
-//				}
-
-//		}
 //	}
 	return 0;
 }	

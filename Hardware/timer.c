@@ -7,15 +7,17 @@ extern u16  g_hm609aHeartBeat;
 extern u16 g_mqttHeartbeatNum;
 extern void HM609A_TIM_1ms(void);
 extern void  USART1_TIM_1ms(void);
+extern void Mqtt_TIM_10ms(void);
 void TIM_1msProgram(void)
 {
 	USART1_TIM_1ms();
 	HM609A_TIM_1ms();
+	
 }
 
 void TIM_10msProgram(void)
 {
-	
+	Mqtt_TIM_10ms();
 }
 
 void TIM_100msProgram(void)
