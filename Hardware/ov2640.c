@@ -148,7 +148,7 @@ u8 OV2640_Init(void)
 	{
 	   	SCCB_WR_Reg(ov2640_sxga_init_reg_tbl[i][0],ov2640_sxga_init_reg_tbl[i][1]);
  	} 
-	jpeg_data_buf=mymalloc(SRAMIN,100*1024);		//为jpeg文件申请内存(最大300KB)
+	jpeg_data_buf=mymalloc(SRAMIN,80*1024);		//为jpeg文件申请内存(最大300KB)
   	return 0x00; 	//ok
 } 
 //OV2640切换为JPEG模式

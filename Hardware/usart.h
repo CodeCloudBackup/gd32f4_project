@@ -23,8 +23,8 @@ void USART1_Clear(void);
 u8 USART1_Send_ATCmd(const char *cmd,const char *res3,u32 timeOut,u8 retime);
 void USART1_SendData(const u8* data,u16 len);
 // debug output 
-#define USART2_MAX_RECV_LEN		100					//最大接收缓存字节数
-#define USART2_MAX_SEND_LEN		100					//最大发送缓存字节数
+#define USART2_MAX_RECV_LEN		10					//最大接收缓存字节数
+#define USART2_MAX_SEND_LEN		200					//最大发送缓存字节数
 #define USART2_RX_EN 			1					//0,不接收;1,接收.
 
 extern u8  USART2_RX_BUF[USART2_MAX_RECV_LEN]; 		//接收缓冲,最大USART3_MAX_RECV_LEN字节

@@ -192,8 +192,8 @@ u8 HM609A_Config(void)
 					case 7: // 查询IP值
 					{
 							printf("A|AT+IPDNSR=\"debug.armlogic.tech\"\r\n");
-							g_hm609aTim = 2000;          	//超时时间ms
-							cnt = 60;   //重复检查次数,*air208_Tim后时总体时间
+							g_hm609aTim = 1000;          	//超时时间ms
+							cnt = 10;   //重复检查次数,*air208_Tim后时总体时间
 							strcpy(res_at, "OK");		//设置返回判断关键字
 							u1_printf("\r\nAT+IPDNSR=\"debug.armlogic.tech\"\r\n"); //发送AT指令
 					}
@@ -247,7 +247,7 @@ u8 HM609A_Connect(u8 sockid, char* addr, int port)
       {
 				case 0: //
         {
-					printf("A|AT+IPOPEN=%d,\"TCP\",%s,%d,0,0\r\n",sockid,addr,port);
+					printf("\r\nA|AT+IPOPEN=%d,\"TCP\",%s,%d,0,0\r\n",sockid,addr,port);
 					cnt = 3;
 					g_hm609aTim = 5000;
 					strcpy(res_at,"OK");
@@ -256,7 +256,7 @@ u8 HM609A_Connect(u8 sockid, char* addr, int port)
 				break;
 				case 1:
 				{
-					printf("A|AT+IPSWTMD=%d,1\r\n",sockid);
+					printf("\r\nA|AT+IPSWTMD=%d,1\r\n",sockid);
 					cnt = 3;
 					g_hm609aTim = 5000;
 					strcpy(res_at,"OK");
@@ -277,6 +277,7 @@ u8 HM609A_Connect(u8 sockid, char* addr, int port)
 	{
 		 if(USART1_Revice((u8*)buf))         //从串口3读取数据
 			{
+					printf("Recv:%s",buf);
 					if(strstr((const char *)buf, (const char *)res_at) != NULL) //检查是否包含关键字
 					{
 							g_hm609aTim = 0; //定时清零
@@ -295,7 +296,7 @@ u8 HM609A_Connect(u8 sockid, char* addr, int port)
 u8 HM609A_Tcp_Off(u8 sockid)// 关闭TCP连接
 {
     static uint8_t count = 0; //重复次数,重启流程
-    char buf[200];
+    char buf[50];
     if(g_hm609aTim == 0)
     {
         if(count >= 2) //超过最大重复次数
@@ -516,13 +517,31 @@ void HM609A_Program(char* addr, int port)
 	}
 }
 
+const char hex_table[] = {
+'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'
+};
+void to_hex(char *src, int l, char *dst)
+{
+	while(l--)
+	{	
+		*(dst+2*l+1) = hex_table[(*(src+l))&0x0f];
+		*(dst+2*l) = hex_table[(*(src+l))>>4];
+	}
+}
+
 void HM609A_Send_Data(u8 sockid, u8* data, u16 len)
 {
+	char *hexStr;
 	if(!hm609a_connect_flag)return;//未连接，禁止发送
-	u1_printf("\r\nAT+IPSEND=%d,%d\r\n",sockid, len);
-	USART1_SendData(data, len);
+	hexStr = mymalloc(SRAMIN,200);
+	to_hex((char*)data, len, hexStr);
+	hexStr[len*2] = '\0';
+	printf("\r\nAT+IPSENDEX=%d,%d",sockid,len*2);
+	u1_printf("\r\nAT+IPSENDEX=%d,\"101900044d51545404c2003c000331323400033132340003313234\"\r\n",sockid, hexStr);
+	//USART1_SendData(data, len);
   g_hm609aReturnTim=30000;
   hm609a_send_return=1;
+	myfree(SRAMIN,hexStr);
 }
 
 void HM609A_test(void)

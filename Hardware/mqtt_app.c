@@ -1,7 +1,7 @@
 #include "mqtt_app.h"
 #include "usart.h"
 #include "hm609a.h"
-
+#include "malloc.h"
 MQTTPacket_connectData data = MQTTPacket_connectData_initializer;
 MQTTString topicString = MQTTString_initializer;
 
@@ -13,7 +13,7 @@ int payloadlen = 0;
 
 u8 bufflen=200;
 u8 p [200];
-u8 revicebuf[200];
+u8 *revicebuf = NULL;
 u8 msg_type;
 
 void MQTT_Init(void)
@@ -24,6 +24,8 @@ void MQTT_Init(void)
 	data.username.cstring = "124";//用户名
 	data.password.cstring = "124";//密码
 	payloadlen = strlen(payload);
+	if(revicebuf == NULL)
+		revicebuf = mymalloc(SRAMIN,200);
 }
 
 int transport_getdata(unsigned char* buf, int count)
@@ -81,33 +83,27 @@ u8 Mqtt_Deserialize_Handle(u8 msg_type, u8* buf)
 	u8 ret=0;
 	int len;
 	if(hm609a_mqtt_conn_flag){
-		switch(msg_type)
+		if(msg_type == SUBACK)
 		{
-			case CONNACK:
-				ret = Mqtt_Connack_Deserialize(buf);
-			break;
-			case SUBACK:
-				ret = Mqtt_Suback_Deserialize(buf);
-			break;
-			case PUBLISH:
-				ret = Mqtt_Publish_Deserialize(buf);
-			break;
-			default:// 状态配置执行完毕
-			{
-				printf("err message type %d",msg_type);
-			}
+			ret = Mqtt_Suback_Deserialize(buf);
+		} else if (msg_type == PUBLISH)
+		{
+			ret = Mqtt_Publish_Deserialize(buf);
+		} else {
+			printf("err message type %d",msg_type);
 		}
 	}
 	else
 	{
+		ret = Mqtt_Connack_Deserialize(buf);
 		hm609a_mqtt_conn_flag=1;
-		memset(p,0,bufflen);
-		msg_type = CONNACK;
-		len = MQTTSerialize_connect(p, bufflen, &data);
-		HM609A_Send_Data(2,p,len);
 	}
-	
 	return ret;
+}
+
+void Mqtt_TIM_1ms(void)
+{
+
 }
 
 u8 HM609A_Mqtt_Program(char* addr, int port)
@@ -121,6 +117,7 @@ u8 HM609A_Mqtt_Program(char* addr, int port)
 	{   
 			if(USART1_Revice(buf))
       {
+				printf("RecvMqtt:%s",buf);
 				Mqtt_Deserialize_Handle(msg_type, buf);
 			}
 			if(!hm609a_mqtt_conn_flag)
@@ -134,7 +131,10 @@ u8 HM609A_Mqtt_Program(char* addr, int port)
 				else
 				{
 					count++;
-					
+					memset(p,0,bufflen);
+					msg_type = CONNACK;
+					len = MQTTSerialize_connect(p, bufflen, &data);
+					HM609A_Send_Data(2,p,len);
 				}
 			}
 			else
