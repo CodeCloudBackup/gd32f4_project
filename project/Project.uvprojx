@@ -579,6 +579,26 @@
               <FilePath>..\Hardware\malloc.c</FilePath>
             </File>
             <File>
+              <FileName>http_app.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\http_app.c</FilePath>
+            </File>
+            <File>
+              <FileName>http_app.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\http_app.h</FilePath>
+            </File>
+            <File>
+              <FileName>mqtt_app.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\mqtt_app.c</FilePath>
+            </File>
+            <File>
+              <FileName>mqtt_app.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\mqtt_app.h</FilePath>
+            </File>
+            <File>
               <FileName>myiic.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Hardware\myiic.c</FilePath>
@@ -667,26 +687,6 @@
               <FileName>spi.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Hardware\spi.c</FilePath>
-            </File>
-            <File>
-              <FileName>mqtt_app.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Hardware\mqtt_app.c</FilePath>
-            </File>
-            <File>
-              <FileName>mqtt_app.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Hardware\mqtt_app.h</FilePath>
-            </File>
-            <File>
-              <FileName>http_app.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Hardware\http_app.c</FilePath>
-            </File>
-            <File>
-              <FileName>http_app.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Hardware\http_app.h</FilePath>
             </File>
           </Files>
         </Group>
