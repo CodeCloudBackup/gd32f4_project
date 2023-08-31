@@ -45,7 +45,7 @@ u16 Http_Post_Body_Package(char *buff_post,char *data)
 	return len;
 }
 
-u8 HM609A_Http_Program(char* addr, int port)
-{
-
-}
+//u8 HM609A_Http_Program(char* addr, int port)
+//{
+//	return 0;
+//}

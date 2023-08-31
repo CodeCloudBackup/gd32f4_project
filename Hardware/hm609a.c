@@ -192,7 +192,7 @@ u8 HM609A_Config(void)
 					case 7: // 查询IP值
 					{
 							printf("A|AT+IPDNSR=\"debug.armlogic.tech\"\r\n");
-							g_hm609aTim = 1000;          	//超时时间ms
+							g_hm609aTim = 3000;          	//超时时间ms
 							cnt = 10;   //重复检查次数,*air208_Tim后时总体时间
 							strcpy(res_at, "OK");		//设置返回判断关键字
 							u1_printf("\r\nAT+IPDNSR=\"debug.armlogic.tech\"\r\n"); //发送AT指令
@@ -261,6 +261,15 @@ u8 HM609A_Connect(u8 sockid, char* addr, int port)
 					g_hm609aTim = 5000;
 					strcpy(res_at,"OK");
 					u1_printf("\r\nAT+IPSWTMD=%d,1\r\n",sockid);  //发送AT指令
+				}
+				break;
+				case 2:
+				{
+					printf("\r\nA|ATE0\r\n");
+					cnt = 3;
+					g_hm609aTim = 2000;
+					strcpy(res_at,"OK");
+					u1_printf("\r\nATE0\r\n");  //发送AT指令
 				}
 				break;
 				default:// 等待连接建立成功
@@ -537,7 +546,7 @@ void HM609A_Send_Data(u8 sockid, u8* data, u16 len)
 	to_hex((char*)data, len, hexStr);
 	hexStr[len*2] = '\0';
 	printf("\r\nAT+IPSENDEX=%d,%d",sockid,len*2);
-	u1_printf("\r\nAT+IPSENDEX=%d,\"101900044d51545404c2003c000331323400033132340003313234\"\r\n",sockid, hexStr);
+	u1_printf("\r\nAT+IPSENDEX=%d,\"%s\"\r\n",sockid, hexStr);
 	//USART1_SendData(data, len);
   g_hm609aReturnTim=30000;
   hm609a_send_return=1;

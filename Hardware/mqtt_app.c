@@ -2,6 +2,8 @@
 #include "usart.h"
 #include "hm609a.h"
 #include "malloc.h"
+#include <stdlib.h>
+
 MQTTPacket_connectData data = MQTTPacket_connectData_initializer;
 MQTTString topicString = MQTTString_initializer;
 
@@ -43,9 +45,9 @@ u8 Mqtt_Connack_Deserialize(u8* buf)
 	if (MQTTDeserialize_connack(&sessionPresent, &connack_rc, buf, buflen) != 1 || connack_rc != 0)
 	{
 		printf("Unable to connect, return code %d\n", connack_rc);
-		return 1;
-	}
 		return 0;
+	}
+		return 1;
 }
 
 u8 Mqtt_Suback_Deserialize(u8* buf)
@@ -58,9 +60,9 @@ u8 Mqtt_Suback_Deserialize(u8* buf)
 		if (granted_qos != 0)
 		{
 			printf("granted qos != 0, %d\n", granted_qos);
-			return 1;
+			return 0;
 		}
-		return 0;
+		return 1;
 }
 
 u8 Mqtt_Publish_Deserialize(u8* buf)
@@ -76,28 +78,55 @@ u8 Mqtt_Publish_Deserialize(u8* buf)
 		MQTTDeserialize_publish(&dup, &qos, &retained, &msgid, &receivedTopic,
 				&payload_in, &payloadlen_in, buf, buflen);
 		printf("message arrived %.*s\n", payloadlen_in, payload_in); //消息到达
-		return 0;	
+		return 1;	
 }
 
+u8 Mqtt_Pingresp_Deserialize(u8* buf)
+{
+	if(buf[0] == 0xD0&&buf[1] == 0x00){
+		printf("heart ack %x %x",buf[0],buf[1]);
+		return 1;
+	}
+	return 0;
+}
+
+char res[20];
 u8 Mqtt_Deserialize_Handle(u8 msg_type, u8* buf)
 {
 	u8 ret=0;
-	int len;
+	int len=0;
+	char *pp;
+	int size=0;
+	u8 res_mqtt[20] = {0};
+	memset(res,0,20);
+	sprintf(res, "+IPURC: \"recv\",2,");
+	pp = strstr((const char *)buf, (const char *)res);
+	if( pp != NULL)
+	{
+		pp += strlen(res);
+		size = atoi(pp);
+		pp = strstr((const char *)pp, "\n");
+		memcpy(res_mqtt, pp+1, size);			
+	
 	if(hm609a_mqtt_conn_flag){
 		if(msg_type == SUBACK)
 		{
-			ret = Mqtt_Suback_Deserialize(buf);
+			ret = Mqtt_Suback_Deserialize(res_mqtt);
 		} else if (msg_type == PUBLISH)
 		{
-			ret = Mqtt_Publish_Deserialize(buf);
+			ret = Mqtt_Publish_Deserialize(res_mqtt);
+		} else if (msg_type == PINGRESP)
+		{
+			ret = Mqtt_Pingresp_Deserialize(res_mqtt);
 		} else {
 			printf("err message type %d",msg_type);
 		}
 	}
 	else
 	{
-		ret = Mqtt_Connack_Deserialize(buf);
-		hm609a_mqtt_conn_flag=1;
+		ret = Mqtt_Connack_Deserialize(res_mqtt);
+		hm609a_mqtt_conn_flag=ret;
+	}
 	}
 	return ret;
 }
@@ -113,54 +142,63 @@ u8 HM609A_Mqtt_Program(char* addr, int port)
 	u8 buf[200];
 	int len;
 	static u16 count=0;
+	static int req_qos = 0, msgid = 1;//QOS
 	MQTT_Init();
 	if(hm609a_connect_flag)//TCP连接建立
 	{   
-			if(USART1_Revice(buf))
+			i = USART1_Revice(buf);
+			if(i)
       {
-				printf("RecvMqtt:%s",buf);
+				printf("\r\nRecvMqtt:%s",buf);
 				Mqtt_Deserialize_Handle(msg_type, buf);
+				if(hm609a_mqtt_conn_flag) g_mqttSubscribeFlag=1;
 			}
-			if(!hm609a_mqtt_conn_flag && g_mqttConnTim==0)
+			if(!hm609a_mqtt_conn_flag )
 			{
-				if(count>3)//是注册失败超过次数后断开TCP重新连接
-        {
-					hm609a_connect_flag=0;
-					hm609a_mqtt_conn_flag=0;
-					count=0;
-				}
-				else
-				{
-					count++;
-					g_mqttConnTim=200;
-					memset(p,0,buflen);
-					msg_type = CONNACK;
-					len = MQTTSerialize_connect(p, buflen, &data);
-					HM609A_Send_Data(2,p,len);
-				}
+				if(g_mqttConnTim==0){
+					if(count>3)//是注册失败超过次数后断开TCP重新连接
+					{
+						hm609a_connect_flag=0;
+						hm609a_mqtt_conn_flag=0;
+						count=0;
+					}
+					else
+					{
+						count++;
+						g_mqttConnTim=200;
+						memset(p,0,buflen);
+						msg_type = CONNACK;
+						len = MQTTSerialize_connect(p, buflen, &data);
+						HM609A_Send_Data(2,p,len);
+					}
+				}		
 			}
 			else
 			{
 				if(count)count=0;
 				if(g_mqttPublishFlag){
-						g_mqttPublishFlag=0;
 						topicString.cstring = "iob/iob/job/x";
+						g_mqttPublishFlag=0;
+						g_mqttConnTim=200;
 						memset(p,0,buflen);
 						msg_type = SUBACK;
 						len = MQTTSerialize_publish(p, buflen, 0, 0, 0, 0, topicString, (unsigned char*)payload, payloadlen);
 					  HM609A_Send_Data(2,p,len);
 				}
-				if(g_mqttSubscribeFlag){
-						int req_qos = 0;//QOS
-						int msgid = 1;
+				if(g_mqttSubscribeFlag){	
 						g_mqttSubscribeFlag=0;
 						memset(p,0,buflen);
+						g_mqttConnTim=200;
+						topicString.cstring = "iob/iob/job/x";
 						msg_type = PUBLISH;
 						len=MQTTSerialize_subscribe(p, buflen, 0, msgid, 1, &topicString, &req_qos);
 						HM609A_Send_Data(2,p,len);
 				}
 				if(g_mqttHeartbeatNum == 55){
+					printf("MQTT heart");
+					msg_type = PINGRESP;
 					g_mqttHeartbeatNum = 0;
+					g_mqttConnTim=200;
 					len = MQTTSerialize_pingreq(p, buflen);//发送心跳
 					HM609A_Send_Data(2,p,len);
 				}
