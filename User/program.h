@@ -21,5 +21,8 @@
 #include "spi.h"
 #include "f35sqa512m.h"
 #include "mqtt_app.h"
+#include "cJSON.h"
+
+void MQTT_Program(void);
 void Program_Init(void);
 #endif

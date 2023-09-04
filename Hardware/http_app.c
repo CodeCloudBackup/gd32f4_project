@@ -4,6 +4,8 @@
 #include "malloc.h"
 #include <stdlib.h>
 
+Byte8 HttpFlag;
+
 u16 Http_Get_Package(char *buff_get, char *url_tail,u8 *host, u16 port)
 {
 	u16 len;
@@ -93,7 +95,8 @@ u8 Http_Post_Analysis_Header(u8* buf, u16 buf_len, u8 *resp_code)
 	
 
 
-//u8 HM609A_Http_Program(char* addr, int port)
-//{
-//	return 0;
-//}
+u8 HM609A_Http_Program(char* addr,u32 port, u32 up_port)
+{
+	
+	return 0;
+}

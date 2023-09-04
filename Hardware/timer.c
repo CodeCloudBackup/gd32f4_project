@@ -26,7 +26,7 @@ void TIM_100msProgram(void)
 
 void TIM_1000msProgram(void)
 {
-	LED_R = !LED_R;
+	LED_G = !LED_G;
 	g_hm609aHeartBeat++;
 	g_mqttHeartbeatNum++;
 }

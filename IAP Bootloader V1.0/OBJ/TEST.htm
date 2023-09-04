@@ -3,7 +3,7 @@
 <title>Static Call Graph - [..\OBJ\TEST.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image ..\OBJ\TEST.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Tue Aug 15 11:46:19 2023
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Sun Sep 03 21:51:46 2023
 <BR><P>
 <H3>Maximum Stack Usage =        128 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -758,7 +758,7 @@ Global Symbols
 <LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LED_Init
 </UL>
 
-<P><STRONG><a name="[89]"></a>LED_Init</STRONG> (Thumb, 36 bytes, Stack size 16 bytes, led.o(i.LED_Init))
+<P><STRONG><a name="[89]"></a>LED_Init</STRONG> (Thumb, 54 bytes, Stack size 16 bytes, led.o(i.LED_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = LED_Init &rArr; GPIO_Set
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Set
@@ -834,7 +834,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[6d]"></a>main</STRONG> (Thumb, 256 bytes, Stack size 0 bytes, test.o(i.main))
+<P><STRONG><a name="[6d]"></a>main</STRONG> (Thumb, 276 bytes, Stack size 0 bytes, test.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 128 + Unknown Stack Size
 <LI>Call Chain = main &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>

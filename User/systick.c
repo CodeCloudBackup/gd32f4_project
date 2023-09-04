@@ -46,6 +46,18 @@ void CpuIDGetId(void)
     mcuID[1] = *(volatile u32*)(0x1FFF7A14);
     mcuID[2] = *(volatile u32*)(0x1FFF7A18);
 }
+
+const char hex_table[] = {
+'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'
+};
+void to_hex(u8 *src, int l, char *dst)
+{
+	while(l--)
+	{	
+		*(dst+2*l+1) = hex_table[(*(src+l))&0x0f];
+		*(dst+2*l) = hex_table[(*(src+l))>>4];
+	}
+}
 /*!
     \brief      configure systick
     \param[in]  none

@@ -80,9 +80,9 @@
             <nStopB2X>0</nStopB2X>
           </BeforeMake>
           <AfterMake>
-            <RunUserProg1>0</RunUserProg1>
+            <RunUserProg1>1</RunUserProg1>
             <RunUserProg2>0</RunUserProg2>
-            <UserProg1Name></UserProg1Name>
+            <UserProg1Name>D:\Keil_v5\ARM\ARMCC\bin\fromelf.exe --bin --output app.bin ./output/Project.axf</UserProg1Name>
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
@@ -275,7 +275,7 @@
               </OCR_RVCT3>
               <OCR_RVCT4>
                 <Type>1</Type>
-                <StartAddress>0x8000000</StartAddress>
+                <StartAddress>0x8010000</StartAddress>
                 <Size>0x100000</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>GD32F427</Define>
               <Undefine></Undefine>
-              <IncludePath>..\CMSIS;..\Hardware;..\Library\Include;..\User;..\Hardware\IMU;..\Hardware\MQTT;..\Hardware\MQTT\src</IncludePath>
+              <IncludePath>..\CMSIS;..\Hardware;..\Library\Include;..\User;..\Hardware\IMU;..\Hardware\MQTT;..\Hardware\MQTT\src;..\Hardware\JSON</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -688,6 +688,11 @@
               <FileType>1</FileType>
               <FilePath>..\Hardware\spi.c</FilePath>
             </File>
+            <File>
+              <FileName>mqtt_define.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\mqtt_define.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -787,6 +792,21 @@
               <FileName>MQTTUnsubscribeClient.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Hardware\MQTT\src\MQTTUnsubscribeClient.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>JSON</GroupName>
+          <Files>
+            <File>
+              <FileName>cJSON.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\JSON\cJSON.c</FilePath>
+            </File>
+            <File>
+              <FileName>cJSON.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\JSON\cJSON.h</FilePath>
             </File>
           </Files>
         </Group>

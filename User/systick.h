@@ -118,6 +118,7 @@ void INTX_DISABLE(void);//关闭所有中断
 void INTX_ENABLE(void);	//开启所有中断
 void MSR_MSP(u32 addr);	//设置堆栈地址 
 
+void to_hex(u8 *src, int l, char *dst);
 /* configure systick */
 void systick_config(void);
 /* delay a time in milliseconds */

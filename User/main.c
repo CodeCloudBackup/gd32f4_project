@@ -46,31 +46,22 @@ OF SUCH DAMAGE.
 int main(void)
 {
 	u32 flash_id = 0;
-	//	SEI();
-	//	NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0x10000);//中断向量地址偏移0x100000
-		Program_Init();
+	SEI();
+	NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0x10000);//中断向量地址偏移0x100000
+	Program_Init();
     /* configure systick */	
 	//	OV2640_Jpg_Photo();
 	char *host = "101.37.89.157";//主机
-	int port = 1883;
-
-
+	u32 mqttPort = 1883;
+	u32 httpPort = 80;
+	u32 httpUploadPort = 80;
 		printf("publishing reading\n");//读取发布
 
   while(1) {
 			
-	  	HM609A_Program(host,port);
-			HM609A_Mqtt_Program(host,port);
-			//LED_PWM_Test();
-//				flash_id=F35SQA_ReadID();	//读取FLASH ID.
-//				printf("F35SQA_ID:%x",flash_id);
-//				delay_ms(1000);
-		//	get_imu_data();
-			//Sensor_Adc_Test();
-			//Open_Lock_Test();
-			// LED_Test();
-			//DAC1_Test( 36,4096 );
-      // usart2_test();
-			
+	  	HM609A_Tcp_Program(host,mqttPort);
+			HM609A_Mqtt_Program(host,mqttPort);
+			MQTT_Program();
+			HM609A_Http_Program(host, httpPort, httpUploadPort);
     }
 }

@@ -22,6 +22,8 @@ int main(void)
   delay_init(200);			//延时初始化  
 	uart_init(100,115200);		//初始化串口波特率为460800 
 	LED_Init();					//初始化LED 
+	LEDR=0;
+	delay_ms(1000);
 	printf("IAP Program begin ...\n");
 	while(1)
 	{

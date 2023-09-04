@@ -25,7 +25,7 @@ void HM609A_Init(void);
 u8 HM609A_Config(void);
 u8 HM609A_Connect(u8 sockid, char* addr, int port);
 u8 HM609A_Tcp_Off(u8 sockid);// ¹Ø±ÕTCPÁ¬½Ó
-void HM609A_Program(char* addr, int port);
-void HM609A_Send_Data(u8 sockid, u8* data, u16 len);
+void HM609A_Tcp_Program(char* addr, int port);
+void HM609A_Send_Data(u8 sockid, u8* data, u16 len,u8 flag);
 #endif
 

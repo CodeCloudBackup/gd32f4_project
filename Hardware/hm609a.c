@@ -29,7 +29,7 @@ void HM609A_Init(void)
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;//模拟输入
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL ;//不带上下拉
   GPIO_Init(GPIOG, &GPIO_InitStructure);//初始化 
-	printf("HM609A Init successed.\n");
+	printf("\r\nHM609A Init successed.\n");
 }
 
 char res_at[20];
@@ -335,107 +335,10 @@ u8 HM609A_Tcp_Off(u8 sockid)// 关闭TCP连接
 }
 
 char getCommond[100]= "GET /iob/download/test.txt HTTP/1.1\r\nHost:101.37.89.157\r\n\r\n";
-u8 HM609A_Http_Program(void)
-{
-	static uint8_t count = 0, Signs = 0, cnt = 1; //重复次数,重启流程
-	u16 len = 0;
-	char buf[200];
-	if(g_hm609aTim == 0) //为0时发送测试数据
-	{
-		if(count > 0 && count >= cnt) //超过最大重复次数
-			{
-				count = 0;      //次数清零
-				cnt = 1;        //最大次数复位
-				len = Signs + 20; //计算错误代码
-				Signs = 0;      //流程清零
-				return len;     //返回错误码
-			}
-		  else
-			{
-				count++;
-				switch (Signs)//HTTP配置查询
-        {
-				
-					case 0:
-					{
-						printf("A|AT+IPSWTMD=%d,1\r\n",1);
-						g_hm609aTim = 2000;          //超时时间ms
-						cnt = 6;   //重复检查次数,*air208_Tim后时总体时间
-						strcpy(res_at,"OK"); 				
-						u1_printf("\r\nAT+IPSWTMD=%d,1\r\n",1);  //发送AT指令
-					}
-					break;
-					case 1: //取消核心板回显功能
-          {
-						u16 len = sizeof(getCommond);
-						getCommond[len] = '\0';
-						printf("\r\nA|AT+IPSEND=1\r\n");
-						g_hm609aTim = 5000;          //超时时间ms
-						cnt = 10;   //重复检查次数,*air208_Tim后时总体时间
-						strcpy(res_at,"CONNECT"); 
-						u1_printf("\r\nAT+IPSEND=1,%d\r\n",strlen(getCommond)+1);  //发送AT指令
-						
-					}
-					break;
-					case 2: //
-          {
-						printf("\r\nA|send data\r\n");
-						g_hm609aTim = 2000;          //超时时间ms
-						cnt = 1; 
-						strcpy(res_at,"Content-Length"); 
-						USART1_SendData((u8*)getCommond,strlen(getCommond)+1);  //发送AT指令
-					}
-					break;
-					case 3:
-					{
-						
-						printf("\r\nA|AT+IPRD\r\n");
-						g_hm609aTim = 2000;          //超时时间ms
-						cnt = 10;   //重复检查次数,*air208_Tim后时总体时间
-						strcpy(res_at,"OK"); 
-						u1_printf("AT+IPRD=1,20\r\n");  //发送AT指令
-					}
-					break;
-					case 4: //
-          {
-						printf("A|AT+IPCLOSE=1\r\n");
-						g_hm609aTim = 2000;          //超时时间ms
-						cnt = 1;   //重复检查次数,*air208_Tim后时总体时间
-						strcpy(res_at,"OK"); 
-						
-						u1_printf("AT+IPCLOSE=1\r\n");  //发送AT指令
-					}
-					break;
-					default:// 状态配置执行完毕
-					{
-						count = 0;      //重试次数清零
-						Signs = 0;      //流程清零
-						cnt = 1;        //最大次数复位
-						return 1;       //返回配置完成
-					}
-				}
-			}
-	}
-	else
-	{
-		if(USART1_Revice((u8*)buf))         //从串口3读取数据
-		{
-				printf("Recv:%s",buf);
-				if(strstr((const char *)buf, (const char *)res_at) != NULL) //检查是否包含关键字
-				{
-					g_hm609aTim = 0; //定时清零
-					count = 0;      //重试次数清零
-					Signs++;        //下一个流程
-				}
-		}
-	}
-	return 0;
-}	
-
 /*
 主循环程序，每个循环执行一次
 */
-void HM609A_Program(char* addr, int port)
+void HM609A_Tcp_Program(char* addr, int port)
 {
 	u8 err = 0;    //返回得错误代码
 	static u8 count = 0;  //重复次数
@@ -474,7 +377,7 @@ void HM609A_Program(char* addr, int port)
     break;
 		case 2:     //模块进入AT
     {
-			err = HM609A_Connect(2, "101.37.89.157", 1883);
+			err = HM609A_Connect(2, addr, port);
 			switch(err)
       {
 				 case 0:break; 		//正常流程,直接跳出
@@ -526,27 +429,24 @@ void HM609A_Program(char* addr, int port)
 	}
 }
 
-const char hex_table[] = {
-'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'
-};
-void to_hex(char *src, int l, char *dst)
-{
-	while(l--)
-	{	
-		*(dst+2*l+1) = hex_table[(*(src+l))&0x0f];
-		*(dst+2*l) = hex_table[(*(src+l))>>4];
-	}
-}
 
-void HM609A_Send_Data(u8 sockid, u8* data, u16 len)
+void HM609A_Send_Data(u8 sockid, u8* data, u16 len, u8 flag)
 {
 	char *hexStr;
 	if(!hm609a_connect_flag)return;//未连接，禁止发送
-	hexStr = mymalloc(SRAMIN,200);
-	to_hex((char*)data, len, hexStr);
+	hexStr = mymalloc(SRAMIN,600);
+	to_hex(data, len, hexStr);
 	hexStr[len*2] = '\0';
-	printf("\r\nAT+IPSENDEX=%d,%d",sockid,len*2);
-	u1_printf("\r\nAT+IPSENDEX=%d,\"%s\"\r\n",sockid, hexStr);
+	if(flag)
+	{
+		printf("\r\nAT+IPSEND=%d,%d\r\n",sockid,len);
+		USART1_SendData(data,len);
+	}
+	else{
+		printf("\r\nAT+IPSENDEX=%d,%s\r\n",sockid,hexStr);
+		u1_printf("\r\nAT+IPSENDEX=%d,\"%s\"\r\n",sockid, hexStr);
+	}
+	
 	//USART1_SendData(data, len);
   g_hm609aReturnTim=30000;
   hm609a_send_return=1;
