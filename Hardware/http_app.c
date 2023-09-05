@@ -6,6 +6,16 @@
 
 Byte8 HttpFlag;
 
+u16 g_httpReturnTim=0;
+
+void HTTP_TIM_1ms(void)
+{
+	if(hm609a_http_return_flag)
+	{
+		if(g_httpReturnTim)g_httpReturnTim--;
+	}
+}
+
 u16 Http_Get_Package(char *buff_get, char *url_tail,u8 *host, u16 port)
 {
 	u16 len;
@@ -95,8 +105,81 @@ u8 Http_Post_Analysis_Header(u8* buf, u16 buf_len, u8 *resp_code)
 	
 
 
-u8 HM609A_Http_Program(char* addr,u32 port, u32 up_port)
+u8 HM609A_Http_Program(u8 sockid, char* addr, u32 port, u32 upload_port)
 {
-	
+	u8 err = 0;
+	u32 tmpPort=0;
+	static u8 count=0;
+	static u8 state=0;
+	if(!hm609a_connect_flag)return 0;
+	// 确认连接端口
+	if(HTTP_FLAG_UPLOAD_PHOTO||HTTP_FLAG_UPLOAD_LOGFILE) 
+	{
+		tmpPort=upload_port;
+	} else if(HTTP_FLAG_EQUIP_CERT||HTTP_FLAG_DOWNLOAD_BIN)
+	{
+		tmpPort=port;
+	} else {
+		return 0;
+	}
+	// http的tcp连接
+	if(!hm609a_http_conn_flag){
+		switch(state)
+		{
+				case 0:
+				{
+					err = HM609A_Connect(sockid, addr, tmpPort);
+					switch(err)
+					{
+						 case 0:break; 		//正常流程,直接跳出
+						 case 1:
+						 {
+							 //连接成功,跳到下一个流程
+							 count=0;
+							 hm609a_http_conn_flag=1;//标记连接成功
+							 state+=10;
+						 }
+						 break;
+						 default:
+						 {
+								//进入失败
+								if(count>=3)
+								{
+									//超过重试次数，重启模块
+									count=0;
+									state=0;
+									HM609A_Restart();
+								}
+								else
+								{      
+									count++;//重试次数+1
+									state++;
+								}
+							}
+							break;
+					}
+				}
+				break;
+				case 1:
+				{
+					if(HM609A_Tcp_Off(sockid))
+						state--;//关闭连接后重新连接
+				}
+				break;
+				default://TCP连接成功，开始数据收发
+				{
+						if(hm609a_http_return_flag&&g_httpReturnTim<=0)
+						{
+							hm609a_http_conn_flag=0;
+							hm609a_http_return_flag=0;
+						}
+						if(!hm609a_http_conn_flag)
+							state=0;
+				}
+				break;
+			}
+	}else{
+		;
+	}
 	return 0;
 }

@@ -49,7 +49,7 @@ void Program_Init(void)
 
 extern u8 *publishbuf;
 
-void MQTT_Program(void)
+void MQTT_Data_Program(void)
 {
 	cJSON *json;
 	if(!hm609a_mqtt_conn_flag)return;

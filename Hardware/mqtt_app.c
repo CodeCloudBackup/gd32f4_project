@@ -236,14 +236,19 @@ void Mqtt_TIM_10ms(void)
 	if((!hm609a_mqtt_conn_flag)&&g_mqttConnTim)g_mqttConnTim--;
 }
 
-void MQTT_Publish(u8 dup, u8 retained, int qos)
+void MQTT_Package_Publish_Json(char* topic, char* out)
+{
+	
+}
+
+void MQTT_Publish(u8 sockid, u8 dup, u8 retained, int qos)
 {
 	int len=0;
 	MQTTString topicString = MQTTString_initializer;
-	topicString.cstring = "iob/job_result/x";
+	topicString.cstring = "iob/d2s/device/status/x";
 	if(g_mqttHeartbeatNum == 20) {
 		printf("MQTT_Publish\r\n");
-		char  *buf = "{\"iob_job_result\": \"True\", \"id\": \"0\", \"cam_ID\": \"/dev/video0\", \"device_ID\": \"20210312000155\", \"cap_time\": \"2021-03-18 18:03:03\", \"exposure\": 5000, \"format\": \"YUYV\", \"size\": 1843200, \"resolution\": \"1280x720\", \"brightness\": 16, \"frame_diff\": 80, \"error_code\": 1, \"power_remain\": -28, \"file_name\":\"20210312000155_devvideo0_20210318180303\", \"method\": 2, \"gradient\": 0}";
+		char  *buf = "{ \"area_vacancy\": 10, \"power_remain\": 80,\"power_voltage\": 4039000,\"barcode\": ${barcode},\"cameSerialCode\": \"/dev/video0\",\"simCode\":\" \",\"csq\": \" \",\"lng\":\" \",\"lat\":\" \",\"acc\":\"\",\"gyro\":\"\",\"temp\":\" \"}";
 		payloadlen = strlen(buf);
 		if(payload==NULL)
 			payload=mymalloc(SRAMIN,payloadlen);
@@ -257,7 +262,7 @@ void MQTT_Publish(u8 dup, u8 retained, int qos)
 		msg_type = PUBACK;
 		if(payload!= NULL && payloadlen)
 			len = MQTTSerialize_publish(p, buflen, dup, qos, retained, 0, topicString, (unsigned char*)payload, payloadlen);
-		HM609A_Send_Data(2,p,len,0);
+		HM609A_Send_Data(sockid,p,len,0);
 		if(!g_qos) hm609a_send_return=0;
 		if(payload!=NULL){
 			myfree(SRAMIN,payload);
@@ -266,7 +271,7 @@ void MQTT_Publish(u8 dup, u8 retained, int qos)
 	}
 }
 
-void MQTT_HeartBeat(void)
+void MQTT_HeartBeat(u8 sockid)
 {
 	int len=0;
 	if(g_mqttHeartbeatNum == 55){
@@ -274,11 +279,11 @@ void MQTT_HeartBeat(void)
 			msg_type = PINGRESP;
 			g_mqttHeartbeatNum = 0;
 			len = MQTTSerialize_pingreq(p, buflen);//·¢ËÍÐÄÌø
-			HM609A_Send_Data(2,p,len,0);
+			HM609A_Send_Data(sockid,p,len,0);
 	}
 }
 
-void MQTT_Subscribe(void)
+void MQTT_Subscribe(u8 sockid)
 {
 	int len=0;
 	static int req_qos = 0, msgid = 1;//QOS
@@ -290,11 +295,11 @@ void MQTT_Subscribe(void)
 			topicString.cstring = "iob/s2d/#";
 			msg_type = SUBACK;
 			len=MQTTSerialize_subscribe(p, buflen, 0, msgid, 1, &topicString, &req_qos);
-			HM609A_Send_Data(2,p,len,0);
+			HM609A_Send_Data( sockid,p,len,0);
 		}
 }
 
-u8 HM609A_Mqtt_Program(char* addr, int port)
+u8 HM609A_Mqtt_Program(u8 sockid)
 {
 	u16 i=0;
 	u8 buf[500];
@@ -334,16 +339,16 @@ u8 HM609A_Mqtt_Program(char* addr, int port)
 						memset(p,0,buflen);
 						msg_type = CONNACK;
 						len = MQTTSerialize_connect(p, buflen, &data);
-						HM609A_Send_Data(2,p,len,0);
+						HM609A_Send_Data(sockid,p,len,0);
 					}
 				}		
 			}
 			else
 			{
 				if(count)count=0;
-				MQTT_Subscribe();
-				MQTT_HeartBeat();
-				MQTT_Publish(0,0,g_qos);
+				MQTT_Subscribe(sockid);
+				MQTT_HeartBeat(sockid);
+				MQTT_Publish(sockid, 0, 0, g_qos);
 			}
 	}	else {
 		hm609a_mqtt_conn_flag=0;

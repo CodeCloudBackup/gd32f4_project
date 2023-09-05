@@ -34,9 +34,8 @@ void HM609A_Init(void)
 
 char res_at[20];
 
-u16  g_hm609aState = 0;      // ????,???????
 u32  g_hm609aTim = 0;        // ?????
-u16  g_hm609aReturnTim = 0;	// ?????
+u16  g_hm609aReturnTim=0;	// ?????
 u8   g_hm609aSignal = 0;     // GPRS????
 u16  g_hm609aHeartBeat = 0;  // ????
 Byte8 g_hm609aFlag;
@@ -48,8 +47,9 @@ void HM609A_TIM_1ms(void)
     if(g_hm609aTim)g_hm609aTim--;
     if(hm609a_send_return)
     {
-        if(g_hm609aReturnTim)g_hm609aReturnTim--;
+      if(g_hm609aReturnTim)g_hm609aReturnTim--;
     }
+		
 }
 
 /*
@@ -58,11 +58,11 @@ void HM609A_TIM_1ms(void)
 */
 void HM609A_Restart(void)
 {
-    g_hm609aState = 0;       //状态标志重新开始
     DG_RESET=0;             //关闭模块电源
     g_hm609aTim = 0;         //模块倒计时清零
     hm609a_connect_flag = 0;//网络连接成功标志
-    hm609a_mqtt_conn_flag = 0;    //IP注册成功标志
+    hm609a_mqtt_conn_flag = 0;    //mqtt注册成功标志
+		hm609a_http_conn_flag = 0;		//http连接成功标志
 		delay_ms(300);
 }
 
@@ -304,7 +304,7 @@ u8 HM609A_Connect(u8 sockid, char* addr, int port)
 */
 u8 HM609A_Tcp_Off(u8 sockid)// 关闭TCP连接
 {
-    static uint8_t count = 0; //重复次数,重启流程
+    static u8 count = 0; //重复次数,重启流程
     char buf[50];
     if(g_hm609aTim == 0)
     {
@@ -338,17 +338,18 @@ char getCommond[100]= "GET /iob/download/test.txt HTTP/1.1\r\nHost:101.37.89.157
 /*
 主循环程序，每个循环执行一次
 */
-void HM609A_Tcp_Program(char* addr, int port)
+void HM609A_Tcp_Program(u8 sockid, char* addr, int port)
 {
 	u8 err = 0;    //返回得错误代码
 	static u8 count = 0;  //重复次数
-	switch (g_hm609aState)//AIR208状态处理
+	static u16 state = 0;      // ????,???????
+	switch (state)//AIR208状态处理
   {
 		case 0:
 		{
 				if(HM609A_Restart_Program())
         {
-            g_hm609aState++;
+            state++;
             count=0;
         }
 		}
@@ -361,12 +362,13 @@ void HM609A_Tcp_Program(char* addr, int port)
         case 1:
         {
             //进入AT成功,跳到下一个流程
-            g_hm609aState++;
+            state++;
             count=0;
         }
         break;
         case 2:
         {
+						state=0;
             HM609A_Restart();
         }
         break;
@@ -377,7 +379,7 @@ void HM609A_Tcp_Program(char* addr, int port)
     break;
 		case 2:     //模块进入AT
     {
-			err = HM609A_Connect(2, addr, port);
+			err = HM609A_Connect(sockid, addr, port);
 			switch(err)
       {
 				 case 0:break; 		//正常流程,直接跳出
@@ -387,7 +389,7 @@ void HM609A_Tcp_Program(char* addr, int port)
            count=0;
 					 hm609a_connect_flag=1;//标记连接成功
 					 hm609a_mqtt_conn_flag=0;
-           g_hm609aState+=10;
+           state+=10;
 				 }
 				 break;
 				 default:
@@ -397,12 +399,13 @@ void HM609A_Tcp_Program(char* addr, int port)
             {
               //超过重试次数，重启模块
               count=0;
+							state=0;
               HM609A_Restart();
             }
             else
             {      
               count++;//重试次数+1
-              g_hm609aState++;
+              state++;
             }
           }
           break;
@@ -411,8 +414,8 @@ void HM609A_Tcp_Program(char* addr, int port)
 		break;
 		case 3:
 		{
-			if(HM609A_Tcp_Off(2))
-				g_hm609aState--;//关闭连接后重新连接
+			if(HM609A_Tcp_Off(sockid))
+				state--;//关闭连接后重新连接
 		}
 		break;
 		default://TCP连接成功，开始数据收发
@@ -426,7 +429,7 @@ void HM609A_Tcp_Program(char* addr, int port)
         }
         //连接成功，如果连接断开将重新连接
         if(!hm609a_connect_flag)
-					g_hm609aState=3;//如果连接断开，执行断开TCP，重新创建TCP连接
+					state=3;//如果连接断开，执行断开TCP，重新创建TCP连接
     }break;
 	}
 }

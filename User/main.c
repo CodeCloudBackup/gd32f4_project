@@ -55,13 +55,15 @@ int main(void)
 	u32 mqttPort = 1883;
 	u32 httpPort = 80;
 	u32 httpUploadPort = 80;
-		printf("publishing reading\n");//读取发布
+	u8 httpSockId = 1;
+	u8 mqttSockId = 2;
+	printf("publishing reading\n");//读取发布
 
   while(1) {
 			
-	  	HM609A_Tcp_Program(host,mqttPort);
-			HM609A_Mqtt_Program(host,mqttPort);
-			MQTT_Program();
-			HM609A_Http_Program(host, httpPort, httpUploadPort);
+	  	HM609A_Tcp_Program(mqttSockId, host, mqttPort);
+			HM609A_Mqtt_Program(mqttSockId);
+			MQTT_Data_Program();
+			HM609A_Http_Program(httpSockId, host, httpPort, httpUploadPort);
     }
 }

@@ -25,9 +25,9 @@ extern Byte8 MqttSubscrTopFlag2;
 #define MQTT_FLAG_LOG_INFO		MqttSubscrTopFlag2.Bits.B3	// 日志信息
 #define MQTT_FLAG_REVICE   		MqttSubscrTopFlag2.Bits.B7
 
-void MQTT_Publish(u8 dup, u8 retained, int qos);
-void MQTT_HeartBeat(void);
-void MQTT_Subscribe(void);
+void MQTT_Publish(u8 sockid, u8 dup, u8 retained, int qos);
+void MQTT_HeartBeat(u8 sockid);
+void MQTT_Subscribe(u8 sockid);
 void MQTT_Publish_Analysis_Json(u8* buf, cJSON *json);
 void Mqtt_TIM_10ms(void);
 void MQTT_Init( char* chip_id);
@@ -36,6 +36,6 @@ u8 Mqtt_Connack_Deserialize( u8* buf);
 u8 Mqtt_Suback_Deserialize( u8* buf);
 u8 Mqtt_Publish_Deserialize( u8* buf,u8* out);
 u8 Mqtt_Deserialize_Handle(u8* msg_type,const u8* buf, u8* out);
-u8 HM609A_Mqtt_Program(char* addr, int port);
+u8 HM609A_Mqtt_Program(u8 sockid);
 
 #endif

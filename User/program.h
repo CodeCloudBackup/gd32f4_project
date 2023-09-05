@@ -23,6 +23,6 @@
 #include "mqtt_app.h"
 #include "cJSON.h"
 
-void MQTT_Program(void);
+void MQTT_Data_Program(void);
 void Program_Init(void);
 #endif
