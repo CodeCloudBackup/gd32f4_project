@@ -5,7 +5,6 @@
 #include <stdlib.h>
 
 MQTTPacket_connectData data = MQTTPacket_connectData_initializer;
-MQTTString topicString = MQTTString_initializer;
 
 u16 g_mqttHeartbeatNum=0;  //心跳计数
 u32 g_mqttConnTim=0;     //注册失败重发延时
@@ -14,6 +13,7 @@ u8 g_mqttSubscribeFlag=0;
 char *g_barCode="20230824900001";
 char* payload = NULL;
 int payloadlen = 0;
+int g_qos=0;
 
 Byte8 MqttSubscrTopFlag1;
 Byte8 MqttSubscrTopFlag2;
@@ -22,7 +22,7 @@ u16 buflen=400;
 u8 *p  = NULL;
 u8 *revicebuf = NULL;
 u8 *publishbuf = NULL;
-u8 msg_type;
+u8 msg_type=254;
 
 void MQTT_Publish_Analysis_Json(u8* buf, cJSON *json)
 {
@@ -90,6 +90,29 @@ u8 Mqtt_Suback_Deserialize( u8* buf)
 		return 1;
 }
 
+u8 Mqtt_Puback_Deserialize(u8* buf, u8 qos)
+{
+	if(qos == 0)
+	{
+		return 1;
+	}
+	else if(qos == 1)
+	{	
+		if(buf[0]==0x40)
+			printf("pubilc ack %x %x %x %x",buf[0],buf[1],buf[2],buf[3]);
+		else
+			return 0;
+	}
+	else if(qos == 2)
+	{	
+		if(buf[0]==0x50)
+			printf("pubilc ack %x %x %x %x",buf[0],buf[1],buf[2],buf[3]);
+		else
+			return 0;
+	}
+	return 1;
+}
+
 u8 Mqtt_Publish_Deserialize( u8* buf, u8* out)
 {
 		u8 dup;
@@ -103,32 +126,24 @@ u8 Mqtt_Publish_Deserialize( u8* buf, u8* out)
 		MQTTString receivedTopic;
 		MQTTDeserialize_publish(&dup, &qos, &retained, &msgid, &receivedTopic,
 				&payload_in, &payloadlen_in, buf, buflen);
-		printf("receivedTopic:%s,%d",receivedTopic.lenstring.data,receivedTopic.lenstring.len);
+		printf("receivedTopic:%s,%d\r\n",receivedTopic.lenstring.data,receivedTopic.lenstring.len);
 		topic=receivedTopic.lenstring.data;
 		topicLen=receivedTopic.lenstring.len;
-		if(strstr((const char *)topic, "iob/iob/") != NULL)
+		if(strstr((const char *)topic, "iob/s2d/") != NULL)
 		{
 			MQTT_FLAG_REVICE=1;
-			MQTT_FLAG_PHOTO=1;
-		}else if(strstr((const char *)topic, "iob/s2d/log")!= NULL)
-		{
-			MQTT_FLAG_REVICE=1;
-			if(strstr((const char *)topic, "logfile/")!= NULL)
+			if(strstr((const char *)topic, "job/") != NULL)
 			{
-				MQTT_FLAG_LOG_LIST=1;
-				
+				MQTT_FLAG_PHOTO=1;
 			}else if(strstr((const char *)topic, "logfile/")!= NULL)
 			{
+				MQTT_FLAG_LOG_LIST=1;
 				MQTT_FLAG_LOG_INFO=1;
-			}
-		}else if(strstr((const char *)topic, "iob/update/")!= NULL)
-		{
-			MQTT_FLAG_REVICE=1;
-			MQTT_FLAG_UPGRADE=1;
-		}else if(strstr((const char *)topic, "iob/s2d/")!= NULL)
-		{
-			MQTT_FLAG_REVICE=1;
-			if(strstr((const char *)topic, "open/")!= NULL)
+			}else if(strstr((const char *)topic, "update/")!= NULL)
+			{
+				MQTT_FLAG_REVICE=1;
+				MQTT_FLAG_UPGRADE=1;
+			}else	if(strstr((const char *)topic, "open/")!= NULL)
 			{
 				MQTT_FLAG_DELIVER_OPEN=1;
 				
@@ -160,7 +175,7 @@ u8 Mqtt_Publish_Deserialize( u8* buf, u8* out)
 u8 Mqtt_Pingresp_Deserialize(u8* buf)
 {
 	if(buf[0] == 0xD0&&buf[1] == 0x00){
-		printf("heart ack %x %x",buf[0],buf[1]);
+		printf("heart ack %x %x\r\n",buf[0],buf[1]);
 		return 1;
 	}
 	return 0;
@@ -173,7 +188,7 @@ u8 Mqtt_Deserialize_Handle(u8* msg_type,const u8* buf, u8* out)
 	int len=0;
 	char *pp;
 	int size=0;
-	u8 res_mqtt[400] = {0};
+	u8 res_mqtt[300] = {0};
 	memset(res,0,20);
 	sprintf(res, "+IPURC: \"recv\",2,");
 	pp = strstr((const char *)buf, (const char *)res);
@@ -197,6 +212,12 @@ u8 Mqtt_Deserialize_Handle(u8* msg_type,const u8* buf, u8* out)
 		} else if (*msg_type == PINGRESP)
 		{
 			ret = Mqtt_Pingresp_Deserialize(res_mqtt);
+		} else if (*msg_type == PUBACK)
+		{
+			printf("PUBLIC %x ",res_mqtt[0]);
+			ret = Mqtt_Puback_Deserialize(res_mqtt,1);
+			if(ret)
+				*msg_type=PUBLISH ;
 		} else {
 			printf("err message type %d",*msg_type);
 		}
@@ -215,27 +236,29 @@ void Mqtt_TIM_10ms(void)
 	if((!hm609a_mqtt_conn_flag)&&g_mqttConnTim)g_mqttConnTim--;
 }
 
-void MQTT_Publish(void)
+void MQTT_Publish(u8 dup, u8 retained, int qos)
 {
 	int len=0;
+	MQTTString topicString = MQTTString_initializer;
+	topicString.cstring = "iob/job_result/x";
 	if(g_mqttHeartbeatNum == 20) {
+		printf("MQTT_Publish\r\n");
 		char  *buf = "{\"iob_job_result\": \"True\", \"id\": \"0\", \"cam_ID\": \"/dev/video0\", \"device_ID\": \"20210312000155\", \"cap_time\": \"2021-03-18 18:03:03\", \"exposure\": 5000, \"format\": \"YUYV\", \"size\": 1843200, \"resolution\": \"1280x720\", \"brightness\": 16, \"frame_diff\": 80, \"error_code\": 1, \"power_remain\": -28, \"file_name\":\"20210312000155_devvideo0_20210318180303\", \"method\": 2, \"gradient\": 0}";
 		payloadlen = strlen(buf);
 		if(payload==NULL)
 			payload=mymalloc(SRAMIN,payloadlen);
 		memcpy(payload,buf,payloadlen);
-		topicString.cstring = "iob/job_result/x";
 		g_mqttPublishFlag=1;
 		g_mqttHeartbeatNum=21;
 	}
 	if(g_mqttPublishFlag){
 		g_mqttPublishFlag=0;
-		g_mqttConnTim=200;
 		memset(p,0,buflen);
-		msg_type = PUBLISH;
+		msg_type = PUBACK;
 		if(payload!= NULL && payloadlen)
-			len = MQTTSerialize_publish(p, buflen, 0, 0, 0, 0, topicString, (unsigned char*)payload, payloadlen);
+			len = MQTTSerialize_publish(p, buflen, dup, qos, retained, 0, topicString, (unsigned char*)payload, payloadlen);
 		HM609A_Send_Data(2,p,len,0);
+		if(!g_qos) hm609a_send_return=0;
 		if(payload!=NULL){
 			myfree(SRAMIN,payload);
 			payload=NULL;
@@ -247,10 +270,9 @@ void MQTT_HeartBeat(void)
 {
 	int len=0;
 	if(g_mqttHeartbeatNum == 55){
-			printf("MQTT heart");
+			printf("MQTT heart\r\n");
 			msg_type = PINGRESP;
 			g_mqttHeartbeatNum = 0;
-			g_mqttConnTim=200;
 			len = MQTTSerialize_pingreq(p, buflen);//发送心跳
 			HM609A_Send_Data(2,p,len,0);
 	}
@@ -261,31 +283,40 @@ void MQTT_Subscribe(void)
 	int len=0;
 	static int req_qos = 0, msgid = 1;//QOS
 	if(g_mqttSubscribeFlag){	
-				g_mqttSubscribeFlag=0;
-				memset(p,0,buflen);
-				g_mqttConnTim=200;
-				topicString.cstring = "iob/#";
-				msg_type = SUBACK;
-				len=MQTTSerialize_subscribe(p, buflen, 0, msgid, 1, &topicString, &req_qos);
-				HM609A_Send_Data(2,p,len,0);
+			printf("MQTT_Subscribe\r\n");
+			g_mqttSubscribeFlag=0;
+			memset(p,0,buflen);
+			MQTTString topicString = MQTTString_initializer;
+			topicString.cstring = "iob/s2d/#";
+			msg_type = SUBACK;
+			len=MQTTSerialize_subscribe(p, buflen, 0, msgid, 1, &topicString, &req_qos);
+			HM609A_Send_Data(2,p,len,0);
 		}
 }
 
 u8 HM609A_Mqtt_Program(char* addr, int port)
 {
-	u16 i;
+	u16 i=0;
 	u8 buf[500];
-	int len;
+	int len=0;
+	u8 ret=0;
 	static u16 count=0;
 	
 	if(hm609a_connect_flag)//TCP连接建立
 	{   
+
 			i = USART1_Revice(buf);
 			if(i)
       {
-				printf("\r\nRecvMqtt:%s",buf);
-				Mqtt_Deserialize_Handle(&msg_type, buf, publishbuf);
-				if(hm609a_mqtt_conn_flag && msg_type == CONNACK) g_mqttSubscribeFlag=1;
+				printf("\r\nRecvMqtt:%s\r\n",buf);
+				ret=Mqtt_Deserialize_Handle(&msg_type, buf, publishbuf);
+				if(ret) 
+				{
+					printf("MQTT return handle successed\r\n");
+					hm609a_send_return=0;
+				}
+				if(hm609a_mqtt_conn_flag && msg_type == CONNACK)
+					g_mqttSubscribeFlag=1;
 			}
 			if(!hm609a_mqtt_conn_flag )
 			{
@@ -312,9 +343,12 @@ u8 HM609A_Mqtt_Program(char* addr, int port)
 				if(count)count=0;
 				MQTT_Subscribe();
 				MQTT_HeartBeat();
-				MQTT_Publish();
+				MQTT_Publish(0,0,g_qos);
 			}
-	}		
+	}	else {
+		hm609a_mqtt_conn_flag=0;
+		msg_type=254;
+	}	
 	return 0;
 }	
 

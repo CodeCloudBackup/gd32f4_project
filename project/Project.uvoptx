@@ -152,9 +152,9 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>249</LineNumber>
+          <LineNumber>287</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134292802</Address>
+          <Address>134294286</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -163,14 +163,14 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>..\Hardware\mqtt_app.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\Project\../Hardware/mqtt_app.c\249</Expression>
+          <Expression>\\Project\../Hardware/mqtt_app.c\287</Expression>
         </Bp>
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>237</LineNumber>
+          <LineNumber>256</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134293906</Address>
+          <Address>134293978</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -179,51 +179,35 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>..\Hardware\mqtt_app.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\Project\../Hardware/mqtt_app.c\237</Expression>
+          <Expression>\\Project\../Hardware/mqtt_app.c\256</Expression>
         </Bp>
         <Bp>
           <Number>2</Number>
           <Type>0</Type>
-          <LineNumber>207</LineNumber>
+          <LineNumber>74</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134294584</Address>
+          <Address>134292698</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\Hardware\mqtt_app.c</Filename>
+          <Filename>..\Hardware\MQTT\src\MQTTSubscribeClient.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\Project\../Hardware/mqtt_app.c\207</Expression>
-        </Bp>
-        <Bp>
-          <Number>3</Number>
-          <Type>0</Type>
-          <LineNumber>266</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134294184</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\Hardware\mqtt_app.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\Project\../Hardware/mqtt_app.c\266</Expression>
+          <Expression>\\Project\../Hardware/MQTT/src/MQTTSubscribeClient.c\74</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>g_mqttHeartbeatNum</ItemText>
+          <ItemText>hm609a_mqtt_conn_flag</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>res_mqtt</ItemText>
+          <ItemText>count</ItemText>
         </Ww>
         <Ww>
           <count>2</count>
@@ -233,17 +217,17 @@
         <Ww>
           <count>3</count>
           <WinNumber>1</WinNumber>
-          <ItemText>revicebuf</ItemText>
+          <ItemText>header</ItemText>
         </Ww>
         <Ww>
           <count>4</count>
           <WinNumber>1</WinNumber>
-          <ItemText>data</ItemText>
+          <ItemText>mqttstring</ItemText>
         </Ww>
         <Ww>
           <count>5</count>
           <WinNumber>1</WinNumber>
-          <ItemText>chip_id</ItemText>
+          <ItemText>mqttstring.lenstring.len</ItemText>
         </Ww>
         <Ww>
           <count>6</count>
@@ -269,23 +253,23 @@
       <MemoryWindow1>
         <Mm>
           <WinNumber>1</WinNumber>
-          <SubType>8</SubType>
-          <ItemText>buf</ItemText>
+          <SubType>0</SubType>
+          <ItemText>0x2000D660</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow1>
       <MemoryWindow2>
         <Mm>
           <WinNumber>2</WinNumber>
-          <SubType>8</SubType>
-          <ItemText>0x20000340</ItemText>
+          <SubType>0</SubType>
+          <ItemText>0x32453639</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow2>
       <MemoryWindow3>
         <Mm>
           <WinNumber>3</WinNumber>
-          <SubType>0</SubType>
+          <SubType>8</SubType>
           <ItemText>buf</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
@@ -1231,7 +1215,7 @@
 
   <Group>
     <GroupName>MQTT</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>

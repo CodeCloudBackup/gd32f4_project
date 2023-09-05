@@ -411,7 +411,8 @@ void HM609A_Tcp_Program(char* addr, int port)
 		break;
 		case 3:
 		{
-			if(HM609A_Tcp_Off(2))g_hm609aState--;//关闭连接后重新连接
+			if(HM609A_Tcp_Off(2))
+				g_hm609aState--;//关闭连接后重新连接
 		}
 		break;
 		default://TCP连接成功，开始数据收发
@@ -424,7 +425,8 @@ void HM609A_Tcp_Program(char* addr, int port)
             hm609a_mqtt_conn_flag=0;
         }
         //连接成功，如果连接断开将重新连接
-        if(!hm609a_connect_flag)g_hm609aState=3;//如果连接断开，执行断开TCP，重新创建TCP连接
+        if(!hm609a_connect_flag)
+					g_hm609aState=3;//如果连接断开，执行断开TCP，重新创建TCP连接
     }break;
 	}
 }
@@ -448,7 +450,7 @@ void HM609A_Send_Data(u8 sockid, u8* data, u16 len, u8 flag)
 	}
 	
 	//USART1_SendData(data, len);
-  g_hm609aReturnTim=30000;
+  g_hm609aReturnTim=10000;
   hm609a_send_return=1;
 	myfree(SRAMIN,hexStr);
 }

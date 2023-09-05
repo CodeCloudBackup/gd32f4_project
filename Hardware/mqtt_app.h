@@ -25,7 +25,7 @@ extern Byte8 MqttSubscrTopFlag2;
 #define MQTT_FLAG_LOG_INFO		MqttSubscrTopFlag2.Bits.B3	// 日志信息
 #define MQTT_FLAG_REVICE   		MqttSubscrTopFlag2.Bits.B7
 
-void MQTT_Publish(void);
+void MQTT_Publish(u8 dup, u8 retained, int qos);
 void MQTT_HeartBeat(void);
 void MQTT_Subscribe(void);
 void MQTT_Publish_Analysis_Json(u8* buf, cJSON *json);
