@@ -50,7 +50,7 @@ void CpuIDGetId(void)
 const char hex_table[] = {
 '0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'
 };
-void to_hex(u8 *src, int l, char *dst)
+void to_hex(const u8 *src, int l, char *dst)
 {
 	while(l--)
 	{	

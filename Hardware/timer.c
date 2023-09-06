@@ -3,11 +3,12 @@
 #include "delay.h"
 static u32 g_timCnt = 0;
 u8 g_timFlag = 0;
-extern u16  g_hm609aHeartBeat; 
+
 extern u16 g_mqttHeartbeatNum;
 extern void HM609A_TIM_1ms(void);
 extern void  USART1_TIM_1ms(void);
-extern void Mqtt_TIM_10ms(void);
+extern void MQTT_TIM_10ms(void);
+extern void HTTP_TIM_10ms(void);
 void TIM_1msProgram(void)
 {
 	USART1_TIM_1ms();
@@ -17,7 +18,8 @@ void TIM_1msProgram(void)
 
 void TIM_10msProgram(void)
 {
-	Mqtt_TIM_10ms();
+	MQTT_TIM_10ms();
+	HTTP_TIM_10ms();
 }
 
 void TIM_100msProgram(void)
@@ -27,7 +29,6 @@ void TIM_100msProgram(void)
 void TIM_1000msProgram(void)
 {
 	LED_G = !LED_G;
-	g_hm609aHeartBeat++;
 	g_mqttHeartbeatNum++;
 }
 //定时器3中断服务程序	 

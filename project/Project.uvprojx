@@ -810,6 +810,9 @@
             </File>
           </Files>
         </Group>
+        <Group>
+          <GroupName>HTTP</GroupName>
+        </Group>
       </Groups>
     </Target>
   </Targets>

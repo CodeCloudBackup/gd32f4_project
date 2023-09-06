@@ -7,6 +7,7 @@
 
 void HM609A_Init(void)
 {
+	u8 status=0;
 	GPIO_InitTypeDef  GPIO_InitStructure;
   RCU_AHB1PeriphClockCmd(RCU_AHB1Periph_GPIOF, ENABLE);//使能GPIOB时钟
 
@@ -17,9 +18,6 @@ void HM609A_Init(void)
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;//100MHz
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;//上拉
   GPIO_Init(GPIOF, &GPIO_InitStructure);//初始化
-	GPIO_SetBits(GPIOF,GPIO_Pin_11);	// Pwrkey,High, HM609A,Low time >550ms on/off
-	delay_ms(1000);
-	GPIO_ResetBits(GPIOF,GPIO_Pin_11);
 	GPIO_ResetBits(GPIOF,GPIO_Pin_12); // RESET,High, HM609A,Low time >300ms reset
 	GPIO_SetBits(GPIOF,GPIO_Pin_13); // WakeUp_IN,High, HM609A,High;
 	GPIO_SetBits(GPIOF,GPIO_Pin_14); // W_DISABLE Mode,High, HM609A,High
@@ -29,15 +27,21 @@ void HM609A_Init(void)
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;//模拟输入
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL ;//不带上下拉
   GPIO_Init(GPIOG, &GPIO_InitStructure);//初始化 
-	printf("\r\nHM609A Init successed.\n");
+	
+	status = GPIO_ReadInputDataBit(GPIOG, GPIO_Pin_3);
+	if(!status){
+		GPIO_SetBits(GPIOF,GPIO_Pin_11);	// Pwrkey,High, HM609A,Low time >550ms on/off
+		delay_ms(1000);
+		GPIO_ResetBits(GPIOF,GPIO_Pin_11);
+	}
+	printf("\r\nHM609A Init successed.status:%d\n",status);
 }
 
 char res_at[20];
 
 u32  g_hm609aTim = 0;        // ?????
-u16  g_hm609aReturnTim=0;	// ?????
-u8   g_hm609aSignal = 0;     // GPRS????
-u16  g_hm609aHeartBeat = 0;  // ????
+u16  g_hm609aMqttWaitTim=0;	// ?????
+u16  g_hm609aHttpWaitTim=0;
 Byte8 g_hm609aFlag;
 /*
 ????1ms????
@@ -45,9 +49,15 @@ Byte8 g_hm609aFlag;
 void HM609A_TIM_1ms(void)
 {
     if(g_hm609aTim)g_hm609aTim--;
-    if(hm609a_send_return)
+	
+    if(hm609a_mqtt_wait_flag)
     {
-      if(g_hm609aReturnTim)g_hm609aReturnTim--;
+      if(g_hm609aMqttWaitTim)g_hm609aMqttWaitTim--;
+    }
+		
+	 if(hm609a_http_wait_flag)
+    {
+      if(g_hm609aHttpWaitTim)g_hm609aHttpWaitTim--;
     }
 		
 }
@@ -58,11 +68,14 @@ void HM609A_TIM_1ms(void)
 */
 void HM609A_Restart(void)
 {
-    DG_RESET=0;             //关闭模块电源
-    g_hm609aTim = 0;         //模块倒计时清零
-    hm609a_connect_flag = 0;//网络连接成功标志
-    hm609a_mqtt_conn_flag = 0;    //mqtt注册成功标志
-		hm609a_http_conn_flag = 0;		//http连接成功标志
+    DG_RESET=0;             		// 模块复位
+    g_hm609aTim=0;         		// 模块倒计时清零
+    hm609a_config_flag=0;				// 模块配置标志清零
+		hm609a_mqtt_conn_flag=0;		// 网络连接成功标志清零
+    hm609a_mqtt_reg_flag=0;   	// mqtt注册成功标志
+		hm609a_mqtt_wait_flag=0;
+		hm609a_http_conn_flag=0;		//http连接成功标志
+		hm609a_http_wait_flag=0;
 		delay_ms(300);
 }
 
@@ -73,28 +86,28 @@ void HM609A_Restart(void)
 */
 u8 HM609A_Restart_Program(void)//模块重启流程
 {
-    static uint8_t Signs = 0;  //重启流程
+    static u8 sign = 0;  //重启流程
     if(g_hm609aTim <= 0) //倒计时结束后进入流程处理,否则返回0未完成
     {
-        switch (Signs)//AIR208状态处理
+        switch (sign)//AIR208状态处理
         {
         case 0: //断电开始
         {
             DG_RESET_OFF;         //关闭模块电源
             g_hm609aTim = 300;  //断电时间ms
-            Signs++;            //进入下一步流程
+            sign++;            //进入下一步流程
         }
         break;
         case 1: //上电
         {
             DG_RESET_ON;          //打开模块电源
             g_hm609aTim = 5000;  //上电初始化时间ms
-            Signs++;            //进入下一步流程
+            sign++;            //进入下一步流程
         }
         break;
         default://上电初始化完成
         {
-            Signs = 0;          //上电初始化完毕,恢复参数
+            sign = 0;          //上电初始化完毕,恢复参数
             return 1;           //重启完成,返回1
         }
         }
@@ -108,7 +121,7 @@ u8 HM609A_Restart_Program(void)//模块重启流程
 */
 u8 HM609A_Config(void)
 {
-	static uint8_t count = 0, Signs = 0, cnt = 1; //重复次数,重启流程
+	static u8 count = 0, Signs = 0, cnt = 1; //重复次数,重启流程
 	u16 len = 0;
 	char buf[200]={0};
 	if(g_hm609aTim == 0) //为0时发送测试数据
@@ -257,8 +270,8 @@ u8 HM609A_Connect(u8 sockid, char* addr, int port)
 				case 1:
 				{
 					printf("\r\nA|AT+IPSWTMD=%d,1\r\n",sockid);
-					cnt = 3;
-					g_hm609aTim = 5000;
+					cnt = 10;
+					g_hm609aTim = 2000;
 					strcpy(res_at,"OK");
 					u1_printf("\r\nAT+IPSWTMD=%d,1\r\n",sockid);  //发送AT指令
 				}
@@ -334,11 +347,34 @@ u8 HM609A_Tcp_Off(u8 sockid)// 关闭TCP连接
     return 0;
 }
 
-char getCommond[100]= "GET /iob/download/test.txt HTTP/1.1\r\nHost:101.37.89.157\r\n\r\n";
+static FunctionalState GetConnStatus( NET_PROTOCOL protocol)
+{
+		if(protocol == MQTT_PROT)
+		{
+			if(hm609a_mqtt_wait_flag && g_hm609aMqttWaitTim <= 0)
+			{
+				hm609a_mqtt_wait_flag=0;
+				hm609a_mqtt_conn_flag=0;
+				hm609a_mqtt_reg_flag=0;
+			}
+			if(!hm609a_mqtt_conn_flag) 
+				return DISABLE;
+		} else if (protocol == HTTP_PROT)
+		{
+			if(hm609a_http_wait_flag && g_hm609aHttpWaitTim <= 0)
+			{
+				hm609a_http_wait_flag=0;
+				hm609a_http_conn_flag=0;
+			}
+			if(!hm609a_http_conn_flag) 
+				return DISABLE;
+		}
+		return ENABLE;
+}
 /*
 主循环程序，每个循环执行一次
 */
-void HM609A_Tcp_Program(u8 sockid, char* addr, int port)
+void HM609A_Tcp_Program(u8 sockid, char* addr, int port, NET_PROTOCOL protocol)
 {
 	u8 err = 0;    //返回得错误代码
 	static u8 count = 0;  //重复次数
@@ -356,13 +392,17 @@ void HM609A_Tcp_Program(u8 sockid, char* addr, int port)
 		break;
 		case 1:     //配置模块
     {
-        err = HM609A_Config();
+				if(hm609a_config_flag)
+					err=1;
+				else
+					err = HM609A_Config();
         switch(err)
         {
         case 1:
         {
             //进入AT成功,跳到下一个流程
             state++;
+						hm609a_config_flag=1;
             count=0;
         }
         break;
@@ -387,8 +427,12 @@ void HM609A_Tcp_Program(u8 sockid, char* addr, int port)
 				 {
 					 //连接成功,跳到下一个流程
            count=0;
-					 hm609a_connect_flag=1;//标记连接成功
-					 hm609a_mqtt_conn_flag=0;
+					 if (protocol == MQTT_PROT){
+							hm609a_mqtt_conn_flag=1;
+							hm609a_mqtt_reg_flag=0;
+					 }else if (protocol == HTTP_PROT){
+							hm609a_http_conn_flag=1;
+					 }
            state+=10;
 				 }
 				 break;
@@ -420,25 +464,26 @@ void HM609A_Tcp_Program(u8 sockid, char* addr, int port)
 		break;
 		default://TCP连接成功，开始数据收发
     {
-        if(hm609a_send_return&&g_hm609aReturnTim<=0)
-        {
-             //发送超时，重新建立连接
-            hm609a_send_return=0;
-            hm609a_connect_flag=0;
-            hm609a_mqtt_conn_flag=0;
-        }
-        //连接成功，如果连接断开将重新连接
-        if(!hm609a_connect_flag)
+        if(!GetConnStatus(protocol))
 					state=3;//如果连接断开，执行断开TCP，重新创建TCP连接
     }break;
 	}
 }
 
 
-void HM609A_Send_Data(u8 sockid, u8* data, u16 len, u8 flag)
+void HM609A_Send_Data(u8 sockid, const u8* data, u16 len, u8 flag, NET_PROTOCOL protocol)
 {
 	char *hexStr;
-	if(!hm609a_connect_flag)return;//未连接，禁止发送
+	if(protocol == MQTT_PROT)
+	{	
+		if(!hm609a_mqtt_conn_flag)
+			return;//未连接，禁止发送
+	}else if (protocol == HTTP_PROT)
+	{
+		if(!hm609a_http_conn_flag)
+			return;//未连接，禁止发送
+	}
+	
 	hexStr = mymalloc(SRAMIN,600);
 	to_hex(data, len, hexStr);
 	hexStr[len*2] = '\0';
@@ -452,9 +497,16 @@ void HM609A_Send_Data(u8 sockid, u8* data, u16 len, u8 flag)
 		u1_printf("\r\nAT+IPSENDEX=%d,\"%s\"\r\n",sockid, hexStr);
 	}
 	
-	//USART1_SendData(data, len);
-  g_hm609aReturnTim=10000;
-  hm609a_send_return=1;
+	if(protocol == MQTT_PROT)
+	{	
+		// release版本改为1000
+		g_hm609aMqttWaitTim=10000;
+		hm609a_mqtt_wait_flag=1;
+	}else if (protocol == HTTP_PROT)
+	{
+		g_hm609aHttpWaitTim=10000;
+		hm609a_http_wait_flag=1;
+	}
 	myfree(SRAMIN,hexStr);
 }
 

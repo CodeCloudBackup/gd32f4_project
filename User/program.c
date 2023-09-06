@@ -41,6 +41,7 @@ void Program_Init(void)
 		MyDCMI_Init();			//DCMI≈‰÷√
 		HM609A_Init();
 	  MQTT_Init(mcuIdHex);
+		HTTP_Init();
 		delay_ms(2000);
 		//icm
 		ICM_Init(&icm_serif);

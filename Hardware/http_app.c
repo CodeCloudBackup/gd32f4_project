@@ -8,21 +8,14 @@ Byte8 HttpFlag;
 
 u16 g_httpReturnTim=0;
 
-void HTTP_TIM_1ms(void)
-{
-	if(hm609a_http_return_flag)
-	{
-		if(g_httpReturnTim)g_httpReturnTim--;
-	}
-}
 
-u16 Http_Get_Package(char *buff_get, char *url_tail,u8 *host, u16 port)
+u16 Http_Get_Package(char *buff_get, char *url_tail,const char *host, u16 port)
 {
 	u16 len;
 	len = sprintf(buff_get, "GET %s HTTP/1.1\r\n"
 			"Connection:close\r\n"
 			"Host:%s:%d\r\n"
-			"Connection:Keep-Alive\r\n"
+			"Connection:close\r\n"
 			"User-Agent:GD32F427\r\n"
 			"\r\n",
 			url_tail,host,port
@@ -102,84 +95,63 @@ u8 Http_Post_Analysis_Header(u8* buf, u16 buf_len, u8 *resp_code)
 	}
 	return 1;
 }
-	
 
+static u32 g_httpWaitTim=0;
+u8* g_httpResposeBuf=NULL;
+static u32 g_http1STim=0;
 
-u8 HM609A_Http_Program(u8 sockid, char* addr, u32 port, u32 upload_port)
+void HTTP_TIM_10ms(void)
 {
-	u8 err = 0;
-	u32 tmpPort=0;
-	static u8 count=0;
-	static u8 state=0;
-	if(!hm609a_connect_flag)return 0;
-	// 确认连接端口
-	if(HTTP_FLAG_UPLOAD_PHOTO||HTTP_FLAG_UPLOAD_LOGFILE) 
+	if(hm609a_http_conn_flag&&g_httpWaitTim)g_httpWaitTim--;
+	g_http1STim++;
+	if(g_http1STim==500)
 	{
-		tmpPort=upload_port;
-	} else if(HTTP_FLAG_EQUIP_CERT||HTTP_FLAG_DOWNLOAD_BIN)
-	{
-		tmpPort=port;
-	} else {
-		return 0;
+		HTTP_FLAG_TASK=1;
+		HTTP_FLAG_DOWNLOAD_BIN=1;
 	}
-	// http的tcp连接
-	if(!hm609a_http_conn_flag){
-		switch(state)
-		{
-				case 0:
-				{
-					err = HM609A_Connect(sockid, addr, tmpPort);
-					switch(err)
-					{
-						 case 0:break; 		//正常流程,直接跳出
-						 case 1:
-						 {
-							 //连接成功,跳到下一个流程
-							 count=0;
-							 hm609a_http_conn_flag=1;//标记连接成功
-							 state+=10;
-						 }
-						 break;
-						 default:
-						 {
-								//进入失败
-								if(count>=3)
-								{
-									//超过重试次数，重启模块
-									count=0;
-									state=0;
-									HM609A_Restart();
-								}
-								else
-								{      
-									count++;//重试次数+1
-									state++;
-								}
-							}
-							break;
-					}
-				}
-				break;
-				case 1:
-				{
-					if(HM609A_Tcp_Off(sockid))
-						state--;//关闭连接后重新连接
-				}
-				break;
-				default://TCP连接成功，开始数据收发
-				{
-						if(hm609a_http_return_flag&&g_httpReturnTim<=0)
-						{
-							hm609a_http_conn_flag=0;
-							hm609a_http_return_flag=0;
-						}
-						if(!hm609a_http_conn_flag)
-							state=0;
-				}
-				break;
-			}
-	}else{
-		;
+}
+
+
+void HTTP_Init(void)
+{
+	if(g_httpResposeBuf==NULL)
+		g_httpResposeBuf=mymalloc(SRAMIN,1024);
+}
+
+void Http_Send_Resquest(const u8 sockid, const char *host,const u32 port)
+{
+	u16 len=0;
+	char resquestBuf[400]={0};
+	if(HTTP_FLAG_EQUIP_CERT)
+	{
+	}
+	else if(HTTP_FLAG_DOWNLOAD_BIN)
+	{
+		printf("Send http get resquest\r\n");
+		len=Http_Get_Package(resquestBuf, "iob/download/test.txt",host, port);
+		HM609A_Send_Data( sockid,(const u8*)resquestBuf,len,1,HTTP_PROT);
+		HTTP_FLAG_DOWNLOAD_BIN=0;
+	}
+	else if(HTTP_FLAG_UPLOAD_PHOTO)
+	{
+	}
+	else if(HTTP_FLAG_UPLOAD_LOGFILE)
+	{
+	
+	}
+}
+
+u8 HM609A_Http_Program(const u8 sockid, const char *host, const u32 port)
+{
+	u8 ret = 0;
+	u16 i=0;
+	if (hm609a_http_conn_flag)
+	{
+		i = USART1_Revice(g_httpResposeBuf);
+		if(i){
+			;
+		}
+		Http_Send_Resquest(sockid, host, port);
 	}
 	return 0;
 }

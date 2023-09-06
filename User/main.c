@@ -33,7 +33,6 @@ OF SUCH DAMAGE.
 */
 
 #include "program.h"
-#include "MQTTPacket.h"
 /*!
     \brief      main function
     \param[in]  none
@@ -57,13 +56,24 @@ int main(void)
 	u32 httpUploadPort = 80;
 	u8 httpSockId = 1;
 	u8 mqttSockId = 2;
-	printf("publishing reading\n");//∂¡»°∑¢≤º
 
   while(1) {
 			
-	  	HM609A_Tcp_Program(mqttSockId, host, mqttPort);
+	  	HM609A_Tcp_Program(mqttSockId, host, mqttPort, MQTT_PROT);
 			HM609A_Mqtt_Program(mqttSockId);
 			MQTT_Data_Program();
-			HM609A_Http_Program(httpSockId, host, httpPort, httpUploadPort);
+			if(HTTP_FLAG_TASK){
+				u32 port = 0;
+				// get http port
+				if( HTTP_FLAG_EQUIP_CERT || HTTP_FLAG_DOWNLOAD_BIN ){
+					port=httpPort;
+				}
+				else if (HTTP_FLAG_UPLOAD_PHOTO || HTTP_FLAG_UPLOAD_LOGFILE)
+				{
+					port=httpUploadPort;
+				}
+				HM609A_Tcp_Program(httpSockId, host, port, HTTP_PROT);
+				HM609A_Http_Program(httpSockId, host, port);
+			}
     }
 }

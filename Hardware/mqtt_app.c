@@ -24,6 +24,11 @@ u8 *revicebuf = NULL;
 u8 *publishbuf = NULL;
 u8 msg_type=254;
 
+void MQTT_TIM_10ms(void)
+{
+	if(hm609a_mqtt_conn_flag&&g_mqttConnTim)g_mqttConnTim--;
+}
+
 void MQTT_Publish_Analysis_Json(u8* buf, cJSON *json)
 {
 	char *out;
@@ -200,7 +205,7 @@ u8 Mqtt_Deserialize_Handle(u8* msg_type,const u8* buf, u8* out)
 		pp = strstr((const char *)pp, "\n");
 		memcpy(res_mqtt, pp+1, size);			
 	
-	if(hm609a_mqtt_conn_flag){
+	if(hm609a_mqtt_reg_flag){
 		if(*msg_type == SUBACK)
 		{
 			ret = Mqtt_Suback_Deserialize(res_mqtt);
@@ -225,7 +230,7 @@ u8 Mqtt_Deserialize_Handle(u8* msg_type,const u8* buf, u8* out)
 	else
 	{
 		ret = Mqtt_Connack_Deserialize(res_mqtt);
-		hm609a_mqtt_conn_flag=ret;
+		hm609a_mqtt_reg_flag=ret;
 	}
 	}
 	return ret;
@@ -233,7 +238,7 @@ u8 Mqtt_Deserialize_Handle(u8* msg_type,const u8* buf, u8* out)
 
 void Mqtt_TIM_10ms(void)
 {
-	if((!hm609a_mqtt_conn_flag)&&g_mqttConnTim)g_mqttConnTim--;
+	if((!hm609a_mqtt_reg_flag)&&g_mqttConnTim)g_mqttConnTim--;
 }
 
 void MQTT_Package_Publish_Json(char* topic, char* out)
@@ -262,8 +267,8 @@ void MQTT_Publish(u8 sockid, u8 dup, u8 retained, int qos)
 		msg_type = PUBACK;
 		if(payload!= NULL && payloadlen)
 			len = MQTTSerialize_publish(p, buflen, dup, qos, retained, 0, topicString, (unsigned char*)payload, payloadlen);
-		HM609A_Send_Data(sockid,p,len,0);
-		if(!g_qos) hm609a_send_return=0;
+		HM609A_Send_Data(sockid,p,len,0,MQTT_PROT);
+		if(!g_qos) hm609a_mqtt_wait_flag=0;
 		if(payload!=NULL){
 			myfree(SRAMIN,payload);
 			payload=NULL;
@@ -279,7 +284,7 @@ void MQTT_HeartBeat(u8 sockid)
 			msg_type = PINGRESP;
 			g_mqttHeartbeatNum = 0;
 			len = MQTTSerialize_pingreq(p, buflen);//发送心跳
-			HM609A_Send_Data(sockid,p,len,0);
+			HM609A_Send_Data(sockid,p,len,0,MQTT_PROT);
 	}
 }
 
@@ -295,7 +300,7 @@ void MQTT_Subscribe(u8 sockid)
 			topicString.cstring = "iob/s2d/#";
 			msg_type = SUBACK;
 			len=MQTTSerialize_subscribe(p, buflen, 0, msgid, 1, &topicString, &req_qos);
-			HM609A_Send_Data( sockid,p,len,0);
+			HM609A_Send_Data( sockid,p,len,0,MQTT_PROT);
 		}
 }
 
@@ -307,7 +312,7 @@ u8 HM609A_Mqtt_Program(u8 sockid)
 	u8 ret=0;
 	static u16 count=0;
 	
-	if(hm609a_connect_flag)//TCP连接建立
+	if(hm609a_mqtt_conn_flag)//TCP连接建立
 	{   
 
 			i = USART1_Revice(buf);
@@ -318,18 +323,18 @@ u8 HM609A_Mqtt_Program(u8 sockid)
 				if(ret) 
 				{
 					printf("MQTT return handle successed\r\n");
-					hm609a_send_return=0;
+					hm609a_mqtt_wait_flag=0;
 				}
-				if(hm609a_mqtt_conn_flag && msg_type == CONNACK)
+				if(hm609a_mqtt_reg_flag && msg_type == CONNACK)
 					g_mqttSubscribeFlag=1;
 			}
-			if(!hm609a_mqtt_conn_flag )
+			if(!hm609a_mqtt_reg_flag )
 			{
 				if(g_mqttConnTim==0){
 					if(count>3)//是注册失败超过次数后断开TCP重新连接
 					{
-						hm609a_connect_flag=0;
 						hm609a_mqtt_conn_flag=0;
+						hm609a_mqtt_reg_flag=0;
 						count=0;
 					}
 					else
@@ -339,7 +344,7 @@ u8 HM609A_Mqtt_Program(u8 sockid)
 						memset(p,0,buflen);
 						msg_type = CONNACK;
 						len = MQTTSerialize_connect(p, buflen, &data);
-						HM609A_Send_Data(sockid,p,len,0);
+						HM609A_Send_Data(sockid,p,len,0,MQTT_PROT);
 					}
 				}		
 			}
@@ -351,7 +356,7 @@ u8 HM609A_Mqtt_Program(u8 sockid)
 				MQTT_Publish(sockid, 0, 0, g_qos);
 			}
 	}	else {
-		hm609a_mqtt_conn_flag=0;
+		hm609a_mqtt_reg_flag=0;
 		msg_type=254;
 	}	
 	return 0;
