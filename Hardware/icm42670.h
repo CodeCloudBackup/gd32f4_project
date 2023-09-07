@@ -63,6 +63,11 @@ typedef struct
 	
 }ICM42670_SENSOR_DATA;
 
+
+extern float accel_g[3];
+extern float gyro_dps[3];
+extern float temp_degc;
+
 u8 ICM_Init(struct inv_imu_serif *icm_serif); 	//初始化MPU6050
 u8 ICM_Write_Len(u8 addr,u8 reg,u8 len,const u8 *buf);//IIC连续写
 u8 ICM_Read_Len(u8 addr,u8 reg,u8 len,u8 *buf); //IIC连续读 

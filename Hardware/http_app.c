@@ -116,20 +116,30 @@ void HTTP_Init(void)
 {
 	if(g_httpResposeBuf==NULL)
 		g_httpResposeBuf=mymalloc(SRAMIN,1024);
+	HTTP_FLAG_DOWNLOAD_BIN=0;
+	HTTP_FLAG_UPLOAD_PHOTO=0;
+	HTTP_FLAG_UPLOAD_LOGFILE=0;
+	HTTP_FLAG_IDENT_SUCCESS=0;
+	HTTP_FLAG_TASK=1;
+	HTTP_FLAG_EQUIP_IDENT=1;
 }
 
 void Http_Send_Resquest(const u8 sockid, const char *host,const u32 port)
 {
 	u16 len=0;
 	char resquestBuf[400]={0};
-	if(HTTP_FLAG_EQUIP_CERT)
+	if(HTTP_FLAG_EQUIP_IDENT)
 	{
+		printf("1.Send http post resquest:Equipment ident\r\n");
+		HTTP_FLAG_IDENT_SUCCESS=1;
+		HTTP_FLAG_EQUIP_IDENT=0;
 	}
 	else if(HTTP_FLAG_DOWNLOAD_BIN)
 	{
 		printf("Send http get resquest\r\n");
 		len=Http_Get_Package(resquestBuf, "iob/download/test.txt",host, port);
 		HM609A_Send_Data( sockid,(const u8*)resquestBuf,len,1,HTTP_PROT);
+		
 		HTTP_FLAG_DOWNLOAD_BIN=0;
 	}
 	else if(HTTP_FLAG_UPLOAD_PHOTO)

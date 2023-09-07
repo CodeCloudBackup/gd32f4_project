@@ -8,6 +8,8 @@ void jpeg_dcmi_rx_callback(void)
 
 char mcuIdHex[30]={0};
 
+DEVICE_STATUS device_sta;
+
 void Program_Init(void)
 {
 		struct inv_imu_serif icm_serif;
@@ -35,17 +37,22 @@ void Program_Init(void)
 			printf("ov2640_init failed\r\n");
 			delay_ms(400);
 		}
+		
 		sprintf(mcuIdHex,"%02x%02x%02x",mcuID[0],mcuID[1],mcuID[2]);
 		mcuIdHex[24]='\0';
 		printf("MCUID:%s",mcuIdHex);
 		MyDCMI_Init();			//DCMI≈‰÷√
+		//icm
+		ICM_Init(&icm_serif);
 		HM609A_Init();
 	  MQTT_Init(mcuIdHex);
 		HTTP_Init();
 		delay_ms(2000);
-		//icm
-		ICM_Init(&icm_serif);
-		
+}
+
+void Get_Sensor_Data(void)
+{
+	get_imu_data();
 }
 
 extern u8 *publishbuf;
@@ -54,7 +61,7 @@ void MQTT_Data_Program(void)
 {
 	cJSON *json;
 	if(!hm609a_mqtt_conn_flag)return;
-	if(MQTT_FLAG_REVICE)
+	if(MQTT_FLAG_RECEIVE)
 		MQTT_Publish_Analysis_Json(publishbuf,json);
 	
 	if(MQTT_FLAG_PHOTO){
@@ -65,9 +72,9 @@ void MQTT_Data_Program(void)
 		printf("\r\nServer command: third take a photo.\r\n");
 		MQTT_FLAG_PHOTO_THIRD=0;
 	}
-	if(MQTT_FLAG_DELIVER_OPEN){
+	if(MQTT_FLAG_DELY_OPEN){
 		printf("\r\nServer command: open deliver.\r\n");
-		MQTT_FLAG_DELIVER_OPEN=0;
+		MQTT_FLAG_DELY_OPEN=0;
 	}
 	if(MQTT_FLAG_LOCK_OPEN){
 		printf("\r\nServer command: open lock.\r\n");
@@ -77,13 +84,13 @@ void MQTT_Data_Program(void)
 		printf("\r\nServer command: close lock.\r\n");
 		MQTT_FLAG_LOCK_CLOSE=0;
 	}
-	if(MQTT_FLAG_CONFIG_DOWNLOAD){
+	if(MQTT_FLAG_CFG_DOWNLOAD){
 		printf("\r\nServer command: download config.\r\n");
-		MQTT_FLAG_CONFIG_DOWNLOAD=0;
+		MQTT_FLAG_CFG_DOWNLOAD=0;
 	}
-	if(MQTT_FLAG_CONFIG_UPLOAD){
+	if(MQTT_FLAG_CFG_UPLOAD){
 		printf("\r\nServer command: upload config.\r\n");
-		MQTT_FLAG_CONFIG_UPLOAD=0;
+		MQTT_FLAG_CFG_UPLOAD=0;
 	}
 	if(MQTT_FLAG_RESTART){
 		printf("\r\nServer command: restart device.\r\n");
@@ -101,6 +108,20 @@ void MQTT_Data_Program(void)
 		printf("\r\nServer command: upload log info.\r\n");
 		MQTT_FLAG_UPGRADE=0;
 	}
+}
+
+void Get_Device_Status()
+{
+	get_imu_data();
+	device_sta.power_voltage=Get_InVolt_Adc_Val();
+	device_sta.temp=Get_TempSensor_Adc_Val();
+	printf("volt:%d, temp:%.2f",device_sta.power_voltage, (float)device_sta.temp);
+	memcpy(device_sta.acc, accel_g, sizeof(accel_g));
+	memcpy(device_sta.gyro, gyro_dps, sizeof(gyro_dps));
+	device_sta.temp=temp_degc;
+	printf("\r\n temp:%f.\r\nacl:%f,%f,%f\r\ngyo:%f,%f,%f\r\n",\
+					device_sta.temp,device_sta.acc[0],device_sta.acc[1],device_sta.acc[2],\
+					device_sta.gyro[0],device_sta.gyro[1],device_sta.gyro[2]);
 }
 
 void Program_Test(void)

@@ -30,9 +30,9 @@ void HM609A_Init(void)
 	
 	status = GPIO_ReadInputDataBit(GPIOG, GPIO_Pin_3);
 	if(!status){
-		GPIO_SetBits(GPIOF,GPIO_Pin_11);	// Pwrkey,High, HM609A,Low time >550ms on/off
+		DG_PWRKEY_ON;	// Pwrkey,High, HM609A,Low time >550ms on/off
 		delay_ms(1000);
-		GPIO_ResetBits(GPIOF,GPIO_Pin_11);
+		DG_PWRKEY_OFF;
 	}
 	printf("\r\nHM609A Init successed.status:%d\n",status);
 }

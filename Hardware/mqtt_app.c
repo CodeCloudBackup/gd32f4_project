@@ -3,6 +3,7 @@
 #include "hm609a.h"
 #include "malloc.h"
 #include <stdlib.h>
+#include "http_app.h"
 
 MQTTPacket_connectData data = MQTTPacket_connectData_initializer;
 
@@ -17,6 +18,7 @@ int g_qos=0;
 
 Byte8 MqttSubscrTopFlag1;
 Byte8 MqttSubscrTopFlag2;
+Byte8 MqttSubscrTopFlag3;
 
 u16 buflen=400;
 u8 *p  = NULL;
@@ -27,6 +29,17 @@ u8 msg_type=254;
 void MQTT_TIM_10ms(void)
 {
 	if(hm609a_mqtt_conn_flag&&g_mqttConnTim)g_mqttConnTim--;
+	if(HTTP_FLAG_IDENT_SUCCESS) {
+		MQTT_FLAG_UP_DELY_STA=1;
+		MQTT_FLAG_UP_LOCK_STA=1;
+		MQTT_FLAG_UP_DEVICE_STA=1;
+		MQTT_FLAG_UP_CAMERA_STA=1;
+		MQTT_FLAG_UP_APPVERSION=1;
+		HTTP_FLAG_IDENT_SUCCESS=0;
+	}
+	if(g_mqttHeartbeatNum==50){
+		MQTT_FLAG_UP_DEVICE_STA=1;
+	}
 }
 
 void MQTT_Publish_Analysis_Json(u8* buf, cJSON *json)
@@ -61,7 +74,7 @@ void MQTT_Init(char* chip_id)
 		publishbuf = mymalloc(SRAMIN,400);
 }
 
-int transport_getdata(unsigned char* buf, int count)
+int transport_getdata(u8* buf, int count)
 {
 	memcpy(revicebuf, (void*)&buf[g_mqttReadLen],count);
 	g_mqttReadLen += count;
@@ -127,16 +140,14 @@ u8 Mqtt_Publish_Deserialize( u8* buf, u8* out)
 		int payloadlen_in=0;
 		u8* payload_in=NULL;
 		char* topic=NULL;
-		u8 topicLen=0;
 		MQTTString receivedTopic;
 		MQTTDeserialize_publish(&dup, &qos, &retained, &msgid, &receivedTopic,
 				&payload_in, &payloadlen_in, buf, buflen);
 		printf("receivedTopic:%s,%d\r\n",receivedTopic.lenstring.data,receivedTopic.lenstring.len);
 		topic=receivedTopic.lenstring.data;
-		topicLen=receivedTopic.lenstring.len;
 		if(strstr((const char *)topic, "iob/s2d/") != NULL)
 		{
-			MQTT_FLAG_REVICE=1;
+			MQTT_FLAG_RECEIVE=1;
 			if(strstr((const char *)topic, "job/") != NULL)
 			{
 				MQTT_FLAG_PHOTO=1;
@@ -146,15 +157,15 @@ u8 Mqtt_Publish_Deserialize( u8* buf, u8* out)
 				MQTT_FLAG_LOG_INFO=1;
 			}else if(strstr((const char *)topic, "update/")!= NULL)
 			{
-				MQTT_FLAG_REVICE=1;
+				MQTT_FLAG_RECEIVE=1;
 				MQTT_FLAG_UPGRADE=1;
 			}else	if(strstr((const char *)topic, "open/")!= NULL)
 			{
-				MQTT_FLAG_DELIVER_OPEN=1;
+				MQTT_FLAG_DELY_OPEN=1;
 				
 			}else if(strstr((const char *)topic, "close/")!= NULL)
 			{
-				MQTT_FLAG_DELIVER_CLOSE=1;
+				MQTT_FLAG_DELY_CLOSE=1;
 			}else if(strstr((const char *)topic, "openLock/")!= NULL)
 			{
 				MQTT_FLAG_LOCK_OPEN=1;
@@ -163,10 +174,10 @@ u8 Mqtt_Publish_Deserialize( u8* buf, u8* out)
 				MQTT_FLAG_LOCK_CLOSE=1;
 			}else if(strstr((const char *)topic, "update_param/")!= NULL)
 			{
-				MQTT_FLAG_CONFIG_DOWNLOAD=1;
+				MQTT_FLAG_CFG_DOWNLOAD=1;
 			}else if(strstr((const char *)topic, "get_params/")!= NULL)
 			{
-				MQTT_FLAG_CONFIG_UPLOAD=1;
+				MQTT_FLAG_CFG_UPLOAD=1;
 			}else if(strstr((const char *)topic, "reset/")!= NULL)
 			{
 				MQTT_FLAG_RESTART=1;
@@ -190,8 +201,7 @@ char res[20];
 u8 Mqtt_Deserialize_Handle(u8* msg_type,const u8* buf, u8* out)
 {
 	u8 ret=0;
-	int len=0;
-	char *pp;
+	char *pp=NULL;
 	int size=0;
 	u8 res_mqtt[300] = {0};
 	memset(res,0,20);
@@ -236,44 +246,27 @@ u8 Mqtt_Deserialize_Handle(u8* msg_type,const u8* buf, u8* out)
 	return ret;
 }
 
-void Mqtt_TIM_10ms(void)
-{
-	if((!hm609a_mqtt_reg_flag)&&g_mqttConnTim)g_mqttConnTim--;
-}
-
 void MQTT_Package_Publish_Json(char* topic, char* out)
 {
 	
 }
 
-void MQTT_Publish(u8 sockid, u8 dup, u8 retained, int qos)
+void MQTT_Publish(u8 sockid, u8 dup, u8 retained, int qos, char* topic, char* publish_buf)
 {
 	int len=0;
 	MQTTString topicString = MQTTString_initializer;
-	topicString.cstring = "iob/d2s/device/status/x";
-	if(g_mqttHeartbeatNum == 20) {
-		printf("MQTT_Publish\r\n");
-		char  *buf = "{ \"area_vacancy\": 10, \"power_remain\": 80,\"power_voltage\": 4039000,\"barcode\": ${barcode},\"cameSerialCode\": \"/dev/video0\",\"simCode\":\" \",\"csq\": \" \",\"lng\":\" \",\"lat\":\" \",\"acc\":\"\",\"gyro\":\"\",\"temp\":\" \"}";
-		payloadlen = strlen(buf);
-		if(payload==NULL)
-			payload=mymalloc(SRAMIN,payloadlen);
-		memcpy(payload,buf,payloadlen);
-		g_mqttPublishFlag=1;
-		g_mqttHeartbeatNum=21;
-	}
-	if(g_mqttPublishFlag){
-		g_mqttPublishFlag=0;
-		memset(p,0,buflen);
-		msg_type = PUBACK;
-		if(payload!= NULL && payloadlen)
-			len = MQTTSerialize_publish(p, buflen, dup, qos, retained, 0, topicString, (unsigned char*)payload, payloadlen);
-		HM609A_Send_Data(sockid,p,len,0,MQTT_PROT);
-		if(!g_qos) hm609a_mqtt_wait_flag=0;
-		if(payload!=NULL){
-			myfree(SRAMIN,payload);
-			payload=NULL;
-		}
-	}
+	mymemcpy(topicString.cstring, topic, strlen(topic));
+	printf("MQTT_Publish\r\n");
+	if(publish_buf == NULL)
+		return ;
+	payloadlen = strlen(publish_buf);
+	memset(p,0,buflen);
+	msg_type = PUBACK;
+	if(payloadlen)
+		len = MQTTSerialize_publish(p, buflen, dup, qos, retained, 0, topicString, (u8*)publish_buf, payloadlen);
+	HM609A_Send_Data(sockid,p,len,0,MQTT_PROT);
+	if(!g_qos) hm609a_mqtt_wait_flag=0;
+	g_mqttPublishFlag=0;
 }
 
 void MQTT_HeartBeat(u8 sockid)
@@ -350,10 +343,19 @@ u8 HM609A_Mqtt_Program(u8 sockid)
 			}
 			else
 			{
+				char *topic =  "iob/d2s/device/status/x";
+				
 				if(count)count=0;
 				MQTT_Subscribe(sockid);
 				MQTT_HeartBeat(sockid);
-				MQTT_Publish(sockid, 0, 0, g_qos);
+				if(g_mqttPublishFlag)
+				{
+					if(payload == NULL)
+						payload=mymalloc(SRAMIN, 400);
+					MQTT_Publish(sockid, 0, 0, g_qos,topic,payload);
+					if(payload != NULL)
+						myfree(SRAMIN, payload);
+				}
 			}
 	}	else {
 		hm609a_mqtt_reg_flag=0;

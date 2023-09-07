@@ -120,13 +120,15 @@ static void get_accel_and_gyr_fsr(uint16_t *accel_fsr_g, uint16_t *gyro_fsr_dps)
 	}
 }
 
+float    accel_g[3];
+float    gyro_dps[3];
+float    temp_degc;
+
 void imu_callback(inv_imu_sensor_event_t *event)
 {
 	int32_t  accel[3], gyro[3];
 #if SCALED_DATA_G_DPS
-	float    accel_g[3];
-	float    gyro_dps[3];
-	float    temp_degc;
+
 	uint16_t accel_fsr_g, gyro_fsr_dps;
 #endif
 	apply_mounting_matrix(icm_mounting_matrix, accel);

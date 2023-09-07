@@ -32,6 +32,15 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 OF SUCH DAMAGE.
 */
 
+/*
+	自定义缩写词
+	protocol PROT
+	status   STA
+	deliver  DELY
+	result   RES
+	config   CFG
+*/
+
 #include "program.h"
 /*!
     \brief      main function
@@ -44,7 +53,6 @@ OF SUCH DAMAGE.
 
 int main(void)
 {
-	u32 flash_id = 0;
 	SEI();
 	NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0x10000);//中断向量地址偏移0x100000
 	Program_Init();
@@ -65,7 +73,7 @@ int main(void)
 			if(HTTP_FLAG_TASK){
 				u32 port = 0;
 				// get http port
-				if( HTTP_FLAG_EQUIP_CERT || HTTP_FLAG_DOWNLOAD_BIN ){
+				if( HTTP_FLAG_EQUIP_IDENT || HTTP_FLAG_DOWNLOAD_BIN ){
 					port=httpPort;
 				}
 				else if (HTTP_FLAG_UPLOAD_PHOTO || HTTP_FLAG_UPLOAD_LOGFILE)
