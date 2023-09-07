@@ -574,11 +574,6 @@
               <FilePath>..\Hardware\sccb.c</FilePath>
             </File>
             <File>
-              <FileName>malloc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Hardware\malloc.c</FilePath>
-            </File>
-            <File>
               <FileName>http_app.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Hardware\http_app.c</FilePath>
@@ -692,6 +687,16 @@
               <FileName>mqtt_define.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Hardware\mqtt_define.h</FilePath>
+            </File>
+            <File>
+              <FileName>malloc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\malloc.c</FilePath>
+            </File>
+            <File>
+              <FileName>malloc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\malloc.h</FilePath>
             </File>
           </Files>
         </Group>
