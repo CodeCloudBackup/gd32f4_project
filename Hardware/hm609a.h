@@ -24,7 +24,7 @@ typedef enum
 {
 	MQTT_PROT=0,
 	HTTP_PROT
-}NET_PROTOCOL;
+}NET_PROT;
 
 extern Byte8 g_hm609aFlag;
 
@@ -33,7 +33,7 @@ void HM609A_Init(void);
 u8 HM609A_Config(void);
 u8 HM609A_Connect(u8 sockid, char* addr, int port);
 u8 HM609A_Tcp_Off(u8 sockid);// ¹Ø±ÕTCPÁ¬½Ó
-void HM609A_Tcp_Program(u8 sockid, char* addr, int port, NET_PROTOCOL protocol);
-void HM609A_Send_Data(u8 sockid, const u8* data, u16 len,u8 flag, NET_PROTOCOL protocol);
+void HM609A_Tcp_Program(u8 sockid, char* addr, int port, NET_PROT protocol);
+void HM609A_Send_Data(u8 sockid, const u8* data, u16 len,u8 flag, NET_PROT protocol);
 #endif
 

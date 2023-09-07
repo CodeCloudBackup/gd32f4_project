@@ -16,6 +16,7 @@ u16 Http_Get_Package(char *buff_get, char *url_tail,const char *host, u16 port)
 			"Connection:close\r\n"
 			"Host:%s:%d\r\n"
 			"Connection:close\r\n"
+			"Accept: */*\r\n"
 			"User-Agent:GD32F427\r\n"
 			"\r\n",
 			url_tail,host,port
@@ -108,6 +109,7 @@ void HTTP_TIM_10ms(void)
 	{
 		HTTP_FLAG_TASK=1;
 		HTTP_FLAG_DOWNLOAD_BIN=1;
+		g_http1STim=0;
 	}
 }
 
@@ -121,7 +123,7 @@ void HTTP_Init(void)
 	HTTP_FLAG_UPLOAD_LOGFILE=0;
 	HTTP_FLAG_IDENT_SUCCESS=0;
 	HTTP_FLAG_TASK=1;
-	HTTP_FLAG_EQUIP_IDENT=1;
+	HTTP_FLAG_EQUIP_IDENT=0;
 }
 
 void Http_Send_Resquest(const u8 sockid, const char *host,const u32 port)
@@ -137,7 +139,9 @@ void Http_Send_Resquest(const u8 sockid, const char *host,const u32 port)
 	else if(HTTP_FLAG_DOWNLOAD_BIN)
 	{
 		printf("Send http get resquest\r\n");
+		
 		len=Http_Get_Package(resquestBuf, "iob/download/test.txt",host, port);
+		printf("\r\n%s\r\n",resquestBuf);
 		HM609A_Send_Data( sockid,(const u8*)resquestBuf,len,1,HTTP_PROT);
 		
 		HTTP_FLAG_DOWNLOAD_BIN=0;
@@ -159,9 +163,16 @@ u8 HM609A_Http_Program(const u8 sockid, const char *host, const u32 port)
 	{
 		i = USART1_Revice(g_httpResposeBuf);
 		if(i){
-			;
+			char *p1;
+			printf("\r\nhttpRecv:%s\r\n",g_httpResposeBuf);
+			p1 = strstr((char*)g_httpResposeBuf, "HTTP/1.1 200");	
+			if(p1 != NULL)// io stream
+			{
+				HTTP_FLAG_TASK=0;
+			}		
 		}
 		Http_Send_Resquest(sockid, host, port);
+	
 	}
 	return 0;
 }

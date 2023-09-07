@@ -60,18 +60,18 @@ int main(void)
 	//	OV2640_Jpg_Photo();
 	char *host = "101.37.89.157";//Ö÷»ú
 	u32 mqttPort = 1883;
-	u32 httpPort = 80;
-	u32 httpUploadPort = 80;
+	u32 httpPort = 8886;
+	u32 httpUploadPort = 8886;
 	u8 httpSockId = 1;
 	u8 mqttSockId = 2;
-
+	u32 port = 0;
   while(1) {
 			
 	  	HM609A_Tcp_Program(mqttSockId, host, mqttPort, MQTT_PROT);
 			HM609A_Mqtt_Program(mqttSockId);
 			MQTT_Data_Program();
-			if(HTTP_FLAG_TASK){
-				u32 port = 0;
+			if(hm609a_mqtt_reg_flag&&HTTP_FLAG_TASK){
+				
 				// get http port
 				if( HTTP_FLAG_EQUIP_IDENT || HTTP_FLAG_DOWNLOAD_BIN ){
 					port=httpPort;
@@ -80,8 +80,8 @@ int main(void)
 				{
 					port=httpUploadPort;
 				}
-				HM609A_Tcp_Program(httpSockId, host, port, HTTP_PROT);
-				HM609A_Http_Program(httpSockId, host, port);
+					HM609A_Tcp_Program(httpSockId, host, port, HTTP_PROT);
+					HM609A_Http_Program(httpSockId, host, port);							
 			}
     }
 }
