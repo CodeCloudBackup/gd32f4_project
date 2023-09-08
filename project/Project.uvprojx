@@ -10,7 +10,7 @@
       <TargetName>GD32427V_START</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>5060960::V5.06 update 7 (build 960)::ARMCC</pCCUsed>
+      <pCCUsed>5060960::V5.06 update 7 (build 960)::.\ARMCC</pCCUsed>
       <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
@@ -567,6 +567,11 @@
               <FileName>ov2640.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Hardware\ov2640.c</FilePath>
+            </File>
+            <File>
+              <FileName>ov2640.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\ov2640.h</FilePath>
             </File>
             <File>
               <FileName>sccb.c</FileName>

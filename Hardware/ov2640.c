@@ -25,6 +25,8 @@ vu32 jpeg_data_len=0; 			//buf中的JPEG有效数据长度(*4字节)
 vu8 jpeg_data_ok=0;				//JPEG数据采集完成标志
 u32 *jpeg_data_buf;						//JPEG数据缓存buf,通过malloc申请内存
 u8 ov2640_mode=1;	
+
+PHOTO_PARAM photo_param;
 //当采集完一帧JPEG数据后,调用此函数,切换JPEG BUF.开始下一帧采集.
 void jpeg_data_process(void)
 {
@@ -70,6 +72,9 @@ u8 OV2640_Jpg_Photo(void)
 			if(i==jpeg_data_len*4)res=0XFD;//没找到0XFF,0XD8
 			else//找到了
 			{
+				photo_param.size=jpeg_data_len*4;
+				sprintf(photo_param.cap_time,"20230908000000");
+				
 				for(i=0;i<jpeg_data_len*4;i++)		//dma传输1次等于4字节,所以乘以4.
 				{
 						while((USART2->SR&0X40)==0);	//循环发送,直到发送完毕   
@@ -149,7 +154,13 @@ u8 OV2640_Init(void)
 	   	SCCB_WR_Reg(ov2640_sxga_init_reg_tbl[i][0],ov2640_sxga_init_reg_tbl[i][1]);
  	} 
 	jpeg_data_buf=mymalloc(SRAMIN,50*1024);		//为jpeg文件申请内存(最大300KB)
-  	return 0x00; 	//ok
+	
+	// 拍照参数初始化
+	sprintf(photo_param.cam_id, "/dev/video0");
+	sprintf(photo_param.resolution, "320X240");
+	photo_param.error_code=0;
+	photo_param.frame_diff=80;
+  return 0x00; 	//ok
 } 
 //OV2640切换为JPEG模式
 void OV2640_JPEG_Mode(void) 
@@ -160,12 +171,17 @@ void OV2640_JPEG_Mode(void)
 	{
 		SCCB_WR_Reg(ov2640_yuv422_reg_tbl[i][0],ov2640_yuv422_reg_tbl[i][1]); 
 	} 
-	
+	sprintf(photo_param.format, "YUVU");
 	//设置:输出JPEG数据
 	for(i=0;i<(sizeof(ov2640_jpeg_reg_tbl)/2);i++)
 	{
 		SCCB_WR_Reg(ov2640_jpeg_reg_tbl[i][0],ov2640_jpeg_reg_tbl[i][1]);  
 	}  
+	OV2640_Auto_Exposure(1);
+	photo_param.exposure=0x19;
+	OV2640_Brightness(0);
+	photo_param.brightness=0x00;
+	
 }
 //OV2640切换为RGB565模式
 void OV2640_RGB565_Mode(void) 

@@ -31,8 +31,8 @@ extern Byte8 MqttSubscrTopFlag3;
 
 #define MQTT_FLAG3				MqttSubscrTopFlag3.Byte
 #define MQTT_FLAG_UP_PHOTO_RES					MqttSubscrTopFlag3.Bits.B0	// 上传拍照结果
-#define MQTT_FLAG_UP_DELY_OPEN_RES		MqttSubscrTopFlag3.Bits.B1	// 上传传递口结果
-#define MQTT_FLAG_UP_DELY_STA				MqttSubscrTopFlag3.Bits.B2	// 上传传递口状态
+#define MQTT_FLAG_UP_DELY_OPEN_RES			MqttSubscrTopFlag3.Bits.B1	// 上传传递口结果
+#define MQTT_FLAG_UP_DELY_STA						MqttSubscrTopFlag3.Bits.B2	// 上传传递口状态
 #define MQTT_FLAG_UP_LOCK_STA						MqttSubscrTopFlag3.Bits.B3	// 上传运维锁状态
 #define MQTT_FLAG_UP_DEVICE_STA					MqttSubscrTopFlag3.Bits.B4	// 上传设备状态
 #define MQTT_FLAG_UP_CAMERA_STA					MqttSubscrTopFlag3.Bits.B5	// 上传相机状态

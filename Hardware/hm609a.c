@@ -406,11 +406,13 @@ void HM609A_Tcp_Program(u8 sockid, char* addr, int port, NET_PROT protocol)
             state[sockid]++;
 						hm609a_config_flag=1;
             count[sockid]=0;
+					
         }
         break;
         case 2:
         {
-						memset(state,0,sizeof(state));
+						state[sockid]=0;
+						count[sockid]=0;
             HM609A_Restart();
         }
         break;
@@ -486,15 +488,16 @@ void HM609A_Send_Data(u8 sockid, const u8* data, u16 len, u8 flag, NET_PROT prot
 			return;//Î´Á¬½Ó£¬½ûÖ¹·¢ËÍ
 	}
 	
-	hexStr = mymalloc(SRAMIN,600);
-	to_hex(data, len, hexStr);
-	hexStr[len*2] = '\0';
 	if(flag)
 	{
 		printf("\r\nAT+IPSEND=%d,%d\r\n",sockid,len);
 		USART1_SendData(data,len);
 	}
 	else{
+		if(hexStr == NULL)
+			hexStr = mymalloc(SRAMIN,600);
+		to_hex(data, len, hexStr);
+		hexStr[len*2] = '\0';
 		printf("\r\nAT+IPSENDEX=%d,%s\r\n",sockid,hexStr);
 		u1_printf("\r\nAT+IPSENDEX=%d,\"%s\"\r\n",sockid, hexStr);
 	}
@@ -509,7 +512,8 @@ void HM609A_Send_Data(u8 sockid, const u8* data, u16 len, u8 flag, NET_PROT prot
 		g_hm609aHttpWaitTim=10000;
 		hm609a_http_wait_flag=1;
 	}
-	myfree(SRAMIN,hexStr);
+	if(hexStr != NULL)
+		myfree(SRAMIN,hexStr);
 }
 
 void HM609A_test(void)

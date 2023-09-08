@@ -109,8 +109,21 @@
 #define OV2640_SENSOR_HISTO_HIGH 0x62
 
 
-								
-	    				 
+typedef struct
+{
+	char cam_id[12];			// 摄像机id
+	char cap_time[15];		// 抓拍时间
+	char format[5];				// 图片格式
+	char resolution[10];	// 图片分辨率
+	u32 size;							// 图片尺寸
+	int exposure;					// 曝光参数
+	u32 brightness;				// 照片亮度
+	u8 frame_diff;				// 帧差结果
+	u8 error_code;				// 拍照错误码
+}PHOTO_PARAM;
+	    	
+extern PHOTO_PARAM photo_param;
+
 u8 OV2640_Init(void);  
 void OV2640_JPEG_Mode(void);
 void OV2640_RGB565_Mode(void);
