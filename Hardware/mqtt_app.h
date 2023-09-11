@@ -49,7 +49,7 @@ int transport_getdata(u8* buf, int count);
 u8 Mqtt_Connack_Deserialize( u8* buf);
 u8 Mqtt_Suback_Deserialize( u8* buf);
 u8 Mqtt_Publish_Deserialize( u8* buf,u8* out);
-u8 Mqtt_Deserialize_Handle(u8* msg_type,const u8* buf, u8* out);
+u8 Mqtt_Deserialize_Handle(u8* msg_type, u8* buf, u8* out);
 u8 HM609A_Mqtt_Program(u8 sockid);
 
 #endif

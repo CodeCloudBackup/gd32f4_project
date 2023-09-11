@@ -1,4 +1,5 @@
 #include "program.h"
+#include <stdlib.h>
 
 //jpeg数据接收回调函数
 void jpeg_dcmi_rx_callback(void)
@@ -56,6 +57,69 @@ void Get_Sensor_Data(void)
 }
 
 extern u8 *publishbuf;
+extern u8 msg_type;
+extern u8 g_mqttSubscribeFlag;
+extern vu8 g_usart1RevFinish;
+extern vu32 g_usart1Cnt; 
+char res[20]="+IPURC: \"recv\",2,";
+void Data_Program(void)
+{
+	u8 ret=0;
+	int size=0;
+	u32 len = g_usart1Cnt;
+	char *http_ptr=NULL;
+	char *mqtt_ptr=NULL;
+	if(!hm609a_mqtt_conn_flag&&!hm609a_http_conn_flag)
+		return;
+	if(g_usart1RevFinish)
+	{
+		g_usart1RevFinish = 0;
+		USART1_RX_BUF[len]='\0';//?????
+		mqtt_ptr= strstr((const char *)USART1_RX_BUF, "+IPURC: \"recv\",2,");
+		http_ptr= strstr((const char *)USART1_RX_BUF, "+IPURC: \"recv\",1,");
+		if(mqtt_ptr != NULL)
+		{	
+			mqtt_ptr += strlen(res);
+			size = atoi(mqtt_ptr);
+			mqtt_ptr = strstr((const char *)mqtt_ptr,"\n");
+			memcpy(g_netData, mqtt_ptr+1, size);
+			USART1_Clear();
+		} 
+		else if (http_ptr != NULL)
+		{
+			http_ptr += strlen(res);
+			size = atoi(http_ptr);
+			http_ptr = strstr((const char *)http_ptr,"\n");
+			memcpy(g_netData, http_ptr+1, size);
+			USART1_Clear();
+		}else {
+			return ;
+		}
+		
+	}
+	if(size)
+  {
+		char *p1=NULL;
+		p1 = strstr((char*)g_netData, "HTTP/1.1");	
+		if(p1 != NULL)
+		{
+			printf("\r\nHTTP Recv:%s\r\n",g_netData);
+			HTTP_FLAG_TASK=0;
+			hm609a_http_wait_flag=0;
+			hm609a_http_conn_flag=0;
+		}else {
+			printf("\r\nMqtt Recv:%s\r\n",g_netData);
+			ret=Mqtt_Deserialize_Handle(&msg_type, g_netData, publishbuf);
+			if(ret) 
+			{
+				printf("MQTT return handle successed\r\n");
+				hm609a_mqtt_wait_flag=0;
+			}
+			if(hm609a_mqtt_reg_flag && msg_type == CONNACK)
+				g_mqttSubscribeFlag=1;
+		}
+	}	
+}
 
 void MQTT_Data_Program(void)
 {

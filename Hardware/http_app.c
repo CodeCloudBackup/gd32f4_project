@@ -12,14 +12,14 @@ u16 g_httpReturnTim=0;
 u16 Http_Get_Package(char *buff_get, char *url_tail,const char *host, u16 port)
 {
 	u16 len;
-	len = sprintf(buff_get, "GET %s HTTP/1.1\r\n"
+	len = sprintf(buff_get, "GET http://%s:%d/%s HTTP/1.1\r\n"
 			"Connection:close\r\n"
 			"Host:%s:%d\r\n"
 			"Connection:close\r\n"
 			"Accept: */*\r\n"
 			"User-Agent:GD32F427\r\n"
 			"\r\n",
-			url_tail,host,port
+			host,port,url_tail,host,port
 		);
 	return len;
 }
@@ -105,7 +105,7 @@ void HTTP_TIM_10ms(void)
 {
 	if(hm609a_http_conn_flag&&g_httpWaitTim)g_httpWaitTim--;
 	g_http1STim++;
-	if(g_http1STim==500)
+	if(g_http1STim==1000)
 	{
 		HTTP_FLAG_TASK=1;
 		HTTP_FLAG_DOWNLOAD_BIN=1;
@@ -130,6 +130,8 @@ void Http_Send_Resquest(const u8 sockid, const char *host,const u32 port)
 {
 	u16 len=0;
 	char resquestBuf[400]={0};
+	if(!hm609a_http_conn_flag) return;
+	
 	if(HTTP_FLAG_EQUIP_IDENT)
 	{
 		printf("1.Send http post resquest:Equipment ident\r\n");
@@ -142,9 +144,11 @@ void Http_Send_Resquest(const u8 sockid, const char *host,const u32 port)
 		
 		len=Http_Get_Package(resquestBuf, "iob/download/test.txt",host, port);
 		printf("\r\n%s\r\n",resquestBuf);
-		HM609A_Send_Data( sockid,(const u8*)resquestBuf,len,1,HTTP_PROT);
-		
+		len = strlen(resquestBuf);
+		printf("\r\nquest len%d\r\n",len);
+		HM609A_Send_Data( sockid,(const u8*)resquestBuf,len,0,HTTP_PROT);
 		HTTP_FLAG_DOWNLOAD_BIN=0;
+		hm609a_http_wait_flag=1;
 	}
 	else if(HTTP_FLAG_UPLOAD_PHOTO)
 	{
@@ -158,21 +162,9 @@ void Http_Send_Resquest(const u8 sockid, const char *host,const u32 port)
 u8 HM609A_Http_Program(const u8 sockid, const char *host, const u32 port)
 {
 	u8 ret = 0;
-	u16 i=0;
 	if (hm609a_http_conn_flag)
 	{
-		i = USART1_Revice(g_httpResposeBuf);
-		if(i){
-			char *p1;
-			printf("\r\nhttpRecv:%s\r\n",g_httpResposeBuf);
-			p1 = strstr((char*)g_httpResposeBuf, "HTTP/1.1 200");	
-			if(p1 != NULL)// io stream
-			{
-				HTTP_FLAG_TASK=0;
-			}		
-		}
 		Http_Send_Resquest(sockid, host, port);
-	
 	}
-	return 0;
+	return ret;
 }

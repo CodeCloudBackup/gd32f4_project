@@ -103,7 +103,6 @@ u8 Mqtt_Suback_Deserialize( u8* buf)
 		if (granted_qos != 0)
 		{
 			printf("granted qos != 0, %d\n", granted_qos);
-			return 0;
 		}
 		return 1;
 }
@@ -143,7 +142,6 @@ u8 Mqtt_Publish_Deserialize( u8* buf, u8* out)
 		MQTTString receivedTopic;
 		MQTTDeserialize_publish(&dup, &qos, &retained, &msgid, &receivedTopic,
 				&payload_in, &payloadlen_in, buf, buflen);
-		printf("receivedTopic:%s,%d\r\n",receivedTopic.lenstring.data,receivedTopic.lenstring.len);
 		topic=receivedTopic.lenstring.data;
 		if(strstr((const char *)topic, "iob/s2d/") != NULL)
 		{
@@ -184,6 +182,7 @@ u8 Mqtt_Publish_Deserialize( u8* buf, u8* out)
 			}
 		}
 		memcpy(out,payload_in,payloadlen_in);
+		printf("receivedTopic:%s,%d\r\n",receivedTopic.lenstring.data,receivedTopic.lenstring.len);
 		printf("message arrived: %.*s\n", payloadlen_in, payload_in); //消息到达
 		return 1;	
 }
@@ -197,40 +196,27 @@ u8 Mqtt_Pingresp_Deserialize(u8* buf)
 	return 0;
 }
 
-char res[20];
-u8 Mqtt_Deserialize_Handle(u8* msg_type,const u8* buf, u8* out)
+u8 Mqtt_Deserialize_Handle(u8* msg_type, u8* buf, u8* out)
 {
 	u8 ret=0;
-	char *pp=NULL;
-	int size=0;
-	u8 res_mqtt[300] = {0};
-	memset(res,0,20);
-	sprintf(res, "+IPURC: \"recv\",2,");
-	pp = strstr((const char *)buf, (const char *)res);
-	if( pp != NULL)
-	{
-		memset(out,0,300);
-		pp += strlen(res);
-		size = atoi(pp);
-		pp = strstr((const char *)pp, "\n");
-		memcpy(res_mqtt, pp+1, size);			
+	memset(out,0,300);
 	
 	if(hm609a_mqtt_reg_flag){
 		if(*msg_type == SUBACK)
 		{
-			ret = Mqtt_Suback_Deserialize(res_mqtt);
+			ret = Mqtt_Suback_Deserialize(buf);
 			if(ret)
 				*msg_type=PUBLISH ;
 		} else if (*msg_type == PUBLISH)
 		{
-			ret = Mqtt_Publish_Deserialize(res_mqtt, out);
+			ret = Mqtt_Publish_Deserialize(buf, out);
 		} else if (*msg_type == PINGRESP)
 		{
-			ret = Mqtt_Pingresp_Deserialize(res_mqtt);
+			ret = Mqtt_Pingresp_Deserialize(buf);
 		} else if (*msg_type == PUBACK)
 		{
-			printf("PUBLIC %x ",res_mqtt[0]);
-			ret = Mqtt_Puback_Deserialize(res_mqtt,1);
+			printf("PUBLIC %x ",buf[0]);
+			ret = Mqtt_Puback_Deserialize(buf,1);
 			if(ret)
 				*msg_type=PUBLISH ;
 		} else {
@@ -239,9 +225,8 @@ u8 Mqtt_Deserialize_Handle(u8* msg_type,const u8* buf, u8* out)
 	}
 	else
 	{
-		ret = Mqtt_Connack_Deserialize(res_mqtt);
+		ret = Mqtt_Connack_Deserialize(buf);
 		hm609a_mqtt_reg_flag=ret;
-	}
 	}
 	return ret;
 }
@@ -299,28 +284,12 @@ void MQTT_Subscribe(u8 sockid)
 
 u8 HM609A_Mqtt_Program(u8 sockid)
 {
-	u16 i=0;
-	u8 buf[500];
-	int len=0;
 	u8 ret=0;
+	int len=0;
 	static u16 count=0;
 	
 	if(hm609a_mqtt_conn_flag)//TCP连接建立
 	{   
-
-			i = USART1_Revice(buf);
-			if(i)
-      {
-				printf("\r\nRecvMqtt:%s\r\n",buf);
-				ret=Mqtt_Deserialize_Handle(&msg_type, buf, publishbuf);
-				if(ret) 
-				{
-					printf("MQTT return handle successed\r\n");
-					hm609a_mqtt_wait_flag=0;
-				}
-				if(hm609a_mqtt_reg_flag && msg_type == CONNACK)
-					g_mqttSubscribeFlag=1;
-			}
 			if(!hm609a_mqtt_reg_flag )
 			{
 				if(g_mqttConnTim==0){
@@ -361,6 +330,6 @@ u8 HM609A_Mqtt_Program(u8 sockid)
 		hm609a_mqtt_reg_flag=0;
 		msg_type=254;
 	}	
-	return 0;
+	return ret;
 }	
 

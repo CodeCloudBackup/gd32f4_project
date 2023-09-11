@@ -190,7 +190,8 @@ void USART1_Clear(void)
 		g_usart1RevFinish = 0;
 }
 
-u16 USART1_Revice(u8* data)
+u8* g_netData=NULL;
+u16 USART1_Revice(void)
 {
 	u16 len = g_usart1Cnt;
 	if(g_usart1RevFinish)
@@ -199,7 +200,9 @@ u16 USART1_Revice(u8* data)
 		if(len>0)
 		{
 				USART1_RX_BUF[len]='\0';//?????
-				memcpy(data, (u8*)USART1_RX_BUF, len+1);
+				printf("\r\nRECV:%s\r\n",USART1_RX_BUF);
+				memset(g_netData, 0, USART1_MAX_RECV_LEN);
+				memcpy(g_netData, (u8*)USART1_RX_BUF, len+1);
 				USART1_Clear();
 				return len;	
 		}else{
@@ -268,8 +271,8 @@ void usart1_init(u32 bound)
 	NVIC_Init(&NVIC_InitStructure);	//根据指定的参数初始化VIC寄存器
 	
 	USART1_RX_STA=0;				//清零 
-//	USART1_TX_BUF=mymalloc(SRAMIN,USART1_MAX_RECV_LEN);
-//	USART1_RX_BUF=mymalloc(SRAMIN,USART1_MAX_RECV_LEN);
+	if(g_netData==NULL)
+		g_netData=mymalloc(SRAMIN,USART1_MAX_RECV_LEN);
 }
 
 //串口3,printf 函数

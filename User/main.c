@@ -60,8 +60,8 @@ int main(void)
 	//	OV2640_Jpg_Photo();
 	char *host = "101.37.89.157";//Ö÷»ú
 	u32 mqttPort = 1883;
-	u32 httpPort = 8886;
-	u32 httpUploadPort = 8886;
+	u32 httpPort = 80;
+	u32 httpUploadPort = 80;
 	u8 httpSockId = 1;
 	u8 mqttSockId = 2;
 	u32 port = 0;
@@ -82,6 +82,9 @@ int main(void)
 				}
 					HM609A_Tcp_Program(httpSockId, host, port, HTTP_PROT);
 					HM609A_Http_Program(httpSockId, host, port);							
+			}else{
+				HTTP_FLAG_TASK=0;
 			}
+			Data_Program();
     }
 }

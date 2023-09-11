@@ -50,6 +50,7 @@ void HM609A_TIM_1ms(void)
 		if(g_hm609aTim[0])g_hm609aTim[0]--;
     if(g_hm609aTim[1])g_hm609aTim[1]--;
 		if(g_hm609aTim[2])g_hm609aTim[2]--;
+		if(g_hm609aTim[3])g_hm609aTim[3]--;
     if(hm609a_mqtt_wait_flag)
     {
       if(g_hm609aMqttWaitTim)g_hm609aMqttWaitTim--;
@@ -125,7 +126,6 @@ u8 HM609A_Config(void)
 	static char res_at[20];
 	static u8 count = 0, Signs = 0, cnt = 1; //重复次数,重启流程
 	u16 len = 0;
-	char buf[200]={0};
 	if(g_hm609aTim[0] == 0) //为0时发送测试数据
 	{
 			if(count > 0 && count >= cnt) //超过最大重复次数
@@ -213,6 +213,15 @@ u8 HM609A_Config(void)
 							u1_printf("\r\nAT+IPDNSR=\"debug.armlogic.tech\"\r\n"); //发送AT指令
 					}
 					break;
+					case 8:
+					{
+						printf("\r\nA|ATE0\r\n");
+						cnt = 3;
+						g_hm609aTim[0] = 2000;
+						strcpy(res_at, "OK");		//设置返回判断关键字
+						u1_printf("\r\nATE0\r\n");  //发送AT指令
+					}
+					break;
 					default:// 状态配置执行完毕
 					{
 						count = 0;      //重试次数清零
@@ -225,16 +234,14 @@ u8 HM609A_Config(void)
 	}
 	else
 	{
-		if(USART1_Revice((u8*)buf))         //从串口3读取数据
+		if(USART1_Revice())         //从串口3读取数据
 		{
-				printf("Recv:%s",buf);
-				if(strstr((const char *)buf, (const char *)res_at) != NULL) //检查是否包含关键字
+				if(strstr((const char *)g_netData, (const char *)res_at) != NULL) //检查是否包含关键字
 				{
 					g_hm609aTim[0] = 0; //定时清零
 					count = 0;      //重试次数清零
 					Signs++;        //下一个流程
 				}
-				memset(buf,0,sizeof(buf));
 		}
 	}
 	return 0;
@@ -248,7 +255,6 @@ u8 HM609A_Config(void)
 u8 HM609A_Connect(u8 sockid, char* addr, int port)
 {
 	static u8 count[7] = {0}, Signs[7] = {0}, cnt[7] = {0};
-	char buf[100]={0};
 	if(g_hm609aTim[sockid] == 0)
 	{
 		if(count[sockid] > 0 && count[sockid] >= cnt[sockid]) //超过最大重复次数
@@ -269,22 +275,6 @@ u8 HM609A_Connect(u8 sockid, char* addr, int port)
 					u1_printf("\r\nAT+IPOPEN=%d,\"TCP\",\"%s\",%d,0,0\r\n",sockid,addr,port);  //发送AT指令
 				}
 				break;
-				case 1:
-				{
-					printf("\r\nA|AT+IPSWTMD=%d,1\r\n",sockid);
-					cnt[sockid] = 10;
-					g_hm609aTim[sockid] = 2000;
-					u1_printf("\r\nAT+IPSWTMD=%d,1\r\n",sockid);  //发送AT指令
-				}
-				break;
-				case 2:
-				{
-					printf("\r\nA|ATE0\r\n");
-					cnt[sockid] = 3;
-					g_hm609aTim[sockid] = 2000;
-					u1_printf("\r\nATE0\r\n");  //发送AT指令
-				}
-				break;
 				default:// 等待连接建立成功
 				{
 						count[sockid] = 0;      //重试次数清零
@@ -297,17 +287,15 @@ u8 HM609A_Connect(u8 sockid, char* addr, int port)
 	}
 	else
 	{
-		 if(USART1_Revice((u8*)buf))         //从串口3读取数据
+		if(USART1_Revice())        //从串口3读取数据
+		{
+			if(strstr((const char *)g_netData, "OK") != NULL) //检查是否包含关键字
 			{
-					printf("Recv:%s",buf);
-					if(strstr((const char *)buf, "OK") != NULL) //检查是否包含关键字
-					{
-							g_hm609aTim[sockid] = 0; //定时清零
-							count[sockid] = 0;      //重试次数清零
-							Signs[sockid]++;        //下一个流程
-					}
-					memset(buf,0,sizeof(buf));
+					g_hm609aTim[sockid] = 0; //定时清零
+					count[sockid] = 0;      //重试次数清零
+					Signs[sockid]++;        //下一个流程
 			}
+		}
 	}
 	return 0;
 }
@@ -319,7 +307,6 @@ u8 HM609A_Connect(u8 sockid, char* addr, int port)
 u8 HM609A_Tcp_Off(u8 sockid)// 关闭TCP连接
 {
     static u8 count[7] = {0}; //重复次数,重启流程
-    char buf[50];
     if(g_hm609aTim[sockid] == 0)
     {
         if(count[sockid] >= 2) //超过最大重复次数
@@ -336,15 +323,14 @@ u8 HM609A_Tcp_Off(u8 sockid)// 关闭TCP连接
     }
     else
     {
-        if(USART1_Revice((u8*)buf))         //从串口3读取数据
-        {
-            if(strstr((const char *)buf, "OK") != NULL) //连接设置成功
-            {
-                count[sockid] = 0;      //重试次数清零
-                return 1;     //返回执行完毕
-            }
-						memset(buf,0,sizeof(buf));
-        }
+			if(USART1_Revice())         //从串口3读取数据
+			{
+				if(strstr((const char *)g_netData, "OK") != NULL) //连接设置成功
+				{
+						count[sockid] = 0;      //重试次数清零
+						return 1;     //返回执行完毕
+				}
+			}
     }
     return 0;
 }
@@ -385,11 +371,17 @@ void HM609A_Tcp_Program(u8 sockid, char* addr, int port, NET_PROT protocol)
   {
 		case 0:
 		{
+			if(!hm609a_config_flag)
+			{
 				if(HM609A_Restart_Program())
         {
             state[sockid]++;
             count[sockid]=0;
         }
+			}else{
+					state[sockid]++;
+					count[sockid]=0;
+			}
 		}
 		break;
 		case 1:     //配置模块
@@ -411,8 +403,8 @@ void HM609A_Tcp_Program(u8 sockid, char* addr, int port, NET_PROT protocol)
         break;
         case 2:
         {
-						state[sockid]=0;
-						count[sockid]=0;
+						memset(state,0,sizeof(state));
+						memset(count,0,sizeof(state));
             HM609A_Restart();
         }
         break;
@@ -446,8 +438,8 @@ void HM609A_Tcp_Program(u8 sockid, char* addr, int port, NET_PROT protocol)
             if(count[sockid]>=3)
             {
               //超过重试次数，重启模块
-              count[sockid]=0;
-							state[sockid]=0;
+              memset(state,0,sizeof(state));
+							memset(count,0,sizeof(state));	
               HM609A_Restart();
             }
             else
@@ -477,7 +469,7 @@ void HM609A_Tcp_Program(u8 sockid, char* addr, int port, NET_PROT protocol)
 
 void HM609A_Send_Data(u8 sockid, const u8* data, u16 len, u8 flag, NET_PROT protocol)
 {
-	char *hexStr;
+	char *hexStr=NULL;
 	if(protocol == MQTT_PROT)
 	{	
 		if(!hm609a_mqtt_conn_flag)

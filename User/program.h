@@ -43,7 +43,7 @@ typedef struct{
 }DEVICE_STATUS;
 
 extern DEVICE_STATUS device_sta;
-
+void Data_Program(void);
 void MQTT_Data_Program(void);
 void Program_Init(void);
 #endif
