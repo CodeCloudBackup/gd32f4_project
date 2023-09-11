@@ -12,6 +12,15 @@ extern Byte8 HttpFlag;
 #define HTTP_FLAG_TASK						HttpFlag.Bits.B4
 #define HTTP_FLAG_IDENT_SUCCESS 	HttpFlag.Bits.B5	  // 设备认真成功标志
 
+typedef enum 
+{
+	none=0,
+	form_data,
+	urlencoded,
+	raw,
+	binary
+}CONTENT_TYPE;
+
 void HTTP_Init(void);
 u8 HM609A_Http_Program(const u8 sockid, const char *host,const u32 port);
 u16 Http_Get_Package(char *buff_get, char *url_tail,const char *host, u16 port);

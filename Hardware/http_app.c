@@ -53,35 +53,60 @@ u8 Http_Get_Analysis_Header(u8* buf, u16 buf_len, u8 *resp_code,u32 *cont_len)
 	return 1;
 }
 
-u16 Http_Post_Head_Package(char *buff_post,char *url_tail,u8 *host, u16 port)
+u16 Http_Post_Head_Package(char *buff_post,char *url_tail,u8 *host, u16 port,u8 *body, u32 body_len, CONTENT_TYPE content_type )
 {
 	u16 len;
+	char contentLenStr[30];
+	char contentDesc[100];
+	char *boundaryStr = "----WebKitFormBoundary7MA4YWxkTrZu0gW";
 	len = sprintf(buff_post, "POST %s HTTP/1.1\r\n"
 			"Host:%s:%d\r\n"
 			"User-Agent:GD32F427\r\n"
 			"Accept: */*\r\n"
-			"Connection:close\r\n"
-			"Content-Type: multipart/form-data;boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW\r\n"
-			"\r\n",
+			"Connection:close\r\n",
 			url_tail,host,port
 		);
+	if (content_type == none)
+	{
+		;
+	}
+	else if (content_type == urlencoded)
+	{
+		strcat(buff_post, "Content-Type: application/x-www-form-urlencoded\r\n\r\n");
+	}
+	else if (content_type == form_data)
+	{
+		strcat(buff_post, "Content-Type: multipart/form-data; ");
+		strcat(buff_post, "boundary=");
+		strcat(buff_post, boundaryStr);
+		strcat(buff_post, "\r\n");
+	}
+	sprintf(contentLenStr,"Content-Length: %d\r\n\r\n",body_len);
+	strcat(buff_post, contentLenStr);
+	
+	// body
+	len = strlen(buff_post);
+	if(content_type == form_data)
+	{
+		sprintf(contentDesc,"%s\r\n "
+			"Content-Disposition: form-data; name=\"image\"; filename=\"test.jpg\"\r\n"
+			"Content-Type: image/jpeg\r\\n\r\n",
+			boundaryStr
+		);
+		len = strlen(buff_post);
+		memcpy(buff_post + len, body, body_len);
+		strcat(buff_post, boundaryStr);
+		strcat(buff_post, "\r\n\r\n");
+		len = len + body_len + strlen(boundaryStr) + 4;
+	}
+	else
+	{
+		strcat(buff_post, (char *)body);
+		strcat(buff_post, "\r\n\r\n");
+		len = strlen(buff_post);
+	}
+	
 	return len;
-}
-
-u16 Http_Post_Body_Package(char *buff_post,char *data, u16 data_len)
-{
-	u16 len;
-	len = sprintf(buff_post, \
-			"----WebKitFormBoundary7MA4YWxkTrZu0gW\r\n"
-			"Content-Disposition: form-data; name=\"image\"; filename=\"OIP-C.jpg\"\r\n"
-			"Content-Type: image/jpeg\r\n"
-			"\r\n"
-				);
-	memcpy(buff_post+len, data, data_len);
-	sprintf(buff_post+len+data_len, "\r\n----WebKitFormBoundary7MA4YWxkTrZu0gW\r\n"
-			"\r\n"
-			);
-	return len+data_len;
 }
 
 u8 Http_Post_Analysis_Header(u8* buf, u16 buf_len, u8 *resp_code)

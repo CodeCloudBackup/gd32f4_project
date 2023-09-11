@@ -70,10 +70,11 @@ int main(void)
 	  	HM609A_Tcp_Program(mqttSockId, host, mqttPort, MQTT_PROT);
 			HM609A_Mqtt_Program(mqttSockId);
 			MQTT_Data_Program();
-			if(hm609a_mqtt_reg_flag&&HTTP_FLAG_TASK){
-				
+			if(hm609a_mqtt_reg_flag&&HTTP_FLAG_TASK)
+			{
 				// get http port
-				if( HTTP_FLAG_EQUIP_IDENT || HTTP_FLAG_DOWNLOAD_BIN ){
+				if( HTTP_FLAG_EQUIP_IDENT || HTTP_FLAG_DOWNLOAD_BIN )
+				{
 					port=httpPort;
 				}
 				else if (HTTP_FLAG_UPLOAD_PHOTO || HTTP_FLAG_UPLOAD_LOGFILE)

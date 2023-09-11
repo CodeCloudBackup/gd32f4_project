@@ -23,9 +23,10 @@
 #include "mqtt_app.h"
 #include "http_app.h"
 #include "cJSON.h"
+#include "json_parse.h"
 
-#define BATTERY_CAP  7000  // µç³Ø±ê×¼µçÁ¿ µ¥Î»mAH
-#define BATTERY_VLOT  7    // µç³Ø±ê×¼µçÑ¹
+#define BATTERY_CAP  7000  // ï¿½ï¿½Ø±ï¿½×¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î»mAH
+#define BATTERY_VLOT  7    // ï¿½ï¿½Ø±ï¿½×¼ï¿½ï¿½Ñ¹
 
 typedef struct{
 	u8 area_vacancy;
@@ -43,6 +44,7 @@ typedef struct{
 }DEVICE_STATUS;
 
 extern DEVICE_STATUS device_sta;
+
 void Data_Program(void);
 void MQTT_Data_Program(void);
 void Program_Init(void);

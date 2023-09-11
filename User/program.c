@@ -1,6 +1,7 @@
 #include "program.h"
 #include <stdlib.h>
 
+#define FLASH_CONFIG_ADDR  0x080F0000 	//设置FLASH 保存地址(必须为偶数，且所在扇区,要大于本代码所占用到的扇区.
 //jpeg数据接收回调函数
 void jpeg_dcmi_rx_callback(void)
 { 
@@ -10,6 +11,17 @@ void jpeg_dcmi_rx_callback(void)
 char mcuIdHex[30]={0};
 
 DEVICE_STATUS device_sta;
+
+char *g_appConf=NULL;
+#define CONFIG_SIZE 2048
+cJSON *g_appConfJson=NULL;
+
+
+void AppConf_Set(cJSON* root)
+{
+	g_sDeviceConf.braCode=mcuIdHex;
+	AppConfJsonParse(root);
+}
 
 void Program_Init(void)
 {
@@ -33,21 +45,32 @@ void Program_Init(void)
 		my_mem_init(SRAMIN);		//	while(OV2640_Init())//初始化OV2640
 		
 		//F35SQA_Init();
+		sprintf(mcuIdHex,"%02x%02x%02x",mcuID[0],mcuID[1],mcuID[2]);
+		mcuIdHex[24]='\0';
+		printf("MCUID:%s",mcuIdHex);
+		AppConf_Init(mcuIdHex);
 		while(OV2640_Init())
 		{
 			printf("ov2640_init failed\r\n");
 			delay_ms(400);
-		}
+		}	
 		
-		sprintf(mcuIdHex,"%02x%02x%02x",mcuID[0],mcuID[1],mcuID[2]);
-		mcuIdHex[24]='\0';
-		printf("MCUID:%s",mcuIdHex);
 		MyDCMI_Init();			//DCMI配置
-		//icm
+		// icm
 		ICM_Init(&icm_serif);
+		// hm609a
 		HM609A_Init();
-	  MQTT_Init(mcuIdHex);
+	 	MQTT_Init(mcuIdHex);
 		HTTP_Init();
+		// load config
+		g_appConf=mymalloc(SRAMIN, CONFIG_SIZE);
+		GDFLASH_Read(FLASH_CONFIG_ADDR,(u32*)g_appConf,CONFIG_SIZE);
+		printf("App Conf:%s",g_appConf);
+		g_appConfJson=cJSON_Parse((char*)g_appConf);
+		if(!g_appConfJson){
+			printf("APP CONF NULL\r\n");
+		}
+		AppConf_Set(g_appConfJson);
 		delay_ms(2000);
 }
 
@@ -69,7 +92,7 @@ void Data_Program(void)
 	u32 len = g_usart1Cnt;
 	char *http_ptr=NULL;
 	char *mqtt_ptr=NULL;
-	if(!hm609a_mqtt_conn_flag&&!hm609a_http_conn_flag)
+	if(!hm609a_mqtt_conn_flag && !hm609a_http_conn_flag)
 		return;
 	if(g_usart1RevFinish)
 	{
