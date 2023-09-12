@@ -55,7 +55,7 @@ typedef struct cJSON {
 } cJSON;
 
 typedef struct cJSON_Hooks {
-      void *(*malloc_fn)(unsigned char memx,size_t sz);
+      void *(*malloc_fn)(unsigned char memx,unsigned int sz);
       void (*free_fn)(unsigned char memx,void *ptr);
 } cJSON_Hooks;
 

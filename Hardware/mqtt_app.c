@@ -58,7 +58,7 @@ void MQTT_Publish_Analysis_Json(u8* buf, cJSON *json)
 
 
 
-void MQTT_Init(char* chip_id)
+void MQTT_Init(char* chip_id, const char* pwd)
 {	
 	data.clientID.cstring=chip_id;
 	data.keepAliveInterval = 60;//设置心跳包间隔时间

@@ -10,7 +10,7 @@
       <TargetName>GD32427V_START</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>5060960::V5.06 update 7 (build 960)::.\ARMCC</pCCUsed>
+      <pCCUsed>5060960::V5.06 update 7 (build 960)::ARMCC</pCCUsed>
       <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
@@ -702,6 +702,16 @@
               <FileName>malloc.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Hardware\malloc.h</FilePath>
+            </File>
+            <File>
+              <FileName>json_parse.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\json_parse.c</FilePath>
+            </File>
+            <File>
+              <FileName>json_parse.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\json_parse.h</FilePath>
             </File>
           </Files>
         </Group>

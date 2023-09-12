@@ -51,6 +51,7 @@ OF SUCH DAMAGE.
 #define CLI() __set_PRIMASK(1)//关闭总中断  
 #define SEI() __set_PRIMASK(0)//打开总中断
 
+extern u8 g_identFlag;
 int main(void)
 {
 	SEI();
@@ -58,33 +59,39 @@ int main(void)
 	Program_Init();
     /* configure systick */	
 	//	OV2640_Jpg_Photo();
-	char *host = "101.37.89.157";//主机
-	u32 mqttPort = 1883;
-	u32 httpPort = 80;
-	u32 httpUploadPort = 80;
+	char *http_ip = g_sDeviceConf.ip_ini.http_ip;
+	char *mqtt_ip = g_sDeviceConf.ip_ini.mqtt_ip;
+	u32 mqttPort = g_sDeviceConf.ip_ini.mqtt_port;
+	u32 httpPort = g_sDeviceConf.ip_ini.http_port;
+	u32 httpUploadPort = g_sDeviceConf.ip_ini.http_port;
 	u8 httpSockId = 1;
 	u8 mqttSockId = 2;
 	u32 port = 0;
+
   while(1) {
 			
-	  	HM609A_Tcp_Program(mqttSockId, host, mqttPort, MQTT_PROT);
+	  	HM609A_Tcp_Program(mqttSockId, mqtt_ip, mqttPort, MQTT_PROT);
 			HM609A_Mqtt_Program(mqttSockId);
 			MQTT_Data_Program();
 			if(hm609a_mqtt_reg_flag&&HTTP_FLAG_TASK)
 			{
 				// get http port
-				if( HTTP_FLAG_EQUIP_IDENT || HTTP_FLAG_DOWNLOAD_BIN )
+				if( (HTTP_FLAG_EQUIP_IDENT&&!g_identFlag) || HTTP_FLAG_DOWNLOAD_BIN )
 				{
 					port=httpPort;
 				}
 				else if (HTTP_FLAG_UPLOAD_PHOTO || HTTP_FLAG_UPLOAD_LOGFILE)
 				{
 					port=httpUploadPort;
+				} 
+				else
+				{
+					port=0;
 				}
-					HM609A_Tcp_Program(httpSockId, host, port, HTTP_PROT);
-					HM609A_Http_Program(httpSockId, host, port);							
-			}else{
-				HTTP_FLAG_TASK=0;
+				if(port){
+					HM609A_Tcp_Program(httpSockId, http_ip, port, HTTP_PROT);
+					HM609A_Http_Program(httpSockId, http_ip, port);
+				}								
 			}
 			Data_Program();
     }

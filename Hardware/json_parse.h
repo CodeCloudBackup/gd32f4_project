@@ -18,10 +18,29 @@ typedef struct{
 }CNF_INI;
 
 typedef struct{
-	u8 *braCode;
+	char *braCode;
 	IP_INI ip_ini;
 	CNF_INI con_ini;
 }DEVICE_CONF;
 
+typedef struct{
+	char type[10];
+	char action[10];
+	char filename[20];
+	char version[10];
+}APP_UPGRADE;
+
+typedef struct{
+	char *braCode;
+	char orderNo[10];
+	u8 type;
+}DELY_INFO;
+
+extern APP_UPGRADE g_appUpgrade;
 extern DEVICE_CONF g_sDeviceConf;
+
+void AppConf_Init(char *mcu_id, char *buf);
+void AppConfJsonParse(cJSON* root);
+u8 ResetJsonParse(cJSON* root);
+void UpgradeJsonParse(cJSON* root);
 #endif

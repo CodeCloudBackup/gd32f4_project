@@ -23,6 +23,7 @@
 #include "mqtt_app.h"
 #include "http_app.h"
 #include "cJSON.h"
+#include "gdflash.h"
 #include "json_parse.h"
 
 #define BATTERY_CAP  7000  // ��ر�׼���� ��λmAH

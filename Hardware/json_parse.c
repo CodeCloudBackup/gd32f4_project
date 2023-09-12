@@ -1,25 +1,42 @@
 #include "json_parse.h"
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 DEVICE_CONF g_sDeviceConf;
 
-void AppConf_Init(char *mcu_id)
+void AppConf_Init(char *mcu_id, char *buf)
 {
 	g_sDeviceConf.braCode=mcu_id;
-	sprintf(g_sDeviceConf.ip_ini.http_ip, "127.0.0.1");
-	sprintf(g_sDeviceConf.ip_ini.mqtt_ip, "127.0.0.1");
-	g_sDeviceConf.ip_ini.http_port=80;
+	sprintf(g_sDeviceConf.ip_ini.http_ip, "183.129.134.242");
+	sprintf(g_sDeviceConf.ip_ini.mqtt_ip, "101.37.89.157");
+	g_sDeviceConf.ip_ini.http_port=7091;
 	g_sDeviceConf.ip_ini.mqtt_port=1883;
 	g_sDeviceConf.con_ini.led=0;
 	g_sDeviceConf.con_ini.led_num=0;
 	g_sDeviceConf.con_ini.ulterasonic_triger=0;
+	
+	sprintf(buf,"{\r\n"
+	"\"barCode\":\"%s\",\r\n"
+	"\"data\":{\r\n"
+	"\"ip.ini\":{\"PORT\":{\"port_mqtt\":%d, \"port_http\":%d},"
+							"\"IP\":{\"mqtt_ip\":\"%s\",\"http_ip\":\"%s\"}},\r\n"
+	"\"cnf.ini\":{\"COMMON\":{\"ledNum\":%d},"
+							 "\"GPIO\":{\"ultrasonic_triger2\": 22,\"led\":32}}\r\n"
+	"}\r\n}\r\n",
+	mcu_id,g_sDeviceConf.ip_ini.mqtt_port,g_sDeviceConf.ip_ini.http_port,
+	g_sDeviceConf.ip_ini.mqtt_ip,g_sDeviceConf.ip_ini.http_ip,
+	g_sDeviceConf.con_ini.led_num);
+	
+	printf("app conf init success.\r\n");
+	//printf("%s",buf);
 }
 
 void AppConfJsonParse(cJSON* root)
 {
-    cJSON* item = NULL;
+  cJSON* item = NULL;
 	cJSON* ap_ini = NULL;
 	cJSON* cnf_ini = NULL;
-    item = cJSON_GetObjectItem(root, "data");
+  item = cJSON_GetObjectItem(root, "data");
 	if(!item)
 	{
 		printf("Err Data NULL\r\n");
@@ -40,15 +57,15 @@ void AppConfJsonParse(cJSON* root)
 			cJSON* mqtt_port = NULL;
 			cJSON* http_port = NULL;
 			mqtt_port = cJSON_GetObjectItem(port, "port_mqtt");
-			if(mqtt_port != NULL && mqtt_port->type == cJSON_String)
+			if(mqtt_port != NULL )
 			{
-				g_sDeviceConf.ip_ini.mqtt_port=atoi(mqtt_port->valuestring);
+				g_sDeviceConf.ip_ini.mqtt_port=mqtt_port->valueint;
 				printf("mqtt port %d\r\n",g_sDeviceConf.ip_ini.mqtt_port);
 			}
 			http_port = cJSON_GetObjectItem(port, "port_http");
-			if(http_port != NULL && http_port->type == cJSON_String)
+			if(http_port != NULL )
 			{
-				g_sDeviceConf.ip_ini.http_port=atoi(http_port->valuestring);
+				g_sDeviceConf.ip_ini.http_port=http_port->valueint;
 				printf("http port %d\r\n",g_sDeviceConf.ip_ini.http_port);
 			}
 		}
@@ -61,15 +78,15 @@ void AppConfJsonParse(cJSON* root)
 			if(mqtt_ip != NULL && mqtt_ip->type == cJSON_String)
 			{
 				memcpy(g_sDeviceConf.ip_ini.mqtt_ip, \
-					mqtt_ip->string, strlen(mqtt_ip->string));
+					mqtt_ip->valuestring, strlen(mqtt_ip->valuestring));
 				printf("mqtt ip %s\r\n",g_sDeviceConf.ip_ini.mqtt_ip);
 			}
 			http_ip = cJSON_GetObjectItem(ip, "http_ip");
 			if(http_ip != NULL && http_ip->type == cJSON_String)
 			{
-				memcpy(g_sDeviceConf.ip_ini.mqtt_ip, \
-					 mqtt_ip->string, strlen(mqtt_ip->string));
-				printf("http ip %d\r\n",g_sDeviceConf.ip_ini.http_ip);
+				memcpy(g_sDeviceConf.ip_ini.http_ip, \
+					 http_ip->valuestring, strlen(http_ip->valuestring));
+				printf("http ip %s\r\n",g_sDeviceConf.ip_ini.http_ip);
 			}
 		}
 	}
@@ -126,19 +143,38 @@ u8 ResetJsonParse(cJSON* root)
     return type;
 }
 
+APP_UPGRADE g_appUpgrade;
 
 void UpgradeJsonParse(cJSON* root)
 {
-    cJSON* upgrade = NULL;
-    char update_type[10];
-    char action[10];
-    char filename[20];
-    char version[10];
-    upgrade = cJSON_GetObjectItem(root, "type");
-    if(reset != NULL && reset->type == cJSON_String)
+    cJSON* upgrade_type = NULL;
+		cJSON* action = NULL;
+		cJSON* filename = NULL;
+		cJSON* version = NULL;
+   
+    upgrade_type = cJSON_GetObjectItem(root, "upgrade_type");
+    if(upgrade_type != NULL && upgrade_type->type == cJSON_String)
     {
-        type=atoi(reset->valuestring);
+        memcpy(g_appUpgrade.type, \
+					upgrade_type->valuestring, strlen(upgrade_type->valuestring));
     }
-    return type;
+		 action = cJSON_GetObjectItem(root, "action");
+    if(action != NULL && action->type == cJSON_String)
+    {
+        memcpy(g_appUpgrade.action, \
+					action->valuestring, strlen(action->valuestring));
+    }
+		 filename = cJSON_GetObjectItem(root, "filename");
+    if(filename != NULL && filename->type == cJSON_String)
+    {
+        memcpy(g_appUpgrade.filename, \
+					filename->valuestring, strlen(filename->valuestring));
+    }
+		 version = cJSON_GetObjectItem(root, "version");
+    if(version != NULL && version->type == cJSON_String)
+    {
+        memcpy(g_appUpgrade.version, \
+					version->valuestring, strlen(version->valuestring));
+    }
 }
 

@@ -22,6 +22,7 @@ typedef enum
 }CONTENT_TYPE;
 
 void HTTP_Init(void);
+u8 Http_Post_Analysis_Header(u8* buf, u16 buf_len, u16 *resp_code);
 u8 HM609A_Http_Program(const u8 sockid, const char *host,const u32 port);
 u16 Http_Get_Package(char *buff_get, char *url_tail,const char *host, u16 port);
 #endif

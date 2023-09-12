@@ -12,16 +12,17 @@ char mcuIdHex[30]={0};
 
 DEVICE_STATUS device_sta;
 
-char *g_appConf=NULL;
+u8 *g_appConf=NULL;
 #define CONFIG_SIZE 2048
 cJSON *g_appConfJson=NULL;
-
 
 void AppConf_Set(cJSON* root)
 {
 	g_sDeviceConf.braCode=mcuIdHex;
 	AppConfJsonParse(root);
 }
+
+char *pwd=NULL;
 
 void Program_Init(void)
 {
@@ -48,7 +49,7 @@ void Program_Init(void)
 		sprintf(mcuIdHex,"%02x%02x%02x",mcuID[0],mcuID[1],mcuID[2]);
 		mcuIdHex[24]='\0';
 		printf("MCUID:%s",mcuIdHex);
-		AppConf_Init(mcuIdHex);
+		
 		while(OV2640_Init())
 		{
 			printf("ov2640_init failed\r\n");
@@ -60,17 +61,27 @@ void Program_Init(void)
 		ICM_Init(&icm_serif);
 		// hm609a
 		HM609A_Init();
-	 	MQTT_Init(mcuIdHex);
-		HTTP_Init();
 		// load config
 		g_appConf=mymalloc(SRAMIN, CONFIG_SIZE);
 		GDFLASH_Read(FLASH_CONFIG_ADDR,(u32*)g_appConf,CONFIG_SIZE);
-		printf("App Conf:%s",g_appConf);
+		printf("App Conf:%x\r\n",g_appConf[0]);
+		if(1){
+				AppConf_Init(mcuIdHex,(char*)g_appConf);
+				GDFLASH_Write(FLASH_CONFIG_ADDR, \
+					(u32*)g_appConf,strlen((char*)g_appConf));
+				delay_ms(1000);
+				memset(g_appConf,0,CONFIG_SIZE);
+				GDFLASH_Read(FLASH_CONFIG_ADDR,(u32*)g_appConf,CONFIG_SIZE);
+		}
+		// printf("App Conf:\r\n%s",g_appConf);
 		g_appConfJson=cJSON_Parse((char*)g_appConf);
 		if(!g_appConfJson){
 			printf("APP CONF NULL\r\n");
 		}
 		AppConf_Set(g_appConfJson);
+		
+		MQTT_Init(mcuIdHex,pwd);
+		HTTP_Init();
 		delay_ms(2000);
 }
 
@@ -85,6 +96,8 @@ extern u8 g_mqttSubscribeFlag;
 extern vu8 g_usart1RevFinish;
 extern vu32 g_usart1Cnt; 
 char res[20]="+IPURC: \"recv\",2,";
+u8 g_identFlag=0;
+
 void Data_Program(void)
 {
 	u8 ret=0;
@@ -110,11 +123,15 @@ void Data_Program(void)
 		} 
 		else if (http_ptr != NULL)
 		{
+			u16 resp_code=0;
 			http_ptr += strlen(res);
 			size = atoi(http_ptr);
 			http_ptr = strstr((const char *)http_ptr,"\n");
 			memcpy(g_netData, http_ptr+1, size);
 			USART1_Clear();
+			Http_Post_Analysis_Header(g_netData, size, &resp_code);
+			if(resp_code==200)
+				g_identFlag=1;
 		}else {
 			return ;
 		}
@@ -225,7 +242,3 @@ void Program_Test(void)
       // usart2_test();
 }
 
-void Program_Progress(void)
-{
-	
-}

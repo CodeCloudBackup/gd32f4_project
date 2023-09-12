@@ -44,7 +44,7 @@ void MQTT_HeartBeat(u8 sockid);
 void MQTT_Subscribe(u8 sockid);
 void MQTT_Publish_Analysis_Json(u8* buf, cJSON *json);
 void Mqtt_TIM_10ms(void);
-void MQTT_Init( char* chip_id);
+void MQTT_Init( char* chip_id, const char *pwd);
 int transport_getdata(u8* buf, int count);
 u8 Mqtt_Connack_Deserialize( u8* buf);
 u8 Mqtt_Suback_Deserialize( u8* buf);
