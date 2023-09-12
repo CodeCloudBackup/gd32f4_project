@@ -1,5 +1,14 @@
 {
     "files.associations": {
-        "json_parse.h": "c"
+        "json_parse.h": "c",
+        "algorithm": "c",
+        "xutility": "c",
+        "bit": "c",
+        "compare": "c",
+        "cstddef": "c",
+        "limits": "c",
+        "type_traits": "c",
+        "initializer_list": "c",
+        "mqtt_app.h": "c"
     }
 }

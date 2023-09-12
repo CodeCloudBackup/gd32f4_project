@@ -38,6 +38,7 @@ typedef struct{
 
 extern APP_UPGRADE g_appUpgrade;
 extern DEVICE_CONF g_sDeviceConf;
+extern DELY_INFO dely_info;
 
 void AppConf_Init(char *mcu_id, char *buf);
 void AppConfJsonParse(cJSON* root);

@@ -71,28 +71,14 @@ int main(void)
   while(1) {
 			
 	  	HM609A_Tcp_Program(mqttSockId, mqtt_ip, mqttPort, MQTT_PROT);
-			HM609A_Mqtt_Program(mqttSockId);
-			MQTT_Data_Program();
-			if(hm609a_mqtt_reg_flag&&HTTP_FLAG_TASK)
-			{
-				// get http port
-				if( (HTTP_FLAG_EQUIP_IDENT&&!g_identFlag) || HTTP_FLAG_DOWNLOAD_BIN )
-				{
-					port=httpPort;
-				}
-				else if (HTTP_FLAG_UPLOAD_PHOTO || HTTP_FLAG_UPLOAD_LOGFILE)
-				{
-					port=httpUploadPort;
-				} 
-				else
-				{
-					port=0;
-				}
-				if(port){
-					HM609A_Tcp_Program(httpSockId, http_ip, port, HTTP_PROT);
-					HM609A_Http_Program(httpSockId, http_ip, port);
-				}								
-			}
-			Data_Program();
+		HM609A_Mqtt_Program(mqttSockId);
+		MQTT_Data_Program();
+		if(g_sHttpCmdSta.sta_cmd)
+		{
+			HM609A_Tcp_Program(httpSockId, http_ip, httpPort, HTTP_PROT);
+			HM609A_Http_Program(httpSockId, http_ip, httpPort);							
+		}
+		Data_Recv_Program();
+		Data_Program();
     }
 }

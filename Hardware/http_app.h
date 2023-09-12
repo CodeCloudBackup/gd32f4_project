@@ -2,27 +2,39 @@
 #define __HTTP_APP_H
 
 #include "systick.h"
-extern Byte8 HttpFlag;
 
-#define HTTP_FLAG  								HttpFlag.Byte
-#define HTTP_FLAG_EQUIP_IDENT 		HttpFlag.Bits.B0    // Éí·İÑéÖ¤
-#define HTTP_FLAG_DOWNLOAD_BIN		HttpFlag.Bits.B1 		// µÚÈı·½ÅÄÕÕ
-#define HTTP_FLAG_UPLOAD_PHOTO		HttpFlag.Bits.B2	  // ´ò¿ªÍ¶µİ¿Ú
-#define HTTP_FLAG_UPLOAD_LOGFILE	HttpFlag.Bits.B3	  // ¹Ø±ÕÍ¶µİ¿Ú
-#define HTTP_FLAG_TASK						HttpFlag.Bits.B4
-#define HTTP_FLAG_IDENT_SUCCESS 	HttpFlag.Bits.B5	  // Éè±¸ÈÏÕæ³É¹¦±êÖ¾
+
+typedef enum
+{
+	EQUIP_IDENT=0,
+	DOWNLOAD_BIN,
+	UPLOAD_PHOTO,
+	UPLOAD_LOGFILE
+}HTTP_REQ_ENUM;
 
 typedef enum 
 {
-	none=0,
-	form_data,
-	urlencoded,
-	raw,
-	binary
+	NONE=0,
+	FORM_DATA,
+	URLENCODED,
+	RAW,
+	BINARY
 }CONTENT_TYPE;
 
+// httpå‘½ä»¤æ‰§è¡ŒçŠ¶æ€ï¼Œ0:æœªæ ‡å¿—ï¼Œ1:å‘èµ·è¯·æ±‚æ ‡å¿—ï¼Œ2:ç­‰å¾…å›å¤æ ‡å¿—
+typedef struct 
+{
+	u8 sta_cmd;
+	u8 sta_equip_ident;
+	u8 sta_download_bin;
+	u8 sta_upload_photo;
+	u8 sta_upload_logfile;
+}HTTP_CMD_STA;
+
+extern HTTP_CMD_STA g_sHttpCmdSta;
+
 void HTTP_Init(void);
-u8 Http_Post_Analysis_Header(u8* buf, u16 buf_len, u16 *resp_code);
 u8 HM609A_Http_Program(const u8 sockid, const char *host,const u32 port);
 u16 Http_Get_Package(char *buff_get, char *url_tail,const char *host, u16 port);
+u16 Http_Response_Analysis( u8* buf, u16 buf_len,u8* content,u32 *cont_len);
 #endif

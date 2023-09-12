@@ -130,6 +130,31 @@ void AppConfJsonParse(cJSON* root)
 
 }
 
+DELY_INFO dely_info;
+void DelyJsonParse(cJSON* root)
+{
+	cJSON* barCode=NULL;
+	cJSON* orderNo=NULL;
+	cJSON* type=NULL;
+
+	barCode=cJSON_GetObjectItem(root, "barCode");
+	if(barCode != NULL && barCode->type == cJSON_String)
+    {
+		memcpy(dely_info.braCode, \
+				barCode->valuestring, strlen(barCode->valuestring));
+	}
+	orderNo=cJSON_GetObjectItem(root, "orderNo");
+	if(orderNo != NULL && orderNo->type == cJSON_String)
+    {
+		memcpy(dely_info.orderNo, \
+				orderNo->valuestring, strlen(orderNo->valuestring));
+	}
+	type=cJSON_GetObjectItem(root, "type");
+	if(type != NULL && type->type == cJSON_String)
+    {
+		dely_info.type=atoi(type->valuestring);
+	}
+}
 
 u8 ResetJsonParse(cJSON* root)
 {
@@ -148,33 +173,33 @@ APP_UPGRADE g_appUpgrade;
 void UpgradeJsonParse(cJSON* root)
 {
     cJSON* upgrade_type = NULL;
-		cJSON* action = NULL;
-		cJSON* filename = NULL;
-		cJSON* version = NULL;
+	cJSON* action = NULL;
+	cJSON* filename = NULL;
+	cJSON* version = NULL;
    
     upgrade_type = cJSON_GetObjectItem(root, "upgrade_type");
     if(upgrade_type != NULL && upgrade_type->type == cJSON_String)
     {
         memcpy(g_appUpgrade.type, \
-					upgrade_type->valuestring, strlen(upgrade_type->valuestring));
+				upgrade_type->valuestring, strlen(upgrade_type->valuestring));
     }
 		 action = cJSON_GetObjectItem(root, "action");
     if(action != NULL && action->type == cJSON_String)
     {
         memcpy(g_appUpgrade.action, \
-					action->valuestring, strlen(action->valuestring));
+				action->valuestring, strlen(action->valuestring));
     }
 		 filename = cJSON_GetObjectItem(root, "filename");
     if(filename != NULL && filename->type == cJSON_String)
     {
         memcpy(g_appUpgrade.filename, \
-					filename->valuestring, strlen(filename->valuestring));
+				filename->valuestring, strlen(filename->valuestring));
     }
 		 version = cJSON_GetObjectItem(root, "version");
     if(version != NULL && version->type == cJSON_String)
     {
         memcpy(g_appUpgrade.version, \
-					version->valuestring, strlen(version->valuestring));
+				version->valuestring, strlen(version->valuestring));
     }
 }
 

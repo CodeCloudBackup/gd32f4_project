@@ -29,13 +29,12 @@ u8 msg_type=254;
 void MQTT_TIM_10ms(void)
 {
 	if(hm609a_mqtt_conn_flag&&g_mqttConnTim)g_mqttConnTim--;
-	if(HTTP_FLAG_IDENT_SUCCESS) {
+	if(g_sHttpCmdSta.sta_equip_ident==2) {
 		MQTT_FLAG_UP_DELY_STA=1;
 		MQTT_FLAG_UP_LOCK_STA=1;
 		MQTT_FLAG_UP_DEVICE_STA=1;
 		MQTT_FLAG_UP_CAMERA_STA=1;
 		MQTT_FLAG_UP_APPVERSION=1;
-		HTTP_FLAG_IDENT_SUCCESS=0;
 	}
 	if(g_mqttHeartbeatNum==50){
 		MQTT_FLAG_UP_DEVICE_STA=1;
@@ -290,43 +289,46 @@ u8 HM609A_Mqtt_Program(u8 sockid)
 	
 	if(hm609a_mqtt_conn_flag)//TCP连接建立
 	{   
-			if(!hm609a_mqtt_reg_flag )
+		if(!hm609a_mqtt_reg_flag )
+		{
+			if(g_mqttConnTim==0)
 			{
-				if(g_mqttConnTim==0){
-					if(count>3)//是注册失败超过次数后断开TCP重新连接
-					{
-						hm609a_mqtt_conn_flag=0;
-						hm609a_mqtt_reg_flag=0;
-						count=0;
-					}
-					else
-					{
-						count++;
-						g_mqttConnTim=200;
-						memset(p,0,buflen);
-						msg_type = CONNACK;
-						len = MQTTSerialize_connect(p, buflen, &data);
-						HM609A_Send_Data(sockid,p,len,0,MQTT_PROT);
-					}
-				}		
-			}
-			else
-			{
-				char *topic =  "iob/d2s/device/status/x";
-				
-				if(count)count=0;
-				MQTT_Subscribe(sockid);
-				MQTT_HeartBeat(sockid);
-				if(g_mqttPublishFlag)
+				if(count>3)//是注册失败超过次数后断开TCP重新连接
 				{
-					if(payload == NULL)
-						payload=mymalloc(SRAMIN, 400);
-					MQTT_Publish(sockid, 0, 0, g_qos,topic,payload);
-					if(payload != NULL)
-						myfree(SRAMIN, payload);
+					hm609a_mqtt_conn_flag=0;
+					hm609a_mqtt_reg_flag=0;
+					count=0;
 				}
+				else
+				{
+					count++;
+					g_mqttConnTim=200;
+					memset(p,0,buflen);
+					msg_type = CONNACK;
+					len = MQTTSerialize_connect(p, buflen, &data);
+					HM609A_Send_Data(sockid,p,len,0,MQTT_PROT);
+				}
+			}		
+		}
+		else
+		{
+			char *topic =  "iob/d2s/device/status/x";
+				
+			if(count)count=0;
+			MQTT_Subscribe(sockid);
+			MQTT_HeartBeat(sockid);
+			if(g_mqttPublishFlag)
+			{
+				if(payload == NULL)
+					payload=mymalloc(SRAMIN, 400);
+				MQTT_Publish(sockid, 0, 0, g_qos,topic,payload);
+				if(payload != NULL)
+					myfree(SRAMIN, payload);
 			}
-	}	else {
+		}
+	}	
+	else 
+	{
 		hm609a_mqtt_reg_flag=0;
 		msg_type=254;
 	}	

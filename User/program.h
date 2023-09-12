@@ -26,8 +26,11 @@
 #include "gdflash.h"
 #include "json_parse.h"
 
-#define BATTERY_CAP  7000  // ��ر�׼���� ��λmAH
-#define BATTERY_VLOT  7    // ��ر�׼��ѹ
+#define BATTERY_CAP  7000  				// ��ر�׼���ￄ1�7 ��λmAH
+#define BATTERY_VLOT  7    				// ��ر�׼��ф1�7
+#define FLASH_CUR_CONFIG_ADDR  0x08008000 	// 设置FLASH 保存地址(必须为偶数，且所在扇匄1�7,要大于本代码扢�占用到的扇区.
+#define FLASH_BIN_CONFIG_ADDR  0x0800C000 	// 设置FLASH 保存地址
+#define FLASH_APPBIN_ADDR      0x08020000 	// 设置FLASH BIN文件保存地址.
 
 typedef struct{
 	u8 area_vacancy;
@@ -45,8 +48,20 @@ typedef struct{
 }DEVICE_STATUS;
 
 extern DEVICE_STATUS device_sta;
+extern Byte8 ProgramFlag;
+#define PROGRAM_FLAG  			ProgramFlag.Byte
+#define PROGRAM_TAKE_PHOTO_FLAG 	ProgramFlag.Bits.B0  // ��������
+#define PROGRAM_ICM_DATA_FLAG 		ProgramFlag.Bits.B1  // ����������
+#define PROGRAM_OPEN_DELY_FLAG		ProgramFlag.Bits.B2  // ��Ͷ�ݿ�
+#define PROGRAM_CLOSE_DELY_FLAG		ProgramFlag.Bits.B3 
+#define PROGRAM_RESERT_FLAG			ProgramFlag.Bits.B4  // �ر�Ͷ�ݿ�
+#define PROGRAM_APPFLASH_FLAG		ProgramFlag.Bits.B5	 // ����ά��
+#define PROGRAM_SPEAKER_FLAG		ProgramFlag.Bits.B6	 // �ر���ά��
 
-void Data_Program(void);
+void Program_Flag_Init(void);
+void Data_Recv_Program(void);
 void MQTT_Data_Program(void);
+void HTTP_Data_Program(void);
 void Program_Init(void);
+void Data_Program(void);
 #endif

@@ -72,6 +72,7 @@ void Speaker_Init(void)
   GPIO_Init(GPIOE, &GPIO_InitStructure);//≥ı ºªØ
 	Dac1_Init();
 	GPIO_SetBits(GPIOE,GPIO_Pin_7);
+  SPEAKER_SW=1;
 }
 
 
