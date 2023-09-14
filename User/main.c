@@ -66,19 +66,25 @@ int main(void)
 	u32 httpUploadPort = g_sDeviceConf.ip_ini.http_port;
 	u8 httpSockId = 1;
 	u8 mqttSockId = 2;
-	u32 port = 0;
-
+	
   while(1) {
 			
-	  	HM609A_Tcp_Program(mqttSockId, mqtt_ip, mqttPort, MQTT_PROT);
+	  HM609A_Tcp_Program(mqttSockId, mqtt_ip, mqttPort, MQTT_PROT);
 		HM609A_Mqtt_Program(mqttSockId);
 		MQTT_Data_Program();
 		if(g_sHttpCmdSta.sta_cmd)
 		{
-			HM609A_Tcp_Program(httpSockId, http_ip, httpPort, HTTP_PROT);
-			HM609A_Http_Program(httpSockId, http_ip, httpPort);							
+			if(hm609a_mqtt_reg_flag)
+			{
+				HM609A_Tcp_Program(httpSockId, http_ip, httpPort, HTTP_PROT);
+				HM609A_Http_Program(httpSockId, http_ip, httpPort);	
+			}
+			else
+			{
+				g_sHttpCmdSta.sta_cmd=0;
+			}						
 		}
 		Data_Recv_Program();
-		Data_Program();
+		Device_Program();
     }
 }

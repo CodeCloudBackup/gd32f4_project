@@ -119,7 +119,7 @@ void USART2_IRQHandler(void)                	//串口1中断服务程序
 //串口发送缓存区 	
 __align(8) u8 USART1_TX_BUF[USART1_MAX_SEND_LEN]; 	//发送缓冲,最大USART3_MAX_SEND_LEN字节
 //串口接收缓存区 	
-u8 USART1_RX_BUF[USART1_MAX_RECV_LEN];				//接收缓冲,最大USART3_MAX_RECV_LEN个字节.
+u8 *USART1_RX_BUF=NULL;				//接收缓冲,最大USART3_MAX_RECV_LEN个字节.
 
 
 //通过判断接收连续2个字符之间的时间差不大于10ms来决定是不是一次连续的数据.
@@ -223,7 +223,7 @@ void USART1_IRQHandler(void)
 				g_usart1RevFlag = 1;                                     // ??2 ????
 				g_usart1RevTimCnt = 0;	                                     // ??2 ??????
 				USART1_RX_BUF[g_usart1Cnt++] = USART1->DR;                       // ??????
-				if(g_usart1Cnt >= sizeof(USART1_RX_BUF))
+				if(g_usart1Cnt >= USART1_MAX_RECV_LEN)
 				{
 						g_usart1Cnt = 0;                                         // ???????
 				}		
@@ -271,6 +271,8 @@ void usart1_init(u32 bound)
 	NVIC_Init(&NVIC_InitStructure);	//根据指定的参数初始化VIC寄存器
 	
 	USART1_RX_STA=0;				//清零 
+	if(USART1_RX_BUF == NULL)
+		USART1_RX_BUF=mymalloc(SRAMIN,USART1_MAX_RECV_LEN);
 	if(g_netData==NULL)
 		g_netData=mymalloc(SRAMIN,USART1_MAX_RECV_LEN);
 }

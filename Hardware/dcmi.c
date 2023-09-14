@@ -134,7 +134,7 @@ void MyDCMI_Init(void)
 	DCMI_DeInit();//清除原来的设置 
  
  
-  DCMI_InitStructure.DCMI_CaptureMode=DCMI_CaptureMode_Continuous;//连续模式
+  DCMI_InitStructure.DCMI_CaptureMode=DCMI_CaptureMode_SnapShot;//连续模式
 	DCMI_InitStructure.DCMI_CaptureRate=DCMI_CaptureRate_All_Frame;//全帧捕获
 	DCMI_InitStructure.DCMI_ExtendedDataMode= DCMI_ExtendedDataMode_8b;//8位数据格式  
 	DCMI_InitStructure.DCMI_HSPolarity= DCMI_HSPolarity_Low;//HSYNC 低电平有效

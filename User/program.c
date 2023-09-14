@@ -49,7 +49,6 @@ void Program_Init(void)
 		Speaker_Init();
 		//初始化内部内存池 
 		my_mem_init(SRAMIN);		//	while(OV2640_Init())//初始化OV2640
-		
 		//F35SQA_Init();
 		sprintf(mcuIdHex,"%02x%02x%02x",mcuID[0],mcuID[1],mcuID[2]);
 		mcuIdHex[24]='\0';
@@ -109,53 +108,49 @@ u8 g_identFlag=0;
 u8* g_httpContent=NULL;
 u32 g_contLen=0;
 
-static u32 Data_Copy(u8 *input, u8 *output)
-{
-	u32 size=0;
-	size = atoi(input);
-	input = strstr((const char *)input,"\n");
-	memcpy(output, input+1, size);
-	USART1_Clear();
-	return size;
-}
 
 void Data_Recv_Program(void)
 {
 	u8 ret=0;
 	u32 size=0;
+	char *p1=NULL, *p2=NULL;
 	u32 len = g_usart1Cnt;
-	char *http_ptr=NULL;
-	char *mqtt_ptr=NULL;
-	char *mqtt_res="+IPURC: \"recv\",2,";
-	char *http_res="+IPURC: \"recv\",1,";
 	if(!hm609a_mqtt_conn_flag && !hm609a_http_conn_flag)
 		return;
 	if(g_usart1RevFinish)
 	{
-		g_usart1RevFinish = 0;
-		USART1_RX_BUF[len]='\0';//?????
-		mqtt_ptr= strstr((const char *)USART1_RX_BUF, mqtt_res);
-		http_ptr= strstr((const char *)USART1_RX_BUF, http_res);
-		if(mqtt_ptr != NULL)
-		{	
-			mqtt_ptr += strlen(mqtt_res);
-			size = Data_Copy(mqtt_ptr, g_netData);
-		} 
-		else if (http_ptr != NULL)
+		if(len >0)
 		{
-			http_ptr += strlen(http_res);
-			size = Data_Copy(http_ptr, g_netData);
-		}
-		else
-		{
-			return ;
+			printf("data recv:%s",USART1_RX_BUF);
+		//	u8 headByte=USART1_RX_BUF[0];	
+			p1 = strstr((char*)USART1_RX_BUF, "HTTP/1.1");	
+			p2 = strstr((char*)USART1_RX_BUF, "+IPURC: \"recv\",");	
+			USART1_RX_BUF[len]='\0';//?????
+			 if(p1)
+			{
+				g_usart1RevFinish = 0;
+				memcpy(g_netData, USART1_RX_BUF, len);
+				USART1_Clear();
+				size=len;
+			}
+			else if (p2)
+			{
+				p2 += strlen("+IPURC: \"recv\",")+2;
+				size = atoi(p2);
+				p2 = strstr((const char *)p2,"\n");
+				memcpy(g_netData, p2+1, size);
+				USART1_Clear();
+			}
+			else 
+			{
+				return ;
+			}
+			
 		}
 		
 	}
 	if(size)
-  	{
-		char *p1=NULL;
-		p1 = strstr((char*)g_netData, "HTTP/1.1");	
+  {
 		if(p1 != NULL)
 		{
 			u16 resp_code=0;
@@ -170,7 +165,7 @@ void Data_Recv_Program(void)
 		}
 		else 
 		{
-			printf("\r\nMqtt Recv:%s\r\n",g_netData);
+			printf("Mqtt Recv:%s\r\n",g_netData);
 			ret=Mqtt_Deserialize_Handle(&msg_type, g_netData, publishbuf);
 			if(ret) 
 			{
@@ -190,6 +185,7 @@ void HTTP_Data_Program(void)
 	{
 		printf("\r\nHttp Response: equip ident.\r\n");
 		g_sHttpCmdSta.sta_equip_ident = 0;
+		g_sHttpCmdSta.sta_cmd=0;
 	}
 	else if(g_sHttpCmdSta.sta_download_bin == 2)
 	{
@@ -211,7 +207,7 @@ void HTTP_Data_Program(void)
 
 void MQTT_Data_Program(void)
 {
-	cJSON *json;
+	cJSON *json=NULL;
 	if(!hm609a_mqtt_conn_flag)return;
 	if(MQTT_FLAG_RECEIVE)
 	{
@@ -293,7 +289,8 @@ void MQTT_Data_Program(void)
 		printf("\r\nServer command: upload log info.\r\n");
 		MQTT_FLAG_UPGRADE=0;
 	}
-	cJSON_Delete(json);
+	if(json	!= NULL)
+		cJSON_Delete(json);
 }
 
 void Get_Device_Status()
@@ -310,21 +307,8 @@ void Get_Device_Status()
 					device_sta.gyro[0],device_sta.gyro[1],device_sta.gyro[2]);
 }
 
-void Program_Test(void)
-{
-		//	LED_PWM_Test();
-		//	flash_id=F35SQA_ReadID();	//读取FLASH ID.
-		//	printf("F35SQA_ID:%x",flash_id);
-		//	delay_ms(1000);
-		//	get_imu_data();
-	//Sensor_Adc_Test();
-	//Open_Lock_Test();
-	// LED_Test();
-	//DAC1_Test( 36,4096 );
-	// usart2_test();
-}
 
-void Data_Program(void)
+void Device_Program(void)
 {
 	if(PROGRAM_TAKE_PHOTO_FLAG)
 	{
@@ -366,4 +350,18 @@ void Data_Program(void)
 	{
 		PROGRAM_SPEAKER_FLAG=0;
 	}
+}
+
+void Program_Test(void)
+{
+		//	LED_PWM_Test();
+		//	flash_id=F35SQA_ReadID();	//读取FLASH ID.
+		//	printf("F35SQA_ID:%x",flash_id);
+		//	delay_ms(1000);
+		//	get_imu_data();
+	//Sensor_Adc_Test();
+	//Open_Lock_Test();
+	// LED_Test();
+	//DAC1_Test( 36,4096 );
+	// usart2_test();
 }

@@ -2,6 +2,7 @@
 #include "delay.h"
 #include "usart.h"
 #include "malloc.h"
+#include "http_app.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -207,8 +208,8 @@ u8 HM609A_Config(void)
 					case 7: // 查询IP值
 					{
 							printf("A|AT+IPDNSR=\"debug.armlogic.tech\"\r\n");
-							g_hm609aTim[0] = 3000;          	//超时时间ms
-							cnt = 10;   //重复检查次数,*air208_Tim后时总体时间
+							g_hm609aTim[0] = 5000;          	//超时时间ms
+							cnt = 5;   //重复检查次数,*air208_Tim后时总体时间
 							strcpy(res_at, "OK");		//设置返回判断关键字
 							u1_printf("\r\nAT+IPDNSR=\"debug.armlogic.tech\"\r\n"); //发送AT指令
 					}
@@ -252,8 +253,9 @@ u8 HM609A_Config(void)
 *模块TCP连接
 *成功返回1,执行中返回0,失败返回错误代码>=20
 */
-u8 HM609A_Connect(u8 sockid, char* addr, int port)
+u8 HM609A_Connect(u8 sockid, char* addr, int port, NET_PROT protocol)
 {
+	static char res_at[10];
 	static u8 count[7] = {0}, Signs[7] = {0}, cnt[7] = {0};
 	if(g_hm609aTim[sockid] == 0)
 	{
@@ -272,7 +274,28 @@ u8 HM609A_Connect(u8 sockid, char* addr, int port)
 					printf("\r\nA|AT+IPOPEN=%d,\"TCP\",%s,%d,0,0\r\n",sockid,addr,port);
 					cnt[sockid] = 3;
 					g_hm609aTim[sockid] = 5000;
+					strcpy(res_at,"OK"); 
 					u1_printf("\r\nAT+IPOPEN=%d,\"TCP\",\"%s\",%d,0,0\r\n",sockid,addr,port);  //发送AT指令
+				}
+				break;
+				case 1: //
+        {
+					cnt[sockid] = 3;
+					g_hm609aTim[sockid] = 5000;
+					
+					if(protocol == MQTT_PROT)
+					{
+						printf("\r\nA|AT+IPSWTMD=%d,1\r\n",sockid);
+						strcpy(res_at,"OK"); 
+						u1_printf("\r\nATE0\r\n",sockid);  //发送AT指令
+					} 
+					else if (protocol == HTTP_PROT)
+					{
+						printf("\r\nA|AT+IPSWTMD=%d,2\r\n",sockid);
+						strcpy(res_at,"CONNECT"); 
+						u1_printf("\r\nAT+IPSWTMD=%d,2\r\n",sockid);  //发送AT指令
+					}
+					
 				}
 				break;
 				default:// 等待连接建立成功
@@ -289,7 +312,7 @@ u8 HM609A_Connect(u8 sockid, char* addr, int port)
 	{
 		if(USART1_Revice())        //从串口3读取数据
 		{
-			if(strstr((const char *)g_netData, "OK") != NULL) //检查是否包含关键字
+			if(strstr((const char *)g_netData, (const char *)res_at) != NULL) //检查是否包含关键字
 			{
 					g_hm609aTim[sockid] = 0; //定时清零
 					count[sockid] = 0;      //重试次数清零
@@ -306,20 +329,46 @@ u8 HM609A_Connect(u8 sockid, char* addr, int port)
 */
 u8 HM609A_Tcp_Off(u8 sockid)// 关闭TCP连接
 {
-    static u8 count[7] = {0}; //重复次数,重启流程
+    static u8 count[7] = {0}, state[7] = {0}, cnt[7] = {0}; //重复次数,重启流程
     if(g_hm609aTim[sockid] == 0)
     {
-        if(count[sockid] >= 2) //超过最大重复次数
-        {
-            count[sockid] = 0;      //次数清零
-            return 41;     //返回错误码
-        }
-        else{
-            printf("A|AT+IPCLOSE=%d",sockid);    // 关闭TCP连接
-            g_hm609aTim[sockid] = 1000;      //超时时间ms
-            count[sockid]++;
-            u1_printf("\r\nAT+IPCLOSE=%d\r\n",sockid);     //发送AT指令
-        }
+       if(count[sockid] > 0 && count[sockid] >= cnt[sockid] ) //超过最大重复次数
+       {
+           count[sockid] = 0;      //次数清零
+					 cnt[sockid] = 1;
+					 state[sockid]=0;
+           return 41;     //返回错误码
+       }
+       else
+			{
+					count[sockid]++;
+					switch(state[sockid]){
+					case 0:
+					{
+							printf("A|+++");    // 关闭TCP连接
+							g_hm609aTim[sockid] = 1000;      //超时时间ms
+							cnt[sockid]=3;
+							u1_printf("\r\n+++\r\n",sockid);     //发送AT指令
+					}
+					break;
+					case 1:
+					{
+							printf("A|AT+IPCLOSE=%d",sockid);    // 关闭TCP连接
+							g_hm609aTim[sockid] = 1000;      //超时时间ms
+							cnt[sockid]=3;
+							u1_printf("\r\nAT+IPCLOSE=%d\r\n",sockid);     //发送AT指令
+					}
+					break;
+					default:// 等待连接建立成功
+					{
+							count[sockid] = 0;      //重试次数清零
+							state[sockid] = 0;      //流程清零
+							cnt[sockid] = 1;        //最大次数复位
+							return 1;       //返回配置完成
+					}
+				}
+           
+       }
     }
     else
     {
@@ -354,7 +403,7 @@ static FunctionalState GetConnStatus( NET_PROT protocol)
 				hm609a_http_wait_flag=0;
 				hm609a_http_conn_flag=0;
 			}
-			if(!hm609a_http_conn_flag) 
+			if(!hm609a_http_conn_flag && g_sHttpCmdSta.sta_cmd) 
 				return DISABLE;
 		}
 		return ENABLE;
@@ -415,7 +464,7 @@ void HM609A_Tcp_Program(u8 sockid, char* addr, int port, NET_PROT protocol)
     break;
 		case 2:     //模块进入AT
     {
-			err = HM609A_Connect(sockid, addr, port);
+			err = HM609A_Connect(sockid, addr, port,protocol);
 			switch(err)
       {
 				 case 0:break; 		//正常流程,直接跳出
@@ -482,15 +531,15 @@ void HM609A_Send_Data(u8 sockid, const u8* data, u16 len, u8 flag, NET_PROT prot
 	
 	if(flag)
 	{
-		printf("\r\nAT+IPSEND=%d,%d\r\n",sockid,len);
-		USART1_SendData(data,len);
+		printf("SEND %s\r\n",data);
+		USART1_SendData(data,len);	
 	}
 	else{
 		if(hexStr == NULL)
 			hexStr = mymalloc(SRAMIN,600);
 		to_hex(data, len, hexStr);
 		hexStr[len*2] = '\0';
-		printf("\r\nAT+IPSENDEX=%d,%s\r\n",sockid,hexStr);
+		printf("AT+IPSENDEX=%d,%s\r\n",sockid,hexStr);
 		u1_printf("\r\nAT+IPSENDEX=%d,\"%s\"\r\n",sockid, hexStr);
 	}
 	

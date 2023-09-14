@@ -44,4 +44,5 @@ void AppConf_Init(char *mcu_id, char *buf);
 void AppConfJsonParse(cJSON* root);
 u8 ResetJsonParse(cJSON* root);
 void UpgradeJsonParse(cJSON* root);
+void DelyJsonParse(cJSON* root);
 #endif

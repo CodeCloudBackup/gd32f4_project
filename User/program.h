@@ -63,5 +63,5 @@ void Data_Recv_Program(void);
 void MQTT_Data_Program(void);
 void HTTP_Data_Program(void);
 void Program_Init(void);
-void Data_Program(void);
+void Device_Program(void);
 #endif

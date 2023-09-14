@@ -189,7 +189,6 @@ u8 Mqtt_Publish_Deserialize( u8* buf, u8* out)
 u8 Mqtt_Pingresp_Deserialize(u8* buf)
 {
 	if(buf[0] == 0xD0&&buf[1] == 0x00){
-		printf("heart ack %x %x\r\n",buf[0],buf[1]);
 		return 1;
 	}
 	return 0;
@@ -240,7 +239,7 @@ void MQTT_Publish(u8 sockid, u8 dup, u8 retained, int qos, char* topic, char* pu
 	int len=0;
 	MQTTString topicString = MQTTString_initializer;
 	mymemcpy(topicString.cstring, topic, strlen(topic));
-	printf("MQTT_Publish\r\n");
+	printf("\r\nMQTT_Publish\r\n");
 	if(publish_buf == NULL)
 		return ;
 	payloadlen = strlen(publish_buf);
@@ -257,7 +256,7 @@ void MQTT_HeartBeat(u8 sockid)
 {
 	int len=0;
 	if(g_mqttHeartbeatNum == 55){
-			printf("MQTT heart\r\n");
+			printf("\r\nMQTT heart\r\n");
 			msg_type = PINGRESP;
 			g_mqttHeartbeatNum = 0;
 			len = MQTTSerialize_pingreq(p, buflen);//·¢ËÍÐÄÌø
@@ -270,7 +269,7 @@ void MQTT_Subscribe(u8 sockid)
 	int len=0;
 	static int req_qos = 0, msgid = 1;//QOS
 	if(g_mqttSubscribeFlag){	
-			printf("MQTT_Subscribe\r\n");
+			printf("\r\nMQTT_Subscribe\r\n");
 			g_mqttSubscribeFlag=0;
 			memset(p,0,buflen);
 			MQTTString topicString = MQTTString_initializer;

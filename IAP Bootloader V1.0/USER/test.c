@@ -18,9 +18,9 @@ int main(void)
 	u16 oldcount=0;	//老的串口接收数据值
 	u32 applenth=0;	//接收到的app代码长度
 	BOOL softwartUpdateFlag = FALSE;
-	GD32_Clock_Init(400,25,2,9);//设置时钟,168Mhz 
+	GD32_Clock_Init(400,25,2,9);//设置时钟,200Mhz 
   delay_init(200);			//延时初始化  
-	uart_init(100,115200);		//初始化串口波特率为460800 
+	uart_init(100,115200);		//初始化串口波特率为115200 
 	LED_Init();					//初始化LED 
 	LEDR=0;
 	delay_ms(1000);

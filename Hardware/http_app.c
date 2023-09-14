@@ -36,7 +36,7 @@ u16 Http_Post_Head_Package(char *buff_post,char *url_tail,const char *host, u16 
 			"Host:%s:%d\r\n"
 			"User-Agent:GD32F427\r\n"
 			"Accept: */*\r\n"
-			"Connection:close\r\n",
+			"Connection: close\r\n",
 			url_tail,host,port
 		);
 	if (content_type == NONE)
@@ -143,6 +143,10 @@ void HTTP_TIM_10ms(void)
 	g_http1STim++;
 	if(g_http1STim==1000)
 	{
+		if(g_sHttpCmdSta.sta_download_bin==1 || g_sHttpCmdSta.sta_equip_ident==1)
+			g_sHttpCmdSta.sta_cmd=1;
+		if(g_sHttpCmdSta.sta_upload_photo==1 || g_sHttpCmdSta.sta_upload_logfile==1)
+			g_sHttpCmdSta.sta_cmd=1;
 		g_http1STim=0;
 	}
 }
@@ -153,6 +157,8 @@ void HTTP_Init(void)
 	if(g_httpResposeBuf==NULL)
 		g_httpResposeBuf=mymalloc(SRAMIN,1024);
 	memset(&g_sHttpCmdSta, 0 ,sizeof(g_sHttpCmdSta));
+	g_sHttpCmdSta.sta_cmd=1;
+	g_sHttpCmdSta.sta_equip_ident=1;
 }
 
 char *g_braCode="20230824900001";
@@ -169,10 +175,11 @@ void Http_Send_Resquest(const u8 sockid, const char *host,const u32 port)
 		u32 body_len=0;
 		body_len=sprintf(body, "barCode=%s&chipId=%s&md5=%s",g_braCode,g_chipId,md5);
 		printf("1.Send http post resquest:Equipment ident\r\n");
-		len = Http_Post_Head_Package(resquestBuf, "/auth/20230908150000",\
+		len = Http_Post_Head_Package(resquestBuf, "/auth/20230908150000/",\
 						host,port,(u8*)body,body_len,URLENCODED);
 		printf("\r\n%s\r\n",resquestBuf);
-		HM609A_Send_Data( sockid,(const u8*)resquestBuf,len,0,HTTP_PROT);
+		resquestBuf[len]='\0';
+		HM609A_Send_Data( sockid,(const u8*)resquestBuf,len+1,1,HTTP_PROT);
 		g_sHttpCmdSta.sta_equip_ident=2;
 		hm609a_http_wait_flag=1;
 	}
