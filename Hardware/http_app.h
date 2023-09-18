@@ -32,9 +32,10 @@ typedef struct
 }HTTP_CMD_STA;
 
 extern HTTP_CMD_STA g_sHttpCmdSta;
-
+u32 HTTP_Recvice(u8* buf, u32 buflen);
 void HTTP_Init(void);
 u8 HM609A_Http_Program(const u8 sockid, const char *host,const u32 port);
 u16 Http_Get_Package(char *buff_get, char *url_tail,const char *host, u16 port);
 u16 Http_Response_Analysis( u8* buf, u16 buf_len,u8* content,u32 *cont_len);
+void Http_Send_Resquest(const u8 sockid, const char *host,const u32 port);
 #endif

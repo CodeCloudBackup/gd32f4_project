@@ -39,17 +39,18 @@ extern Byte8 MqttSubscrTopFlag3;
 #define MQTT_FLAG_UP_PARAM_RES					MqttSubscrTopFlag3.Bits.B6	// 上传设备状态
 #define MQTT_FLAG_UP_PARAM							MqttSubscrTopFlag3.Bits.B7	// 上传设备参数
 
-void MQTT_Publish(u8 sockid, u8 dup, u8 retained, int qos, char* topic, char* json_buf);
-void MQTT_HeartBeat(u8 sockid);
-void MQTT_Subscribe(u8 sockid);
+static u8 MQTT_Publish(u8 sockid, u8 dup, u8 retained, int qos, char* topic, char* json_buf);
+static u8 MQTT_HeartBeat(u8 sockid);
+static u8 MQTT_Subscribe(u8 sockid);
+static u8 Mqtt_Connect(u8 sockid);
+static u8 Mqtt_Connack_Deserialize( u8* buf);
+static u8 Mqtt_Suback_Deserialize( u8* buf);
+static u8 Mqtt_Publish_Deserialize( u8* buf,u8* out);
+
 void MQTT_Publish_Analysis_Json(u8* buf, cJSON *json);
 void Mqtt_TIM_10ms(void);
 void MQTT_Init( char* chip_id, const char *pwd);
 int transport_getdata(u8* buf, int count);
-u8 Mqtt_Connack_Deserialize( u8* buf);
-u8 Mqtt_Suback_Deserialize( u8* buf);
-u8 Mqtt_Publish_Deserialize( u8* buf,u8* out);
-u8 Mqtt_Deserialize_Handle(u8* msg_type, u8* buf, u8* out);
 u8 HM609A_Mqtt_Program(u8 sockid);
 
 #endif

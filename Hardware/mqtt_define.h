@@ -154,21 +154,7 @@ typedef struct
 	char *barCode=g_barCodede;
 }DEVICE_ALERT;
 
-typedef struct 
-{
-	u8 area_vacancy;
-	u8 power_remain;
-	u32 power_voltage;
-	char *barCode=g_barCodede;
-	char cam_id[12];
-	char simCode[10];
-	u8 csq;
-	float lng;
-	float lat;
-	float acc;
-	float gyro;
-	float temp;
-}DEVICE_STATUS;
+
 
 typedef struct 
 {

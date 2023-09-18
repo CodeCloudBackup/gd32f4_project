@@ -36,10 +36,27 @@ typedef struct{
 	u8 type;
 }DELY_INFO;
 
+typedef struct{
+	u8 area_vacancy;
+	u8 power_remain;
+	u16 power_voltage;
+	char* barCode;
+	char cameSerialCode[12];
+	char simCode[11];
+	u8 csq;
+	float lng;
+	float lat;
+	float acc[3];
+	float gyro[3];
+	float temp;
+}DEVICE_STATUS;
+
 extern APP_UPGRADE g_appUpgrade;
 extern DEVICE_CONF g_sDeviceConf;
-extern DELY_INFO dely_info;
+extern DELY_INFO g_sDelyInfo;
+extern DEVICE_STATUS g_sDeviceSta;
 
+void DeviceStatusJsonPackage(DEVICE_STATUS *dSta, char* out);
 void AppConf_Init(char *mcu_id, char *buf);
 void AppConfJsonParse(cJSON* root);
 u8 ResetJsonParse(cJSON* root);

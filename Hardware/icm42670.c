@@ -162,7 +162,7 @@ void imu_callback(inv_imu_sensor_event_t *event)
 	else
 		temp_degc = 25 + ((float)event->temperature / 2);
 	
-	printf("\r\n temp:%f.\r\nacl:%f,%f,%f\r\ngyo:%f,%f,%f\r\n",\
+	// printf("\r\n temp:%f.\r\nacl:%f,%f,%f\r\ngyo:%f,%f,%f\r\n",\
 					temp_degc,accel_g[0],accel_g[1],accel_g[2],gyro_dps[0],gyro_dps[1],gyro_dps[2]);
 	/*
 	 * Output raw data on UART link

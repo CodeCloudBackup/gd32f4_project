@@ -27,27 +27,11 @@
 #include "json_parse.h"
 
 #define BATTERY_CAP  7000  				// ��ر�׼���ￄ1�7 ��λmAH
-#define BATTERY_VLOT  7    				// ��ر�׼��ф1�7
+#define BATTERY_VLOT  7.0    				// ��ر�׼��ф1�7
 #define FLASH_CUR_CONFIG_ADDR  0x08008000 	// 设置FLASH 保存地址(必须为偶数，且所在扇匄1�7,要大于本代码扢�占用到的扇区.
 #define FLASH_BIN_CONFIG_ADDR  0x0800C000 	// 设置FLASH 保存地址
 #define FLASH_APPBIN_ADDR      0x08020000 	// 设置FLASH BIN文件保存地址.
 
-typedef struct{
-	u8 area_vacancy;
-	u8 power_remain;
-	u16 power_voltage;
-	char cameSerialCode[12];
-	char *simCode;
-	u8 csq;
-	float lng;
-	float lat;
-	float acc[3];
-	float gyro[3];
-	float temp;
-	
-}DEVICE_STATUS;
-
-extern DEVICE_STATUS device_sta;
 extern Byte8 ProgramFlag;
 #define PROGRAM_FLAG  			ProgramFlag.Byte
 #define PROGRAM_TAKE_PHOTO_FLAG 	ProgramFlag.Bits.B0  // ��������

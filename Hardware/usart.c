@@ -150,61 +150,27 @@ void  USART1_TIM_1ms(void)
 				}
 		}
 }
-/**
-* @brief  ??3????
-* @param  cmd:??
-*	        res:?????????
-*         timeOut ????
-*         resnum ??????
-* @retval ?
-* @note   0-??	1-??
-*/
-u8 USART1_Send_ATCmd(const char *cmd,const char *res3,u32 timeOut,u8 retime)
-{
-    u32 timeout;
-    USART1_Clear();
-    while(retime--)
-    {
-        timeout = timeOut;
-        u1_printf(cmd);
-        while(timeout--)
-        {
-            if(g_usart1RevFinish)							                  // ????????
-            {
-                if(strstr((const char *)USART1_TX_BUF, res3) != NULL)		// ????????
-                {
-                    USART1_Clear();										                // ????
-                    return 0;
-                }
-            }
-            delay_ms(1);
-        }
-    }
-    return 1;
-}
 
 void USART1_Clear(void)
 {
-		memset((u8*)USART1_RX_BUF, 0, sizeof(USART1_RX_BUF));
+		memset((u8*)USART1_RX_BUF, 0, USART1_MAX_RECV_LEN);
 		g_usart1Cnt = 0;
 		g_usart1RevFinish = 0;
 }
 
-u8* g_netData=NULL;
-u16 USART1_Revice(void)
+u16 USART1_Revice(u8 *buf, u32 buflen)
 {
 	u16 len = g_usart1Cnt;
 	if(g_usart1RevFinish)
 	{
-		g_usart1RevFinish = 0;
 		if(len>0)
 		{
 				USART1_RX_BUF[len]='\0';//?????
 				printf("\r\nRECV:%s\r\n",USART1_RX_BUF);
-				memset(g_netData, 0, USART1_MAX_RECV_LEN);
-				memcpy(g_netData, (u8*)USART1_RX_BUF, len+1);
+				memset(buf, 0, buflen);
+				memcpy(buf, (u8*)USART1_RX_BUF, len+1);
 				USART1_Clear();
-				return len;	
+				return len;			
 		}else{
 			USART1_Clear();
 			return 0;
@@ -273,8 +239,6 @@ void usart1_init(u32 bound)
 	USART1_RX_STA=0;				//ÇåÁã 
 	if(USART1_RX_BUF == NULL)
 		USART1_RX_BUF=mymalloc(SRAMIN,USART1_MAX_RECV_LEN);
-	if(g_netData==NULL)
-		g_netData=mymalloc(SRAMIN,USART1_MAX_RECV_LEN);
 }
 
 //´®¿Ú3,printf º¯Êý

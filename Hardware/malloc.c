@@ -87,7 +87,7 @@ u8 my_mem_perused(u8 memx)
 //memx:所属内存块
 //size:要分配的内存大小(字节)
 //返回值:0XFFFFFFFF,代表错误;其他,内存偏移地址 
-u32 my_mem_malloc(u8 memx,u32 size)  
+static u32 my_mem_malloc(u8 memx,u32 size)  
 {  
     signed long offset=0;  
     u32 nmemb;	//需要的内存块数  
@@ -116,7 +116,7 @@ u32 my_mem_malloc(u8 memx,u32 size)
 //memx:所属内存块
 //offset:内存地址偏移
 //返回值:0,释放成功;1,释放失败;  
-u8 my_mem_free(u8 memx,u32 offset)  
+static u8 my_mem_free(u8 memx,u32 offset)  
 {  
     int i;  
     if(!mallco_dev.memrdy[memx])//未初始化,先执行初始化

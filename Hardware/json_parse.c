@@ -3,6 +3,36 @@
 #include <stdlib.h>
 #include <string.h>
 DEVICE_CONF g_sDeviceConf;
+DELY_INFO g_sDelyInfo;
+DEVICE_STATUS g_sDeviceSta;
+
+void DeviceStatusJsonPackage(DEVICE_STATUS *dSta, char* out)
+{
+	if(out == NULL) 
+		return;
+	sprintf(out, "{"
+	"\"area_vacancy\":%d,"
+	"\"power_remain\":%d,"
+	"\"power_voltage\":%d,"
+	"\"barCode\":\"%s\","
+	"\"cameSerialCode\":\"%s\","
+	"\"simCode\":\"%s\","
+	"\"csq\":%d,"
+	"\"lng\":%.4f,"
+	"\"lat\":%.4f,"
+	"\"acc\":%.2f %.2f %.2f,"
+	"\"gyro\":%.2f %.2f %.2f,"
+	"\"temp\":%.2f}",
+	dSta->area_vacancy,dSta->power_remain,
+	dSta->power_voltage,dSta->barCode,
+	dSta->cameSerialCode,dSta->simCode,
+	dSta->csq,dSta->lng,dSta->lat,
+	dSta->acc[0],dSta->acc[1],dSta->acc[2],
+	dSta->gyro[0],dSta->gyro[1],dSta->gyro[2],
+	dSta->temp
+	);
+}
+
 
 void AppConf_Init(char *mcu_id, char *buf)
 {
@@ -130,7 +160,7 @@ void AppConfJsonParse(cJSON* root)
 
 }
 
-DELY_INFO dely_info;
+
 void DelyJsonParse(cJSON* root)
 {
 	cJSON* barCode=NULL;
@@ -140,19 +170,19 @@ void DelyJsonParse(cJSON* root)
 	barCode=cJSON_GetObjectItem(root, "barCode");
 	if(barCode != NULL && barCode->type == cJSON_String)
     {
-		memcpy(dely_info.braCode, \
+		memcpy(g_sDelyInfo.braCode, \
 				barCode->valuestring, strlen(barCode->valuestring));
 	}
 	orderNo=cJSON_GetObjectItem(root, "orderNo");
 	if(orderNo != NULL && orderNo->type == cJSON_String)
     {
-		memcpy(dely_info.orderNo, \
+		memcpy(g_sDelyInfo.orderNo, \
 				orderNo->valuestring, strlen(orderNo->valuestring));
 	}
 	type=cJSON_GetObjectItem(root, "type");
 	if(type != NULL && type->type == cJSON_String)
     {
-		dely_info.type=atoi(type->valuestring);
+		g_sDelyInfo.type=atoi(type->valuestring);
 	}
 }
 

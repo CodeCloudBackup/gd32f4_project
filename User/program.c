@@ -8,10 +8,23 @@ void jpeg_dcmi_rx_callback(void)
 }
 #define CONFIG_SIZE 2048
 char mcuIdHex[30]={0};
-DEVICE_STATUS device_sta;
+
+
+
 u8 *g_appConf=NULL;
 cJSON *g_appConfJson=NULL;
 Byte8 ProgramFlag;
+
+u32 g_programTim=0;
+void Program_TIM_100ms(void)
+{
+	g_programTim++;
+	if(g_programTim > 500)
+	{
+		PROGRAM_ICM_DATA_FLAG=1;
+		g_programTim=0;
+	}
+}
 
 void AppConf_Set(cJSON* root)
 {
@@ -22,7 +35,7 @@ void AppConf_Set(cJSON* root)
 void Program_Flag_Init(void)
 {
 	PROGRAM_TAKE_PHOTO_FLAG=1;  
-	PROGRAM_ICM_DATA_FLAG=0; 	
+	PROGRAM_ICM_DATA_FLAG=1; 	
 	PROGRAM_OPEN_DELY_FLAG=0;
 	PROGRAM_RESERT_FLAG=0;
 	PROGRAM_APPFLASH_FLAG=0;
@@ -94,90 +107,10 @@ void Program_Init(void)
 		delay_ms(2000);
 }
 
-void Get_Sensor_Data(void)
-{
-	get_imu_data();
-}
-
 extern u8 *publishbuf;
-extern u8 msg_type;
-extern u8 g_mqttSubscribeFlag;
-extern vu8 g_usart1RevFinish;
-extern vu32 g_usart1Cnt; 
-u8 g_identFlag=0;
+ 
 u8* g_httpContent=NULL;
 u32 g_contLen=0;
-
-
-void Data_Recv_Program(void)
-{
-	u8 ret=0;
-	u32 size=0;
-	char *p1=NULL, *p2=NULL;
-	u32 len = g_usart1Cnt;
-	if(!hm609a_mqtt_conn_flag && !hm609a_http_conn_flag)
-		return;
-	if(g_usart1RevFinish)
-	{
-		if(len >0)
-		{
-			printf("data recv:%s",USART1_RX_BUF);
-		//	u8 headByte=USART1_RX_BUF[0];	
-			p1 = strstr((char*)USART1_RX_BUF, "HTTP/1.1");	
-			p2 = strstr((char*)USART1_RX_BUF, "+IPURC: \"recv\",");	
-			USART1_RX_BUF[len]='\0';//?????
-			 if(p1)
-			{
-				g_usart1RevFinish = 0;
-				memcpy(g_netData, USART1_RX_BUF, len);
-				USART1_Clear();
-				size=len;
-			}
-			else if (p2)
-			{
-				p2 += strlen("+IPURC: \"recv\",")+2;
-				size = atoi(p2);
-				p2 = strstr((const char *)p2,"\n");
-				memcpy(g_netData, p2+1, size);
-				USART1_Clear();
-			}
-			else 
-			{
-				return ;
-			}
-			
-		}
-		
-	}
-	if(size)
-  {
-		if(p1 != NULL)
-		{
-			u16 resp_code=0;
-			printf("\r\nHTTP Recv:%s\r\n",g_netData);
-			resp_code = Http_Response_Analysis(g_netData, size, g_httpContent, &g_contLen);
-			if(resp_code == 200)
-			{
-				HTTP_Data_Program();
-				hm609a_http_wait_flag=0;
-				hm609a_http_conn_flag=0;
-			}
-		}
-		else 
-		{
-			printf("Mqtt Recv:%s\r\n",g_netData);
-			ret=Mqtt_Deserialize_Handle(&msg_type, g_netData, publishbuf);
-			if(ret) 
-			{
-				printf("MQTT return handle successed\r\n");
-				MQTT_Data_Program();
-				hm609a_mqtt_wait_flag=0;
-			}
-			if(hm609a_mqtt_reg_flag && msg_type == CONNACK)
-				g_mqttSubscribeFlag=1;
-		}
-	}	
-}
 
 void HTTP_Data_Program(void)
 {
@@ -231,7 +164,7 @@ void MQTT_Data_Program(void)
 	if(MQTT_FLAG_DELY_OPEN){
 		printf("\r\nServer command: open deliver.\r\n");
 		DelyJsonParse(json);
-		if(dely_info.braCode)
+		if(g_sDelyInfo.braCode)
 		{
 			PROGRAM_OPEN_DELY_FLAG=1;
 		}
@@ -240,7 +173,7 @@ void MQTT_Data_Program(void)
 	if(MQTT_FLAG_DELY_CLOSE){
 		printf("\r\nServer command: open deliver.\r\n");
 		DelyJsonParse(json);
-		if(dely_info.type == 0)
+		if(g_sDelyInfo.type == 0)
 		{
 			PROGRAM_CLOSE_DELY_FLAG=1;
 		}
@@ -292,19 +225,28 @@ void MQTT_Data_Program(void)
 	if(json	!= NULL)
 		cJSON_Delete(json);
 }
-
-void Get_Device_Status()
+extern char *g_barCode;
+void GetDeviceStatus()
 {
+	char camCode[] = "/dev/video0";
+	char simCode[] = "866390060039821";
 	get_imu_data();
-	device_sta.power_voltage=Get_InVolt_Adc_Val();
-	device_sta.temp=Get_TempSensor_Adc_Val();
-	printf("volt:%d, temp:%.2f",device_sta.power_voltage, (float)device_sta.temp);
-	memcpy(device_sta.acc, accel_g, sizeof(accel_g));
-	memcpy(device_sta.gyro, gyro_dps, sizeof(gyro_dps));
-	device_sta.temp=temp_degc;
-	printf("\r\n temp:%f.\r\nacl:%f,%f,%f\r\ngyo:%f,%f,%f\r\n",\
-					device_sta.temp,device_sta.acc[0],device_sta.acc[1],device_sta.acc[2],\
-					device_sta.gyro[0],device_sta.gyro[1],device_sta.gyro[2]);
+	
+	g_sDeviceSta.power_voltage=Get_InVolt_Adc_Val();
+	g_sDeviceSta.area_vacancy=g_sDeviceSta.power_voltage/BATTERY_VLOT;
+	g_sDeviceSta.power_remain=g_sDeviceSta.area_vacancy;
+	
+	memcpy(g_sDeviceSta.cameSerialCode,camCode,sizeof(camCode));
+	g_sDeviceSta.barCode=g_barCode;
+	memcpy(g_sDeviceSta.simCode,simCode,sizeof(simCode));
+	g_sDeviceSta.temp=Get_TempSensor_Adc_Val();
+	printf("volt:%d, temp:%.2f",g_sDeviceSta.power_voltage, (float)g_sDeviceSta.temp);
+	memcpy(g_sDeviceSta.acc, accel_g, sizeof(accel_g));
+	memcpy(g_sDeviceSta.gyro, gyro_dps, sizeof(gyro_dps));
+	g_sDeviceSta.temp=temp_degc;
+	printf("\r\n temp:%.2f.\r\nacl:%.2f,%.2f,%.2f\r\ngyo:%.2f,%.2f,%.2f\r\n",\
+					g_sDeviceSta.temp,g_sDeviceSta.acc[0],g_sDeviceSta.acc[1],g_sDeviceSta.acc[2],\
+					g_sDeviceSta.gyro[0],g_sDeviceSta.gyro[1],g_sDeviceSta.gyro[2]);
 }
 
 
@@ -330,7 +272,8 @@ void Device_Program(void)
 	}
 	if(PROGRAM_ICM_DATA_FLAG)
 	{
-		Get_Device_Status();
+		
+		GetDeviceStatus();
 		PROGRAM_ICM_DATA_FLAG=0;
 	}
 	if(PROGRAM_OPEN_DELY_FLAG)

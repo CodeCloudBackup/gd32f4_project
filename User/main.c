@@ -51,40 +51,42 @@ OF SUCH DAMAGE.
 #define CLI() __set_PRIMASK(1)//关闭总中断  
 #define SEI() __set_PRIMASK(0)//打开总中断
 
-extern u8 g_identFlag;
 int main(void)
 {
+
 	SEI();
 	NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0x10000);//中断向量地址偏移0x100000
-	Program_Init();
-    /* configure systick */	
-	//	OV2640_Jpg_Photo();
-	char *http_ip = g_sDeviceConf.ip_ini.http_ip;
-	char *mqtt_ip = g_sDeviceConf.ip_ini.mqtt_ip;
-	u32 mqttPort = g_sDeviceConf.ip_ini.mqtt_port;
-	u32 httpPort = g_sDeviceConf.ip_ini.http_port;
-	u32 httpUploadPort = g_sDeviceConf.ip_ini.http_port;
+	char *http_ip =NULL ;
+	char *mqtt_ip =NULL;
+	u32 mqttPort=0,httpPort=0;
 	u8 httpSockId = 1;
 	u8 mqttSockId = 2;
+	Program_Init();
+	http_ip = g_sDeviceConf.ip_ini.http_ip;
+	mqtt_ip = g_sDeviceConf.ip_ini.mqtt_ip;
+	mqttPort = g_sDeviceConf.ip_ini.mqtt_port;
+	httpPort = g_sDeviceConf.ip_ini.http_port;
+	u32 httpUploadPort = g_sDeviceConf.ip_ini.http_port;
 	
   while(1) {
 			
 	  HM609A_Tcp_Program(mqttSockId, mqtt_ip, mqttPort, MQTT_PROT);
 		HM609A_Mqtt_Program(mqttSockId);
-		MQTT_Data_Program();
+		
+		//MQTT_Data_Program();
 		if(g_sHttpCmdSta.sta_cmd)
 		{
 			if(hm609a_mqtt_reg_flag)
 			{
-				HM609A_Tcp_Program(httpSockId, http_ip, httpPort, HTTP_PROT);
-				HM609A_Http_Program(httpSockId, http_ip, httpPort);	
+				HM609A_TcpHttp_Program(httpSockId, http_ip, httpPort, HTTP_PROT);
+
 			}
 			else
 			{
 				g_sHttpCmdSta.sta_cmd=0;
 			}						
 		}
-		Data_Recv_Program();
+	//	Data_Recv_Program();
 		Device_Program();
     }
 }

@@ -180,7 +180,6 @@ void Http_Send_Resquest(const u8 sockid, const char *host,const u32 port)
 		printf("\r\n%s\r\n",resquestBuf);
 		resquestBuf[len]='\0';
 		HM609A_Send_Data( sockid,(const u8*)resquestBuf,len+1,1,HTTP_PROT);
-		g_sHttpCmdSta.sta_equip_ident=2;
 		hm609a_http_wait_flag=1;
 	}
 	else if(g_sHttpCmdSta.sta_download_bin == 1)
@@ -192,27 +191,47 @@ void Http_Send_Resquest(const u8 sockid, const char *host,const u32 port)
 		len = strlen(resquestBuf);
 		printf("\r\nquest len%d\r\n",len);
 		HM609A_Send_Data( sockid,(const u8*)resquestBuf,len,0,HTTP_PROT);
-		g_sHttpCmdSta.sta_download_bin = 2;
 		hm609a_http_wait_flag=1;
 	}
 	else if(g_sHttpCmdSta.sta_upload_photo == 1)
 	{
-		g_sHttpCmdSta.sta_upload_photo = 2;
 		hm609a_http_wait_flag=1;
 	}
 	else if(g_sHttpCmdSta.sta_upload_logfile == 1)
 	{
-		g_sHttpCmdSta.sta_upload_logfile = 2;
 		hm609a_http_wait_flag=1;
 	}
 }
-
-u8 HM609A_Http_Program(const u8 sockid, const char *host, const u32 port)
+extern char *g_httpRes;
+extern char *g_mqttRes;
+u32 HTTP_Recvice(u8* buf, u32 buflen)
 {
-	u8 ret = 0;
-	if (hm609a_http_conn_flag && !hm609a_http_wait_flag)
+	u32 len=g_usart1Cnt; 
+	u32 size=0;
+	char *ptr=NULL;
+	if(!hm609a_http_conn_flag) return 0;
+	if(g_usart1RevFinish)
 	{
-		Http_Send_Resquest(sockid, host, port);
+		if(len > 0)
+		{	
+			ptr = strstr((const char *)USART1_RX_BUF, g_mqttRes);
+			if(ptr)
+				return 0;
+			ptr = strstr((const char *)USART1_RX_BUF, g_httpRes);
+			if(ptr != NULL)
+			{	
+				printf("Http Recv:%s\r\n",USART1_RX_BUF);
+				memcpy(buf, USART1_RX_BUF, len);
+				
+				USART1_Clear();
+				return len;	
+			}
+		}
+		else
+		{
+			USART1_Clear();
+			return 0;
+		}	
 	}
-	return ret;
+	return 0;
 }
