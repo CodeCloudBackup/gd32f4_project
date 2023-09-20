@@ -71,15 +71,14 @@ int main(void)
   while(1) {
 			
 	  HM609A_Tcp_Program(mqttSockId, mqtt_ip, mqttPort, MQTT_PROT);
-		HM609A_Mqtt_Program(mqttSockId);
-		
-		//MQTT_Data_Program();
+		HM609A_Mqtt_Program(mqttSockId);	
+		MQTT_Data_Program();
 		if(g_sHttpCmdSta.sta_cmd)
 		{
 			if(hm609a_mqtt_reg_flag)
 			{
 				HM609A_TcpHttp_Program(httpSockId, http_ip, httpPort, HTTP_PROT);
-
+				HTTP_Data_Program();
 			}
 			else
 			{

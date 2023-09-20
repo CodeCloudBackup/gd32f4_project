@@ -31,8 +31,8 @@
 int MQTTSerialize_publishLength(int qos, MQTTString topicName, int payloadlen)
 {
 	int len = 0;
-
-	len += 2 + MQTTstrlen(topicName) + payloadlen;
+	len += MQTTstrlen(topicName);
+	len += 2 + payloadlen;
 	if (qos > 0)
 		len += 2; /* packetid */
 	return len;

@@ -6,7 +6,7 @@ extern char *g_barCode;
 
 typedef struct 
 {
-	char *barCodede=g_barCodede;
+	char barCode[20];
 	char job_time[15];
 	char job_id[2];
 	char cam_id[12];
@@ -21,7 +21,7 @@ typedef struct
 
 typedef struct 
 {
-	char *braCode=g_barCodede;
+	char barCode[20];
 	char iob_job_result[5];
 	char id;
 	char cam_ID[12];
@@ -59,13 +59,13 @@ typedef struct
 
 typedef struct 
 {
-	char *barCode=g_barCodede;
+	char barCode[20];
 	u32 orderNo;
 }OPEN_DELIVER;
 
 typedef struct 
 {
-	char *barCode=g_barCodede;
+	char barCode[20];
 	u32 orderNo;
 	int count;
 	u8 type;
@@ -117,7 +117,7 @@ typedef struct
 {
 	char req[10];
 	char result[5];
-	char *barCode=g_barCodede;
+	char barCode[20];
 }CONFIG_RESULT;
 
 typedef struct 
@@ -131,14 +131,14 @@ typedef struct
 // …Ë±∏∂À
 typedef struct 
 {
-	char *barCode=g_barCodede;
+	char barCode[20];
 	u32 orderNo;
 	u8 type;
 }DELIVER_RESULT;
 
 typedef struct 
 {
-	char *barCode=g_barCodede;
+	char barCode[20];
 	u32 orderNo;
 	int count;
 	u8 type;
@@ -151,21 +151,21 @@ typedef struct
 	u8 area_vacancy;
 	u8 power_remain;
 	u32 power_voltage;
-	char *barCode=g_barCodede;
+	char barCode[20];
 }DEVICE_ALERT;
 
 
 
 typedef struct 
 {
-	char *barCode=g_barCodede;
+	char barCode[20];
 	u8 video0;
 	u8 video1;
 }CAMERA_STATUS;
 
 typedef struct 
 {
-	char *barCode=g_barCodede;
+	char barCode[20];
 	char version[10];
 	char buildDate[12];
 	char buildDate[20];

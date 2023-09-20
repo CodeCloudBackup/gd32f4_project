@@ -40,9 +40,9 @@ typedef struct{
 	u8 area_vacancy;
 	u8 power_remain;
 	u16 power_voltage;
-	char* barCode;
-	char cameSerialCode[12];
-	char simCode[11];
+	char barCode[20];
+	char cameSerialCode[20];
+	char simCode[20];
 	u8 csq;
 	float lng;
 	float lat;
@@ -54,8 +54,9 @@ typedef struct{
 extern APP_UPGRADE g_appUpgrade;
 extern DEVICE_CONF g_sDeviceConf;
 extern DELY_INFO g_sDelyInfo;
-extern DEVICE_STATUS g_sDeviceSta;
+extern DEVICE_STATUS *g_sDeviceSta;
 
+void StructInit(void);
 void DeviceStatusJsonPackage(DEVICE_STATUS *dSta, char* out);
 void AppConf_Init(char *mcu_id, char *buf);
 void AppConfJsonParse(cJSON* root);

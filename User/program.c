@@ -16,6 +16,7 @@ cJSON *g_appConfJson=NULL;
 Byte8 ProgramFlag;
 
 u32 g_programTim=0;
+
 void Program_TIM_100ms(void)
 {
 	g_programTim++;
@@ -74,6 +75,7 @@ void Program_Init(void)
 		}	
 		
 		MyDCMI_Init();			//DCMIÅäÖÃ
+		StructInit();
 		// icm
 		ICM_Init(&icm_serif);
 		// hm609a
@@ -126,10 +128,11 @@ void HTTP_Data_Program(void)
 		PROGRAM_APPFLASH_FLAG=1;
 		g_sHttpCmdSta.sta_download_bin = 0;
 	}
-	else if (g_sHttpCmdSta.sta_upload_photo == 2)
+	else if (g_sHttpCmdSta.sta_upload_photo==2)
 	{
 		printf("\r\nHttp Response: upload photo.\r\n");
 		g_sHttpCmdSta.sta_upload_photo = 0;
+		g_sHttpCmdSta.sta_cmd=0;
 	}
 	else if (g_sHttpCmdSta.sta_upload_logfile == 2)
 	{
@@ -147,14 +150,15 @@ void MQTT_Data_Program(void)
 		json=cJSON_Parse((char*)publishbuf);
 		if(!json)
 		{
-			printf("Error before: [%s]\n",cJSON_GetErrorPtr());
+			printf("Error before: []\n");
 			return;
 		}
 	}		
 	
 	if(MQTT_FLAG_PHOTO){
 		printf("\r\nServer command: take a photo.\r\n");
-		g_sHttpCmdSta.sta_upload_photo=1;
+		PROGRAM_TAKE_PHOTO_FLAG=1;
+		
 		MQTT_FLAG_PHOTO=0;
 	}
 	if(MQTT_FLAG_PHOTO_THIRD){
@@ -232,21 +236,24 @@ void GetDeviceStatus()
 	char simCode[] = "866390060039821";
 	get_imu_data();
 	
-	g_sDeviceSta.power_voltage=Get_InVolt_Adc_Val();
-	g_sDeviceSta.area_vacancy=g_sDeviceSta.power_voltage/BATTERY_VLOT;
-	g_sDeviceSta.power_remain=g_sDeviceSta.area_vacancy;
+	g_sDeviceSta->power_voltage=Get_InVolt_Adc_Val();
+	g_sDeviceSta->area_vacancy=g_sDeviceSta->power_voltage/BATTERY_VLOT;
+	g_sDeviceSta->power_remain=g_sDeviceSta->area_vacancy;
+	g_sDeviceSta->csq=0;
+	g_sDeviceSta->lng=0.0;
+	g_sDeviceSta->lat=0.0;
+	memcpy(g_sDeviceSta->cameSerialCode,camCode,sizeof(camCode));
+	memcpy(g_sDeviceSta->barCode,g_barCode,strlen(g_barCode));
 	
-	memcpy(g_sDeviceSta.cameSerialCode,camCode,sizeof(camCode));
-	g_sDeviceSta.barCode=g_barCode;
-	memcpy(g_sDeviceSta.simCode,simCode,sizeof(simCode));
-	g_sDeviceSta.temp=Get_TempSensor_Adc_Val();
-	printf("volt:%d, temp:%.2f",g_sDeviceSta.power_voltage, (float)g_sDeviceSta.temp);
-	memcpy(g_sDeviceSta.acc, accel_g, sizeof(accel_g));
-	memcpy(g_sDeviceSta.gyro, gyro_dps, sizeof(gyro_dps));
-	g_sDeviceSta.temp=temp_degc;
+	memcpy(g_sDeviceSta->simCode,simCode,sizeof(simCode));
+	g_sDeviceSta->temp=Get_TempSensor_Adc_Val();
+	printf("volt:%d, temp:%.2f",g_sDeviceSta->power_voltage, (float)g_sDeviceSta->temp);
+	memcpy(g_sDeviceSta->acc, accel_g, sizeof(accel_g));
+	memcpy(g_sDeviceSta->gyro, gyro_dps, sizeof(gyro_dps));
+	g_sDeviceSta->temp=temp_degc;
 	printf("\r\n temp:%.2f.\r\nacl:%.2f,%.2f,%.2f\r\ngyo:%.2f,%.2f,%.2f\r\n",\
-					g_sDeviceSta.temp,g_sDeviceSta.acc[0],g_sDeviceSta.acc[1],g_sDeviceSta.acc[2],\
-					g_sDeviceSta.gyro[0],g_sDeviceSta.gyro[1],g_sDeviceSta.gyro[2]);
+					g_sDeviceSta->temp,g_sDeviceSta->acc[0],g_sDeviceSta->acc[1],g_sDeviceSta->acc[2],\
+					g_sDeviceSta->gyro[0],g_sDeviceSta->gyro[1],g_sDeviceSta->gyro[2]);
 }
 
 
@@ -254,8 +261,9 @@ void Device_Program(void)
 {
 	if(PROGRAM_TAKE_PHOTO_FLAG)
 	{
+		printf("Get jpg photo\r\n");
 		OV2640_Jpg_Photo();
-		g_sHttpCmdSta.sta_upload_photo=0;
+		g_sHttpCmdSta.sta_upload_photo=2;
 		PROGRAM_TAKE_PHOTO_FLAG=0;
 	} 
 	if(PROGRAM_APPFLASH_FLAG)

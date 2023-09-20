@@ -42,6 +42,8 @@ extern Byte8 ProgramFlag;
 #define PROGRAM_APPFLASH_FLAG		ProgramFlag.Bits.B5	 // ����ά��
 #define PROGRAM_SPEAKER_FLAG		ProgramFlag.Bits.B6	 // �ر���ά��
 
+void Program_TIM_1ms(void);
+void Program_TIM_100ms(void);
 void Program_Flag_Init(void);
 void Data_Recv_Program(void);
 void MQTT_Data_Program(void);

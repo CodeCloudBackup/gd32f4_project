@@ -574,8 +574,7 @@ u8 HM609A_Http_Request(const u8 sockid, const char *host,const u32 port)
 void HM609A_TcpHttp_Program(u8 sockid, char* addr, int port, NET_PROT protocol)
 {
 	u8 err = 0;    //返回得错误代码
-	static u8 count = 0;  //重复次数
-	static u16 state = 0;      // ????,???????
+	static u8 state = 0,count = 0;      // ????,???????
 	switch (state)//AIR208状态处理
   {
 		case 0:
@@ -691,7 +690,7 @@ void HM609A_Send_Data(u8 sockid, const u8* data, u16 len, u8 flag, NET_PROT prot
 			hexStr = mymalloc(SRAMIN,600);
 		to_hex(data, len, hexStr);
 		hexStr[len*2] = '\0';
-		printf("AT+IPSENDEX=%d,%s\r\n",sockid,hexStr);
+		printf("AT+IPSENDEX=%d,%s, len:%d\r\n",sockid,hexStr,strlen(hexStr));
 		u1_printf("\r\nAT+IPSENDEX=%d,\"%s\"\r\n",sockid, hexStr);
 	}
 	if (protocol == HTTP_PROT)

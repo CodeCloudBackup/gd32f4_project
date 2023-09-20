@@ -10,6 +10,7 @@ MQTTPacket_connectData data = MQTTPacket_connectData_initializer;
 
 u16 g_mqttHeartbeatNum=0;  //心跳计数
 u32 g_mqttConnTim=0;     //注册失败重发延时
+u32 g_mqttHeartTim=0;
 u8 g_mqttPublishFlag=0;
 char *g_barCode="20230824900001";
 char* payload = NULL;
@@ -22,7 +23,7 @@ Byte8 MqttSubscrTopFlag1;
 Byte8 MqttSubscrTopFlag2;
 Byte8 MqttSubscrTopFlag3;
 
-u16 buflen=400;
+u16 buflen=1024;
 u8 *p  = NULL;
 u8 *revicebuf = NULL;
 u8 *publishbuf = NULL;
@@ -32,6 +33,7 @@ u8 g_msgType=None;
 void MQTT_TIM_10ms(void)
 {
 	if(hm609a_mqtt_conn_flag&&g_mqttConnTim)g_mqttConnTim--;
+	if(g_mqttHeartTim)g_mqttHeartTim--;
 	if(g_sHttpCmdSta.sta_equip_ident==2) {
 		MQTT_FLAG_UP_DELY_STA=1;
 		MQTT_FLAG_UP_LOCK_STA=1;
@@ -40,7 +42,7 @@ void MQTT_TIM_10ms(void)
 		MQTT_FLAG_UP_APPVERSION=1;
 	}
 	
-	if(g_mqttHeartbeatNum==50){
+	if(g_mqttHeartbeatNum==30){
 		g_mqttPublishFlag=1;
 		MQTT_FLAG_UP_DEVICE_STA=1;
 	}
@@ -72,7 +74,7 @@ void MQTT_Init(char* chip_id, const char* pwd)
 	data.password.cstring = "124";//密码
 	payloadlen = strlen(payload);
 	if(p == NULL)
-		p = mymalloc(SRAMIN,400);
+		p = mymalloc(SRAMIN,buflen);
 	if(revicebuf == NULL)
 		revicebuf = mymalloc(SRAMIN,200);
 	if(publishbuf == NULL)
@@ -120,24 +122,21 @@ static u8 Mqtt_Puback_Deserialize(u8* buf, u8 qos)
 	}
 	else if(qos == 1)
 	{	
-		if(buf[0]==0x40)
-			printf("pubilc ack %x %x %x %x",buf[0],buf[1],buf[2],buf[3]);
-		else
+		if(buf[0]!=0x40)
 			return 0;
 	}
 	else if(qos == 2)
 	{	
-		if(buf[0]==0x50)
-			printf("pubilc ack %x %x %x %x",buf[0],buf[1],buf[2],buf[3]);
-		else
+		if(buf[0]!=0x50)
 			return 0;
 	}
 	return 1;
 }
 
+
 static u8 Mqtt_Publish_Deserialize( u8* buf, u8* out)
 {
-		u8 dup;
+		u8 dup,ret=0;
 		int qos;
 		u8 retained;
 		u16 msgid;
@@ -145,8 +144,9 @@ static u8 Mqtt_Publish_Deserialize( u8* buf, u8* out)
 		u8* payload_in=NULL;
 		char* topic=NULL;
 		MQTTString receivedTopic;
-		MQTTDeserialize_publish(&dup, &qos, &retained, &msgid, &receivedTopic,
+		ret=MQTTDeserialize_publish(&dup, &qos, &retained, &msgid, &receivedTopic,
 				&payload_in, &payloadlen_in, buf, buflen);
+		if(!ret) return 0;
 		topic=receivedTopic.lenstring.data;
 		if(strstr((const char *)topic, "iob/s2d/") != NULL)
 		{
@@ -188,7 +188,7 @@ static u8 Mqtt_Publish_Deserialize( u8* buf, u8* out)
 		}
 		memcpy(out,payload_in,payloadlen_in);
 		printf("receivedTopic:%s,%d\r\n",receivedTopic.lenstring.data,receivedTopic.lenstring.len);
-		printf("message arrived: %.*s\n", payloadlen_in, payload_in); //消息到达
+		printf("message arrived: %.*s\n",payloadlen_in, payload_in); //消息到达
 		return 1;	
 }
 
@@ -244,7 +244,7 @@ static u32 MQTT_Recvice(u8 *buf, u32 buflen)
 }
 
 char* g_mqttSendPublish=NULL;
-void MQTT_Package_Publish_Json(char* topic, char* out)
+void MQTT_Package_Publish_Json(char* topic, char* out, u32 payloadlen)
 {
 	memset(g_publictTopic,0,sizeof(g_publictTopic));
 	if(MQTT_FLAG_UP_PHOTO_RES)
@@ -282,7 +282,7 @@ void MQTT_Package_Publish_Json(char* topic, char* out)
 	else if(MQTT_FLAG_UP_DEVICE_STA)
 	{
 		sprintf(g_publictTopic,"iob/d2s/device/status/%s",g_barCode);
-		DeviceStatusJsonPackage(&g_sDeviceSta, out);
+		DeviceStatusJsonPackage(g_sDeviceSta, out);
 	}
 	else if(MQTT_FLAG_UP_APPVERSION)
 	{
@@ -298,8 +298,11 @@ static u8 MQTT_Publish(u8 sockid, u8 dup, u8 retained, int qos, char* topic, cha
 {
 	int len=0;
 	MQTTString topicString = MQTTString_initializer;
-	mymemcpy(topicString.cstring, topic, strlen(topic));
 	printf("\r\nMQTT_Publish\r\n");
+	printf("Topic:%s,%d\r\n",topic,strlen(topic));
+	topicString.cstring=topic;
+	//mymemcpy(topicString.cstring, topic, strlen(topic));
+
 	if(publish_buf == NULL)
 		return 0;
 	payloadlen = strlen(publish_buf);
@@ -317,83 +320,74 @@ static u8 MQTT_HeartBeat(u8 sockid)
 {
 	u16 len=0;
 	static u16 count=0,state = 0, cnt = 1;
-	u8 buf[20];
-	if(g_mqttConnTim==0)
+	u8 buf[300];
+	u8 *out=NULL;
+	if(g_mqttHeartTim==0)
 	{
-		if(count>0 && count >= cnt)
-		{
-			count=0;
-			cnt=1;
-			state=0;
-			return 71;
+		if(count > 0 && count>= cnt)
+		{	
+			count= 0;      //次数清零
+			cnt = 1;        //最大次数复位
+			return 0;     //返回错误码
 		}
-		else
-		{
-			count++;
-			switch(state)
-			{
-				case 0:
-				{
-					if(g_mqttHeartbeatNum >= 55){
-							printf("\r\nMQTT_HeartBeat\r\n");
-							g_mqttConnTim=200;
-							cnt=3;
-							len = MQTTSerialize_pingreq(p, buflen);
-							HM609A_Send_Data(sockid,p,len,0,MQTT_PROT);
-							g_mqttHeartbeatNum=0;
-					}
+		else{	
+			if(g_mqttHeartbeatNum >= 50){
+					count++;
+					printf("\r\nMQTT_HeartBeat\r\n");
 					
-				}
-				break;
-				case 1:
+					cnt=5;
+					len = MQTTSerialize_pingreq(p, buflen);
+					HM609A_Send_Data(sockid,p,len,0,MQTT_PROT);
+			}
+			else if(g_mqttPublishFlag)
+			{
+				count++;
+				cnt=5;
+				if(payload == NULL)
+					payload=mymalloc(SRAMIN, 600);
+				memset(payload,0,600);
+				MQTT_Package_Publish_Json(g_publictTopic, payload, payloadlen);
+				MQTT_Publish(sockid, 0, 0, g_qos,g_publictTopic,payload);
+				if(payload != NULL)
 				{
-					if(g_mqttPublishFlag)
-					{
-						printf("\r\nMQTT_Publish\r\n");
-						g_mqttConnTim=200;
-						cnt=3;
-						if(payload == NULL)
-							payload=mymalloc(SRAMIN, 400);
-						MQTT_Package_Publish_Json(g_publictTopic, payload);
-						MQTT_Publish(sockid, 0, 0, g_qos,g_publictTopic,payload);
-						if(payload != NULL)
-							myfree(SRAMIN, payload);
-						HM609A_Send_Data(sockid,p,len,0,MQTT_PROT);
-					}
-				}
-				break;
-				default:// 等待连接建立成功
-				{
-					count=0;      //重试次数清零
-          state=0;      //流程清零
-          cnt= 1;        //最大次数复位
-					return 1;
+					myfree(SRAMIN, payload);
+					payload=NULL;
 				}
 			}
+			g_mqttHeartTim=200;
 		}
 	}
 	else
 	{
-		if(MQTT_Recvice(buf, 20))
+		if(MQTT_Recvice(buf, 300))
 		{	
-				printf("Mqtt ack:%02x%02x",buf[0],buf[1]);
+				printf("Mqtt ack:%02x%02x\r\n",buf[0],buf[1]);
+				if(Mqtt_Publish_Deserialize(buf, publishbuf))
+				{
+					MQTT_FLAG_RECEIVE=1;
+				}
 				if(Mqtt_Pingresp_Deserialize(buf))
 				{
-					g_mqttConnTim=0;
-					count=0;
-					state++;
+					g_mqttHeartbeatNum=0;
+					g_mqttHeartTim=0;
+					count= 0;      //次数清零
+					cnt = 1; 
+					return 1;
 				}
 				if(Mqtt_Puback_Deserialize(buf, g_qos))
 				{
+					count= 0;      //次数清零
+					cnt = 1; 
+				
 					g_mqttPublishFlag=0;
-					g_mqttConnTim=0;
-					count=0;
-					state++;
+					g_mqttHeartTim=0;
+					return 1;
 				}
 		}
 	}
 	return 1;
 }
+
 
 static u8 MQTT_Subscribe(u8 sockid)
 {
@@ -474,6 +468,7 @@ static u8 Mqtt_Connect(u8 sockid)
 				case 0:
 				{
 					printf("\r\nMQTT_Connect\r\n");
+					cnt=3;
 					g_mqttConnTim=200;
 					memset(p,0,buflen);
 					g_msgType = CONNACK;
@@ -513,7 +508,7 @@ static u8 Mqtt_Connect(u8 sockid)
 u8 HM609A_Mqtt_Program(u8 sockid)
 {
 	u8 ret=0;
-	static u8 state = 0;
+	static u8 state = 0, count = 0;
 	if(hm609a_mqtt_conn_flag)//TCP连接建立
 	{
 		switch(state)
@@ -522,9 +517,34 @@ u8 HM609A_Mqtt_Program(u8 sockid)
 			{
 				if(!hm609a_mqtt_reg_flag)
 				{
-					if(Mqtt_Connect(sockid))
+					ret=Mqtt_Connect(sockid);
+					switch(ret)
 					{
-						state++;
+						case 0:break; 		//正常流程,直接跳出
+						case 1:
+						 {
+						 //连接成功,跳到下一个流程
+						 count=0;
+						 hm609a_mqtt_reg_flag=1;
+						 state++;
+						}
+						break;
+						default:
+						{
+							//进入失败
+							if(count>=3)
+							{
+								//超过重试次数，重启模块
+								state=0;
+								count=0;	
+								hm609a_mqtt_conn_flag=0;
+							}
+							else
+							{      
+								count++;//重试次数+1
+								state++;
+							}
+						}
 					}
 				}
 				else
@@ -535,15 +555,45 @@ u8 HM609A_Mqtt_Program(u8 sockid)
 			break;
 			case 1:
 			{
-				if(MQTT_Subscribe(sockid))
+				ret = MQTT_Subscribe(sockid);
+				switch(ret)
 				{
-					state++;
+					 case 0:break; 		//正常流程,直接跳出
+					 case 1:
+					 {
+						 //连接成功,跳到下一个流程
+						 count=0;
+						 state++;
+					 }
+					  break;
+					 default:
+					 {
+							//进入失败
+							if(count>=3)
+							{
+								//超过重试次数，重启模块
+								state=0;
+								count=0;	
+								hm609a_mqtt_reg_flag=0;
+							}
+							else
+							{      
+								count++;//重试次数+1
+								state++;
+							}
+						}
+						break;
 				}
 			}
 			break;
 			default://TCP连接成功，开始数据收发
 			{
-				MQTT_HeartBeat(sockid);
+				if(MQTT_HeartBeat(sockid) != 1)
+				{
+					printf("Disconnect E000\r\n");
+					u1_printf("\r\nAT+IPSENDEX=%d,\"E000\"\r\n",sockid);
+					hm609a_mqtt_reg_flag=0;
+				}
 				if(!hm609a_mqtt_reg_flag)
 					state=0;
 			}	

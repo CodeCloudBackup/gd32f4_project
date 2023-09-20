@@ -195,7 +195,7 @@ void Http_Send_Resquest(const u8 sockid, const char *host,const u32 port)
 	}
 	else if(g_sHttpCmdSta.sta_upload_photo == 1)
 	{
-		hm609a_http_wait_flag=1;
+		//hm609a_http_wait_flag=1;
 	}
 	else if(g_sHttpCmdSta.sta_upload_logfile == 1)
 	{

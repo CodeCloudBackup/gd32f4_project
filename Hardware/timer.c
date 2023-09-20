@@ -10,12 +10,10 @@ extern void  USART1_TIM_1ms(void);
 extern void MQTT_TIM_10ms(void);
 extern void HTTP_TIM_10ms(void);
 extern void Program_TIM_100ms(void);
-
 void TIM_1msProgram(void)
 {
 	USART1_TIM_1ms();
 	HM609A_TIM_1ms();
-	
 }
 
 void TIM_10msProgram(void)

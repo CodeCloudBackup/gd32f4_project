@@ -54,8 +54,8 @@ u8 OV2640_Jpg_Photo(void)
 	u16 i;
 	u8* pbuf;
 	OV2640_JPEG_Mode();		//切换为JPEG模式 
- 	OV2640_ImageWin_Set(0,0,320,240);			 
-	OV2640_OutSize_Set(320,240);//拍照尺寸为1600*1200
+ 	OV2640_ImageWin_Set(0,0,640,480);			 
+	OV2640_OutSize_Set(640,480);//拍照尺寸为1600*1200
 	DCMI_DMA_Init((u32)jpeg_data_buf,0,jpeg_dma_bufsize,DMA_MemoryDataSize_Word,DMA_MemoryInc_Enable);//DCMI DMA配置(双缓冲模式)
 	DCMI_Start(); 			//启动传输 
 	while(jpeg_data_ok!= 1);

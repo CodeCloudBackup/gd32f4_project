@@ -1,36 +1,48 @@
 #include "json_parse.h"
+#include "malloc.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 DEVICE_CONF g_sDeviceConf;
 DELY_INFO g_sDelyInfo;
-DEVICE_STATUS g_sDeviceSta;
+DEVICE_STATUS* g_sDeviceSta =NULL;
+
+extern char *g_barCode;
+void StructInit(void)
+{
+	if(g_sDeviceSta==NULL)
+	{
+		g_sDeviceSta=mymalloc(SRAMIN, sizeof(DEVICE_STATUS));
+	}
+}
 
 void DeviceStatusJsonPackage(DEVICE_STATUS *dSta, char* out)
 {
+	u32 len=0;
 	if(out == NULL) 
 		return;
-	sprintf(out, "{"
+	len = sprintf(out, "{"
 	"\"area_vacancy\":%d,"
 	"\"power_remain\":%d,"
 	"\"power_voltage\":%d,"
-	"\"barCode\":\"%s\","
-	"\"cameSerialCode\":\"%s\","
-	"\"simCode\":\"%s\","
+//	"\"barCode\":\"%s\","
+//	"\"cameSerialCode\":\"xx\","
+//	"\"simCode\":\"%s\","
 	"\"csq\":%d,"
 	"\"lng\":%.4f,"
 	"\"lat\":%.4f,"
-	"\"acc\":%.2f %.2f %.2f,"
-	"\"gyro\":%.2f %.2f %.2f,"
+	//"\"acc\":%.2f,"
+	//"\"gyro\":%.2f,"
 	"\"temp\":%.2f}",
 	dSta->area_vacancy,dSta->power_remain,
-	dSta->power_voltage,dSta->barCode,
-	dSta->cameSerialCode,dSta->simCode,
+	dSta->power_voltage,
+//	dSta->simCode,
 	dSta->csq,dSta->lng,dSta->lat,
-	dSta->acc[0],dSta->acc[1],dSta->acc[2],
-	dSta->gyro[0],dSta->gyro[1],dSta->gyro[2],
+	//dSta->acc[0],
+	//dSta->gyro[0],
 	dSta->temp
 	);
+	out[len] = '\0';
 }
 
 
@@ -163,15 +175,15 @@ void AppConfJsonParse(cJSON* root)
 
 void DelyJsonParse(cJSON* root)
 {
-	cJSON* barCode=NULL;
+	cJSON* barCodeNode=NULL;
 	cJSON* orderNo=NULL;
 	cJSON* type=NULL;
 
-	barCode=cJSON_GetObjectItem(root, "barCode");
-	if(barCode != NULL && barCode->type == cJSON_String)
+	barCodeNode=cJSON_GetObjectItem(root, "barCode");
+	if(barCodeNode != NULL && barCodeNode->type == cJSON_String)
     {
 		memcpy(g_sDelyInfo.braCode, \
-				barCode->valuestring, strlen(barCode->valuestring));
+				barCodeNode->valuestring, strlen(barCodeNode->valuestring));
 	}
 	orderNo=cJSON_GetObjectItem(root, "orderNo");
 	if(orderNo != NULL && orderNo->type == cJSON_String)
