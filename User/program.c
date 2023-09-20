@@ -113,14 +113,30 @@ extern u8 *publishbuf;
  
 u8* g_httpContent=NULL;
 u32 g_contLen=0;
-
+extern u8* g_netData;
+extern char* g_cookie;
 void HTTP_Data_Program(void)
 {
+	u8 i=0;
 	if (g_sHttpCmdSta.sta_equip_ident == 2)
 	{
+		char *ptr1=NULL, *ptr2=NULL;
+		u8 len=0;
 		printf("\r\nHttp Response: equip ident.\r\n");
+		ptr1=strstr((const char *)g_netData, "Set-Cookie: session=");
+		if(ptr1)
+		ptr2=strstr((const char *)ptr1, ";");
+		if(ptr2)
+		{	
+			len = ptr2 - ptr1 - 20;
+			if(g_cookie == NULL)
+				g_cookie=mymalloc(SRAMIN, len+1);
+			memcpy(g_cookie, ptr1+20, len);
+			g_cookie[len]='\0';
+			printf("Cookie:%s\r\n",g_cookie);
+		}
+		
 		g_sHttpCmdSta.sta_equip_ident = 0;
-		g_sHttpCmdSta.sta_cmd=0;
 	}
 	else if(g_sHttpCmdSta.sta_download_bin == 2)
 	{
@@ -132,12 +148,26 @@ void HTTP_Data_Program(void)
 	{
 		printf("\r\nHttp Response: upload photo.\r\n");
 		g_sHttpCmdSta.sta_upload_photo = 0;
-		g_sHttpCmdSta.sta_cmd=0;
+		
 	}
 	else if (g_sHttpCmdSta.sta_upload_logfile == 2)
 	{
 		printf("\r\nHttp Response: upload logfile.\r\n");
 		g_sHttpCmdSta.sta_upload_logfile = 0;
+	}
+	
+	i+=g_sHttpCmdSta.sta_equip_ident;
+	i+=g_sHttpCmdSta.sta_download_bin;
+	i+=g_sHttpCmdSta.sta_upload_photo;
+	i+=g_sHttpCmdSta.sta_upload_logfile;
+	if(!i)
+	{
+		if(g_netData != NULL)
+		{
+			myfree(SRAMIN, g_netData);
+			g_netData=NULL;
+		}
+		g_sHttpCmdSta.sta_cmd=0;
 	}
 }
 

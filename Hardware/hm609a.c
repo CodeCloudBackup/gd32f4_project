@@ -413,9 +413,8 @@ static FunctionalState GetConnStatus( NET_PROT protocol)
 void HM609A_Tcp_Program(u8 sockid, char* addr, int port, NET_PROT protocol)
 {
 	u8 err = 0;    //返回得错误代码
-	static u8 count[7] = {0};  //重复次数
-	static u16 state[7] = {0};      // ????,???????
-	switch (state[sockid])//AIR208状态处理
+	static u8 count=0,state=0;      // ????,???????
+	switch (state)//AIR208状态处理
   {
 		case 0:
 		{
@@ -423,12 +422,12 @@ void HM609A_Tcp_Program(u8 sockid, char* addr, int port, NET_PROT protocol)
 			{
 				if(HM609A_Restart_Program())
         {
-            state[sockid]++;
-            count[sockid]=0;
+            state++;
+            count=0;
         }
 			}else{
-					state[sockid]++;
-					count[sockid]=0;
+					state++;
+					count=0;
 			}
 		}
 		break;
@@ -443,16 +442,16 @@ void HM609A_Tcp_Program(u8 sockid, char* addr, int port, NET_PROT protocol)
         case 1:
         {
             //进入AT成功,跳到下一个流程
-            state[sockid]++;
+            state++;
 						hm609a_config_flag=1;
-            count[sockid]=0;
+            count=0;
 					
         }
         break;
         case 2:
         {
-						memset(state,0,sizeof(state));
-						memset(count,0,sizeof(state));
+						state=0;
+						count=0;
             HM609A_Restart();
         }
         break;
@@ -470,30 +469,26 @@ void HM609A_Tcp_Program(u8 sockid, char* addr, int port, NET_PROT protocol)
          case 1:
 				 {
 					 //连接成功,跳到下一个流程
-           count[sockid]=0;
-					 if (protocol == MQTT_PROT){
-							hm609a_mqtt_conn_flag=1;
-							hm609a_mqtt_reg_flag=0;
-					 }else if (protocol == HTTP_PROT){
-							hm609a_http_conn_flag=1;
-					 }
-           state[sockid]+=10;
+           count=0;
+					 hm609a_mqtt_conn_flag=1;
+					 hm609a_mqtt_reg_flag=0;
+           state+=10;
 				 }
 				 break;
 				 default:
          {
             //进入失败
-            if(count[sockid]>=3)
+            if(count>=3)
             {
               //超过重试次数，重启模块
-              memset(state,0,sizeof(state));
-							memset(count,0,sizeof(state));	
+              state=0;
+							count=0;	
               HM609A_Restart();
             }
             else
             {      
-              count[sockid]++;//重试次数+1
-              state[sockid]++;
+              count++;//重试次数+1
+              state++;
             }
           }
           break;
@@ -503,13 +498,13 @@ void HM609A_Tcp_Program(u8 sockid, char* addr, int port, NET_PROT protocol)
 		case 3:
 		{
 			if(HM609A_Tcp_Off(sockid))
-				state[sockid]--;//关闭连接后重新连接
+				state--;//关闭连接后重新连接
 		}
 		break;
 		default://TCP连接成功，开始数据收发
     {
         if(!GetConnStatus(protocol))
-					state[sockid]=3;//如果连接断开，执行断开TCP，重新创建TCP连接
+					state=3;//如果连接断开，执行断开TCP，重新创建TCP连接
     }break;
 	}
 }
@@ -520,8 +515,7 @@ u8 HM609A_Http_Request(const u8 sockid, const char *host,const u32 port)
 	static u8 count = 0, sign = 0, cnt = 1; //重复次数,重启流程
 	u16 len = 0;
 	char buf[10];
-	if(g_netData==NULL)
-		g_netData=mymalloc(SRAMIN, 800);
+
 	if(g_hm609aHttpWaitTim == 0) //为0时发送测试数据
 	{
 		if(count > 0 && count >= cnt) //超过最大重复次数
@@ -559,10 +553,10 @@ u8 HM609A_Http_Request(const u8 sockid, const char *host,const u32 port)
 	{
 		if(HTTP_Recvice(g_netData, 800))        //从串口3读取数据
 		{
-			g_sHttpCmdSta.sta_equip_ident=0;
-				g_hm609aHttpWaitTim = 0; //定时清零
-				count = 0;      //重试次数清零
-				sign++;        //下一个流程
+			g_sHttpCmdSta.sta_equip_ident=2;
+			g_hm609aHttpWaitTim = 0; //定时清零
+			count = 0;      //重试次数清零
+			sign++;        //下一个流程
 		}
 	}
 	return 0;

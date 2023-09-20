@@ -164,6 +164,8 @@ void HTTP_Init(void)
 char *g_braCode="20230824900001";
 char *g_chipId="20230824900001test";
 char *md5="205e0dde2f9ffcb40594ba3276614378";
+char *g_cookie=NULL;
+extern u8* g_netData;
 void Http_Send_Resquest(const u8 sockid, const char *host,const u32 port)
 {
 	u16 len=0;
@@ -173,6 +175,8 @@ void Http_Send_Resquest(const u8 sockid, const char *host,const u32 port)
 	{
 		char body[100]={0};
 		u32 body_len=0;
+		if(g_netData==NULL)
+			g_netData=mymalloc(SRAMIN, 600);
 		body_len=sprintf(body, "barCode=%s&chipId=%s&md5=%s",g_braCode,g_chipId,md5);
 		printf("1.Send http post resquest:Equipment ident\r\n");
 		len = Http_Post_Head_Package(resquestBuf, "/auth/20230908150000/",\
@@ -185,7 +189,8 @@ void Http_Send_Resquest(const u8 sockid, const char *host,const u32 port)
 	else if(g_sHttpCmdSta.sta_download_bin == 1)
 	{
 		printf("Send http get resquest\r\n");
-		
+		if(g_netData==NULL)
+			g_netData=mymalloc(SRAMIN, 60*1024);
 		len=Http_Get_Package(resquestBuf, "iob/download/test.txt",host, port);
 		printf("\r\n%s\r\n",resquestBuf);
 		len = strlen(resquestBuf);
