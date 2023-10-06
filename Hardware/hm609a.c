@@ -553,7 +553,10 @@ u8 HM609A_Http_Request(const u8 sockid, const char *host,const u32 port)
 	{
 		if(HTTP_Recvice(g_netData, 800))        //从串口3读取数据
 		{
-			g_sHttpCmdSta.sta_equip_ident=2;
+			if(strstr((const char *)g_netData, "Set-Cookie: session="))
+			{
+					g_sHttpCmdSta.sta_equip_ident=2;
+			}
 			g_hm609aHttpWaitTim = 0; //定时清零
 			count = 0;      //重试次数清零
 			sign++;        //下一个流程
@@ -693,7 +696,11 @@ void HM609A_Send_Data(u8 sockid, const u8* data, u16 len, u8 flag, NET_PROT prot
 		hm609a_http_wait_flag=1;
 	}
 	if(hexStr != NULL)
+	{
 		myfree(SRAMIN,hexStr);
+		hexStr=NULL;
+	}
+		
 }
 
 void HM609A_test(void)

@@ -31,10 +31,15 @@ typedef struct{
 }APP_UPGRADE;
 
 typedef struct{
-	char *braCode;
 	char orderNo[10];
 	u8 type;
 }DELY_INFO;
+
+typedef struct{
+	DELY_INFO *dely_info;
+	u8 count;
+	u8 keySta;
+}DELY_STA;
 
 typedef struct{
 	u8 area_vacancy;
@@ -54,10 +59,11 @@ typedef struct{
 extern APP_UPGRADE g_appUpgrade;
 extern DEVICE_CONF g_sDeviceConf;
 extern DELY_INFO g_sDelyInfo;
+extern DELY_STA g_sDelySta;
 extern DEVICE_STATUS *g_sDeviceSta;
-
 void StructInit(void);
 void DeviceStatusJsonPackage(DEVICE_STATUS *dSta, char* out);
+void DelyStatusJsonPackage(DELY_STA *dSta, char* out);
 void AppConf_Init(char *mcu_id, char *buf);
 void AppConfJsonParse(cJSON* root);
 u8 ResetJsonParse(cJSON* root);

@@ -157,8 +157,8 @@ void HTTP_Init(void)
 	if(g_httpResposeBuf==NULL)
 		g_httpResposeBuf=mymalloc(SRAMIN,1024);
 	memset(&g_sHttpCmdSta, 0 ,sizeof(g_sHttpCmdSta));
-	g_sHttpCmdSta.sta_cmd=1;
-	g_sHttpCmdSta.sta_equip_ident=1;
+	g_sHttpCmdSta.sta_cmd=0;
+	g_sHttpCmdSta.sta_equip_ident=0;
 }
 
 char *g_braCode="20230824900001";

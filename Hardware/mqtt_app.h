@@ -47,6 +47,7 @@ static u8 Mqtt_Connack_Deserialize( u8* buf);
 static u8 Mqtt_Suback_Deserialize( u8* buf);
 static u8 Mqtt_Publish_Deserialize( u8* buf,u8* out);
 
+void MQTT_Package_Publish_Json(u8 sockid, char* topic, u32 payloadlen);
 void MQTT_Publish_Analysis_Json(u8* buf, cJSON *json);
 void Mqtt_TIM_10ms(void);
 void MQTT_Init( char* chip_id, const char *pwd);

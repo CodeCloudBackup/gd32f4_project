@@ -4,17 +4,24 @@
 #include <stdlib.h>
 #include <string.h>
 DEVICE_CONF g_sDeviceConf;
-DELY_INFO g_sDelyInfo;
 DEVICE_STATUS* g_sDeviceSta =NULL;
-
+DELY_INFO g_sDelyInfo;
+DELY_STA g_sDelySta;
 extern char *g_barCode;
 void StructInit(void)
 {
 	if(g_sDeviceSta==NULL)
 	{
-		g_sDeviceSta=mymalloc(SRAMIN, sizeof(DEVICE_STATUS));
+		g_sDeviceSta=(DEVICE_STATUS*)mymalloc(SRAMIN, sizeof(DEVICE_STATUS));
 	}
+	memcpy(g_sDelyInfo.orderNo,"0",2);
+	g_sDelyInfo.type=0;
+	
+	g_sDelySta.dely_info=&g_sDelyInfo;
+	g_sDelySta.count=0;
+	g_sDelySta.keySta=0;
 }
+
 
 void DeviceStatusJsonPackage(DEVICE_STATUS *dSta, char* out)
 {
@@ -34,8 +41,8 @@ void DeviceStatusJsonPackage(DEVICE_STATUS *dSta, char* out)
 	//"\"acc\":%.2f,"
 	//"\"gyro\":%.2f,"
 	"\"temp\":%.2f}",
-	dSta->area_vacancy,dSta->power_remain,
-	dSta->power_voltage,
+	dSta->area_vacancy,
+	dSta->power_remain,dSta->power_voltage,
 //	dSta->simCode,
 	dSta->csq,dSta->lng,dSta->lat,
 	//dSta->acc[0],
@@ -45,10 +52,32 @@ void DeviceStatusJsonPackage(DEVICE_STATUS *dSta, char* out)
 	out[len] = '\0';
 }
 
+void DelyInfoJsonPackage(DEVICE_STATUS *dSta, char* out)
+{
+		
+}
+
+void DelyStatusJsonPackage(DELY_STA *dSta, char* out)
+{
+		u32 len=0;
+	if(out == NULL) 
+		return;
+	len = sprintf(out, 
+		"\"barcode\":\"%s\","
+		"\"orderNo\":\"%s\","
+		"\"type\":%d,"
+		"\"count\":%d,"
+		"\"keyOpenStatus\":%d",
+		g_barCode,dSta->dely_info->orderNo,
+		dSta->dely_info->type,
+		dSta->count,dSta->keySta
+		);
+		out[len] = '\0';
+}
 
 void AppConf_Init(char *mcu_id, char *buf)
 {
-	g_sDeviceConf.braCode=mcu_id;
+//	g_sDeviceConf.braCode=mcu_id;
 	sprintf(g_sDeviceConf.ip_ini.http_ip, "183.129.134.242");
 	sprintf(g_sDeviceConf.ip_ini.mqtt_ip, "101.37.89.157");
 	g_sDeviceConf.ip_ini.http_port=7091;
@@ -65,7 +94,7 @@ void AppConf_Init(char *mcu_id, char *buf)
 	"\"cnf.ini\":{\"COMMON\":{\"ledNum\":%d},"
 							 "\"GPIO\":{\"ultrasonic_triger2\": 22,\"led\":32}}\r\n"
 	"}\r\n}\r\n",
-	mcu_id,g_sDeviceConf.ip_ini.mqtt_port,g_sDeviceConf.ip_ini.http_port,
+	g_barCode,g_sDeviceConf.ip_ini.mqtt_port,g_sDeviceConf.ip_ini.http_port,
 	g_sDeviceConf.ip_ini.mqtt_ip,g_sDeviceConf.ip_ini.http_ip,
 	g_sDeviceConf.con_ini.led_num);
 	
@@ -182,8 +211,8 @@ void DelyJsonParse(cJSON* root)
 	barCodeNode=cJSON_GetObjectItem(root, "barCode");
 	if(barCodeNode != NULL && barCodeNode->type == cJSON_String)
     {
-		memcpy(g_sDelyInfo.braCode, \
-				barCodeNode->valuestring, strlen(barCodeNode->valuestring));
+//		memcpy(g_sDelyInfo.braCode, \
+//				barCodeNode->valuestring, strlen(barCodeNode->valuestring));
 	}
 	orderNo=cJSON_GetObjectItem(root, "orderNo");
 	if(orderNo != NULL && orderNo->type == cJSON_String)

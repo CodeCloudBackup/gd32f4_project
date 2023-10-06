@@ -109,7 +109,7 @@ void Program_Init(void)
 		delay_ms(2000);
 }
 
-extern u8 *publishbuf;
+extern u8 *g_rPublishbuf;
  
 u8* g_httpContent=NULL;
 u32 g_contLen=0;
@@ -177,7 +177,7 @@ void MQTT_Data_Program(void)
 	if(!hm609a_mqtt_conn_flag)return;
 	if(MQTT_FLAG_RECEIVE)
 	{
-		json=cJSON_Parse((char*)publishbuf);
+		json=cJSON_Parse((char*)g_rPublishbuf);
 		if(!json)
 		{
 			printf("Error before: []\n");
@@ -198,10 +198,7 @@ void MQTT_Data_Program(void)
 	if(MQTT_FLAG_DELY_OPEN){
 		printf("\r\nServer command: open deliver.\r\n");
 		DelyJsonParse(json);
-		if(g_sDelyInfo.braCode)
-		{
-			PROGRAM_OPEN_DELY_FLAG=1;
-		}
+		PROGRAM_OPEN_DELY_FLAG=1;
 		MQTT_FLAG_DELY_OPEN=0;
 	}
 	if(MQTT_FLAG_DELY_CLOSE){
@@ -292,9 +289,11 @@ void Device_Program(void)
 	if(PROGRAM_TAKE_PHOTO_FLAG)
 	{
 		printf("Get jpg photo\r\n");
-		OV2640_Jpg_Photo();
-		g_sHttpCmdSta.sta_upload_photo=2;
-		PROGRAM_TAKE_PHOTO_FLAG=0;
+		if(!OV2640_Jpg_Photo())
+		{
+			g_sHttpCmdSta.sta_upload_photo=2;
+			PROGRAM_TAKE_PHOTO_FLAG=0;
+		}
 	} 
 	if(PROGRAM_APPFLASH_FLAG)
 	{
