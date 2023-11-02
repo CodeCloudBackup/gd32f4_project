@@ -187,8 +187,8 @@ void MQTT_Data_Program(void)
 	
 	if(MQTT_FLAG_PHOTO){
 		printf("\r\nServer command: take a photo.\r\n");
+		PhotoJsonParse(json);
 		PROGRAM_TAKE_PHOTO_FLAG=1;
-		
 		MQTT_FLAG_PHOTO=0;
 	}
 	if(MQTT_FLAG_PHOTO_THIRD){
@@ -211,11 +211,15 @@ void MQTT_Data_Program(void)
 		MQTT_FLAG_DELY_CLOSE=0;
 	}
 	if(MQTT_FLAG_LOCK_OPEN){
-		printf("\r\nServer command: open lock.\r\n");
+		u8 type = 0;
+		type = LockJsonParse(json);
+		printf("\r\nServer command: open lock..type:%d\r\n",type);
 		MQTT_FLAG_LOCK_OPEN=0;
 	}
 	if(MQTT_FLAG_LOCK_CLOSE){
-		printf("\r\nServer command: close lock.\r\n");
+		u8 type = 0;
+		type = LockJsonParse(json);
+		printf("\r\nServer command: close lock.type:%d\r\n",type);
 		MQTT_FLAG_LOCK_CLOSE=0;
 	}
 	if(MQTT_FLAG_CFG_DOWNLOAD){
@@ -342,6 +346,6 @@ void Program_Test(void)
 	//Sensor_Adc_Test();
 	//Open_Lock_Test();
 	// LED_Test();
-	//DAC1_Test( 36,4096 );
+	DAC1_Test( 36,4096 );
 	// usart2_test();
 }

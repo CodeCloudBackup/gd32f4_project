@@ -867,17 +867,17 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-       240         16          0          4          0       2503   delay.o
-       678         92          0          0          0       6185   gdflash.o
-       148         12          0          4       2048       2068   iap.o
-        72         18          0          0          0        499   led.o
+       240         16          0          4          0       2463   delay.o
+       678         92          0          0          0       6097   gdflash.o
+       148         12          0          4       2048       2032   iap.o
+        72         18          0          0          0        491   led.o
         68         24        392          0       1024        872   startup_gd32f427_437xx.o
-       840         44          0          0          0       5565   sys.o
-       380        104          0          0      16384     233690   test.o
-       356         34          0         12        100       4301   usart.o
+       840         44          0          0          0       5485   sys.o
+       380        104          0          0      16384     233646   test.o
+       356         34          0         12        100       4249   usart.o
 
     ----------------------------------------------------------------------
-      2788        344        424         20      20364     255683   Object Totals
+      2788        344        424         20      20364     255335   Object Totals
          0          0         32          0          0          0   (incl. Generated)
          6          0          0          0        808          0   (incl. Padding)
 
@@ -934,8 +934,8 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-      3296        370        424         20      20460     253979   Grand Totals
-      3296        370        424         20      20460     253979   ELF Image Totals
+      3296        370        424         20      20460     253631   Grand Totals
+      3296        370        424         20      20460     253631   ELF Image Totals
       3296        370        424         20          0          0   ROM Totals
 
 ==============================================================================

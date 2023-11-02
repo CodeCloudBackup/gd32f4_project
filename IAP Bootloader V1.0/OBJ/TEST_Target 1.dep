@@ -1,110 +1,110 @@
 Dependencies for Project 'TEST', Target 'Target 1': (DO NOT MODIFY !)
 CompilerVersion: 5060960::V5.06 update 7 (build 960)::ARMCC
-F (.\startup_gd32f427_437xx.s)(0x650082CA)(--cpu Cortex-M4.fp.sp -g --apcs=interwork -ID:\Keil_v5\ARM\PACK\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 533" --pd "GD32F427 SETA 1"--list ..\obj\startup_gd32f427_437xx.lst --xref -o ..\obj\startup_gd32f427_437xx.o --depend ..\obj\startup_gd32f427_437xx.d)
-F (.\test.c)(0x6501BD4A)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USMART -I ..\HARDWARE\LED -I ..\HARDWARE\BEEP -I ..\HARDWARE\KEY -I ..\HARDWARE\EXTI -I ..\HARDWARE\WDG -I ..\HARDWARE\TIMER -I ..\HARDWARE\TPAD -I ..\HARDWARE\OLED -I ..\HARDWARE\LCD -I ..\HARDWARE\RTC -I ..\HARDWARE\RNG -I ..\HARDWARE\WKUP -I ..\HARDWARE\ADC -I ..\HARDWARE\LSENS -I ..\HARDWARE\DAC -I ..\HARDWARE\DMA -I ..\HARDWARE\24CXX -I ..\HARDWARE\SPI -I ..\HARDWARE\W25QXX -I ..\HARDWARE\RS485 -I ..\HARDWARE\CAN -I ..\HARDWARE\TOUCH -I ..\HARDWARE\REMOTE -I ..\HARDWARE\DS18B20 -I ..\HARDWARE\DHT11 -I ..\HARDWARE\MPU6050 -I ..\HARDWARE\MPU6050\eMPL -I ..\HARDWARE\NRF24L01 -I ..\IAP -I ..\HARDWARE\IF_PORT -I ..\HARDWARE\LT738 -I ..\HARDWARE\LT738_Demo -I ..\HARDWARE\LT738_Lib -I ..\HARDWARE\GDFLASH-ID:\Keil_v5\ARM\PACK\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F427 -DGD32F40_41xxx-o ..\obj\test.o --omf_browse ..\obj\test.crf --depend ..\obj\test.d)
-I (..\SYSTEM\sys\sys.h)(0x650082CA)
-I (..\SYSTEM\sys\gd32f4xx.h)(0x650082CA)
-I (..\SYSTEM\sys\core_cm4.h)(0x650082CA)
+F (.\startup_gd32f427_437xx.s)(0x64F87D08)(--cpu Cortex-M4.fp.sp -g --apcs=interwork -ID:\Keil_v5\ARM\PACK\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 533" --pd "GD32F427 SETA 1"--list ..\obj\startup_gd32f427_437xx.lst --xref -o ..\obj\startup_gd32f427_437xx.o --depend ..\obj\startup_gd32f427_437xx.d)
+F (.\test.c)(0x65233834)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USMART -I ..\HARDWARE\LED -I ..\HARDWARE\BEEP -I ..\HARDWARE\KEY -I ..\HARDWARE\EXTI -I ..\HARDWARE\WDG -I ..\HARDWARE\TIMER -I ..\HARDWARE\TPAD -I ..\HARDWARE\OLED -I ..\HARDWARE\LCD -I ..\HARDWARE\RTC -I ..\HARDWARE\RNG -I ..\HARDWARE\WKUP -I ..\HARDWARE\ADC -I ..\HARDWARE\LSENS -I ..\HARDWARE\DAC -I ..\HARDWARE\DMA -I ..\HARDWARE\24CXX -I ..\HARDWARE\SPI -I ..\HARDWARE\W25QXX -I ..\HARDWARE\RS485 -I ..\HARDWARE\CAN -I ..\HARDWARE\TOUCH -I ..\HARDWARE\REMOTE -I ..\HARDWARE\DS18B20 -I ..\HARDWARE\DHT11 -I ..\HARDWARE\MPU6050 -I ..\HARDWARE\MPU6050\eMPL -I ..\HARDWARE\NRF24L01 -I ..\IAP -I ..\HARDWARE\IF_PORT -I ..\HARDWARE\LT738 -I ..\HARDWARE\LT738_Demo -I ..\HARDWARE\LT738_Lib -I ..\HARDWARE\GDFLASH-ID:\Keil_v5\ARM\PACK\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F427 -DGD32F40_41xxx-o ..\obj\test.o --omf_browse ..\obj\test.crf --depend ..\obj\test.d)
+I (..\SYSTEM\sys\sys.h)(0x64F87D08)
+I (..\SYSTEM\sys\gd32f4xx.h)(0x64F87D08)
+I (..\SYSTEM\sys\core_cm4.h)(0x64F87D08)
 I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\SYSTEM\sys\core_cmInstr.h)(0x650082CA)
-I (..\SYSTEM\sys\core_cmFunc.h)(0x650082CA)
-I (..\SYSTEM\sys\core_cm4_simd.h)(0x650082CA)
-I (..\SYSTEM\sys\system_gd32f4xx.h)(0x650082CA)
-I (..\SYSTEM\delay\delay.h)(0x650082CA)
-I (..\SYSTEM\usart\usart.h)(0x650082CA)
+I (..\SYSTEM\sys\core_cmInstr.h)(0x64F87D08)
+I (..\SYSTEM\sys\core_cmFunc.h)(0x64F87D08)
+I (..\SYSTEM\sys\core_cm4_simd.h)(0x64F87D08)
+I (..\SYSTEM\sys\system_gd32f4xx.h)(0x64F87D08)
+I (..\SYSTEM\delay\delay.h)(0x64F87D08)
+I (..\SYSTEM\usart\usart.h)(0x64F87D08)
 I (D:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E8E2EB2)
-I (..\HARDWARE\LED\led.h)(0x650082CA)
-I (..\HARDWARE\KEY\key.h)(0x650082CA)
-I (..\HARDWARE\GDFLASH\gdflash.h)(0x650082CA)
-I (..\IAP\iap.h)(0x650082CA)
-F (..\SYSTEM\delay\delay.c)(0x650082CA)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USMART -I ..\HARDWARE\LED -I ..\HARDWARE\BEEP -I ..\HARDWARE\KEY -I ..\HARDWARE\EXTI -I ..\HARDWARE\WDG -I ..\HARDWARE\TIMER -I ..\HARDWARE\TPAD -I ..\HARDWARE\OLED -I ..\HARDWARE\LCD -I ..\HARDWARE\RTC -I ..\HARDWARE\RNG -I ..\HARDWARE\WKUP -I ..\HARDWARE\ADC -I ..\HARDWARE\LSENS -I ..\HARDWARE\DAC -I ..\HARDWARE\DMA -I ..\HARDWARE\24CXX -I ..\HARDWARE\SPI -I ..\HARDWARE\W25QXX -I ..\HARDWARE\RS485 -I ..\HARDWARE\CAN -I ..\HARDWARE\TOUCH -I ..\HARDWARE\REMOTE -I ..\HARDWARE\DS18B20 -I ..\HARDWARE\DHT11 -I ..\HARDWARE\MPU6050 -I ..\HARDWARE\MPU6050\eMPL -I ..\HARDWARE\NRF24L01 -I ..\IAP -I ..\HARDWARE\IF_PORT -I ..\HARDWARE\LT738 -I ..\HARDWARE\LT738_Demo -I ..\HARDWARE\LT738_Lib -I ..\HARDWARE\GDFLASH-ID:\Keil_v5\ARM\PACK\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F427 -DGD32F40_41xxx-o ..\obj\delay.o --omf_browse ..\obj\delay.crf --depend ..\obj\delay.d)
-I (..\SYSTEM\delay\delay.h)(0x650082CA)
-I (..\SYSTEM\sys\sys.h)(0x650082CA)
-I (..\SYSTEM\sys\gd32f4xx.h)(0x650082CA)
-I (..\SYSTEM\sys\core_cm4.h)(0x650082CA)
+I (..\HARDWARE\LED\led.h)(0x64F87D08)
+I (..\HARDWARE\KEY\key.h)(0x64F87D08)
+I (..\HARDWARE\GDFLASH\gdflash.h)(0x64F87D08)
+I (..\IAP\iap.h)(0x64F87D08)
+F (..\SYSTEM\delay\delay.c)(0x64F87D08)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USMART -I ..\HARDWARE\LED -I ..\HARDWARE\BEEP -I ..\HARDWARE\KEY -I ..\HARDWARE\EXTI -I ..\HARDWARE\WDG -I ..\HARDWARE\TIMER -I ..\HARDWARE\TPAD -I ..\HARDWARE\OLED -I ..\HARDWARE\LCD -I ..\HARDWARE\RTC -I ..\HARDWARE\RNG -I ..\HARDWARE\WKUP -I ..\HARDWARE\ADC -I ..\HARDWARE\LSENS -I ..\HARDWARE\DAC -I ..\HARDWARE\DMA -I ..\HARDWARE\24CXX -I ..\HARDWARE\SPI -I ..\HARDWARE\W25QXX -I ..\HARDWARE\RS485 -I ..\HARDWARE\CAN -I ..\HARDWARE\TOUCH -I ..\HARDWARE\REMOTE -I ..\HARDWARE\DS18B20 -I ..\HARDWARE\DHT11 -I ..\HARDWARE\MPU6050 -I ..\HARDWARE\MPU6050\eMPL -I ..\HARDWARE\NRF24L01 -I ..\IAP -I ..\HARDWARE\IF_PORT -I ..\HARDWARE\LT738 -I ..\HARDWARE\LT738_Demo -I ..\HARDWARE\LT738_Lib -I ..\HARDWARE\GDFLASH-ID:\Keil_v5\ARM\PACK\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F427 -DGD32F40_41xxx-o ..\obj\delay.o --omf_browse ..\obj\delay.crf --depend ..\obj\delay.d)
+I (..\SYSTEM\delay\delay.h)(0x64F87D08)
+I (..\SYSTEM\sys\sys.h)(0x64F87D08)
+I (..\SYSTEM\sys\gd32f4xx.h)(0x64F87D08)
+I (..\SYSTEM\sys\core_cm4.h)(0x64F87D08)
 I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\SYSTEM\sys\core_cmInstr.h)(0x650082CA)
-I (..\SYSTEM\sys\core_cmFunc.h)(0x650082CA)
-I (..\SYSTEM\sys\core_cm4_simd.h)(0x650082CA)
-I (..\SYSTEM\sys\system_gd32f4xx.h)(0x650082CA)
-F (..\SYSTEM\sys\sys.c)(0x650082CA)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USMART -I ..\HARDWARE\LED -I ..\HARDWARE\BEEP -I ..\HARDWARE\KEY -I ..\HARDWARE\EXTI -I ..\HARDWARE\WDG -I ..\HARDWARE\TIMER -I ..\HARDWARE\TPAD -I ..\HARDWARE\OLED -I ..\HARDWARE\LCD -I ..\HARDWARE\RTC -I ..\HARDWARE\RNG -I ..\HARDWARE\WKUP -I ..\HARDWARE\ADC -I ..\HARDWARE\LSENS -I ..\HARDWARE\DAC -I ..\HARDWARE\DMA -I ..\HARDWARE\24CXX -I ..\HARDWARE\SPI -I ..\HARDWARE\W25QXX -I ..\HARDWARE\RS485 -I ..\HARDWARE\CAN -I ..\HARDWARE\TOUCH -I ..\HARDWARE\REMOTE -I ..\HARDWARE\DS18B20 -I ..\HARDWARE\DHT11 -I ..\HARDWARE\MPU6050 -I ..\HARDWARE\MPU6050\eMPL -I ..\HARDWARE\NRF24L01 -I ..\IAP -I ..\HARDWARE\IF_PORT -I ..\HARDWARE\LT738 -I ..\HARDWARE\LT738_Demo -I ..\HARDWARE\LT738_Lib -I ..\HARDWARE\GDFLASH-ID:\Keil_v5\ARM\PACK\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F427 -DGD32F40_41xxx-o ..\obj\sys.o --omf_browse ..\obj\sys.crf --depend ..\obj\sys.d)
-I (..\SYSTEM\sys\sys.h)(0x650082CA)
-I (..\SYSTEM\sys\gd32f4xx.h)(0x650082CA)
-I (..\SYSTEM\sys\core_cm4.h)(0x650082CA)
+I (..\SYSTEM\sys\core_cmInstr.h)(0x64F87D08)
+I (..\SYSTEM\sys\core_cmFunc.h)(0x64F87D08)
+I (..\SYSTEM\sys\core_cm4_simd.h)(0x64F87D08)
+I (..\SYSTEM\sys\system_gd32f4xx.h)(0x64F87D08)
+F (..\SYSTEM\sys\sys.c)(0x64F87D08)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USMART -I ..\HARDWARE\LED -I ..\HARDWARE\BEEP -I ..\HARDWARE\KEY -I ..\HARDWARE\EXTI -I ..\HARDWARE\WDG -I ..\HARDWARE\TIMER -I ..\HARDWARE\TPAD -I ..\HARDWARE\OLED -I ..\HARDWARE\LCD -I ..\HARDWARE\RTC -I ..\HARDWARE\RNG -I ..\HARDWARE\WKUP -I ..\HARDWARE\ADC -I ..\HARDWARE\LSENS -I ..\HARDWARE\DAC -I ..\HARDWARE\DMA -I ..\HARDWARE\24CXX -I ..\HARDWARE\SPI -I ..\HARDWARE\W25QXX -I ..\HARDWARE\RS485 -I ..\HARDWARE\CAN -I ..\HARDWARE\TOUCH -I ..\HARDWARE\REMOTE -I ..\HARDWARE\DS18B20 -I ..\HARDWARE\DHT11 -I ..\HARDWARE\MPU6050 -I ..\HARDWARE\MPU6050\eMPL -I ..\HARDWARE\NRF24L01 -I ..\IAP -I ..\HARDWARE\IF_PORT -I ..\HARDWARE\LT738 -I ..\HARDWARE\LT738_Demo -I ..\HARDWARE\LT738_Lib -I ..\HARDWARE\GDFLASH-ID:\Keil_v5\ARM\PACK\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F427 -DGD32F40_41xxx-o ..\obj\sys.o --omf_browse ..\obj\sys.crf --depend ..\obj\sys.d)
+I (..\SYSTEM\sys\sys.h)(0x64F87D08)
+I (..\SYSTEM\sys\gd32f4xx.h)(0x64F87D08)
+I (..\SYSTEM\sys\core_cm4.h)(0x64F87D08)
 I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\SYSTEM\sys\core_cmInstr.h)(0x650082CA)
-I (..\SYSTEM\sys\core_cmFunc.h)(0x650082CA)
-I (..\SYSTEM\sys\core_cm4_simd.h)(0x650082CA)
-I (..\SYSTEM\sys\system_gd32f4xx.h)(0x650082CA)
-F (..\SYSTEM\usart\usart.c)(0x650082CA)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USMART -I ..\HARDWARE\LED -I ..\HARDWARE\BEEP -I ..\HARDWARE\KEY -I ..\HARDWARE\EXTI -I ..\HARDWARE\WDG -I ..\HARDWARE\TIMER -I ..\HARDWARE\TPAD -I ..\HARDWARE\OLED -I ..\HARDWARE\LCD -I ..\HARDWARE\RTC -I ..\HARDWARE\RNG -I ..\HARDWARE\WKUP -I ..\HARDWARE\ADC -I ..\HARDWARE\LSENS -I ..\HARDWARE\DAC -I ..\HARDWARE\DMA -I ..\HARDWARE\24CXX -I ..\HARDWARE\SPI -I ..\HARDWARE\W25QXX -I ..\HARDWARE\RS485 -I ..\HARDWARE\CAN -I ..\HARDWARE\TOUCH -I ..\HARDWARE\REMOTE -I ..\HARDWARE\DS18B20 -I ..\HARDWARE\DHT11 -I ..\HARDWARE\MPU6050 -I ..\HARDWARE\MPU6050\eMPL -I ..\HARDWARE\NRF24L01 -I ..\IAP -I ..\HARDWARE\IF_PORT -I ..\HARDWARE\LT738 -I ..\HARDWARE\LT738_Demo -I ..\HARDWARE\LT738_Lib -I ..\HARDWARE\GDFLASH-ID:\Keil_v5\ARM\PACK\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F427 -DGD32F40_41xxx-o ..\obj\usart.o --omf_browse ..\obj\usart.crf --depend ..\obj\usart.d)
-I (..\SYSTEM\sys\sys.h)(0x650082CA)
-I (..\SYSTEM\sys\gd32f4xx.h)(0x650082CA)
-I (..\SYSTEM\sys\core_cm4.h)(0x650082CA)
+I (..\SYSTEM\sys\core_cmInstr.h)(0x64F87D08)
+I (..\SYSTEM\sys\core_cmFunc.h)(0x64F87D08)
+I (..\SYSTEM\sys\core_cm4_simd.h)(0x64F87D08)
+I (..\SYSTEM\sys\system_gd32f4xx.h)(0x64F87D08)
+F (..\SYSTEM\usart\usart.c)(0x64F87D08)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USMART -I ..\HARDWARE\LED -I ..\HARDWARE\BEEP -I ..\HARDWARE\KEY -I ..\HARDWARE\EXTI -I ..\HARDWARE\WDG -I ..\HARDWARE\TIMER -I ..\HARDWARE\TPAD -I ..\HARDWARE\OLED -I ..\HARDWARE\LCD -I ..\HARDWARE\RTC -I ..\HARDWARE\RNG -I ..\HARDWARE\WKUP -I ..\HARDWARE\ADC -I ..\HARDWARE\LSENS -I ..\HARDWARE\DAC -I ..\HARDWARE\DMA -I ..\HARDWARE\24CXX -I ..\HARDWARE\SPI -I ..\HARDWARE\W25QXX -I ..\HARDWARE\RS485 -I ..\HARDWARE\CAN -I ..\HARDWARE\TOUCH -I ..\HARDWARE\REMOTE -I ..\HARDWARE\DS18B20 -I ..\HARDWARE\DHT11 -I ..\HARDWARE\MPU6050 -I ..\HARDWARE\MPU6050\eMPL -I ..\HARDWARE\NRF24L01 -I ..\IAP -I ..\HARDWARE\IF_PORT -I ..\HARDWARE\LT738 -I ..\HARDWARE\LT738_Demo -I ..\HARDWARE\LT738_Lib -I ..\HARDWARE\GDFLASH-ID:\Keil_v5\ARM\PACK\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F427 -DGD32F40_41xxx-o ..\obj\usart.o --omf_browse ..\obj\usart.crf --depend ..\obj\usart.d)
+I (..\SYSTEM\sys\sys.h)(0x64F87D08)
+I (..\SYSTEM\sys\gd32f4xx.h)(0x64F87D08)
+I (..\SYSTEM\sys\core_cm4.h)(0x64F87D08)
 I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\SYSTEM\sys\core_cmInstr.h)(0x650082CA)
-I (..\SYSTEM\sys\core_cmFunc.h)(0x650082CA)
-I (..\SYSTEM\sys\core_cm4_simd.h)(0x650082CA)
-I (..\SYSTEM\sys\system_gd32f4xx.h)(0x650082CA)
-I (..\SYSTEM\usart\usart.h)(0x650082CA)
+I (..\SYSTEM\sys\core_cmInstr.h)(0x64F87D08)
+I (..\SYSTEM\sys\core_cmFunc.h)(0x64F87D08)
+I (..\SYSTEM\sys\core_cm4_simd.h)(0x64F87D08)
+I (..\SYSTEM\sys\system_gd32f4xx.h)(0x64F87D08)
+I (..\SYSTEM\usart\usart.h)(0x64F87D08)
 I (D:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E8E2EB2)
-F (..\HARDWARE\LED\led.c)(0x650082CA)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USMART -I ..\HARDWARE\LED -I ..\HARDWARE\BEEP -I ..\HARDWARE\KEY -I ..\HARDWARE\EXTI -I ..\HARDWARE\WDG -I ..\HARDWARE\TIMER -I ..\HARDWARE\TPAD -I ..\HARDWARE\OLED -I ..\HARDWARE\LCD -I ..\HARDWARE\RTC -I ..\HARDWARE\RNG -I ..\HARDWARE\WKUP -I ..\HARDWARE\ADC -I ..\HARDWARE\LSENS -I ..\HARDWARE\DAC -I ..\HARDWARE\DMA -I ..\HARDWARE\24CXX -I ..\HARDWARE\SPI -I ..\HARDWARE\W25QXX -I ..\HARDWARE\RS485 -I ..\HARDWARE\CAN -I ..\HARDWARE\TOUCH -I ..\HARDWARE\REMOTE -I ..\HARDWARE\DS18B20 -I ..\HARDWARE\DHT11 -I ..\HARDWARE\MPU6050 -I ..\HARDWARE\MPU6050\eMPL -I ..\HARDWARE\NRF24L01 -I ..\IAP -I ..\HARDWARE\IF_PORT -I ..\HARDWARE\LT738 -I ..\HARDWARE\LT738_Demo -I ..\HARDWARE\LT738_Lib -I ..\HARDWARE\GDFLASH-ID:\Keil_v5\ARM\PACK\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F427 -DGD32F40_41xxx-o ..\obj\led.o --omf_browse ..\obj\led.crf --depend ..\obj\led.d)
-I (..\HARDWARE\LED\led.h)(0x650082CA)
-I (..\SYSTEM\sys\sys.h)(0x650082CA)
-I (..\SYSTEM\sys\gd32f4xx.h)(0x650082CA)
-I (..\SYSTEM\sys\core_cm4.h)(0x650082CA)
+F (..\HARDWARE\LED\led.c)(0x64F87D08)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USMART -I ..\HARDWARE\LED -I ..\HARDWARE\BEEP -I ..\HARDWARE\KEY -I ..\HARDWARE\EXTI -I ..\HARDWARE\WDG -I ..\HARDWARE\TIMER -I ..\HARDWARE\TPAD -I ..\HARDWARE\OLED -I ..\HARDWARE\LCD -I ..\HARDWARE\RTC -I ..\HARDWARE\RNG -I ..\HARDWARE\WKUP -I ..\HARDWARE\ADC -I ..\HARDWARE\LSENS -I ..\HARDWARE\DAC -I ..\HARDWARE\DMA -I ..\HARDWARE\24CXX -I ..\HARDWARE\SPI -I ..\HARDWARE\W25QXX -I ..\HARDWARE\RS485 -I ..\HARDWARE\CAN -I ..\HARDWARE\TOUCH -I ..\HARDWARE\REMOTE -I ..\HARDWARE\DS18B20 -I ..\HARDWARE\DHT11 -I ..\HARDWARE\MPU6050 -I ..\HARDWARE\MPU6050\eMPL -I ..\HARDWARE\NRF24L01 -I ..\IAP -I ..\HARDWARE\IF_PORT -I ..\HARDWARE\LT738 -I ..\HARDWARE\LT738_Demo -I ..\HARDWARE\LT738_Lib -I ..\HARDWARE\GDFLASH-ID:\Keil_v5\ARM\PACK\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F427 -DGD32F40_41xxx-o ..\obj\led.o --omf_browse ..\obj\led.crf --depend ..\obj\led.d)
+I (..\HARDWARE\LED\led.h)(0x64F87D08)
+I (..\SYSTEM\sys\sys.h)(0x64F87D08)
+I (..\SYSTEM\sys\gd32f4xx.h)(0x64F87D08)
+I (..\SYSTEM\sys\core_cm4.h)(0x64F87D08)
 I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\SYSTEM\sys\core_cmInstr.h)(0x650082CA)
-I (..\SYSTEM\sys\core_cmFunc.h)(0x650082CA)
-I (..\SYSTEM\sys\core_cm4_simd.h)(0x650082CA)
-I (..\SYSTEM\sys\system_gd32f4xx.h)(0x650082CA)
-F (..\HARDWARE\KEY\key.c)(0x650082CA)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USMART -I ..\HARDWARE\LED -I ..\HARDWARE\BEEP -I ..\HARDWARE\KEY -I ..\HARDWARE\EXTI -I ..\HARDWARE\WDG -I ..\HARDWARE\TIMER -I ..\HARDWARE\TPAD -I ..\HARDWARE\OLED -I ..\HARDWARE\LCD -I ..\HARDWARE\RTC -I ..\HARDWARE\RNG -I ..\HARDWARE\WKUP -I ..\HARDWARE\ADC -I ..\HARDWARE\LSENS -I ..\HARDWARE\DAC -I ..\HARDWARE\DMA -I ..\HARDWARE\24CXX -I ..\HARDWARE\SPI -I ..\HARDWARE\W25QXX -I ..\HARDWARE\RS485 -I ..\HARDWARE\CAN -I ..\HARDWARE\TOUCH -I ..\HARDWARE\REMOTE -I ..\HARDWARE\DS18B20 -I ..\HARDWARE\DHT11 -I ..\HARDWARE\MPU6050 -I ..\HARDWARE\MPU6050\eMPL -I ..\HARDWARE\NRF24L01 -I ..\IAP -I ..\HARDWARE\IF_PORT -I ..\HARDWARE\LT738 -I ..\HARDWARE\LT738_Demo -I ..\HARDWARE\LT738_Lib -I ..\HARDWARE\GDFLASH-ID:\Keil_v5\ARM\PACK\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F427 -DGD32F40_41xxx-o ..\obj\key.o --omf_browse ..\obj\key.crf --depend ..\obj\key.d)
-I (..\HARDWARE\KEY\key.h)(0x650082CA)
-I (..\SYSTEM\sys\sys.h)(0x650082CA)
-I (..\SYSTEM\sys\gd32f4xx.h)(0x650082CA)
-I (..\SYSTEM\sys\core_cm4.h)(0x650082CA)
+I (..\SYSTEM\sys\core_cmInstr.h)(0x64F87D08)
+I (..\SYSTEM\sys\core_cmFunc.h)(0x64F87D08)
+I (..\SYSTEM\sys\core_cm4_simd.h)(0x64F87D08)
+I (..\SYSTEM\sys\system_gd32f4xx.h)(0x64F87D08)
+F (..\HARDWARE\KEY\key.c)(0x64F87D08)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USMART -I ..\HARDWARE\LED -I ..\HARDWARE\BEEP -I ..\HARDWARE\KEY -I ..\HARDWARE\EXTI -I ..\HARDWARE\WDG -I ..\HARDWARE\TIMER -I ..\HARDWARE\TPAD -I ..\HARDWARE\OLED -I ..\HARDWARE\LCD -I ..\HARDWARE\RTC -I ..\HARDWARE\RNG -I ..\HARDWARE\WKUP -I ..\HARDWARE\ADC -I ..\HARDWARE\LSENS -I ..\HARDWARE\DAC -I ..\HARDWARE\DMA -I ..\HARDWARE\24CXX -I ..\HARDWARE\SPI -I ..\HARDWARE\W25QXX -I ..\HARDWARE\RS485 -I ..\HARDWARE\CAN -I ..\HARDWARE\TOUCH -I ..\HARDWARE\REMOTE -I ..\HARDWARE\DS18B20 -I ..\HARDWARE\DHT11 -I ..\HARDWARE\MPU6050 -I ..\HARDWARE\MPU6050\eMPL -I ..\HARDWARE\NRF24L01 -I ..\IAP -I ..\HARDWARE\IF_PORT -I ..\HARDWARE\LT738 -I ..\HARDWARE\LT738_Demo -I ..\HARDWARE\LT738_Lib -I ..\HARDWARE\GDFLASH-ID:\Keil_v5\ARM\PACK\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F427 -DGD32F40_41xxx-o ..\obj\key.o --omf_browse ..\obj\key.crf --depend ..\obj\key.d)
+I (..\HARDWARE\KEY\key.h)(0x64F87D08)
+I (..\SYSTEM\sys\sys.h)(0x64F87D08)
+I (..\SYSTEM\sys\gd32f4xx.h)(0x64F87D08)
+I (..\SYSTEM\sys\core_cm4.h)(0x64F87D08)
 I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\SYSTEM\sys\core_cmInstr.h)(0x650082CA)
-I (..\SYSTEM\sys\core_cmFunc.h)(0x650082CA)
-I (..\SYSTEM\sys\core_cm4_simd.h)(0x650082CA)
-I (..\SYSTEM\sys\system_gd32f4xx.h)(0x650082CA)
-I (..\SYSTEM\delay\delay.h)(0x650082CA)
-F (..\HARDWARE\IF_PORT\if_port.c)(0x650082CA)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USMART -I ..\HARDWARE\LED -I ..\HARDWARE\BEEP -I ..\HARDWARE\KEY -I ..\HARDWARE\EXTI -I ..\HARDWARE\WDG -I ..\HARDWARE\TIMER -I ..\HARDWARE\TPAD -I ..\HARDWARE\OLED -I ..\HARDWARE\LCD -I ..\HARDWARE\RTC -I ..\HARDWARE\RNG -I ..\HARDWARE\WKUP -I ..\HARDWARE\ADC -I ..\HARDWARE\LSENS -I ..\HARDWARE\DAC -I ..\HARDWARE\DMA -I ..\HARDWARE\24CXX -I ..\HARDWARE\SPI -I ..\HARDWARE\W25QXX -I ..\HARDWARE\RS485 -I ..\HARDWARE\CAN -I ..\HARDWARE\TOUCH -I ..\HARDWARE\REMOTE -I ..\HARDWARE\DS18B20 -I ..\HARDWARE\DHT11 -I ..\HARDWARE\MPU6050 -I ..\HARDWARE\MPU6050\eMPL -I ..\HARDWARE\NRF24L01 -I ..\IAP -I ..\HARDWARE\IF_PORT -I ..\HARDWARE\LT738 -I ..\HARDWARE\LT738_Demo -I ..\HARDWARE\LT738_Lib -I ..\HARDWARE\GDFLASH-ID:\Keil_v5\ARM\PACK\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F427 -DGD32F40_41xxx-o ..\obj\if_port.o --omf_browse ..\obj\if_port.crf --depend ..\obj\if_port.d)
-I (..\SYSTEM\usart\usart.h)(0x650082CA)
-I (..\SYSTEM\sys\sys.h)(0x650082CA)
-I (..\SYSTEM\sys\gd32f4xx.h)(0x650082CA)
-I (..\SYSTEM\sys\core_cm4.h)(0x650082CA)
+I (..\SYSTEM\sys\core_cmInstr.h)(0x64F87D08)
+I (..\SYSTEM\sys\core_cmFunc.h)(0x64F87D08)
+I (..\SYSTEM\sys\core_cm4_simd.h)(0x64F87D08)
+I (..\SYSTEM\sys\system_gd32f4xx.h)(0x64F87D08)
+I (..\SYSTEM\delay\delay.h)(0x64F87D08)
+F (..\HARDWARE\IF_PORT\if_port.c)(0x64F87D08)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USMART -I ..\HARDWARE\LED -I ..\HARDWARE\BEEP -I ..\HARDWARE\KEY -I ..\HARDWARE\EXTI -I ..\HARDWARE\WDG -I ..\HARDWARE\TIMER -I ..\HARDWARE\TPAD -I ..\HARDWARE\OLED -I ..\HARDWARE\LCD -I ..\HARDWARE\RTC -I ..\HARDWARE\RNG -I ..\HARDWARE\WKUP -I ..\HARDWARE\ADC -I ..\HARDWARE\LSENS -I ..\HARDWARE\DAC -I ..\HARDWARE\DMA -I ..\HARDWARE\24CXX -I ..\HARDWARE\SPI -I ..\HARDWARE\W25QXX -I ..\HARDWARE\RS485 -I ..\HARDWARE\CAN -I ..\HARDWARE\TOUCH -I ..\HARDWARE\REMOTE -I ..\HARDWARE\DS18B20 -I ..\HARDWARE\DHT11 -I ..\HARDWARE\MPU6050 -I ..\HARDWARE\MPU6050\eMPL -I ..\HARDWARE\NRF24L01 -I ..\IAP -I ..\HARDWARE\IF_PORT -I ..\HARDWARE\LT738 -I ..\HARDWARE\LT738_Demo -I ..\HARDWARE\LT738_Lib -I ..\HARDWARE\GDFLASH-ID:\Keil_v5\ARM\PACK\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F427 -DGD32F40_41xxx-o ..\obj\if_port.o --omf_browse ..\obj\if_port.crf --depend ..\obj\if_port.d)
+I (..\SYSTEM\usart\usart.h)(0x64F87D08)
+I (..\SYSTEM\sys\sys.h)(0x64F87D08)
+I (..\SYSTEM\sys\gd32f4xx.h)(0x64F87D08)
+I (..\SYSTEM\sys\core_cm4.h)(0x64F87D08)
 I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\SYSTEM\sys\core_cmInstr.h)(0x650082CA)
-I (..\SYSTEM\sys\core_cmFunc.h)(0x650082CA)
-I (..\SYSTEM\sys\core_cm4_simd.h)(0x650082CA)
-I (..\SYSTEM\sys\system_gd32f4xx.h)(0x650082CA)
+I (..\SYSTEM\sys\core_cmInstr.h)(0x64F87D08)
+I (..\SYSTEM\sys\core_cmFunc.h)(0x64F87D08)
+I (..\SYSTEM\sys\core_cm4_simd.h)(0x64F87D08)
+I (..\SYSTEM\sys\system_gd32f4xx.h)(0x64F87D08)
 I (D:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E8E2EB2)
-I (..\HARDWARE\IF_PORT\if_port.h)(0x650082CA)
-F (..\HARDWARE\GDFLASH\gdflash.c)(0x650082CA)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USMART -I ..\HARDWARE\LED -I ..\HARDWARE\BEEP -I ..\HARDWARE\KEY -I ..\HARDWARE\EXTI -I ..\HARDWARE\WDG -I ..\HARDWARE\TIMER -I ..\HARDWARE\TPAD -I ..\HARDWARE\OLED -I ..\HARDWARE\LCD -I ..\HARDWARE\RTC -I ..\HARDWARE\RNG -I ..\HARDWARE\WKUP -I ..\HARDWARE\ADC -I ..\HARDWARE\LSENS -I ..\HARDWARE\DAC -I ..\HARDWARE\DMA -I ..\HARDWARE\24CXX -I ..\HARDWARE\SPI -I ..\HARDWARE\W25QXX -I ..\HARDWARE\RS485 -I ..\HARDWARE\CAN -I ..\HARDWARE\TOUCH -I ..\HARDWARE\REMOTE -I ..\HARDWARE\DS18B20 -I ..\HARDWARE\DHT11 -I ..\HARDWARE\MPU6050 -I ..\HARDWARE\MPU6050\eMPL -I ..\HARDWARE\NRF24L01 -I ..\IAP -I ..\HARDWARE\IF_PORT -I ..\HARDWARE\LT738 -I ..\HARDWARE\LT738_Demo -I ..\HARDWARE\LT738_Lib -I ..\HARDWARE\GDFLASH-ID:\Keil_v5\ARM\PACK\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F427 -DGD32F40_41xxx-o ..\obj\gdflash.o --omf_browse ..\obj\gdflash.crf --depend ..\obj\gdflash.d)
-I (..\HARDWARE\GDFLASH\gdflash.h)(0x650082CA)
-I (..\SYSTEM\sys\sys.h)(0x650082CA)
-I (..\SYSTEM\sys\gd32f4xx.h)(0x650082CA)
-I (..\SYSTEM\sys\core_cm4.h)(0x650082CA)
+I (..\HARDWARE\IF_PORT\if_port.h)(0x64F87D08)
+F (..\HARDWARE\GDFLASH\gdflash.c)(0x64F87D08)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USMART -I ..\HARDWARE\LED -I ..\HARDWARE\BEEP -I ..\HARDWARE\KEY -I ..\HARDWARE\EXTI -I ..\HARDWARE\WDG -I ..\HARDWARE\TIMER -I ..\HARDWARE\TPAD -I ..\HARDWARE\OLED -I ..\HARDWARE\LCD -I ..\HARDWARE\RTC -I ..\HARDWARE\RNG -I ..\HARDWARE\WKUP -I ..\HARDWARE\ADC -I ..\HARDWARE\LSENS -I ..\HARDWARE\DAC -I ..\HARDWARE\DMA -I ..\HARDWARE\24CXX -I ..\HARDWARE\SPI -I ..\HARDWARE\W25QXX -I ..\HARDWARE\RS485 -I ..\HARDWARE\CAN -I ..\HARDWARE\TOUCH -I ..\HARDWARE\REMOTE -I ..\HARDWARE\DS18B20 -I ..\HARDWARE\DHT11 -I ..\HARDWARE\MPU6050 -I ..\HARDWARE\MPU6050\eMPL -I ..\HARDWARE\NRF24L01 -I ..\IAP -I ..\HARDWARE\IF_PORT -I ..\HARDWARE\LT738 -I ..\HARDWARE\LT738_Demo -I ..\HARDWARE\LT738_Lib -I ..\HARDWARE\GDFLASH-ID:\Keil_v5\ARM\PACK\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F427 -DGD32F40_41xxx-o ..\obj\gdflash.o --omf_browse ..\obj\gdflash.crf --depend ..\obj\gdflash.d)
+I (..\HARDWARE\GDFLASH\gdflash.h)(0x64F87D08)
+I (..\SYSTEM\sys\sys.h)(0x64F87D08)
+I (..\SYSTEM\sys\gd32f4xx.h)(0x64F87D08)
+I (..\SYSTEM\sys\core_cm4.h)(0x64F87D08)
 I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\SYSTEM\sys\core_cmInstr.h)(0x650082CA)
-I (..\SYSTEM\sys\core_cmFunc.h)(0x650082CA)
-I (..\SYSTEM\sys\core_cm4_simd.h)(0x650082CA)
-I (..\SYSTEM\sys\system_gd32f4xx.h)(0x650082CA)
-I (..\SYSTEM\delay\delay.h)(0x650082CA)
-I (..\SYSTEM\usart\usart.h)(0x650082CA)
+I (..\SYSTEM\sys\core_cmInstr.h)(0x64F87D08)
+I (..\SYSTEM\sys\core_cmFunc.h)(0x64F87D08)
+I (..\SYSTEM\sys\core_cm4_simd.h)(0x64F87D08)
+I (..\SYSTEM\sys\system_gd32f4xx.h)(0x64F87D08)
+I (..\SYSTEM\delay\delay.h)(0x64F87D08)
+I (..\SYSTEM\usart\usart.h)(0x64F87D08)
 I (D:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E8E2EB2)
-F (..\IAP\iap.c)(0x6501BE2C)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USMART -I ..\HARDWARE\LED -I ..\HARDWARE\BEEP -I ..\HARDWARE\KEY -I ..\HARDWARE\EXTI -I ..\HARDWARE\WDG -I ..\HARDWARE\TIMER -I ..\HARDWARE\TPAD -I ..\HARDWARE\OLED -I ..\HARDWARE\LCD -I ..\HARDWARE\RTC -I ..\HARDWARE\RNG -I ..\HARDWARE\WKUP -I ..\HARDWARE\ADC -I ..\HARDWARE\LSENS -I ..\HARDWARE\DAC -I ..\HARDWARE\DMA -I ..\HARDWARE\24CXX -I ..\HARDWARE\SPI -I ..\HARDWARE\W25QXX -I ..\HARDWARE\RS485 -I ..\HARDWARE\CAN -I ..\HARDWARE\TOUCH -I ..\HARDWARE\REMOTE -I ..\HARDWARE\DS18B20 -I ..\HARDWARE\DHT11 -I ..\HARDWARE\MPU6050 -I ..\HARDWARE\MPU6050\eMPL -I ..\HARDWARE\NRF24L01 -I ..\IAP -I ..\HARDWARE\IF_PORT -I ..\HARDWARE\LT738 -I ..\HARDWARE\LT738_Demo -I ..\HARDWARE\LT738_Lib -I ..\HARDWARE\GDFLASH-ID:\Keil_v5\ARM\PACK\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F427 -DGD32F40_41xxx-o ..\obj\iap.o --omf_browse ..\obj\iap.crf --depend ..\obj\iap.d)
-I (..\SYSTEM\sys\sys.h)(0x650082CA)
-I (..\SYSTEM\sys\gd32f4xx.h)(0x650082CA)
-I (..\SYSTEM\sys\core_cm4.h)(0x650082CA)
+F (..\IAP\iap.c)(0x65233833)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USMART -I ..\HARDWARE\LED -I ..\HARDWARE\BEEP -I ..\HARDWARE\KEY -I ..\HARDWARE\EXTI -I ..\HARDWARE\WDG -I ..\HARDWARE\TIMER -I ..\HARDWARE\TPAD -I ..\HARDWARE\OLED -I ..\HARDWARE\LCD -I ..\HARDWARE\RTC -I ..\HARDWARE\RNG -I ..\HARDWARE\WKUP -I ..\HARDWARE\ADC -I ..\HARDWARE\LSENS -I ..\HARDWARE\DAC -I ..\HARDWARE\DMA -I ..\HARDWARE\24CXX -I ..\HARDWARE\SPI -I ..\HARDWARE\W25QXX -I ..\HARDWARE\RS485 -I ..\HARDWARE\CAN -I ..\HARDWARE\TOUCH -I ..\HARDWARE\REMOTE -I ..\HARDWARE\DS18B20 -I ..\HARDWARE\DHT11 -I ..\HARDWARE\MPU6050 -I ..\HARDWARE\MPU6050\eMPL -I ..\HARDWARE\NRF24L01 -I ..\IAP -I ..\HARDWARE\IF_PORT -I ..\HARDWARE\LT738 -I ..\HARDWARE\LT738_Demo -I ..\HARDWARE\LT738_Lib -I ..\HARDWARE\GDFLASH-ID:\Keil_v5\ARM\PACK\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="533" -DGD32F427 -DGD32F40_41xxx-o ..\obj\iap.o --omf_browse ..\obj\iap.crf --depend ..\obj\iap.d)
+I (..\SYSTEM\sys\sys.h)(0x64F87D08)
+I (..\SYSTEM\sys\gd32f4xx.h)(0x64F87D08)
+I (..\SYSTEM\sys\core_cm4.h)(0x64F87D08)
 I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E2EB2)
-I (..\SYSTEM\sys\core_cmInstr.h)(0x650082CA)
-I (..\SYSTEM\sys\core_cmFunc.h)(0x650082CA)
-I (..\SYSTEM\sys\core_cm4_simd.h)(0x650082CA)
-I (..\SYSTEM\sys\system_gd32f4xx.h)(0x650082CA)
-I (..\SYSTEM\delay\delay.h)(0x650082CA)
-I (..\SYSTEM\usart\usart.h)(0x650082CA)
+I (..\SYSTEM\sys\core_cmInstr.h)(0x64F87D08)
+I (..\SYSTEM\sys\core_cmFunc.h)(0x64F87D08)
+I (..\SYSTEM\sys\core_cm4_simd.h)(0x64F87D08)
+I (..\SYSTEM\sys\system_gd32f4xx.h)(0x64F87D08)
+I (..\SYSTEM\delay\delay.h)(0x64F87D08)
+I (..\SYSTEM\usart\usart.h)(0x64F87D08)
 I (D:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E8E2EB2)
-I (..\HARDWARE\GDFLASH\gdflash.h)(0x650082CA)
-I (..\IAP\iap.h)(0x650082CA)
-F (..\readme.txt)(0x650082CA)()
+I (..\HARDWARE\GDFLASH\gdflash.h)(0x64F87D08)
+I (..\IAP\iap.h)(0x64F87D08)
+F (..\readme.txt)(0x64F87D08)()

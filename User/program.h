@@ -41,6 +41,7 @@ extern Byte8 ProgramFlag;
 #define PROGRAM_RESERT_FLAG			ProgramFlag.Bits.B4  // �ر�Ͷ�ݿ�
 #define PROGRAM_APPFLASH_FLAG		ProgramFlag.Bits.B5	 // ����ά��
 #define PROGRAM_SPEAKER_FLAG		ProgramFlag.Bits.B6	 // �ر���ά��
+#define PROGRAM_LOCK_FLAG				ProgramFlag.Bits.B7	 // �ر���ά��
 
 void Program_TIM_1ms(void);
 void Program_TIM_100ms(void);

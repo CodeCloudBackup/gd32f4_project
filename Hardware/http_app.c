@@ -13,14 +13,14 @@ u16 g_httpReturnTim=0;
 u16 Http_Get_Package(char *buff_get, char *url_tail,const char *host, u16 port)
 {
 	u16 len;
-	len = sprintf(buff_get, "GET http://%s:%d/%s HTTP/1.1\r\n"
+	len = sprintf(buff_get, "GET %s HTTP/1.1\r\n"
 			"Connection:close\r\n"
-			"Host:%s:%d\r\n"
+			"Host:101.37.89.157:80\r\n"
 			"Connection:close\r\n"
 			"Accept: */*\r\n"
 			"User-Agent:GD32F427\r\n"
-			"\r\n",
-			host,port,url_tail,host,port
+			"\r\n",url_tail
+			//host,port,url_tail,host,port
 		);
 	return len;
 }

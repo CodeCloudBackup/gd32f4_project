@@ -56,17 +56,34 @@ typedef struct{
 	float temp;
 }DEVICE_STATUS;
 
+typedef struct{
+	char job_time[14];
+	char job_id[10];
+	char cam_id[2];
+	u8 exposure;
+	u8 brightness_thresh;
+	u8 diff_thresh;
+	char id[10];
+	u8 method;
+	u32 period_ns;
+	u32 duty_ns;
+}PHOTO_INFO;
+
 extern APP_UPGRADE g_appUpgrade;
 extern DEVICE_CONF g_sDeviceConf;
 extern DELY_INFO g_sDelyInfo;
 extern DELY_STA g_sDelySta;
 extern DEVICE_STATUS *g_sDeviceSta;
+extern PHOTO_INFO *g_sPhotoInfo;
+
 void StructInit(void);
-void DeviceStatusJsonPackage(DEVICE_STATUS *dSta, char* out);
+u32 DeviceStatusJsonPackage(DEVICE_STATUS *dSta, char* out);
 void DelyStatusJsonPackage(DELY_STA *dSta, char* out);
 void AppConf_Init(char *mcu_id, char *buf);
 void AppConfJsonParse(cJSON* root);
 u8 ResetJsonParse(cJSON* root);
 void UpgradeJsonParse(cJSON* root);
 void DelyJsonParse(cJSON* root);
+void PhotoJsonParse(cJSON* root);
+u8 LockJsonParse(cJSON* root);
 #endif

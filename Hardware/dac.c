@@ -22,7 +22,7 @@ void DAC1_Test( u16 point, u16 maxnum )
     {
         fz = k * sin( hd * i ) + k;
         tem = ( u16 )fz;
-      //  delay_ms( 1 );
+        delay_ms( 1 );
         DAC_SetChannel1Data(DAC_Align_12b_R, tem);
     }
 }

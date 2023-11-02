@@ -3,16 +3,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 DEVICE_CONF g_sDeviceConf;
 DEVICE_STATUS* g_sDeviceSta =NULL;
+PHOTO_INFO *g_sPhotoInfo = NULL;
 DELY_INFO g_sDelyInfo;
 DELY_STA g_sDelySta;
+
 extern char *g_barCode;
 void StructInit(void)
 {
 	if(g_sDeviceSta==NULL)
 	{
 		g_sDeviceSta=(DEVICE_STATUS*)mymalloc(SRAMIN, sizeof(DEVICE_STATUS));
+	}
+	
+	if(g_sPhotoInfo==NULL)
+	{
+		g_sPhotoInfo=(PHOTO_INFO*)mymalloc(SRAMIN, sizeof(PHOTO_INFO));
 	}
 	memcpy(g_sDelyInfo.orderNo,"0",2);
 	g_sDelyInfo.type=0;
@@ -23,33 +31,34 @@ void StructInit(void)
 }
 
 
-void DeviceStatusJsonPackage(DEVICE_STATUS *dSta, char* out)
+u32 DeviceStatusJsonPackage(DEVICE_STATUS *dSta, char* out)
 {
 	u32 len=0;
 	if(out == NULL) 
-		return;
+		return 0;
 	len = sprintf(out, "{"
-	"\"area_vacancy\":%d,"
-	"\"power_remain\":%d,"
-	"\"power_voltage\":%d,"
-//	"\"barCode\":\"%s\","
+	"%d"
+	":%d"
+	":%d"
+	":%s"
 //	"\"cameSerialCode\":\"xx\","
 //	"\"simCode\":\"%s\","
-	"\"csq\":%d,"
-	"\"lng\":%.4f,"
-	"\"lat\":%.4f,"
-	//"\"acc\":%.2f,"
-	//"\"gyro\":%.2f,"
-	"\"temp\":%.2f}",
+	":%d"
+	":%.4f"
+	":%.4f"
+	":%.2f"
+	":%.2f"
+	":%.2f}",
 	dSta->area_vacancy,
 	dSta->power_remain,dSta->power_voltage,
-//	dSta->simCode,
+	g_barCode,
 	dSta->csq,dSta->lng,dSta->lat,
-	//dSta->acc[0],
-	//dSta->gyro[0],
+	dSta->acc[0],
+	dSta->gyro[0],
 	dSta->temp
 	);
 	out[len] = '\0';
+	return len;
 }
 
 void DelyInfoJsonPackage(DEVICE_STATUS *dSta, char* out)
@@ -63,11 +72,7 @@ void DelyStatusJsonPackage(DELY_STA *dSta, char* out)
 	if(out == NULL) 
 		return;
 	len = sprintf(out, 
-		"\"barcode\":\"%s\","
-		"\"orderNo\":\"%s\","
-		"\"type\":%d,"
-		"\"count\":%d,"
-		"\"keyOpenStatus\":%d",
+		"{%s:%s:%d:%d:%d}",
 		g_barCode,dSta->dely_info->orderNo,
 		dSta->dely_info->type,
 		dSta->count,dSta->keySta
@@ -207,10 +212,10 @@ void DelyJsonParse(cJSON* root)
 	cJSON* barCodeNode=NULL;
 	cJSON* orderNo=NULL;
 	cJSON* type=NULL;
-
+	
 	barCodeNode=cJSON_GetObjectItem(root, "barCode");
 	if(barCodeNode != NULL && barCodeNode->type == cJSON_String)
-    {
+  {
 //		memcpy(g_sDelyInfo.braCode, \
 //				barCodeNode->valuestring, strlen(barCodeNode->valuestring));
 	}
@@ -225,6 +230,8 @@ void DelyJsonParse(cJSON* root)
     {
 		g_sDelyInfo.type=atoi(type->valuestring);
 	}
+	printf("Server dely: barcodeNode:%s,orderNo:%s,type:%d ",
+		barCodeNode->valuestring,g_sDelyInfo.orderNo,g_sDelyInfo.type);
 }
 
 u8 ResetJsonParse(cJSON* root)
@@ -236,6 +243,20 @@ u8 ResetJsonParse(cJSON* root)
     {
         type=atoi(reset->valuestring);
     }
+		printf("Server: reset type:%d",type);
+    return type;
+}
+
+u8 LockJsonParse(cJSON* root)
+{
+    cJSON* lock = NULL;
+    u8 type=0;
+    lock = cJSON_GetObjectItem(root, "type");
+    if(lock != NULL && lock->type == cJSON_String)
+    {
+        type=atoi(lock->valuestring);
+    }
+		printf("Server: lock type:%d",type);
     return type;
 }
 
@@ -244,9 +265,9 @@ APP_UPGRADE g_appUpgrade;
 void UpgradeJsonParse(cJSON* root)
 {
     cJSON* upgrade_type = NULL;
-	cJSON* action = NULL;
-	cJSON* filename = NULL;
-	cJSON* version = NULL;
+		cJSON* action = NULL;
+		cJSON* filename = NULL;
+		cJSON* version = NULL;
    
     upgrade_type = cJSON_GetObjectItem(root, "upgrade_type");
     if(upgrade_type != NULL && upgrade_type->type == cJSON_String)
@@ -272,5 +293,76 @@ void UpgradeJsonParse(cJSON* root)
         memcpy(g_appUpgrade.version, \
 				version->valuestring, strlen(version->valuestring));
     }
+		printf("Server update: :type:%s, action:%s"
+				"filename:%s,version:%s ",
+					g_appUpgrade.type,g_appUpgrade.action,
+					g_appUpgrade.filename,g_appUpgrade.version);
 }
 
+void PhotoJsonParse(cJSON* root)
+{
+		cJSON* child = NULL;
+		child = cJSON_GetObjectItem(root, "job_time");
+		if(child != NULL && child->type == cJSON_String)
+		{
+			memcpy(g_sPhotoInfo->job_time, \
+				child->valuestring, strlen(child->valuestring));
+		}
+		child = cJSON_GetObjectItem(root, "job_id");
+		if(child != NULL && child->type == cJSON_String)
+		{
+					memcpy(g_sPhotoInfo->job_id, \
+					child->valuestring, strlen(child->valuestring));
+		}
+		child = cJSON_GetObjectItem(root, "cam_id");
+		if(child != NULL && child->type == cJSON_String)
+		{
+			memcpy(g_sPhotoInfo->cam_id, \
+				child->valuestring, strlen(child->valuestring));
+		}
+		child = cJSON_GetObjectItem(root, "exposure");
+		if(child != NULL && child->type == cJSON_Number)
+		{
+				g_sPhotoInfo->exposure = child->valueint;
+		}
+		child = cJSON_GetObjectItem(root, "brightness_thresh");
+		if(child != NULL && child->type == cJSON_Number)
+		{
+				g_sPhotoInfo->brightness_thresh=child->valueint; 
+		}
+		child = cJSON_GetObjectItem(root, "diff_thresh");
+		if(child != NULL && child->type == cJSON_Number)
+		{
+				g_sPhotoInfo->diff_thresh=child->valueint;
+		}
+		child = cJSON_GetObjectItem(root, "id");
+		if(child != NULL && child->type == cJSON_String)
+		{
+				memcpy(g_sPhotoInfo->id, \
+					child->valuestring, strlen(child->valuestring));
+		}
+		child = cJSON_GetObjectItem(root, "method");
+		if(child != NULL && child->type == cJSON_Number)
+		{
+				g_sPhotoInfo->method=child->valueint;
+		}
+		child = cJSON_GetObjectItem(root, "period_ns");
+		if(child != NULL && child->type == cJSON_Number)
+		{
+				g_sPhotoInfo->period_ns=child->valueint;
+		}
+		child = cJSON_GetObjectItem(root, "duty_ns");
+		if(child != NULL && child->type == cJSON_Number)
+		{
+				g_sPhotoInfo->duty_ns=child->valueint;
+		}
+		printf("Server update: :job_time:%s, job_id:%s"
+			"cam_id:%s,exposure:%d, bnt:%d"
+			"dt:%d,id:%s,method:%d,period_ns:%d,duty_ns:%d",
+			g_sPhotoInfo->job_time,g_sPhotoInfo->job_id,
+			g_sPhotoInfo->cam_id,g_sPhotoInfo->exposure,
+			g_sPhotoInfo->brightness_thresh,g_sPhotoInfo->diff_thresh,
+			g_sPhotoInfo->id,g_sPhotoInfo->method,
+			g_sPhotoInfo->period_ns,g_sPhotoInfo->duty_ns
+		);
+}

@@ -155,6 +155,7 @@ static u8 Mqtt_Publish_Deserialize( u8* buf, u8* out)
 			if(strstr((const char *)topic, "job/") != NULL)
 			{
 				MQTT_FLAG_PHOTO=1;
+				
 			}else if(strstr((const char *)topic, "logfile/")!= NULL)
 			{
 				MQTT_FLAG_LOG_LIST=1;
@@ -260,6 +261,7 @@ static u8 MQTT_Publish(u8 sockid, u8 dup, u8 retained, int qos, char* topic, cha
 	payloadlen = strlen(publish_buf);
 	memset(g_sPublishBuf,0,g_publishBufLen);
 	g_msgType = PUBACK;
+	printf("payloadLen:%d\r\n",payloadlen);
 	if(payloadlen)
 		len = MQTTSerialize_publish(g_sPublishBuf, g_publishBufLen, dup, qos, retained, 0, topicString, (u8*)publish_buf, payloadlen);
 	HM609A_Send_Data(sockid,g_sPublishBuf,len,0,MQTT_PROT);
@@ -314,9 +316,10 @@ void MQTT_Package_Publish_Json(u8 sockid, char* topic, u32 payloadlen)
 	
 	if(MQTT_FLAG_UP_DEVICE_STA)
 	{
+		u32 len = 0;
 		memset(g_publictTopic,0,sizeof(g_publictTopic));
 		sprintf(g_publictTopic,"iob/d2s/device/status/%s",g_barCode);
-		DeviceStatusJsonPackage(g_sDeviceSta, pBuf);
+		len = DeviceStatusJsonPackage(g_sDeviceSta, pBuf);
 		MQTT_Publish(sockid, 0, 0, g_qos,g_publictTopic,pBuf);
 		MQTT_FLAG_UP_DEVICE_STA=0;
 	}
