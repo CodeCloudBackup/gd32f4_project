@@ -15,12 +15,11 @@ u16 Http_Get_Package(char *buff_get, char *url_tail,const char *host, u16 port)
 	u16 len;
 	len = sprintf(buff_get, "GET %s HTTP/1.1\r\n"
 			"Connection:close\r\n"
-			"Host:101.37.89.157:80\r\n"
-			"Connection:close\r\n"
+			"Host:%s:%d\r\n"
 			"Accept: */*\r\n"
 			"User-Agent:GD32F427\r\n"
-			"\r\n",url_tail
-			//host,port,url_tail,host,port
+			"\r\n",url_tail,
+			host,port
 		);
 	return len;
 }
@@ -190,12 +189,12 @@ void Http_Send_Resquest(const u8 sockid, const char *host,const u32 port)
 	{
 		printf("Send http get resquest\r\n");
 		if(g_netData==NULL)
-			g_netData=mymalloc(SRAMIN, 60*1024);
-		len=Http_Get_Package(resquestBuf, "iob/download/test.txt",host, port);
+			g_netData=mymalloc(SRAMIN, 800);
+		len=Http_Get_Package(resquestBuf, "/iob/download/app.bin",host, port);
 		printf("\r\n%s\r\n",resquestBuf);
 		len = strlen(resquestBuf);
 		printf("\r\nquest len%d\r\n",len);
-		HM609A_Send_Data( sockid,(const u8*)resquestBuf,len,0,HTTP_PROT);
+		HM609A_Send_Data( sockid,(const u8*)resquestBuf,len,1,HTTP_PROT);
 		hm609a_http_wait_flag=1;
 	}
 	else if(g_sHttpCmdSta.sta_upload_photo == 1)
@@ -225,9 +224,9 @@ u32 HTTP_Recvice(u8* buf, u32 buflen)
 			ptr = strstr((const char *)USART1_RX_BUF, g_httpRes);
 			if(ptr != NULL)
 			{	
-				printf("Http Recv:%s\r\n",USART1_RX_BUF);
+				if(len > 800) len = 400;
 				memcpy(buf, USART1_RX_BUF, len);
-				
+				printf("Http Recv:%s\r\n",buf);
 				USART1_Clear();
 				return len;	
 			}

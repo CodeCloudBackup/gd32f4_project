@@ -553,10 +553,20 @@ u8 HM609A_Http_Request(const u8 sockid, const char *host,const u32 port)
 	{
 		if(HTTP_Recvice(g_netData, 800))        //从串口3读取数据
 		{
-			if(strstr((const char *)g_netData, "Set-Cookie: session="))
-			{
+			
+			if (g_sHttpCmdSta.sta_equip_ident == 1) {
+				if (strstr((const char *)g_netData, "Set-Cookie: session="))
+				{
 					g_sHttpCmdSta.sta_equip_ident=2;
+				}
 			}
+			if (g_sHttpCmdSta.sta_download_bin == 1) {
+				if (strstr((const char *)g_netData, "application/octet-stream"))
+				{
+					g_sHttpCmdSta.sta_download_bin = 2;
+				}
+			}
+			
 			g_hm609aHttpWaitTim = 0; //定时清零
 			count = 0;      //重试次数清零
 			sign++;        //下一个流程

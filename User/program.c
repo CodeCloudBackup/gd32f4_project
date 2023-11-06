@@ -141,6 +141,32 @@ void HTTP_Data_Program(void)
 	else if(g_sHttpCmdSta.sta_download_bin == 2)
 	{
 		printf("\r\nHttp Response: download bin.\r\n");
+		char *ptr1=NULL, *ptr2=NULL, *ptr3=NULL;
+		u8 *content;
+		u32 cont_len=0;
+		ptr1 = strstr((char*)g_netData, "Content-Length: ");	
+		if(ptr1 != NULL)
+		{
+			ptr2 = strstr(ptr1, "\r\n");
+			if(ptr2 != NULL)
+			{
+				char str_len[8] = {0,};
+				memcpy(str_len, ptr1 + strlen("Content-Length: "), ptr2 - ptr1 - strlen("Content-Length: "));
+				cont_len = atoi(str_len);
+//				if(content == NULL)
+//					content=mymalloc(SRAMIN, cont_len+1);
+//				ptr3 = strstr(ptr2, "\r\n\r\n");
+//				memcpy(content, ptr3+4, cont_len);
+//				content[cont_len]='\0';
+			}	
+		}
+		printf("conent_len[%d]",cont_len);
+		//printf("first[%c],end[%c],conent_len[%d]",content[0],content[cont_len-1],cont_len);
+		if(content!=NULL)
+		{
+			myfree(SRAMIN,content);
+			content=NULL;
+		}
 		PROGRAM_APPFLASH_FLAG=1;
 		g_sHttpCmdSta.sta_download_bin = 0;
 	}

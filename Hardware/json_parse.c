@@ -83,9 +83,9 @@ void DelyStatusJsonPackage(DELY_STA *dSta, char* out)
 void AppConf_Init(char *mcu_id, char *buf)
 {
 //	g_sDeviceConf.braCode=mcu_id;
-	sprintf(g_sDeviceConf.ip_ini.http_ip, "183.129.134.242");
+	sprintf(g_sDeviceConf.ip_ini.http_ip, "101.37.89.157");
 	sprintf(g_sDeviceConf.ip_ini.mqtt_ip, "101.37.89.157");
-	g_sDeviceConf.ip_ini.http_port=7091;
+	g_sDeviceConf.ip_ini.http_port=80;
 	g_sDeviceConf.ip_ini.mqtt_port=1883;
 	g_sDeviceConf.con_ini.led=0;
 	g_sDeviceConf.con_ini.led_num=0;
