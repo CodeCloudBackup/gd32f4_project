@@ -3,39 +3,40 @@
 <pre>
 <h1>礦ision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: μVision V5.33.0.0
+IDE-Version: μVision V5.30.0.0
 Copyright (C) 2020 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: zzz 745587814@qq.com, aaa, LIC=MPPLD-839GY-GK5BG-V9QF9-LK2D4-12BS5
+License Information: 111 111, 11111, LIC=D0D7S-LY6IE-PCYJ8-3VAWM-IFF8C-TSIJR
  
 Tool Versions:
-Toolchain:       MDK-ARM Plus  Version: 5.33.0.0
-Toolchain Path:  D:\Keil_v5\ARM\ARMCC\Bin
-C Compiler:      Armcc.exe V5.06 update 7 (build 960)
-Assembler:       Armasm.exe V5.06 update 7 (build 960)
-Linker/Locator:  ArmLink.exe V5.06 update 7 (build 960)
-Library Manager: ArmAr.exe V5.06 update 7 (build 960)
-Hex Converter:   FromElf.exe V5.06 update 7 (build 960)
-CPU DLL:         SARMCM3.DLL V5.33.0.0
+Toolchain:       MDK-ARM Plus  Version: 5.30.0.0
+Toolchain Path:  D:\Program Files\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 6 (build 750)
+Assembler:       Armasm.exe V5.06 update 6 (build 750)
+Linker/Locator:  ArmLink.exe V5.06 update 6 (build 750)
+Library Manager: ArmAr.exe V5.06 update 6 (build 750)
+Hex Converter:   FromElf.exe V5.06 update 6 (build 750)
+CPU DLL:         SARMCM3.DLL V5.30.0.0
 Dialog DLL:      DCM.DLL V1.17.3.0
-Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.8.0
-Dialog DLL:      TCM.DLL V1.48.0.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.7.0
+Dialog DLL:      TCM.DLL V1.42.0.0
  
 <h2>Project:</h2>
 E:\GD32F427\gd32f4_project\IAP Bootloader V1.0\USER\TEST.uvprojx
-Project File Date:  10/25/2023
+Project File Date:  12/16/2023
 
 <h2>Output:</h2>
-*** Using Compiler 'V5.06 update 7 (build 960)', folder: 'D:\Keil_v5\ARM\ARMCC\Bin'
+*** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Program Files\Keil_v5\ARM\ARMCC\Bin'
 Build target 'Target 1'
+assembling startup_gd32f427_437xx.s...
+compiling delay.c...
 compiling sys.c...
 compiling test.c...
 test.c(18): warning:  #177-D: variable "oldcount"  was declared but never referenced
   	u16 oldcount=0;	//老的串口接收数据值
 test.c: 1 warning, 0 errors
-compiling delay.c...
+compiling usart.c...
 compiling led.c...
 compiling key.c...
-compiling usart.c...
 compiling iap.c...
 compiling if_port.c...
 compiling gdflash.c...
@@ -47,15 +48,16 @@ FromELF: creating hex file...
 <h2>Software Packages used:</h2>
 
 Package Vendor: GigaDevice
-                https://gd32mcu.com/data/documents/pack/GigaDevice.GD32F4xx_DFP.3.1.0.pack
-                GigaDevice.GD32F4xx_DFP.3.1.0
+                https://gd32mcu.com/data/documents/pack/GigaDevice.GD32F4xx_DFP.3.0.4.pack
+                GigaDevice.GD32F4xx_DFP.3.0.4
                 GigaDevice GD32F4xx Series Device Support and Examples
 
 <h2>Collection of Component include folders:</h2>
-  D:\Keil_v5\ARM\PACK\GigaDevice\GD32F4xx_DFP\3.1.0\Device\F4XX\Include
+  .\RTE\_Target_1
+  D:\Keil_v5\Packs\GigaDevice\GD32F4xx_DFP\3.0.4\Device\F4XX\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:14
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>

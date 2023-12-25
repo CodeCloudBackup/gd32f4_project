@@ -38,7 +38,7 @@ extern Byte8 ProgramFlag;
 #define PROGRAM_ICM_DATA_FLAG 		ProgramFlag.Bits.B1  // ����������
 #define PROGRAM_OPEN_DELY_FLAG		ProgramFlag.Bits.B2  // ��Ͷ�ݿ�
 #define PROGRAM_CLOSE_DELY_FLAG		ProgramFlag.Bits.B3 
-#define PROGRAM_RESERT_FLAG			ProgramFlag.Bits.B4  // �ر�Ͷ�ݿ�
+//#define PROGRAM_RESERT_FLAG			ProgramFlag.Bits.B4  // �ر�Ͷ�ݿ�
 #define PROGRAM_APPFLASH_FLAG		ProgramFlag.Bits.B5	 // ����ά��
 #define PROGRAM_SPEAKER_FLAG		ProgramFlag.Bits.B6	 // �ر���ά��
 #define PROGRAM_LOCK_FLAG				ProgramFlag.Bits.B7	 // �ر���ά��

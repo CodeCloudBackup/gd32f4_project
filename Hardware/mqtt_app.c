@@ -278,40 +278,50 @@ void MQTT_Package_Publish_Json(u8 sockid, char* topic, u32 payloadlen)
 	memset(pBuf,0,600);
 	if(MQTT_FLAG_UP_PHOTO_RES)
 	{
+		MQTT_FLAG_UP_PHOTO_RES=0;
 		sprintf(g_publictTopic,"iob/job_result/%s",g_barCode);
 	}
 	else if(MQTT_FLAG_UP_DELY_OPEN_RES)
 	{
+		MQTT_FLAG_UP_DELY_OPEN_RES=0;
 		sprintf(g_publictTopic,"iob/d2s/open/result");
 	}
 	else if(MQTT_FLAG_UP_DELY_STA)
 	{
-		
+		MQTT_FLAG_UP_DELY_STA=0;
 		memset(g_publictTopic,0,sizeof(g_publictTopic));
 		sprintf(g_publictTopic,"iob/d2s/upload/finish/%s",g_barCode);
 		DelyStatusJsonPackage(&g_sDelySta,pBuf);
 		MQTT_Publish(sockid, 0, 0, g_qos,g_publictTopic,pBuf);
-		MQTT_FLAG_UP_DELY_STA=0;
 	}
 	else if(MQTT_FLAG_UP_LOCK_STA)
 	{
-		
+		MQTT_FLAG_UP_LOCK_STA=0;
 	}
 	else if(MQTT_FLAG_UP_ALARM)
 	{
+		MQTT_FLAG_UP_ALARM=0;
 		sprintf(g_publictTopic,"iob/d2s/alarm/%s",g_barCode);
+		
 	}
 	else if(MQTT_FLAG_UP_CAMERA_STA)
 	{
+		MQTT_FLAG_UP_CAMERA_STA=0;
 		sprintf(g_publictTopic,"iob/status/camera");
 	}
 	else if(MQTT_FLAG_UP_PARAM_RES)
 	{
+		MQTT_FLAG_UP_PARAM_RES=0;
+		memset(g_publictTopic,0,sizeof(g_publictTopic));
 		sprintf(g_publictTopic,"iob/d2s/update_param_result/%s",g_barCode);
+		AppConfUploadJsonPackage(&g_sDeviceConf, pBuf);
+		MQTT_Publish(sockid, 0, 0, g_qos,g_publictTopic,pBuf);
 	}
 	else if(MQTT_FLAG_UP_PARAM)
 	{
+		MQTT_FLAG_UP_PARAM=0;
 		sprintf(g_publictTopic,"iob/d2s/upload_params/%s",g_barCode);
+		
 	}
 	
 	if(MQTT_FLAG_UP_DEVICE_STA)

@@ -46,11 +46,13 @@ void  InVolt_Adc_Init(void)
 //返回值:转换结果
 u16 Get_InVolt_Adc_Val(void)   
 {
-		u16 adcx=0;
+		float adcx=0;
+		float rate = 0.3197;// 47K/(47K+100K)
 		//设置指定ADC的规则组通道，一个序列，采样时间
 		adcx=Get_Adc(ADC_Channel_7);
 		adcx=(float)adcx*(330/4096.0);
-		return adcx;
+	  adcx=adcx/rate;
+		return (u16)adcx;
 }
 
 //初始化ADC															   
@@ -198,11 +200,11 @@ u16 Get_Adc_Average(u8 ch,u8 times)
 
 void Sensor_Adc_Test(void)
 {
-	u16 inVolt=0; 
+	float inVolt=0; 
 	u16 temp=0;	
 	delay_ms(1000);
 	inVolt=Get_InVolt_Adc_Val();
-	printf("InVolt:%d\n",inVolt);
+	printf("InVolt:%0.2f\n",inVolt);
 	temp=Get_TempSensor_Adc_Val();
 	printf("temp:%d\n",temp);
 }

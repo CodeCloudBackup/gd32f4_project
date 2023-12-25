@@ -38,7 +38,7 @@ void Program_Flag_Init(void)
 	PROGRAM_TAKE_PHOTO_FLAG=1;  
 	PROGRAM_ICM_DATA_FLAG=1; 	
 	PROGRAM_OPEN_DELY_FLAG=0;
-	PROGRAM_RESERT_FLAG=0;
+//	PROGRAM_RESERT_FLAG=0;
 	PROGRAM_APPFLASH_FLAG=0;
 	PROGRAM_SPEAKER_FLAG=0;
 }
@@ -54,7 +54,7 @@ void Program_Init(void)
 		LED_Init();
 		LED_PWM_Init();
 		OutDirveInit();
-	InVolt_Adc_Init(); 
+	 InVolt_Adc_Init(); 
 		TempSensor_Adc_Init();
 		TIM1_Init(99,999); //定时器时钟100M，分频系数1000，所以100M/1000=100Khz的计数频率，计数100次为1ms 
 		TIM3_PWM_Init(499,99);	//100M/100=1Mhz的计数频率,重装载值500，所以PWM频率为 1M/500=2Khz.  
@@ -197,6 +197,8 @@ void HTTP_Data_Program(void)
 	}
 }
 
+static int g_resetType = -1;
+
 void MQTT_Data_Program(void)
 {
 	cJSON *json=NULL;
@@ -212,29 +214,30 @@ void MQTT_Data_Program(void)
 	}		
 	
 	if(MQTT_FLAG_PHOTO){
+		MQTT_FLAG_PHOTO=0;
 		printf("\r\nServer command: take a photo.\r\n");
 		PhotoJsonParse(json);
-		PROGRAM_TAKE_PHOTO_FLAG=1;
-		MQTT_FLAG_PHOTO=0;
+		//PROGRAM_TAKE_PHOTO_FLAG=1;
 	}
 	if(MQTT_FLAG_PHOTO_THIRD){
-		printf("\r\nServer command: third take a photo.\r\n");
 		MQTT_FLAG_PHOTO_THIRD=0;
+		printf("\r\nServer command: third take a photo.\r\n");
 	}
 	if(MQTT_FLAG_DELY_OPEN){
+		MQTT_FLAG_DELY_OPEN=0;
 		printf("\r\nServer command: open deliver.\r\n");
 		DelyJsonParse(json);
 		PROGRAM_OPEN_DELY_FLAG=1;
-		MQTT_FLAG_DELY_OPEN=0;
 	}
 	if(MQTT_FLAG_DELY_CLOSE){
+		MQTT_FLAG_DELY_CLOSE=0;
 		printf("\r\nServer command: open deliver.\r\n");
 		DelyJsonParse(json);
 		if(g_sDelyInfo.type == 0)
 		{
 			PROGRAM_CLOSE_DELY_FLAG=1;
 		}
-		MQTT_FLAG_DELY_CLOSE=0;
+		
 	}
 	if(MQTT_FLAG_LOCK_OPEN){
 		u8 type = 0;
@@ -257,14 +260,15 @@ void MQTT_Data_Program(void)
 		MQTT_FLAG_CFG_DOWNLOAD=0;
 	}
 	if(MQTT_FLAG_CFG_UPLOAD){
-		printf("\r\nServer command: upload config.\r\n");
 		MQTT_FLAG_CFG_UPLOAD=0;
+		printf("\r\nServer command: upload config.\r\n");
+		MQTT_FLAG_UP_PARAM_RES=1;
 	}
 	if(MQTT_FLAG_RESTART){
-		printf("\r\nServer command: restart device.\r\n");
-		if(ResetJsonParse(json))
-			PROGRAM_RESERT_FLAG=1;
 		MQTT_FLAG_RESTART=0;
+		g_resetType = ResetJsonParse(json);
+		printf("\r\nServer command: restart device type[%d].\r\n",g_resetType);
+		
 	}
 	if(MQTT_FLAG_UPGRADE){
 		char *str=NULL;
@@ -351,9 +355,11 @@ void Device_Program(void)
 	{
 		PROGRAM_CLOSE_DELY_FLAG=0;
 	}
-	if(PROGRAM_RESERT_FLAG)
+	// 系统重启
+	if(g_resetType == 1)
 	{
-		PROGRAM_RESERT_FLAG=0;
+		__set_FAULTMASK(1);
+		NVIC_SystemReset();
 	}
 	
 	if(PROGRAM_SPEAKER_FLAG)

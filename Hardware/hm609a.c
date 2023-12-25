@@ -124,7 +124,7 @@ static u8 HM609A_Config(void)
 {
 	static char res_at[20];
 	static u8 count = 0, Signs = 0, cnt = 1; //重复次数,重启流程
-	char buf[100];
+	char buf[300];
 	u16 len = 0;
 	if(g_hm609aTim[0] == 0) //为0时发送测试数据
 	{
@@ -159,7 +159,16 @@ static u8 HM609A_Config(void)
 							u1_printf("\r\nATI\r\n"); //发送AT指令
           }
 					break;
-					case 2: // 查询网络注册情况，核心板会自动注册网络，上电到注册大概 10s 左右
+					case 2:
+					{
+						printf("\r\nA|AT+UMGNSS=1\r\n");
+						g_hm609aTim[0] = 2000; 
+						cnt = 3; 
+						strcpy(res_at, "OK");		//设置返回判断关键字
+						u1_printf("\r\nAT+UMGNSS=1\r\n"); //发送AT指令 						
+					}
+					break;
+					case 3: // 查询网络注册情况，核心板会自动注册网络，上电到注册大概 10s 左右
           {
 							printf("A|AT+CGMR\r\n");
 							g_hm609aTim[0] = 2000;				//超时时间ms
@@ -168,7 +177,7 @@ static u8 HM609A_Config(void)
 							u1_printf("\r\nAT+CGMR\r\n"); //发送AT指令
           }
 					break;
-					case 3: // 查询制造商信息
+					case 4: // 查询制造商信息
 					{
 							printf("A|AT+CFUN?\r\n");
 							g_hm609aTim[0] = 2000;          	//超时时间ms
@@ -177,7 +186,7 @@ static u8 HM609A_Config(void)
 							u1_printf("\r\nAT+CFUN?\r\n"); //发送AT指令
 					}
 					break;
-					case 4: // 查询制造商信息
+					case 5: // 查询制造商信息
 					{
 							printf("A|AT+CPIN?\r\n");
 							g_hm609aTim[0] = 2000;          	//超时时间ms
@@ -186,7 +195,7 @@ static u8 HM609A_Config(void)
 							u1_printf("\r\nAT+CPIN?\r\n"); //发送AT指令
 					}
 					break;
-					case 5:  // 查询系统信息及SIM状态
+					case 6:  // 查询系统信息及SIM状态
           {
 						 printf("A|AT^SYSINFO\r\n");
              g_hm609aTim[0] = 2000;				//超时时间ms
@@ -195,7 +204,7 @@ static u8 HM609A_Config(void)
              u1_printf("\r\nAT^SYSINFO\r\n");  //发送AT指令
 					}
 					break;
-					case 6: // 查询SN值
+					case 7: // 查询SN值
 					{
 							printf("A|AT+CGSN\r\n");
 							g_hm609aTim[0] = 2000;          	//超时时间ms
@@ -204,7 +213,7 @@ static u8 HM609A_Config(void)
 							u1_printf("\r\nAT+CGSN\r\n"); //发送AT指令
 					}
 					break;
-					case 7: // 查询IP值
+					case 8: // 查询IP值
 					{
 							printf("A|AT+IPDNSR=\"debug.armlogic.tech\"\r\n");
 							g_hm609aTim[0] = 5000;          	//超时时间ms
@@ -213,7 +222,36 @@ static u8 HM609A_Config(void)
 							u1_printf("\r\nAT+IPDNSR=\"debug.armlogic.tech\"\r\n"); //发送AT指令
 					}
 					break;
-					case 8:
+					
+					/*	
+					case 9:
+					{
+						printf("\r\nA|AT+UMGNSSTYPE?\r\n");
+						g_hm609aTim[0] = 6000; 
+						cnt = 3; 
+						strcpy(res_at, "OK");		//设置返回判断关键字
+						u1_printf("\r\nAT+UMGNSSTYPE?\r\n"); //发送AT指令 						
+					}
+					break;*/
+					case 9:
+					{
+						printf("\r\nA| AT+UMGNSSNMEA\r\n");
+						g_hm609aTim[0] = 5000; 
+						cnt = 3; 
+						strcpy(res_at, "OK");		//设置返回判断关键字
+						u1_printf("\r\nAT+UMGNSSNMEA\r\n"); //发送AT指令 						
+					}
+					break;
+					case 10:
+					{
+						printf("\r\nA|AT+UMGNSS=0\r\n");
+						g_hm609aTim[0] = 2000; 
+						cnt = 3; 
+						strcpy(res_at, "OK");		//设置返回判断关键字
+						u1_printf("\r\nAT+UMGNSS=0\r\n"); //发送AT指令 						
+					}
+					break;
+					case 11:
 					{
 						printf("\r\nA|ATE0\r\n");
 						cnt = 3;
@@ -233,7 +271,7 @@ static u8 HM609A_Config(void)
 	}
 	else
 	{
-		if(USART1_Revice((u8*)buf, 100))         //从串口3读取数据
+		if(USART1_Revice((u8*)buf, 300))         //从串口3读取数据
 		{
 			if(strstr(buf, (const char *)res_at) != NULL) //检查是否包含关键字
 			{
