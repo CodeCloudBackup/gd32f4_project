@@ -2,6 +2,7 @@
 #include "usart.h"
 #include "hm609a.h"
 #include "malloc.h"
+#include "md5_app.h"
 #include <stdlib.h>
 
 Byte8 HttpReqFlag;
@@ -162,7 +163,6 @@ void HTTP_Init(void)
 
 char *g_braCode="20230824900001";
 char *g_chipId="20230824900001test";
-char *md5="205e0dde2f9ffcb40594ba3276614378";
 char *g_cookie=NULL;
 extern u8* g_netData;
 void Http_Send_Resquest(const u8 sockid, const char *host,const u32 port)
@@ -173,9 +173,24 @@ void Http_Send_Resquest(const u8 sockid, const char *host,const u32 port)
 	if(g_sHttpCmdSta.sta_equip_ident == 1)
 	{
 		char body[100]={0};
+		char md5[33] = {0};
+		u8 md5ValHex[16]={0};
 		u32 body_len=0;
 		if(g_netData==NULL)
 			g_netData=mymalloc(SRAMIN, 600);
+		body_len = sprintf(body,"%s%s%s","11",g_braCode,"20240101");
+		md5_sign((u8*)body,body_len,md5ValHex);
+		sprintf(md5,"%02x%02x%02x%02x"
+								"%02x%02x%02x%02x"
+								"%02x%02x%02x%02x"
+								"%02x%02x%02x%02x",
+								md5ValHex[0],md5ValHex[1],md5ValHex[2],md5ValHex[3],
+								md5ValHex[4],md5ValHex[5],md5ValHex[6],md5ValHex[7],
+								md5ValHex[8],md5ValHex[9],md5ValHex[10],md5ValHex[11],
+								md5ValHex[12],md5ValHex[13],md5ValHex[14],md5ValHex[15]
+						);
+		printf("MD5:%s\n",md5);
+		mymemset(body,0,sizeof(body));
 		body_len=sprintf(body, "barCode=%s&chipId=%s&md5=%s",g_braCode,g_chipId,md5);
 		printf("1.Send http post resquest:Equipment ident\r\n");
 		len = Http_Post_Head_Package(resquestBuf, "/auth/20230908150000/",\

@@ -47,10 +47,10 @@ struct _m_mallco_dev mallco_dev=
 //*des:目的地址
 //*src:源地址
 //n:需要复制的内存长度(字节为单位)
-void mymemcpy(void *des,void *src,u32 n)  
+void mymemcpy(void *des,const void *src,u32 n)  
 {  
     u8 *xdes=des;
-	u8 *xsrc=src; 
+	const u8 *xsrc=src; 
     while(n--)*xdes++=*xsrc++;  
 }  
 //设置内存

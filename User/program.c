@@ -8,13 +8,9 @@ void jpeg_dcmi_rx_callback(void)
 }
 #define CONFIG_SIZE 2048
 char mcuIdHex[30]={0};
-
-
-
 u8 *g_appConf=NULL;
 cJSON *g_appConfJson=NULL;
 Byte8 ProgramFlag;
-
 u32 g_programTim=0;
 
 void Program_TIM_100ms(void)
@@ -66,8 +62,7 @@ void Program_Init(void)
 		//F35SQA_Init();
 		sprintf(mcuIdHex,"%02x%02x%02x",mcuID[0],mcuID[1],mcuID[2]);
 		mcuIdHex[24]='\0';
-		printf("MCUID:%s",mcuIdHex);
-		
+		printf("MCUID:%s,len:%d\n",mcuIdHex,strlen(mcuIdHex));
 		while(OV2640_Init())
 		{
 			printf("ov2640_init failed\r\n");
@@ -217,7 +212,7 @@ void MQTT_Data_Program(void)
 		MQTT_FLAG_PHOTO=0;
 		printf("\r\nServer command: take a photo.\r\n");
 		PhotoJsonParse(json);
-		//PROGRAM_TAKE_PHOTO_FLAG=1;
+		PROGRAM_TAKE_PHOTO_FLAG=1;
 	}
 	if(MQTT_FLAG_PHOTO_THIRD){
 		MQTT_FLAG_PHOTO_THIRD=0;

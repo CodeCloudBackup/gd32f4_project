@@ -713,6 +713,16 @@
               <FileType>5</FileType>
               <FilePath>..\Hardware\json_parse.h</FilePath>
             </File>
+            <File>
+              <FileName>md5_fun.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\md5_fun.c</FilePath>
+            </File>
+            <File>
+              <FileName>md5_app.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\md5_app.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

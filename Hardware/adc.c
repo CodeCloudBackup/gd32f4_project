@@ -106,7 +106,7 @@ u16 Get_TempSensor_Adc_Val(void)
 		u16 Rt=0;
 		u16 temp=0;
 		//设置指定ADC的规则组通道，一个序列，采样时间
-		adcx=Get_Adc(ADC_Channel_14);
+		adcx=Get_Adc(ADC_Channel_14)*100; // *100取两位小数,
 		adcx=(float)adcx*(330/4096.0);
 	  Rt=Rp*(adcx/(float)(330-adcx));
 	

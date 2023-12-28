@@ -25,6 +25,7 @@
 #include "cJSON.h"
 #include "gdflash.h"
 #include "json_parse.h"
+#include "md5_app.h"
 
 #define BATTERY_CAP  7000  				// ��ر�׼���ￄ1�7 ��λmAH
 #define BATTERY_VLOT  7.0    				// ��ر�׼��ф1�7
