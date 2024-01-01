@@ -226,11 +226,11 @@ static u8 HM609A_Config(void)
 					/*	
 					case 9:
 					{
-						printf("\r\nA|AT+UMGNSSTYPE?\r\n");
+						printf("\r\nA|AT+NITZ\r\n");
 						g_hm609aTim[0] = 6000; 
 						cnt = 3; 
 						strcpy(res_at, "OK");		//设置返回判断关键字
-						u1_printf("\r\nAT+UMGNSSTYPE?\r\n"); //发送AT指令 						
+						u1_printf("\r\nAT+NITZ\r\n"); //发送AT指令 						
 					}
 					break;*/
 					case 9:

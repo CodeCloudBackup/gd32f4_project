@@ -12,10 +12,14 @@ u8 *g_appConf=NULL;
 cJSON *g_appConfJson=NULL;
 Byte8 ProgramFlag;
 u32 g_programTim=0;
+u8 g_timestamp = 0;
 
 void Program_TIM_100ms(void)
 {
 	g_programTim++;
+	if(g_programTim%10){
+		g_timestamp=1;
+	}
 	if(g_programTim > 500)
 	{
 		PROGRAM_ICM_DATA_FLAG=1;
@@ -56,6 +60,10 @@ void Program_Init(void)
 		TIM3_PWM_Init(499,99);	//100M/100=1Mhz的计数频率,重装载值500，所以PWM频率为 1M/500=2Khz.  
 		usart2_init(115200);
 		usart1_init(115200);
+		// RTC
+		My_RTC_Init();		 		//初始化RTC
+ 
+		RTC_Set_WakeUp(RTC_WakeUpClock_CK_SPRE_16bits,0);		//配置WAKE UP中断,1秒钟中断一次
 		Speaker_Init();
 		//初始化内部内存池 
 		my_mem_init(SRAMIN);		//	while(OV2640_Init())//初始化OV2640
@@ -101,6 +109,7 @@ void Program_Init(void)
 		MQTT_Init(mcuIdHex,pwd);
 		HTTP_Init();
 		Program_Flag_Init();
+	 
 		delay_ms(2000);
 }
 
@@ -306,8 +315,8 @@ void GetDeviceStatus()
 	printf("volt:%d, temp:%.2f",g_sDeviceSta->power_voltage, (float)g_sDeviceSta->temp);
 	memcpy(g_sDeviceSta->acc, accel_g, sizeof(accel_g));
 	memcpy(g_sDeviceSta->gyro, gyro_dps, sizeof(gyro_dps));
-	g_sDeviceSta->temp=temp_degc;
-	printf("\r\n temp:%.2f.\r\nacl:%.2f,%.2f,%.2f\r\ngyo:%.2f,%.2f,%.2f\r\n",\
+	g_sDeviceSta->temp=(temp_degc*100+g_sDeviceSta->temp)/2;
+	printf("\r\n temp:%d.\r\nacl:%.2f,%.2f,%.2f\r\ngyo:%.2f,%.2f,%.2f\r\n",\
 					g_sDeviceSta->temp,g_sDeviceSta->acc[0],g_sDeviceSta->acc[1],g_sDeviceSta->acc[2],\
 					g_sDeviceSta->gyro[0],g_sDeviceSta->gyro[1],g_sDeviceSta->gyro[2]);
 }
@@ -315,6 +324,13 @@ void GetDeviceStatus()
 
 void Device_Program(void)
 {
+	if(g_timestamp)
+	{
+		g_timestamp=0;
+		char timeStamp[15]={0};
+		RTC_Get_Timestamp(timeStamp);
+		printf("timestamp:[%s]\r\n",timeStamp);
+	}
 	if(PROGRAM_TAKE_PHOTO_FLAG)
 	{
 		printf("Get jpg photo\r\n");

@@ -6,6 +6,7 @@
 #include <stdio.h>
 
 #include "led.h"
+#include "rtc.h"
 #include "timer.h"
 #include "delay.h"
 #include "usart.h"

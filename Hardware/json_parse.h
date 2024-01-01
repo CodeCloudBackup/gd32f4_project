@@ -53,7 +53,7 @@ typedef struct{
 	float lat;
 	float acc[3];
 	float gyro[3];
-	float temp;
+	u16 temp;
 }DEVICE_STATUS;
 
 typedef struct{

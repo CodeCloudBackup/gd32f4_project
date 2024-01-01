@@ -21,6 +21,19 @@
 
 NVIC_InitTypeDef   NVIC_InitStructure;
 
+ErrStatus RTC_Get_Timestamp(char* timestamp)
+{
+	RTC_TimeTypeDef RTC_TimeStruct;
+	RTC_DateTypeDef RTC_DateStruct;
+	if(timestamp == NULL) return ERROR;
+	RTC_GetDate(RTC_Format_BIN, &RTC_DateStruct);
+	sprintf(timestamp,"20%02d%02d%02d",RTC_DateStruct.RTC_Year,RTC_DateStruct.RTC_Month,RTC_DateStruct.RTC_Date); 
+	RTC_GetTime(RTC_Format_BIN,&RTC_TimeStruct);
+	sprintf(timestamp+8,"%02d%02d%02d",RTC_TimeStruct.RTC_Hours,RTC_TimeStruct.RTC_Minutes,RTC_TimeStruct.RTC_Seconds); 	
+	timestamp[14] = '\0';
+	return SUCCESS;
+}
+
 //RTC时间设置
 //hour,min,sec:小时,分钟,秒钟
 //ampm:@RTC_AM_PM_Definitions  :RTC_H12_AM/RTC_H12_PM
